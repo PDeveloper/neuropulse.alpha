@@ -22,5 +22,8 @@
 *.rc
 *.manifest
 *.ipch
+*.log
+*.lastbuildstate
+*.cache
 
 *.exe
