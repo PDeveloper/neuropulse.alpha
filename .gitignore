@@ -14,6 +14,7 @@
 
 # Visual Studio stuff
 *.sdf
+*.opensdf
 *.tlog
 *.obj
 *.idb
@@ -21,3 +22,5 @@
 *.rc
 *.manifest
 *.ipch
+
+*.exe
