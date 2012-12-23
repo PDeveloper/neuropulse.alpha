@@ -1,10 +1,11 @@
-#include "OgreManager.h"
+#include "AdvancedOgreFramework.hpp"
+#include "AppStateManager.hpp"
 
 #pragma once
 class ApplicationBase
 {
 private:
-	OgreManager* manager;
+	AppStateManager*	m_pAppStateManager;
 public:
 	ApplicationBase(void);
 	~ApplicationBase(void);

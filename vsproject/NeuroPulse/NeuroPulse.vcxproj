@@ -11,13 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdvancedOgreFramework.cpp" />
     <ClCompile Include="ApplicationBase.cpp" />
+    <ClCompile Include="AppStateManager.cpp" />
+    <ClCompile Include="DotSceneLoader.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="OgreManager.cpp" />
+    <ClCompile Include="PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdvancedOgreFramework.hpp" />
     <ClInclude Include="ApplicationBase.h" />
+    <ClInclude Include="AppState.hpp" />
+    <ClInclude Include="AppStateManager.hpp" />
+    <ClInclude Include="DotSceneLoader.hpp" />
+    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="MenuState.hpp" />
     <ClInclude Include="OgreManager.h" />
+    <ClInclude Include="PauseState.hpp" />
+    <ClInclude Include="rapidxml.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{803CF3FA-B7A7-4335-B0D0-D3DFE0E6B842}</ProjectGuid>
@@ -65,7 +79,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreTerrain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -89,7 +103,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreTerrain.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
