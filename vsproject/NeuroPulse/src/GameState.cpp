@@ -230,7 +230,7 @@ bool GameState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
-    if(m_pCurrentObject)
+    /*if(m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
         m_pCurrentEntity->getSubEntity(1)->setMaterial(m_pOgreHeadMat);
@@ -256,7 +256,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
             m_pCurrentEntity->getSubEntity(1)->setMaterial(m_pOgreHeadMatHigh);
             break;
         }
-    }
+    }*/
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
