@@ -11,25 +11,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AdvancedOgreFramework.cpp" />
-    <ClCompile Include="ApplicationBase.cpp" />
-    <ClCompile Include="AppStateManager.cpp" />
-    <ClCompile Include="DotSceneLoader.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="src\AdvancedOgreFramework.cpp" />
+    <ClCompile Include="src\ApplicationBase.cpp" />
+    <ClCompile Include="src\AppStateManager.cpp" />
+    <ClCompile Include="src\DotSceneLoader.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AdvancedOgreFramework.hpp" />
-    <ClInclude Include="ApplicationBase.h" />
-    <ClInclude Include="AppState.hpp" />
-    <ClInclude Include="AppStateManager.hpp" />
-    <ClInclude Include="DotSceneLoader.hpp" />
-    <ClInclude Include="GameState.hpp" />
-    <ClInclude Include="MenuState.hpp" />
-    <ClInclude Include="PauseState.hpp" />
-    <ClInclude Include="rapidxml.hpp" />
+    <ClInclude Include="src\AdvancedOgreFramework.hpp" />
+    <ClInclude Include="src\ApplicationBase.h" />
+    <ClInclude Include="src\AppState.hpp" />
+    <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\DotSceneLoader.hpp" />
+    <ClInclude Include="src\GameState.hpp" />
+    <ClInclude Include="src\MenuState.hpp" />
+    <ClInclude Include="src\PauseState.hpp" />
+    <ClInclude Include="src\rapidxml.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{803CF3FA-B7A7-4335-B0D0-D3DFE0E6B842}</ProjectGuid>
@@ -59,7 +59,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -68,15 +68,15 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME);$(SolutionDir)\anaxentitysystem\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BOOST_HOME)\stage\lib;$(OGRE_HOME)\lib\$(Configuration);$(SolutionDir)\anaxentitysystem\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreTerrain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

@@ -15,57 +15,57 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationBase.cpp">
+    <ClCompile Include="src\AdvancedOgreFramework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\ApplicationBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppStateManager.cpp">
+    <ClCompile Include="src\AppStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DotSceneLoader.cpp">
+    <ClCompile Include="src\DotSceneLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
+    <ClCompile Include="src\GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MenuState.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PauseState.cpp">
+    <ClCompile Include="src\MenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AdvancedOgreFramework.cpp">
+    <ClCompile Include="src\PauseState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationBase.h">
+    <ClInclude Include="src\AdvancedOgreFramework.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppState.hpp">
+    <ClInclude Include="src\ApplicationBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppStateManager.hpp">
+    <ClInclude Include="src\AppState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DotSceneLoader.hpp">
+    <ClInclude Include="src\AppStateManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.hpp">
+    <ClInclude Include="src\DotSceneLoader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MenuState.hpp">
+    <ClInclude Include="src\GameState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PauseState.hpp">
+    <ClInclude Include="src\MenuState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rapidxml.hpp">
+    <ClInclude Include="src\PauseState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AdvancedOgreFramework.hpp">
+    <ClInclude Include="src\rapidxml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
