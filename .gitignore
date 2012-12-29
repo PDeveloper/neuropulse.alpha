@@ -27,3 +27,5 @@
 *.cache
 
 *.exe
+/vsproject/NeuroPulse/ogre.cfg
+/vsproject/NeuroPulse/NeuroPulse.suo

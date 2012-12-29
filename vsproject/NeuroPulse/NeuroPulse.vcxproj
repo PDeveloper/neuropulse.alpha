@@ -18,7 +18,6 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="OgreManager.cpp" />
     <ClCompile Include="PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -29,7 +28,6 @@
     <ClInclude Include="DotSceneLoader.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="MenuState.hpp" />
-    <ClInclude Include="OgreManager.h" />
     <ClInclude Include="PauseState.hpp" />
     <ClInclude Include="rapidxml.hpp" />
   </ItemGroup>
