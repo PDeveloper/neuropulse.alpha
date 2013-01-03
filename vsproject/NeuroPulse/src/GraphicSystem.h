@@ -1,4 +1,5 @@
 #include <ac\es.h>
+#include <OgreSceneManager.h>
 
 #pragma once
 class GraphicSystem : public ac::es::EntityProcessingSystem

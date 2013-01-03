@@ -2,8 +2,8 @@
 #include "GraphicComponent.h"
 #include "TransformComponent.h"
 
-GraphicSystem::GraphicSystem(void)
-	: ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<GraphicComponent>().requires<TransformComponent>())
+GraphicSystem::GraphicSystem() :
+	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<GraphicComponent>().requires<TransformComponent>())
 {
 }
 
@@ -18,8 +18,5 @@ void GraphicSystem::process( ac::es::Entity& e)
 	TransformComponent* transform = e.getComponent<TransformComponent>();
 
 	graphic->node->setPosition( transform->x, transform->y, transform->z);
-	//the order of rotations might be fucked... ->
-	graphic->node->yaw( Ogre::Degree( transform->rotationY));
-	graphic->node->pitch( Ogre::Degree( transform->rotationX));
-	graphic->node->roll( Ogre::Degree( transform->rotationZ));
+	graphic->node->setOrientation( *transform->rotation);
 }

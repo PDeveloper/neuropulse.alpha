@@ -1,12 +1,20 @@
 #include <ac\es.h>
+#include <OgreSceneManager.h>
+
+#include <string>
 
 #pragma once
 class EntityFactory
 {
 public:
-	EntityFactory(void);
+	EntityFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene);
 	~EntityFactory(void);
 
-	void createNodeEntity( ac::es::EntityPtr);
+	ac::es::EntityPtr createNodeEntity( std::string name);
+private:
+	Ogre::SceneManager* sceneManager;
+	ac::es::Scene* scene;
+
+	void initNodeMesh(void);
 };
 

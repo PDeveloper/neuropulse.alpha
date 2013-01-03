@@ -1,4 +1,5 @@
 #include <ac\es.h>
+#include <OgreQuaternion.h>
 
 #pragma once
 class TransformComponent : public ac::es::Component
@@ -9,14 +10,13 @@ public:
 	float x;
 	float y;
 	float z;
-	float rotationX;
-	float rotationY;
-	float rotationZ;
+
+	Ogre::Quaternion* rotation;
 	
 	TransformComponent(void)
 	{
 		x = y = z = 0.0;
-		rotationX = rotationY = rotationZ = 0.0;
+		rotation = new Ogre::Quaternion();
 	}
 
 	~TransformComponent(void)

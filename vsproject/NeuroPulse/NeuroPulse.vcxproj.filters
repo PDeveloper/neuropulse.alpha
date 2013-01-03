@@ -13,60 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{0fd9203e-bdfe-4e4b-9042-58f0483aaf1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{49d733ed-4f3b-4f0e-92c8-6da758ec110b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\advancedOgreFramework">
+      <UniqueIdentifier>{16e1748e-e59e-4dba-8a59-49f20e560844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\advancedOgreFramework">
+      <UniqueIdentifier>{ea3691d9-fbe1-43dd-be44-10141033fc0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\states">
+      <UniqueIdentifier>{f0123b13-447e-42cf-b210-c62e42c550cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\states">
+      <UniqueIdentifier>{80eb886b-7ccd-48aa-9a39-16557de72e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity">
+      <UniqueIdentifier>{a1330b21-8e48-4af3-88e7-b139eb618eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity">
+      <UniqueIdentifier>{8874f320-cc75-4784-98f0-047a3ad54dec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\systems">
+      <UniqueIdentifier>{a75ef51e-0e0a-4897-95ca-e5c965805d49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity\systems">
+      <UniqueIdentifier>{a2cd9b8a-bf92-4ceb-add6-424a0043dc1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity\components">
+      <UniqueIdentifier>{d5908bea-20f3-433f-aed4-39fe8071e2e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\AdvancedOgreFramework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ApplicationBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AppStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DotSceneLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AdvancedOgreFramework.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AppStateManager.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DotSceneLoader.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ApplicationBase.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameState.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
     <ClCompile Include="src\MenuState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\states</Filter>
     </ClCompile>
     <ClCompile Include="src\PauseState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityFactory.cpp">
+      <Filter>Source Files\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GraphicSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ApplicationBase.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\advancedOgreFramework</Filter>
     </ClInclude>
     <ClInclude Include="src\AppState.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\advancedOgreFramework</Filter>
     </ClInclude>
     <ClInclude Include="src\AppStateManager.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\advancedOgreFramework</Filter>
     </ClInclude>
     <ClInclude Include="src\DotSceneLoader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameState.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MenuState.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PauseState.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\advancedOgreFramework</Filter>
     </ClInclude>
     <ClInclude Include="src\rapidxml.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ApplicationBase.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameState.hpp">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MenuState.hpp">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PauseState.hpp">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityFactory.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TransformComponent.h">
+      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

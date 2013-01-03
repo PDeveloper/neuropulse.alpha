@@ -15,7 +15,9 @@
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
+    <ClCompile Include="src\EntityFactory.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GraphicSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
@@ -26,10 +28,14 @@
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
+    <ClInclude Include="src\EntityFactory.h" />
     <ClInclude Include="src\GameState.hpp" />
+    <ClInclude Include="src\GraphicComponent.h" />
+    <ClInclude Include="src\GraphicSystem.h" />
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\PauseState.hpp" />
     <ClInclude Include="src\rapidxml.hpp" />
+    <ClInclude Include="src\TransformComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{803CF3FA-B7A7-4335-B0D0-D3DFE0E6B842}</ProjectGuid>
