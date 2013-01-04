@@ -11,6 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ac\es\Component.cpp" />
+    <ClCompile Include="src\ac\es\ComponentContainer.cpp" />
+    <ClCompile Include="src\ac\es\Entity.cpp" />
+    <ClCompile Include="src\ac\es\EntityContainer.cpp" />
+    <ClCompile Include="src\ac\es\EntityFactory.cpp" />
+    <ClCompile Include="src\ac\es\EntityManager.cpp" />
+    <ClCompile Include="src\ac\es\EntityObserver.cpp" />
+    <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp" />
+    <ClCompile Include="src\ac\es\EntitySystem.cpp" />
+    <ClCompile Include="src\ac\es\Scene.cpp" />
+    <ClCompile Include="src\ac\es\SceneDirector.cpp" />
+    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp" />
+    <ClCompile Include="src\ac\Identfiable.cpp" />
     <ClCompile Include="src\AdvancedOgreFramework.cpp" />
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
@@ -23,6 +36,30 @@
     <ClCompile Include="src\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ac\Config.h" />
+    <ClInclude Include="src\ac\es.h" />
+    <ClInclude Include="src\ac\es\Component.h" />
+    <ClInclude Include="src\ac\es\ComponentContainer.h" />
+    <ClInclude Include="src\ac\es\ComponentFilter.h" />
+    <ClInclude Include="src\ac\es\Entity.h" />
+    <ClInclude Include="src\ac\es\EntityContainer.h" />
+    <ClInclude Include="src\ac\es\EntityFactory.h" />
+    <ClInclude Include="src\ac\es\EntityManager.h" />
+    <ClInclude Include="src\ac\es\EntityManagerContainer.h" />
+    <ClInclude Include="src\ac\es\EntityObserver.h" />
+    <ClInclude Include="src\ac\es\EntityProcessingSystem.h" />
+    <ClInclude Include="src\ac\es\EntitySystem.h" />
+    <ClInclude Include="src\ac\es\EntitySystemContainer.h" />
+    <ClInclude Include="src\ac\es\PushType.h" />
+    <ClInclude Include="src\ac\es\Scene.h" />
+    <ClInclude Include="src\ac\es\SceneDirector.h" />
+    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h" />
+    <ClInclude Include="src\ac\es\Types.h" />
+    <ClInclude Include="src\ac\es\util\DynamicArrayUtils.h" />
+    <ClInclude Include="src\ac\Identfiable.h" />
+    <ClInclude Include="src\ac\IdentifiableArray.h" />
+    <ClInclude Include="src\ac\IdentifierPool.h" />
+    <ClInclude Include="src\ac\ObjectFactory.h" />
     <ClInclude Include="src\AdvancedOgreFramework.hpp" />
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
@@ -66,6 +103,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\src;$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -77,12 +116,12 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME);$(SolutionDir)\anaxentitysystem\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_HOME)\stage\lib;$(OGRE_HOME)\lib\$(Configuration);$(SolutionDir)\anaxentitysystem\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BOOST_HOME)\stage\lib;$(OGRE_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreTerrain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

@@ -46,6 +46,21 @@
     <Filter Include="Header Files\entity\components">
       <UniqueIdentifier>{d5908bea-20f3-433f-aed4-39fe8071e2e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ac">
+      <UniqueIdentifier>{563a0c6a-62d2-41b5-9ca8-b63711ce1016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ac\es">
+      <UniqueIdentifier>{69a8d46a-4cf9-40d6-88b6-491c48ba028a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ac\es\util">
+      <UniqueIdentifier>{8fb26379-4427-4bd1-af19-4013b5a0390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ac">
+      <UniqueIdentifier>{3f1121fc-8cde-401e-9bbd-d0646e65c8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ac\es">
+      <UniqueIdentifier>{10dfeefb-d471-4665-aee5-b43bb9586917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -77,6 +92,45 @@
     </ClCompile>
     <ClCompile Include="src\GraphicSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\Identfiable.cpp">
+      <Filter>Source Files\ac</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\Component.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\ComponentContainer.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\Entity.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityContainer.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityFactory.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityManager.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityObserver.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntitySystem.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\Scene.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\SceneDirector.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
+      <Filter>Source Files\ac\es</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +172,78 @@
     </ClInclude>
     <ClInclude Include="src\TransformComponent.h">
       <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\Config.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\Identfiable.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\IdentifiableArray.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\IdentifierPool.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\ObjectFactory.h">
+      <Filter>Header Files\ac</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\Component.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\ComponentContainer.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\ComponentFilter.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\Entity.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityContainer.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityFactory.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityManager.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityManagerContainer.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityObserver.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntityProcessingSystem.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntitySystem.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\EntitySystemContainer.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\PushType.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\Scene.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\SceneDirector.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\Types.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\util\DynamicArrayUtils.h">
+      <Filter>Header Files\ac\es\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
