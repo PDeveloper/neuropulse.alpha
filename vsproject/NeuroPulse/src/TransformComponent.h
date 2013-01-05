@@ -1,6 +1,11 @@
 #include <ac\es.h>
 #include <Ogre.h>
 
+/**
+	TransformComponent
+	Holds positional and rotational information about an Entity.
+**/
+
 #pragma once
 namespace np
 {
@@ -13,15 +18,17 @@ namespace np
 		Ogre::Quaternion rotation;
 	
 		TransformComponent(void)
+			: position( 0, 0, 0),
+			rotation()
 		{
-			TransformComponent( 0, 0, 0);
+
 		}
 
 		TransformComponent( Ogre::Real x, Ogre::Real y, Ogre::Real z)
+			: position( x, y, z),
+			rotation()
 		{
-			position.x = x;
-			position.y = y;
-			position.z = z;
+
 		}
 
 		~TransformComponent(void)

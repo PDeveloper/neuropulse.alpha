@@ -117,14 +117,6 @@ void GameState::createScene()
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);*/
 	
-    Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
- 
-    Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-        plane, 100, 100, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
-	
-    Ogre::Entity* entGround = m_pSceneMgr->createEntity("GroundEntity", "ground");
-    m_pSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
-	
 	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity( "Node1");
 }
 
@@ -284,8 +276,10 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 void GameState::moveCamera()
 {
     if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
-        m_pCamera->moveRelative(m_TranslateVector);
-    m_pCamera->moveRelative(m_TranslateVector / 10);
+        m_pCamera->moveRelative(m_TranslateRelativeVector);
+    m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
+
+	m_pCamera->move( m_TranslateVector);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -299,12 +293,18 @@ void GameState::getInput()
 
         if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_D))
             m_TranslateVector.x = m_MoveScale;
-
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
+		
+		if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
             m_TranslateVector.z = -m_MoveScale;
 
         if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_S))
             m_TranslateVector.z = m_MoveScale;
+
+        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_R))
+            m_TranslateRelativeVector.z = -m_MoveScale;
+
+        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_F))
+            m_TranslateRelativeVector.z = m_MoveScale;
     }
 }
 
@@ -343,6 +343,7 @@ void GameState::update(double timeSinceLastFrame)
     m_RotScale  = m_RotateSpeed * timeSinceLastFrame;
 
     m_TranslateVector = Vector3::ZERO;
+	m_TranslateRelativeVector = Vector3::ZERO;
 
 	esScene->update();
 

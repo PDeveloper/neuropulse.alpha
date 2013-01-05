@@ -43,7 +43,7 @@ void np::GraphicSystem::process( ac::es::Entity& e)
 {
 	GraphicComponent* graphic = e.getComponent<GraphicComponent>();
 	TransformComponent* transform = e.getComponent<TransformComponent>();
-	
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.x));
 	transform->position.x += 1.0;
 
 	graphic->node->setPosition( transform->position);

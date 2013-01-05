@@ -2,6 +2,11 @@
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 
+/**
+	GraphicComponent
+	Graphics...holds an Ogre3d entity. The node property gets populated later, and will be used to remove this component from the scene.
+**/
+
 #pragma once
 namespace np
 {

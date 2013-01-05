@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ReactionSystem.cpp" />
     <ClCompile Include="src\ac\es\Component.cpp" />
     <ClCompile Include="src\ac\es\ComponentContainer.cpp" />
     <ClCompile Include="src\ac\es\Entity.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="src\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ReactionSystem.h" />
     <ClInclude Include="src\ac\Config.h" />
     <ClInclude Include="src\ac\es.h" />
     <ClInclude Include="src\ac\es\Component.h" />
@@ -64,14 +66,19 @@
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
     <ClInclude Include="src\GameObjectFactory.h" />
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
     <ClInclude Include="src\GraphicSystem.h" />
     <ClInclude Include="src\MenuState.hpp" />
+    <ClInclude Include="src\NodeComponent.h" />
+    <ClInclude Include="src\OutputComponent.h" />
     <ClInclude Include="src\PauseState.hpp" />
+    <ClInclude Include="src\PulseComponent.h" />
     <ClInclude Include="src\rapidxml.hpp" />
+    <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\TransformComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

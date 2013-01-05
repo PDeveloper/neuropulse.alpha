@@ -132,6 +132,9 @@
     <ClCompile Include="src\GameObjectFactory.cpp">
       <Filter>Source Files\entity</Filter>
     </ClCompile>
+    <ClCompile Include="ReactionSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -244,6 +247,24 @@
     </ClInclude>
     <ClInclude Include="src\GameObjectFactory.h">
       <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodeComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReactionComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ReactionSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputComponent.h">
+      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

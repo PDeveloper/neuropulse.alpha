@@ -64,6 +64,7 @@ private:
 	bool						m_bQuit;
 
 	Ogre::Vector3				m_TranslateVector;
+	Ogre::Vector3				m_TranslateRelativeVector;
 	Ogre::Real					m_MoveSpeed;
 	Ogre::Degree				m_RotateSpeed;
 	float						m_MoveScale;

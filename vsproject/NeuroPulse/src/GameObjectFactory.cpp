@@ -2,6 +2,8 @@
 #include <GraphicComponent.h>
 #include <TransformComponent.h>
 
+#include <AdvancedOgreFramework.hpp>
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -25,28 +27,98 @@ void np::GameObjectFactory::initNodeMesh(void)
         plane, 40, 40, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 
 	Ogre::ManualObject* manual = sceneManager->createManualObject("nodeManualObject");
-	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
 
 	int segments = 16;
-	for ( int i = 0; i < segments; i++)
+	double innerRadius = 20.0;
+	double outerRadius = 30.0;
+	double yOffset = 10.0;
+
+	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
 	{
-		double rads = ( i / segments) * M_PI * 2.0;
+		for ( int i = 0; i < segments; i++)
+		{
+			double rads = ( double(i) / double(segments)) * M_PI * 2.0;
 
-		manual->position( 100.0 * std::cos( rads), 100.0 * std::sin( rads), -30);
-		manual->colour(Ogre::ColourValue(1.0f,0.0f,0.0f,1.0f));
+			manual->position( outerRadius * std::cos( rads), -yOffset, outerRadius * std::sin( rads));
+			manual->colour( Ogre::ColourValue(0.4f,0.0f,0.0f,1.0f));
 
-		manual->position( 60.0 * std::cos( rads), 60.0 * std::sin( rads), 30);
-		manual->colour(Ogre::ColourValue(1.0f,0.0f,0.0f,1.0f));
+			manual->position( innerRadius * std::cos( rads), yOffset, innerRadius * std::sin( rads));
+			manual->colour( Ogre::ColourValue(0.4f,0.0f,0.0f,1.0f));
 
-		manual->index( i << 1);
-		manual->index(( i << 1) + 1);
+			manual->index( i << 1);
+			manual->index(( i << 1) + 1);
+		}
+
+		manual->index(0);
+		manual->index(1);
 	}
+	manual->end();
+	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_FAN);
+	{
+		manual->position( 0.0, yOffset * 0.9, 0.0);
+		manual->colour( Ogre::ColourValue(0.0f,0.0f,1.0f,1.0f));
 
-	manual->index(0);
-	
+		manual->index(0);
+
+		for ( int i = 0; i < segments; i++)
+		{
+			double rads = ( double(i) / double(segments)) * M_PI * 2.0;
+
+			manual->position( innerRadius * std::cos( -rads), yOffset, innerRadius * std::sin( -rads));
+			manual->colour( Ogre::ColourValue(0.0f,0.0f,0.6f,1.0f));
+
+			manual->index( i + 1);
+		}
+
+		manual->index(1);
+	}
 	manual->end();
 
-	manual->convertToMesh( "NodeMesh", "General");
+	manual->convertToMesh( "NodeMesh");
+	/*
+	float lSize = 0.7f;
+	manual->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_LIST);
+	{
+		float cp = 1.0f * lSize ;
+		float cm = -1.0f * lSize;
+ 
+		manual->position(cm, cp, cm);// a vertex
+		manual->colour(Ogre::ColourValue(0.0f,1.0f,0.0f,1.0f));
+		manual->position(cp, cp, cm);// a vertex
+		manual->colour(Ogre::ColourValue(1.0f,1.0f,0.0f,1.0f));
+		manual->position(cp, cm, cm);// a vertex
+		manual->colour(Ogre::ColourValue(1.0f,0.0f,0.0f,1.0f));
+		manual->position(cm, cm, cm);// a vertex
+		manual->colour(Ogre::ColourValue(0.0f,0.0f,0.0f,1.0f));
+		
+		manual->position(cm, cp, cp);// a vertex
+		manual->colour(Ogre::ColourValue(0.0f,1.0f,1.0f,1.0f));
+		manual->position(cp, cp, cp);// a vertex
+		manual->colour(Ogre::ColourValue(1.0f,1.0f,1.0f,1.0f));
+		manual->position(cp, cm, cp);// a vertex
+		manual->colour(Ogre::ColourValue(1.0f,0.0f,1.0f,1.0f));
+		manual->position(cm, cm, cp);// a vertex
+		manual->colour(Ogre::ColourValue(0.0f,0.0f,1.0f,1.0f));
+
+		manual->triangle(0,1,2);
+		manual->triangle(2,3,0);
+		manual->triangle(4,6,5);
+		manual->triangle(6,4,7);
+
+		manual->triangle(0,4,5);
+		manual->triangle(5,1,0);
+		manual->triangle(2,6,7);
+		manual->triangle(7,3,2);
+
+		manual->triangle(0,7,4);
+		manual->triangle(7,0,3);
+		manual->triangle(1,5,6);
+		manual->triangle(6,2,1);			
+	}
+	manual->end();
+
+	manual->convertToMesh( "Cube");
+	*/
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( std::string name)
@@ -54,13 +126,10 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( std::string name)
 	ac::es::EntityPtr e = scene->createEntity();
 	
 	//Need to fill in correct params:
-	Ogre::Entity* entity = sceneManager->createEntity( name, "NODE_TEST");
+	Ogre::Entity* entity = sceneManager->createEntity( name, "NodeMesh");
 
 	GraphicComponent* graphic = new GraphicComponent( entity);
-	TransformComponent* transform = new TransformComponent( 0.0, 0.0, 0.0);
-	//transform->position.x = 0;
-	transform->position.y = 40;
-	//transform->position.z = 0;
+	TransformComponent* transform = new TransformComponent();
 
 	e->addComponent( graphic);
 	e->addComponent( transform);
