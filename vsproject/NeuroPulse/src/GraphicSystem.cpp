@@ -4,6 +4,8 @@
 #include <Ogre.h>
 #include <AdvancedOgreFramework.hpp>
 
+#include <math.h>
+
 np::GraphicSystem::GraphicSystem(void) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<GraphicComponent>().requires<TransformComponent>())
 {
@@ -39,12 +41,10 @@ void np::GraphicSystem::onRemovedEntity( ac::es::EntityPtr e)
 	// Hm...how to remove an entity when it's graphics component is already gone...
 }
 
-void np::GraphicSystem::process( ac::es::Entity& e)
+void np::GraphicSystem::process( ac::es::EntityPtr e)
 {
-	GraphicComponent* graphic = e.getComponent<GraphicComponent>();
-	TransformComponent* transform = e.getComponent<TransformComponent>();
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.x));
-	transform->position.x += 1.0;
+	GraphicComponent* graphic = e->getComponent<GraphicComponent>();
+	TransformComponent* transform = e->getComponent<TransformComponent>();
 
 	graphic->node->setPosition( transform->position);
 	graphic->node->setOrientation( transform->rotation);

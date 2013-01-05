@@ -13,10 +13,10 @@ np::ReactionSystem::~ReactionSystem(void)
 {
 }
 
-void np::ReactionSystem::process( ac::es::Entity& e)
+void np::ReactionSystem::process( ac::es::EntityPtr e)
 {
-	NodeComponent* node = e.getComponent<NodeComponent>();
-	ReactionComponent* reaction = e.getComponent<ReactionComponent>();
+	NodeComponent* node = e->getComponent<NodeComponent>();
+	ReactionComponent* reaction = e->getComponent<ReactionComponent>();
 
 	node->currentEnergy += reaction->output;
 }

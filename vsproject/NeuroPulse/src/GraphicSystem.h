@@ -13,7 +13,7 @@ namespace np
 		GraphicSystem(void);
 		~GraphicSystem(void);
 	protected:
-		void process( ac::es::Entity& e);
+		virtual void process( ac::es::EntityPtr e);
 		void onAddedEntity( ac::es::EntityPtr e);
 		void onRemovedEntity( ac::es::EntityPtr e);
 	};

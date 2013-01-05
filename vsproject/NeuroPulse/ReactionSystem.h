@@ -11,6 +11,6 @@ namespace np
 		~ReactionSystem(void);
 
 	protected:
-		void process( ac::es::Entity& e);
+		virtual void process( ac::es::EntityPtr e);
 	};
 }
