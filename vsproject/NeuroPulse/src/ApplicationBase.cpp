@@ -9,7 +9,6 @@ ApplicationBase::ApplicationBase(void)
 	m_pAppStateManager = 0;
 }
 
-
 ApplicationBase::~ApplicationBase(void)
 {
 	delete m_pAppStateManager;
@@ -19,7 +18,7 @@ ApplicationBase::~ApplicationBase(void)
 bool ApplicationBase::run(void)
 {
 	new OgreFramework();
-	if( !OgreFramework::getSingletonPtr()->initOgre("AdvancedOgreFramework", 0, 0))
+	if( !OgreFramework::getSingletonPtr()->initOgre("Neuro Pulse", 0, 0))
 		return false;
 
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Initialized!");

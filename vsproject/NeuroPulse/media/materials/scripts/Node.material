@@ -1,0 +1,14 @@
+material NodeMaterial
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+			ambient 0.4 0.1 0.1 1.0
+			diffuse 1.0 0.4 0.4 1.0
+			specular 1.0 1.0 1.0 1.0 64.0
+			emissive 0.1 0.0 0.0 1.0
+		}
+	}
+}

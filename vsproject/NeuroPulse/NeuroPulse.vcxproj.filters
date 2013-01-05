@@ -87,9 +87,6 @@
     <ClCompile Include="src\PauseState.cpp">
       <Filter>Source Files\states</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntityFactory.cpp">
-      <Filter>Source Files\entity</Filter>
-    </ClCompile>
     <ClCompile Include="src\GraphicSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
@@ -132,6 +129,9 @@
     <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
       <Filter>Source Files\ac\es</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameObjectFactory.cpp">
+      <Filter>Source Files\entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -160,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="src\PauseState.hpp">
       <Filter>Header Files\states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EntityFactory.h">
-      <Filter>Header Files\entity</Filter>
     </ClInclude>
     <ClInclude Include="src\GraphicSystem.h">
       <Filter>Header Files\entity\systems</Filter>
@@ -244,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="src\ac\es\util\DynamicArrayUtils.h">
       <Filter>Header Files\ac\es\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjectFactory.h">
+      <Filter>Header Files\entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

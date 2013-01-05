@@ -28,7 +28,7 @@
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
-    <ClCompile Include="src\EntityFactory.cpp" />
+    <ClCompile Include="src\GameObjectFactory.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GraphicSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -65,7 +65,7 @@
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
-    <ClInclude Include="src\EntityFactory.h" />
+    <ClInclude Include="src\GameObjectFactory.h" />
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
     <ClInclude Include="src\GraphicSystem.h" />
@@ -105,6 +105,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)\src;$(IncludePath)</IncludePath>
     <SourcePath>$(SolutionDir)\src;$(SourcePath)</SourcePath>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

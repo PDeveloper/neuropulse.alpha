@@ -1,26 +1,31 @@
 #include <ac\es.h>
-#include <OgreQuaternion.h>
+#include <Ogre.h>
 
 #pragma once
-class TransformComponent : public ac::es::Component
+namespace np
 {
-	AC_ES_COMPONENT(TransformComponent)
-public:
-
-	float x;
-	float y;
-	float z;
-
-	Ogre::Quaternion* rotation;
+	class TransformComponent : public ac::es::Component
+	{
+		AC_ES_COMPONENT(TransformComponent)
+	public:
 	
-	TransformComponent(void)
-	{
-		x = y = z = 0.0;
-		rotation = new Ogre::Quaternion();
-	}
+		Ogre::Vector3 position;
+		Ogre::Quaternion rotation;
+	
+		TransformComponent(void)
+		{
+			TransformComponent( 0, 0, 0);
+		}
 
-	~TransformComponent(void)
-	{
-	}
-};
+		TransformComponent( Ogre::Real x, Ogre::Real y, Ogre::Real z)
+		{
+			position.x = x;
+			position.y = y;
+			position.z = z;
+		}
 
+		~TransformComponent(void)
+		{
+		}
+	};
+}

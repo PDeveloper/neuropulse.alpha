@@ -12,6 +12,9 @@
 #include <OgreSubEntity.h>
 #include <OgreMaterialManager.h>
 
+#include <GameObjectFactory.h>
+#include <GraphicSystem.h>
+
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 enum QueryFlags
@@ -71,6 +74,11 @@ private:
 	Ogre::Entity*				m_pCurrentEntity;
 	bool						m_bLMouseDown, m_bRMouseDown;
 	bool						m_bSettingsMode;
+
+	ac::es::Scene* esScene;
+
+	np::GameObjectFactory* gameObjectFactory;
+	np::GraphicSystem* graphicSystem;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

@@ -3,20 +3,23 @@
 #include <OgreSceneNode.h>
 
 #pragma once
-class GraphicComponent : public ac::es::Component
+namespace np
 {
-	AC_ES_COMPONENT(GraphicComponent)
-public:
-	Ogre::Entity* entity;
-	Ogre::SceneNode* node;
-
-	GraphicComponent( Ogre::Entity* entity)
+	class GraphicComponent : public ac::es::Component
 	{
-		this->entity = entity;
-	}
+		AC_ES_COMPONENT(GraphicComponent)
+	public:
+		Ogre::Entity* entity;
+		Ogre::SceneNode* node;
 
-	~GraphicComponent(void)
-	{
-	}
-};
+		GraphicComponent( Ogre::Entity* entity)
+		{
+			this->entity = entity;
+		}
+
+		~GraphicComponent(void)
+		{
+		}
+	};
+}
 

@@ -25,9 +25,18 @@ GameState::GameState()
 
 void GameState::enter()
 {
+	/* init systems and shit */
+	graphicSystem = new np::GraphicSystem();
+
+	esScene = new ac::es::Scene();
+	gameObjectFactory = new np::GameObjectFactory( graphicSystem->mSceneMgr, esScene);
+
+	esScene->insertEntitySystem( graphicSystem);
+	/* ................. */
+
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 
-    m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager(ST_GENERIC, "GameSceneMgr");
+	m_pSceneMgr = graphicSystem->mSceneMgr;
     m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
     m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
@@ -43,6 +52,7 @@ void GameState::enter()
 
     OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
     m_pCurrentObject = 0;
+
 
     buildGUI();
 
@@ -88,7 +98,7 @@ void GameState::createScene()
 {
     m_pSceneMgr->createLight("Light")->setPosition(75,75,75);
 
-    DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
+    /*DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
     pDotSceneLoader->parseDotScene("CubeScene.xml", "General", m_pSceneMgr, m_pSceneMgr->getRootSceneNode());
     delete pDotSceneLoader;
 
@@ -105,7 +115,17 @@ void GameState::createScene()
     m_pOgreHeadMat = m_pOgreHeadEntity->getSubEntity(1)->getMaterial();
     m_pOgreHeadMatHigh = m_pOgreHeadMat->clone("OgreHeadMatHigh");
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);
+    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);*/
+	
+    Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+ 
+    Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        plane, 100, 100, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	
+    Ogre::Entity* entGround = m_pSceneMgr->createEntity("GroundEntity", "ground");
+    m_pSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
+	
+	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity( "Node1");
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -323,6 +343,8 @@ void GameState::update(double timeSinceLastFrame)
     m_RotScale  = m_RotateSpeed * timeSinceLastFrame;
 
     m_TranslateVector = Vector3::ZERO;
+
+	esScene->update();
 
     getInput();
     moveCamera();
