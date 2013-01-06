@@ -16,9 +16,12 @@ namespace np
 
 		double energy;
 
-		PulseComponent( double energy)
+		np::ConnectionComponent* connection;
+
+		PulseComponent( double energy, np::ConnectionComponent* connection)
 		{
 			this->energy = energy;
+			this->connection = connection;
 		}
 
 		~PulseComponent(void)

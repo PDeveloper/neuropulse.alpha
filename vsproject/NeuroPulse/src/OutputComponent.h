@@ -29,8 +29,6 @@ namespace np
 
 		// Global pulse listeners
 		std::list<IListener<PulseComponent>*> listeners;
-		// Connection specific listeners
-		std::vector<std::list<IListener<PulseComponent>*>> slots;
 
 		OutputComponent( ConnectionComponent* connections[])
 			: connections( connections, connections + sizeof(connections) / sizeof(connections[0]) )
@@ -48,47 +46,9 @@ namespace np
 				(*it)->dispatchListener( pulse);
 		}
 
-		void dispatch( PulseComponent& pulse, np::ConnectionComponent* connection)
-		{
-			std::list<IListener<PulseComponent>*>* listeners;
-			for ( int i = 0; i < connections.size(); i++)
-			if ( connections.at(i) == connection)
-			{
-				listeners = &slots.at(i);
-				for (std::list<IListener<PulseComponent>*>::iterator it = listeners->begin(); it != listeners->end(); it++)
-					(*it)->dispatchListener( pulse);
-
-				return;
-			}
-		}
-
-		void dispatch( PulseComponent& pulse, int index)
-		{
-			std::list<IListener<PulseComponent>*>* listeners = &slots.at(index);
-
-			for (std::list<IListener<PulseComponent>*>::iterator it = listeners->begin(); it != listeners->end(); it++)
-				(*it)->dispatchListener( pulse);
-		}
-
 		void addListener( IListener<PulseComponent> * listener)
 		{
 			listeners.push_back( listener);
-		}
-
-		void addListener( IListener<PulseComponent>* listener, np::ConnectionComponent* connection)
-		{
-			for ( int i = 0; i < connections.size(); i++)
-			if ( connections.at(i) == connection)
-			{
-				slots.at(i).push_back( listener);
-
-				return;
-			}
-		}
-
-		void addListener( IListener<PulseComponent>* listener, int index)
-		{
-			slots.at(index).push_back( listener);
 		}
 
 	};
