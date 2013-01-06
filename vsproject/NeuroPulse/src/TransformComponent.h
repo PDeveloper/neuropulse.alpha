@@ -17,22 +17,8 @@ namespace np
 		Ogre::Vector3 position;
 		Ogre::Quaternion rotation;
 	
-		TransformComponent(void)
-			: position( 0, 0, 0),
-			rotation()
-		{
-
-		}
-
-		TransformComponent( Ogre::Real x, Ogre::Real y, Ogre::Real z)
-			: position( x, y, z),
-			rotation()
-		{
-
-		}
-
-		~TransformComponent(void)
-		{
-		}
+		TransformComponent(void);
+		TransformComponent( Ogre::Real x, Ogre::Real y, Ogre::Real z);
+		~TransformComponent(void);
 	};
 }

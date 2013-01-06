@@ -17,14 +17,8 @@ namespace np
 		Ogre::Entity* entity;
 		Ogre::SceneNode* node;
 
-		GraphicComponent( Ogre::Entity* entity)
-		{
-			this->entity = entity;
-		}
-
-		~GraphicComponent(void)
-		{
-		}
+		GraphicComponent( Ogre::Entity* entity);
+		~GraphicComponent(void);
 	};
 }
 

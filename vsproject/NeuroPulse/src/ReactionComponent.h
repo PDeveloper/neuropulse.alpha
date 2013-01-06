@@ -17,13 +17,8 @@ namespace np
 
 		double output;
 
-		ReactionComponent( double output)
-		{
-			this->output = output;
-		}
+		ReactionComponent( double output);
+		~ReactionComponent(void);
 
-		~ReactionComponent(void)
-		{
-		}
 	};
 }

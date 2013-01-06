@@ -61,6 +61,12 @@
     <Filter Include="Source Files\ac\es">
       <UniqueIdentifier>{10dfeefb-d471-4665-aee5-b43bb9586917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\utils">
+      <UniqueIdentifier>{a5dcb57b-b129-4d08-8239-a94076a937cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\components">
+      <UniqueIdentifier>{e922b6c8-9029-4598-b335-35c32dcce298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -132,8 +138,32 @@
     <ClCompile Include="src\GameObjectFactory.cpp">
       <Filter>Source Files\entity</Filter>
     </ClCompile>
-    <ClCompile Include="ReactionSystem.cpp">
+    <ClCompile Include="src\OutputSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReactionSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GraphicComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OutputComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReactionComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +284,6 @@
     <ClInclude Include="src\ReactionComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="ReactionSystem.h">
-      <Filter>Header Files\entity\systems</Filter>
-    </ClInclude>
     <ClInclude Include="src\ConnectionComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
@@ -265,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="src\OutputComponent.h">
       <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IListener.h">
+      <Filter>Header Files\core\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReactionSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

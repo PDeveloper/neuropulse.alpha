@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ReactionSystem.cpp" />
     <ClCompile Include="src\ac\es\Component.cpp" />
     <ClCompile Include="src\ac\es\ComponentContainer.cpp" />
     <ClCompile Include="src\ac\es\Entity.cpp" />
@@ -28,16 +27,24 @@
     <ClCompile Include="src\AdvancedOgreFramework.cpp" />
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
+    <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
     <ClCompile Include="src\GameObjectFactory.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GraphicComponent.cpp" />
     <ClCompile Include="src\GraphicSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\NodeComponent.cpp" />
+    <ClCompile Include="src\OutputComponent.cpp" />
+    <ClCompile Include="src\OutputSystem.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
+    <ClCompile Include="src\PulseComponent.cpp" />
+    <ClCompile Include="src\ReactionComponent.cpp" />
+    <ClCompile Include="src\ReactionSystem.cpp" />
+    <ClCompile Include="src\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ReactionSystem.h" />
     <ClInclude Include="src\ac\Config.h" />
     <ClInclude Include="src\ac\es.h" />
     <ClInclude Include="src\ac\es\Component.h" />
@@ -72,13 +79,16 @@
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
     <ClInclude Include="src\GraphicSystem.h" />
+    <ClInclude Include="src\IListener.h" />
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\NodeComponent.h" />
     <ClInclude Include="src\OutputComponent.h" />
+    <ClInclude Include="src\OutputSystem.h" />
     <ClInclude Include="src\PauseState.hpp" />
     <ClInclude Include="src\PulseComponent.h" />
     <ClInclude Include="src\rapidxml.hpp" />
     <ClInclude Include="src\ReactionComponent.h" />
+    <ClInclude Include="src\ReactionSystem.h" />
     <ClInclude Include="src\TransformComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

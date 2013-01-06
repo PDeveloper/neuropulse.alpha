@@ -1,9 +1,6 @@
 #include <ac\es.h>
 #include <list>
 
-#include <NodeComponent.h>
-#include <PulseComponent.h>
-
 /**
 	ConnectionComponent
 	This component handles all data traveling between 2 different NodeComponents. This includes distance.
@@ -16,31 +13,24 @@
 #pragma once
 namespace np
 {
+	class NodeComponent;
+	class PulseComponent;
+
 	class ConnectionComponent :
 		public ac::es::Component
 	{
 		AC_ES_COMPONENT(ConnectionComponent)
 	public:
 
-		np::NodeComponent node1;
-		np::NodeComponent node2;
+		np::NodeComponent* node1;
+		np::NodeComponent* node2;
 
 		std::list<np::PulseComponent> pulses;
 
-		ConnectionComponent( np::NodeComponent node1, np::NodeComponent node2)
-		{
-			this->node1 = node1;
-			this->node2 = node2;
-		}
-
-		~ConnectionComponent(void)
-		{
-		}
+		ConnectionComponent( np::NodeComponent* node1, np::NodeComponent* node2);
+		~ConnectionComponent(void);
 		
-		np::NodeComponent* getOtherNode( np::NodeComponent* node)
-		{
-			if ( node == &node1) return &node2;
-			else if ( node == &node2) return &node1;
-		}
+		np::NodeComponent* getOtherNode( np::NodeComponent* node);
+		
 	};
 }

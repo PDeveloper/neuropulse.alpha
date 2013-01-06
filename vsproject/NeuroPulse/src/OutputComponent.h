@@ -30,26 +30,11 @@ namespace np
 		// Global pulse listeners
 		std::list<IListener<PulseComponent>*> listeners;
 
-		OutputComponent( ConnectionComponent* connections[])
-			: connections( connections, connections + sizeof(connections) / sizeof(connections[0]) )
-		{
-			
-		}
+		OutputComponent( ConnectionComponent* connections[]);
+		~OutputComponent(void);
 
-		~OutputComponent(void)
-		{
-		}
-
-		void dispatch( PulseComponent& pulse)
-		{
-			for (std::list<IListener<PulseComponent>*>::iterator it = listeners.begin(); it != listeners.end(); it++)
-				(*it)->dispatchListener( pulse);
-		}
-
-		void addListener( IListener<PulseComponent> * listener)
-		{
-			listeners.push_back( listener);
-		}
+		void dispatch( PulseComponent& pulse);
+		void addListener( IListener<PulseComponent> * listener);
 
 	};
 
