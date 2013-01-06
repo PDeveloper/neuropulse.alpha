@@ -1,5 +1,5 @@
 #include <ac\es.h>
-#include <vector>
+#include <list>
 
 #include <NodeComponent.h>
 #include <PulseComponent.h>
@@ -25,7 +25,7 @@ namespace np
 		np::NodeComponent node1;
 		np::NodeComponent node2;
 
-		std::vector<np::PulseComponent> pulses;
+		std::list<np::PulseComponent> pulses;
 
 		ConnectionComponent( np::NodeComponent node1, np::NodeComponent node2)
 		{

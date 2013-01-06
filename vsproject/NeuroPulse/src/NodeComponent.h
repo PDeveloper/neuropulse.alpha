@@ -1,4 +1,7 @@
 #include <ac\es.h>
+#include <list>
+
+#include <PulseComponent.h>
 
 /**
 	NodeComponent
@@ -15,6 +18,9 @@ namespace np
 
 		double energyThreshold;
 		double currentEnergy;
+
+		std::list<np::PulseComponent> outPulseBuffer;
+		std::list<np::PulseComponent> inPulseBuffer;
 
 		NodeComponent( double energyThreshold)
 		{
