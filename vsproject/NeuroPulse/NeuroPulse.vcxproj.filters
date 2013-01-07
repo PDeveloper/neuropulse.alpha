@@ -84,15 +84,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AdvancedOgreFramework.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AppStateManager.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DotSceneLoader.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
-    </ClCompile>
     <ClCompile Include="src\ApplicationBase.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -180,23 +171,17 @@
     <ClCompile Include="src\WorldGenerator.cpp">
       <Filter>Source Files\core\map</Filter>
     </ClCompile>
+    <ClCompile Include="src\AdvancedOgreFramework.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AppStateManager.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DotSceneLoader.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AdvancedOgreFramework.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AppState.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AppStateManager.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DotSceneLoader.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\rapidxml.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
     <ClInclude Include="src\ApplicationBase.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -328,6 +313,21 @@
     </ClInclude>
     <ClInclude Include="src\WorldGenerator.h">
       <Filter>Header Files\core\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdvancedOgreFramework.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppState.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppStateManager.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DotSceneLoader.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rapidxml.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ public:
 	void popAppState();
 	void pauseAppState();
 	void shutdown();
-    void popAllAndPushAppState(AppState* state);
+	void popAllAndPushAppState(AppState* state);
 
 protected:
 	void init(AppState *state);
