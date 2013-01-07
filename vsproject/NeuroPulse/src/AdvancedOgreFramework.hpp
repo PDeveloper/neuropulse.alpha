@@ -8,9 +8,9 @@
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
-#include <Overlay\OgreOverlayContainer.h>
-#include <Overlay\OgreOverlayElement.h>
-#include <Overlay\OgreOverlayManager.h>
+#include <OgreOverlay.h>
+#include <OgreOverlayElement.h>
+#include <OgreOverlayManager.h>
 #include <OgreRoot.h>
 #include <OgreViewport.h>
 #include <OgreSceneManager.h>
@@ -23,12 +23,6 @@
 #include <OISMouse.h>
 
 #include <SdkTrays.h>
-
-//|||||||||||||||||||||||||||||||||||||||||||||||
-
-#if OGRE_VERSION > ((1 << 16) | (8 << 8) | 1)
-#define OGRE_EXTERNAL_OVERLAY
-#endif
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -58,10 +52,10 @@ public:
 	OIS::Keyboard*				m_pKeyboard;
 	OIS::Mouse*					m_pMouse;
 
-#ifdef OGRE_EXTERNAL_OVERLAY
-	Ogre::OverlaySystem*		m_pOverlaySystem;
-#endif
-	OgreBites::SdkTrayManager*	m_pTrayMgr;
+    OgreBites::SdkTrayManager*	m_pTrayMgr;
+
+	Ogre::String mPluginsCfg;
+	Ogre::String mResourcesCfg;
 
 private:
 	OgreFramework(const OgreFramework&);

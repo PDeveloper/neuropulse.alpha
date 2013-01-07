@@ -17,7 +17,7 @@ AppStateManager::~AppStateManager()
 {
 	state_info si;
 
-	while(!m_ActiveStateStack.empty())
+    while(!m_ActiveStateStack.empty())
 	{
 		m_ActiveStateStack.back()->exit();
 		m_ActiveStateStack.pop_back();
@@ -26,8 +26,8 @@ AppStateManager::~AppStateManager()
 	while(!m_States.empty())
 	{
 		si = m_States.back();
-		si.state->destroy();
-		m_States.pop_back();
+        si.state->destroy();
+        m_States.pop_back();
 	}
 }
 
@@ -96,9 +96,9 @@ void AppStateManager::start(AppState* state)
 		else
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-			Sleep(1000);
+            Sleep(1000);
 #else
-			sleep(1);
+            sleep(1);
 #endif
 		}
 	}
@@ -153,7 +153,7 @@ void AppStateManager::popAppState()
 		init(m_ActiveStateStack.back());
 		m_ActiveStateStack.back()->resume();
 	}
-	else
+    else
 		shutdown();
 }
 
@@ -161,13 +161,13 @@ void AppStateManager::popAppState()
 
 void AppStateManager::popAllAndPushAppState(AppState* state)
 {
-	while(!m_ActiveStateStack.empty())
-	{
-		m_ActiveStateStack.back()->exit();
-		m_ActiveStateStack.pop_back();
-	}
+    while(!m_ActiveStateStack.empty())
+    {
+        m_ActiveStateStack.back()->exit();
+        m_ActiveStateStack.pop_back();
+    }
 
-	pushAppState(state);
+    pushAppState(state);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -197,9 +197,9 @@ void AppStateManager::shutdown()
 
 void AppStateManager::init(AppState* state)
 {
-	OgreFramework::getSingletonPtr()->m_pKeyboard->setEventCallback(state);
+    OgreFramework::getSingletonPtr()->m_pKeyboard->setEventCallback(state);
 	OgreFramework::getSingletonPtr()->m_pMouse->setEventCallback(state);
-	OgreFramework::getSingletonPtr()->m_pTrayMgr->setListener(state);
+    OgreFramework::getSingletonPtr()->m_pTrayMgr->setListener(state);
 
 	OgreFramework::getSingletonPtr()->m_pRenderWnd->resetStatistics();
 }

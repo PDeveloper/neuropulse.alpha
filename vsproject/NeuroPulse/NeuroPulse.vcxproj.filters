@@ -84,6 +84,15 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AdvancedOgreFramework.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AppStateManager.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DotSceneLoader.cpp">
+      <Filter>Source Files\advancedOgreFramework</Filter>
+    </ClCompile>
     <ClCompile Include="src\ApplicationBase.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -162,26 +171,35 @@
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Source Files\entity\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\AnimationComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
+    <ClCompile Include="src\ac\es\SceneDirector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AnimationSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\WorldGenerator.cpp">
-      <Filter>Source Files\core\map</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AdvancedOgreFramework.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AppStateManager.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DotSceneLoader.cpp">
-      <Filter>Source Files\advancedOgreFramework</Filter>
+    <ClCompile Include="src\AnimationComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AdvancedOgreFramework.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppState.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppStateManager.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DotSceneLoader.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rapidxml.hpp">
+      <Filter>Header Files\advancedOgreFramework</Filter>
+    </ClInclude>
     <ClInclude Include="src\ApplicationBase.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -302,32 +320,17 @@
     <ClInclude Include="src\ConnectionBase.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
-    <ClInclude Include="src\AnimationComponent.h">
-      <Filter>Header Files\entity\components</Filter>
+    <ClInclude Include="src\ac\es\SceneDirector.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TweenState.h">
-      <Filter>Header Files\core\animation</Filter>
+    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\AnimationSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\WorldGenerator.h">
-      <Filter>Header Files\core\map</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AdvancedOgreFramework.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AppState.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AppStateManager.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DotSceneLoader.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="src\rapidxml.hpp">
-      <Filter>Header Files\advancedOgreFramework</Filter>
+    <ClInclude Include="src\AnimationComponent.h">
+      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
