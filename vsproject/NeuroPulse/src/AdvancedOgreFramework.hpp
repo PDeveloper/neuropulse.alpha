@@ -8,9 +8,9 @@
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
-#include <OgreOverlay.h>
-#include <OgreOverlayElement.h>
-#include <OgreOverlayManager.h>
+#include <Overlay\OgreOverlay.h>
+#include <Overlay\OgreOverlayElement.h>
+#include <Overlay\OgreOverlayManager.h>
 #include <OgreRoot.h>
 #include <OgreViewport.h>
 #include <OgreSceneManager.h>

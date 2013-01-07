@@ -33,3 +33,6 @@
 *.ilk
 *.bi
 *.bi
+*.suo
+*.unsuccessfulbuild
+*.cfg

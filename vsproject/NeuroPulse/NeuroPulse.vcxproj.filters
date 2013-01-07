@@ -64,11 +64,20 @@
     <Filter Include="Header Files\core\utils">
       <UniqueIdentifier>{a5dcb57b-b129-4d08-8239-a94076a937cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\data">
+      <UniqueIdentifier>{65f6eb08-1502-4033-a103-155617aac34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\animation">
+      <UniqueIdentifier>{e596910d-7335-481c-90a4-7017823a20d4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\entity\components">
       <UniqueIdentifier>{e922b6c8-9029-4598-b335-35c32dcce298}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\data">
-      <UniqueIdentifier>{65f6eb08-1502-4033-a103-155617aac34e}</UniqueIdentifier>
+    <Filter Include="Header Files\core\map">
+      <UniqueIdentifier>{3a91a503-796d-43c2-8ada-ab9a3a4f281f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\map">
+      <UniqueIdentifier>{096929f5-dd8a-4f63-8616-e9ae0628ec84}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,12 +141,6 @@
     <ClCompile Include="src\ac\es\Scene.cpp">
       <Filter>Source Files\ac\es</Filter>
     </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirector.cpp">
-      <Filter>Source Files\ac\es</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
-      <Filter>Source Files\ac\es</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObjectFactory.cpp">
       <Filter>Source Files\entity</Filter>
     </ClCompile>
@@ -167,6 +170,15 @@
     </ClCompile>
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnimationComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnimationSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WorldGenerator.cpp">
+      <Filter>Source Files\core\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,12 +278,6 @@
     <ClInclude Include="src\ac\es\Scene.h">
       <Filter>Header Files\ac\es</Filter>
     </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirector.h">
-      <Filter>Header Files\ac\es</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
-      <Filter>Header Files\ac\es</Filter>
-    </ClInclude>
     <ClInclude Include="src\ac\es\Types.h">
       <Filter>Header Files\ac\es</Filter>
     </ClInclude>
@@ -310,6 +316,18 @@
     </ClInclude>
     <ClInclude Include="src\ConnectionBase.h">
       <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TweenState.h">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorldGenerator.h">
+      <Filter>Header Files\core\map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

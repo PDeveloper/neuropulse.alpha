@@ -26,11 +26,17 @@ GameState::GameState()
 void GameState::enter()
 {
 	/* init systems and shit */
+	reactionSystem = new np::ReactionSystem();
+	outputSystem = new np::OutputSystem();
+	animationSystem = new np::AnimationSystem();
 	graphicSystem = new np::GraphicSystem();
 
 	esScene = new ac::es::Scene();
 	gameObjectFactory = new np::GameObjectFactory( graphicSystem->mSceneMgr, esScene);
 
+	esScene->insertEntitySystem( reactionSystem);
+	esScene->insertEntitySystem( outputSystem);
+	esScene->insertEntitySystem( animationSystem);
 	esScene->insertEntitySystem( graphicSystem);
 	/* ................. */
 

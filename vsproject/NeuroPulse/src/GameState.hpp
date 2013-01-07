@@ -13,7 +13,11 @@
 #include <OgreMaterialManager.h>
 
 #include <GameObjectFactory.h>
+
 #include <GraphicSystem.h>
+#include <AnimationSystem.h>
+#include <OutputSystem.h>
+#include <ReactionSystem.h>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -79,7 +83,12 @@ private:
 	ac::es::Scene* esScene;
 
 	np::GameObjectFactory* gameObjectFactory;
+
+	// Systems
 	np::GraphicSystem* graphicSystem;
+	np::AnimationSystem* animationSystem;
+	np::OutputSystem* outputSystem;
+	np::ReactionSystem* reactionSystem;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

@@ -1,6 +1,13 @@
 #include <GameObjectFactory.h>
+
 #include <GraphicComponent.h>
 #include <TransformComponent.h>
+#include <AnimationComponent.h>
+#include <ReactionComponent.h>
+#include <OutputComponent.h>
+#include <NodeComponent.h>
+
+#include <TweenState.h>
 
 #include <AdvancedOgreFramework.hpp>
 
@@ -131,8 +138,13 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( std::string name)
 	GraphicComponent* graphic = new GraphicComponent( entity);
 	TransformComponent* transform = new TransformComponent();
 
+	np::TweenState states[] = { np::TweenState( Ogre::Vector3( 0, 0, 0), 0.0), np::TweenState( Ogre::Vector3( 50, 0, 50), 1.0),np::TweenState( Ogre::Vector3( 0, 0, 0), 1.0) };
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(sizeof(states) / sizeof(states[0])));
+	np::AnimationComponent* animation = new np::AnimationComponent( states, sizeof(states) / sizeof(states[0]));
+	
 	e->addComponent( graphic);
 	e->addComponent( transform);
+	e->addComponent( animation);
 
 	e->activate();
 

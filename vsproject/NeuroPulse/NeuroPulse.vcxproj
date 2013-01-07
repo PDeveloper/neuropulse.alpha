@@ -21,10 +21,10 @@
     <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp" />
     <ClCompile Include="src\ac\es\EntitySystem.cpp" />
     <ClCompile Include="src\ac\es\Scene.cpp" />
-    <ClCompile Include="src\ac\es\SceneDirector.cpp" />
-    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp" />
     <ClCompile Include="src\ac\Identfiable.cpp" />
     <ClCompile Include="src\AdvancedOgreFramework.cpp" />
+    <ClCompile Include="src\AnimationComponent.cpp" />
+    <ClCompile Include="src\AnimationSystem.cpp" />
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
@@ -43,6 +43,7 @@
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
+    <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ac\Config.h" />
@@ -61,8 +62,6 @@
     <ClInclude Include="src\ac\es\EntitySystemContainer.h" />
     <ClInclude Include="src\ac\es\PushType.h" />
     <ClInclude Include="src\ac\es\Scene.h" />
-    <ClInclude Include="src\ac\es\SceneDirector.h" />
-    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h" />
     <ClInclude Include="src\ac\es\Types.h" />
     <ClInclude Include="src\ac\es\util\DynamicArrayUtils.h" />
     <ClInclude Include="src\ac\Identfiable.h" />
@@ -70,6 +69,8 @@
     <ClInclude Include="src\ac\IdentifierPool.h" />
     <ClInclude Include="src\ac\ObjectFactory.h" />
     <ClInclude Include="src\AdvancedOgreFramework.hpp" />
+    <ClInclude Include="src\AnimationComponent.h" />
+    <ClInclude Include="src\AnimationSystem.h" />
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
@@ -92,6 +93,8 @@
     <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\ReactionSystem.h" />
     <ClInclude Include="src\TransformComponent.h" />
+    <ClInclude Include="src\TweenState.h" />
+    <ClInclude Include="src\WorldGenerator.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{803CF3FA-B7A7-4335-B0D0-D3DFE0E6B842}</ProjectGuid>
@@ -103,12 +106,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

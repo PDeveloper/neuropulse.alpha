@@ -103,7 +103,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 
     m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));
     m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
-
+	
     m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
     m_pMouse->getMouseState().width	 = m_pRenderWnd->getWidth();
 

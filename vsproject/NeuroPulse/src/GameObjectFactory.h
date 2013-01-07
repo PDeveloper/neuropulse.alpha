@@ -13,6 +13,7 @@ namespace np
 		~GameObjectFactory(void);
 
 		ac::es::EntityPtr createNodeEntity( std::string name);
+		ac::es::EntityPtr createPulseEntity( std::string name);
 	private:
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;
