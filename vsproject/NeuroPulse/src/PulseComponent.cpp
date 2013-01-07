@@ -1,10 +1,9 @@
 #include <PulseComponent.h>
 #include <ConnectionComponent.h>
 
-np::PulseComponent::PulseComponent( double energy, np::ConnectionComponent* connection)
+np::PulseComponent::PulseComponent( double energy)
 {
 	this->energy = energy;
-	this->connection = connection;
 }
 
 np::PulseComponent::~PulseComponent(void)

@@ -10,6 +10,7 @@
 namespace np
 {
 	class PulseComponent;
+	class ConnectionComponent;
 	
 	class NodeComponent : public ac::es::Component
 	{

@@ -20,40 +20,41 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 	NodeComponent* node = e->getComponent<NodeComponent>();
 	OutputComponent* output = e->getComponent<OutputComponent>();
 
-	if ( node->currentEnergy > node->energyThreshold)
+	for (int i = 0; i < output->connections.size(); i++)
 	{
-		// List of all valid connections.
-		// A valid connection is where the other node has less energy than the current node, so the current node can send it's pulses there.
-		std::list<np::ConnectionComponent*> validConnections;
-	
-		// Determine valid target nodes!
-		validConnections.clear();
-		
-		for (int i = 0; i < output->connections.size(); i++)
-		{
-			np::ConnectionComponent* connection = output->connections.at(i);
-			np::NodeComponent* otherNode = connection->getOtherNode( node);
+		// Process all valid connections that were found.
+		np::ConnectionBase* connection = output->connections.at(i);
 
-			if ( std::max<double>( otherNode->energyThreshold, otherNode->currentEnergy) < node->currentEnergy)
-			{
-				validConnections.push_back( connection);
-			}
+		while ( !connection->inPulseBuffer.empty())
+		{
+			np::PulseComponent* pulse = connection->inPulseBuffer.back();
+			connection->inPulseBuffer.pop_back();
+
+			connection->inputPulse( pulse);
+			node->currentEnergy += pulse->energy;
+			delete pulse;
 		}
+	}
+
+	if ( node->currentEnergy >= node->energyThreshold)
+	{
+		int valid = 0;
+		for (int i = 0; i < output->connections.size(); i++) if ( output->connections.at(i)->isValid()) valid++;
 
 		// Very inaccurate way of calculating the dispersed energy, but for now it could do.
-		double dispersedEnergy = node->currentEnergy / validConnections.size();
+		double dispersedEnergy = node->energyThreshold / double(valid);
 
-		while ( !validConnections.empty())
+		for (int i = 0; i < output->connections.size(); i++)
 		{
 			// Process all valid connections that were found.
-			np::ConnectionComponent* connection = validConnections.back();
-			validConnections.pop_back();
+			np::ConnectionBase* connection = output->connections.at(i);
+			if ( connection->isValid())
+			{
+				np::PulseComponent* pulse = new np::PulseComponent( dispersedEnergy);
 
-			np::PulseComponent* pulse = new np::PulseComponent( dispersedEnergy, connection);
-
-			// Pushes the pulse into the other nodes incoming buffer!
-			np::NodeComponent* otherNode = connection->getOtherNode( node);
-			otherNode->inPulseBuffer.push_back( pulse);
+				connection->outputPulse( pulse);
+				connection->target->inPulseBuffer.push_back( pulse);
+			}
 		}
 	}
 }

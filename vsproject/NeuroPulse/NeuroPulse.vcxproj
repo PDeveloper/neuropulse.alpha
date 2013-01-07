@@ -73,6 +73,7 @@
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
     <ClInclude Include="src\GameObjectFactory.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\NodeComponent.h" />
     <ClInclude Include="src\OutputComponent.h" />
+    <ClInclude Include="src\ConnectionFeed.h" />
     <ClInclude Include="src\OutputSystem.h" />
     <ClInclude Include="src\PauseState.hpp" />
     <ClInclude Include="src\PulseComponent.h" />

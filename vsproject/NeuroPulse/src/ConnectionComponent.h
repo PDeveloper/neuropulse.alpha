@@ -22,15 +22,12 @@ namespace np
 		AC_ES_COMPONENT(ConnectionComponent)
 	public:
 
-		np::NodeComponent* node1;
-		np::NodeComponent* node2;
+		np::ConnectionComponent* target;
 
 		std::list<np::PulseComponent> pulses;
 
-		ConnectionComponent( np::NodeComponent* node1, np::NodeComponent* node2);
+		ConnectionComponent( np::ConnectionComponent* target);
 		~ConnectionComponent(void);
-		
-		np::NodeComponent* getOtherNode( np::NodeComponent* node);
 		
 	};
 }

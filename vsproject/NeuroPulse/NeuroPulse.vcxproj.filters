@@ -67,6 +67,9 @@
     <Filter Include="Source Files\entity\components">
       <UniqueIdentifier>{e922b6c8-9029-4598-b335-35c32dcce298}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\data">
+      <UniqueIdentifier>{65f6eb08-1502-4033-a103-155617aac34e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -301,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="src\ReactionSystem.h">
       <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionFeed.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionBase.h">
+      <Filter>Header Files\core\data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

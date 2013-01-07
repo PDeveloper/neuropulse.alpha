@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include <ConnectionComponent.h>
+#include <ConnectionBase.h>
 #include <PulseComponent.h>
 #include <NodeComponent.h>
 
@@ -25,16 +25,11 @@ namespace np
 		AC_ES_COMPONENT(OutputComponent)
 	public:
 
-		std::vector<np::ConnectionComponent*> connections;
+		// connection bases
+		std::vector<np::ConnectionBase*> connections;
 
-		// Global pulse listeners
-		std::list<IListener<PulseComponent>*> listeners;
-
-		OutputComponent( ConnectionComponent* connections[]);
+		OutputComponent( ConnectionBase* connections[]);
 		~OutputComponent(void);
-
-		void dispatch( PulseComponent& pulse);
-		void addListener( IListener<PulseComponent> * listener);
 
 	};
 

@@ -8,7 +8,6 @@
 #pragma once
 namespace np
 {
-	class ConnectionComponent;
 	class PulseComponent :
 		public ac::es::Component
 	{
@@ -17,9 +16,7 @@ namespace np
 
 		double energy;
 
-		np::ConnectionComponent* connection;
-
-		PulseComponent( double energy, np::ConnectionComponent* connection);
+		PulseComponent( double energy);
 		~PulseComponent(void);
 
 		double get( double requestedEnergy);
