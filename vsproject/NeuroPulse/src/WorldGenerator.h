@@ -1,4 +1,4 @@
-#include <ac\es.h>
+#include <GameObjectFactory.h>
 
 #pragma once
 namespace np
@@ -9,6 +9,6 @@ namespace np
 		WorldGenerator(void);
 		~WorldGenerator(void);
 
-		void generateWorld( ac::es::Scene* scene);
+		void generateWorld( np::GameObjectFactory* factory);
 	};
 }

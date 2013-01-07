@@ -28,9 +28,12 @@ namespace np
 		// connection bases
 		std::vector<np::ConnectionBase*> connections;
 
-		OutputComponent( ConnectionBase* connections[]);
+		OutputComponent(void);
 		~OutputComponent(void);
 
+		void addConnection( np::ConnectionBase* connection);
+
+		bool hasConnection( np::NodeComponent* node);
 	};
 
 }

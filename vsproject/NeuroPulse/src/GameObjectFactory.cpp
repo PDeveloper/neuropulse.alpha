@@ -128,23 +128,21 @@ void np::GameObjectFactory::initNodeMesh(void)
 	*/
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( std::string name)
+ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double output, double threshold)
 {
 	ac::es::EntityPtr e = scene->createEntity();
 	
 	//Need to fill in correct params:
-	Ogre::Entity* entity = sceneManager->createEntity( name, "NodeMesh");
+	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
 
-	GraphicComponent* graphic = new GraphicComponent( entity);
-	TransformComponent* transform = new TransformComponent();
+	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
+	np::ReactionComponent* reactor = new np::ReactionComponent( output);
+	np::NodeComponent* node = new np::NodeComponent( threshold);
+	np::OutputComponent* output = new np::OutputComponent();
 
-	np::TweenState states[] = { np::TweenState( Ogre::Vector3( 0, 0, 0), 0.0), np::TweenState( Ogre::Vector3( 50, 0, 50), 1.0),np::TweenState( Ogre::Vector3( 0, 0, 0), 1.0) };
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(sizeof(states) / sizeof(states[0])));
-	np::AnimationComponent* animation = new np::AnimationComponent( states, sizeof(states) / sizeof(states[0]));
-	
 	e->addComponent( graphic);
 	e->addComponent( transform);
-	e->addComponent( animation);
 
 	e->activate();
 

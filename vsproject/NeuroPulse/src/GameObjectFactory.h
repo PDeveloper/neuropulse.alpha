@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <TransformComponent.h>
+
 #pragma once
 namespace np
 {
@@ -12,8 +14,9 @@ namespace np
 		GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene);
 		~GameObjectFactory(void);
 
-		ac::es::EntityPtr createNodeEntity( std::string name);
-		ac::es::EntityPtr createPulseEntity( std::string name);
+		ac::es::EntityPtr createNodeEntity( double x, double y, double output, double threshold);
+		ac::es::EntityPtr createConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2);
+		ac::es::EntityPtr createPulseEntity();
 	private:
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;

@@ -20,14 +20,18 @@ namespace np
 
 		std::list<np::PulseComponent*> inPulseBuffer;
 
-		ConnectionBase( np::ConnectionBase* target, np::NodeComponent* node)
+		ConnectionBase( np::NodeComponent* node)
 		{
-			this->target = target;
 			this->node = node;
 		}
 
 		~ConnectionBase(void)
 		{
+		}
+
+		void connect( np::ConnectionBase* target)
+		{
+			this->target = target;
 		}
 
 		void outputPulse( np::PulseComponent* pulse)

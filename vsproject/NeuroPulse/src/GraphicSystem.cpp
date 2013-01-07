@@ -22,14 +22,12 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entity has been added! :o");
 	GraphicComponent* graphics = e->getComponent<GraphicComponent>();
 	TransformComponent* transform = e->getComponent<TransformComponent>();
-
-	Ogre::String nodeName =  graphics->entity->getName() + "Node";
 	
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.x));
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.y));
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.z));
 
-	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( nodeName, transform->position, transform->rotation);
+	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( transform->position, transform->rotation);
 
 	newNode->attachObject( graphics->entity);
 

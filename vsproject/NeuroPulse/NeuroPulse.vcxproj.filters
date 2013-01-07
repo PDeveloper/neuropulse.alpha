@@ -183,6 +183,9 @@
     <ClCompile Include="src\AnimationComponent.cpp">
       <Filter>Source Files\entity\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\WorldGenerator.cpp">
+      <Filter>Source Files\core\map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -331,6 +334,12 @@
     </ClInclude>
     <ClInclude Include="src\AnimationComponent.h">
       <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TweenState.h">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorldGenerator.h">
+      <Filter>Header Files\core\map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

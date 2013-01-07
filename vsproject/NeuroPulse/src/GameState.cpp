@@ -123,7 +123,7 @@ void GameState::createScene()
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);*/
 	
-	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity( "Node1");
+	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

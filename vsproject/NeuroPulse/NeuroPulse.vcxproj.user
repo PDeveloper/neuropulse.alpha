@@ -6,7 +6,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerEnvironment>PATH=$(OGRE_HOME)\bin\$(Configuration)</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(OGRE_HOME)\bin\$(Configuration)
+;$(OGRE_PROCEDURAL_HOME)\bin\$(Configuration)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand>
