@@ -9,6 +9,6 @@ namespace np
 		WorldGenerator(void);
 		~WorldGenerator(void);
 
-		void generateWorld( np::GameObjectFactory* factory);
+		void generateWorld( np::GameObjectFactory* factory, const int numNodes);
 	};
 }

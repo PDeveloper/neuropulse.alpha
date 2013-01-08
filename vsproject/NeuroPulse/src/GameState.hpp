@@ -18,6 +18,9 @@
 #include <AnimationSystem.h>
 #include <OutputSystem.h>
 #include <ReactionSystem.h>
+#include <ConnectionDisplaySystem.h>
+
+#include <WorldGenerator.h>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -89,6 +92,7 @@ private:
 	np::AnimationSystem* animationSystem;
 	np::OutputSystem* outputSystem;
 	np::ReactionSystem* reactionSystem;
+	np::ConnectionDisplaySystem* connectionDisplaySystem;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

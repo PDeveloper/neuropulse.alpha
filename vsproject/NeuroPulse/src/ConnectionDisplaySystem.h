@@ -4,20 +4,18 @@
 #pragma once
 namespace np
 {
-	class GraphicSystem : public ac::es::EntityProcessingSystem
+	class ConnectionDisplaySystem : public ac::es::EntityProcessingSystem
 	{
-		AC_ES_ENTITY_SYSTEM(GraphicSystem)
+		AC_ES_ENTITY_SYSTEM(ConnectionDisplaySystem)
 	public:
 		Ogre::SceneManager* mSceneMgr;
 
-		GraphicSystem( Ogre::SceneManager* mSceneMgr);
-		~GraphicSystem(void);
+		ConnectionDisplaySystem( Ogre::SceneManager* mSceneMgr);
+		~ConnectionDisplaySystem(void);
+
 	protected:
 		void process( ac::es::EntityPtr e);
 		void onAddedEntity( ac::es::EntityPtr e);
 		void onRemovedEntity( ac::es::EntityPtr e);
 	};
 }
-
-// register the MovementSystem
-//AC_ES_REGISTER_ENTITY_SYSTEM(np::GraphicSystem)

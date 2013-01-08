@@ -14,13 +14,13 @@ namespace np
 		GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene);
 		~GameObjectFactory(void);
 
-		ac::es::EntityPtr createNodeEntity( double x, double y, double output, double threshold);
+		ac::es::EntityPtr createNodeEntity( double x, double y, double reactorOutput, double threshold);
 		ac::es::EntityPtr createConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2);
 		ac::es::EntityPtr createPulseEntity();
 	private:
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;
 
-		void initNodeMesh(void);
+		void generateMeshes(void);
 	};
 }

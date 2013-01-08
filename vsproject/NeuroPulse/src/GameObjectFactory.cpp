@@ -6,10 +6,13 @@
 #include <ReactionComponent.h>
 #include <OutputComponent.h>
 #include <NodeComponent.h>
+#include <ConnectionComponent.h>
 
 #include <TweenState.h>
 
 #include <AdvancedOgreFramework.hpp>
+
+#include <OgreProcedural\Procedural.h>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -19,14 +22,14 @@ np::GameObjectFactory::GameObjectFactory( Ogre::SceneManager* sceneManager, ac::
 	this->sceneManager = sceneManager;
 	this->scene = scene;
 
-	initNodeMesh();
+	generateMeshes();
 }
 
 np::GameObjectFactory::~GameObjectFactory(void)
 {
 }
 
-void np::GameObjectFactory::initNodeMesh(void)
+void np::GameObjectFactory::generateMeshes(void)
 {
     Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
  
@@ -126,9 +129,16 @@ void np::GameObjectFactory::initNodeMesh(void)
 
 	manual->convertToMesh( "Cube");
 	*/
+
+	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( -50.0, 0.0, 0.0),
+																	Ogre::Vector3( 50.0, 0.0, 0.0)).realizePath();
+	
+	Procedural::Shape circle = Procedural::CircleShape().setRadius( 2.0).realizeShape();
+	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &circle).realizeMesh( "ConnectionMesh");
+	connectionMesh->getSubMesh(0)->setMaterialName( "BaseWhiteNoLighting");
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double output, double threshold)
+ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)
 {
 	ac::es::EntityPtr e = scene->createEntity();
 	
@@ -137,12 +147,32 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 
 	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
 	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
-	np::ReactionComponent* reactor = new np::ReactionComponent( output);
+	np::ReactionComponent* reactor = new np::ReactionComponent( reactorOutput);
 	np::NodeComponent* node = new np::NodeComponent( threshold);
 	np::OutputComponent* output = new np::OutputComponent();
 
 	e->addComponent( graphic);
 	e->addComponent( transform);
+	e->addComponent( reactor);
+	e->addComponent( node);
+	e->addComponent( output);
+
+	e->activate();
+
+	return e;
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2)
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	Ogre::Entity* entity = sceneManager->createEntity( "ConnectionMesh");
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+	np::ConnectionComponent* connection = new np::ConnectionComponent( target1, target2);
+	
+	e->addComponent( graphic);
+	e->addComponent( connection);
 
 	e->activate();
 

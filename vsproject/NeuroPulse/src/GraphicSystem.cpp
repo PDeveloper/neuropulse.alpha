@@ -6,15 +6,24 @@
 
 #include <math.h>
 
-np::GraphicSystem::GraphicSystem(void) :
+np::GraphicSystem::GraphicSystem( Ogre::SceneManager* mSceneMgr) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<GraphicComponent>().requires<TransformComponent>())
 {
-	mSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GraphicSystemMgr");
+	this->mSceneMgr = mSceneMgr;
 }
 
 
 np::GraphicSystem::~GraphicSystem(void)
 {
+}
+
+void np::GraphicSystem::process( ac::es::EntityPtr e)
+{
+	GraphicComponent* graphic = e->getComponent<GraphicComponent>();
+	TransformComponent* transform = e->getComponent<TransformComponent>();
+
+	graphic->node->setPosition( transform->position);
+	graphic->node->setOrientation( transform->rotation);
 }
 
 void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
@@ -37,13 +46,4 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 void np::GraphicSystem::onRemovedEntity( ac::es::EntityPtr e)
 {
 	// Hm...how to remove an entity when it's graphics component is already gone...
-}
-
-void np::GraphicSystem::process( ac::es::EntityPtr e)
-{
-	GraphicComponent* graphic = e->getComponent<GraphicComponent>();
-	TransformComponent* transform = e->getComponent<TransformComponent>();
-
-	graphic->node->setPosition( transform->position);
-	graphic->node->setOrientation( transform->rotation);
 }

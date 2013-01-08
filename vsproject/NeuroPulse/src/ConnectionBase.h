@@ -32,6 +32,7 @@ namespace np
 		void connect( np::ConnectionBase* target)
 		{
 			this->target = target;
+			target->target = this;
 		}
 
 		void outputPulse( np::PulseComponent* pulse)

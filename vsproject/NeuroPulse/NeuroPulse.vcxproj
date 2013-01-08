@@ -30,6 +30,8 @@
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
+    <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
+    <ClCompile Include="src\delaunay.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
     <ClCompile Include="src\GameObjectFactory.cpp" />
     <ClCompile Include="src\GameState.cpp" />
@@ -80,6 +82,8 @@
     <ClInclude Include="src\AppStateManager.hpp" />
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
+    <ClInclude Include="src\ConnectionDisplaySystem.h" />
+    <ClInclude Include="src\delaunay.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
     <ClInclude Include="src\GameObjectFactory.h" />
     <ClInclude Include="src\GameState.hpp" />

@@ -1,6 +1,8 @@
 #include <ac\es.h>
 #include <list>
 
+#include <TransformComponent.h>
+
 /**
 	ConnectionComponent
 	This component handles all data traveling between 2 different NodeComponents. This includes distance.
@@ -13,8 +15,6 @@
 #pragma once
 namespace np
 {
-	class NodeComponent;
-	class PulseComponent;
 
 	class ConnectionComponent :
 		public ac::es::Component
@@ -22,11 +22,10 @@ namespace np
 		AC_ES_COMPONENT(ConnectionComponent)
 	public:
 
-		np::ConnectionComponent* target;
+		np::TransformComponent* target1;
+		np::TransformComponent* target2;
 
-		std::list<np::PulseComponent> pulses;
-
-		ConnectionComponent( np::ConnectionComponent* target);
+		ConnectionComponent( np::TransformComponent* target1, np::TransformComponent* target2);
 		~ConnectionComponent(void);
 		
 	};

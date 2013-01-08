@@ -79,6 +79,12 @@
     <Filter Include="Source Files\core\map">
       <UniqueIdentifier>{096929f5-dd8a-4f63-8616-e9ae0628ec84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\delaunay">
+      <UniqueIdentifier>{3f5141f9-5232-4387-b9fa-619122e7f7f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\delaunay">
+      <UniqueIdentifier>{a119c61d-61a4-4b47-bc59-2831087c56f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -171,12 +177,6 @@
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Source Files\entity\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AnimationSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
@@ -185,6 +185,18 @@
     </ClCompile>
     <ClCompile Include="src\WorldGenerator.cpp">
       <Filter>Source Files\core\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\delaunay.cpp">
+      <Filter>Source Files\delaunay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionDisplaySystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\SceneDirector.cpp">
+      <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
+      <Filter>Source Files\ac\es</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,9 +317,6 @@
     <ClInclude Include="src\PulseComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\OutputComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\OutputSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
@@ -323,12 +332,6 @@
     <ClInclude Include="src\ConnectionBase.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\AnimationSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
@@ -340,6 +343,21 @@
     </ClInclude>
     <ClInclude Include="src\WorldGenerator.h">
       <Filter>Header Files\core\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\delaunay.h">
+      <Filter>Header Files\delaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionDisplaySystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\SceneDirector.h">
+      <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
+      <Filter>Header Files\ac\es</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

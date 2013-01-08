@@ -25,24 +25,28 @@ GameState::GameState()
 
 void GameState::enter()
 {
+
+	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
+
 	/* init systems and shit */
 	reactionSystem = new np::ReactionSystem();
 	outputSystem = new np::OutputSystem();
 	animationSystem = new np::AnimationSystem();
-	graphicSystem = new np::GraphicSystem();
+	graphicSystem = new np::GraphicSystem(m_pSceneMgr);
+	connectionDisplaySystem = new np::ConnectionDisplaySystem( m_pSceneMgr);
 
 	esScene = new ac::es::Scene();
-	gameObjectFactory = new np::GameObjectFactory( graphicSystem->mSceneMgr, esScene);
+	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
 
 	esScene->insertEntitySystem( reactionSystem);
 	esScene->insertEntitySystem( outputSystem);
 	esScene->insertEntitySystem( animationSystem);
 	esScene->insertEntitySystem( graphicSystem);
+	esScene->insertEntitySystem( connectionDisplaySystem);
 	/* ................. */
 
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 
-	m_pSceneMgr = graphicSystem->mSceneMgr;
     m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
     m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
@@ -123,7 +127,16 @@ void GameState::createScene()
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);*/
 	
-	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity();
+	/*
+	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity( 0.0, 0.0, 1.0, 100.0);
+	ac::es::EntityPtr node2 = gameObjectFactory->createNodeEntity( 200.0, 0.0, 1.0, 100.0);
+	ac::es::EntityPtr node3 = gameObjectFactory->createNodeEntity( 0.0, 200.0, 1.0, 100.0);
+	ac::es::EntityPtr node4 = gameObjectFactory->createNodeEntity( -200.0, 0.0, 1.0, 100.0);
+	ac::es::EntityPtr node5 = gameObjectFactory->createNodeEntity( 0.0, -200.0, 1.0, 100.0);
+	*/
+
+	np::WorldGenerator generator;
+	generator.generateWorld( gameObjectFactory, 9);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
