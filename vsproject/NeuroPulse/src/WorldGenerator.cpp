@@ -7,8 +7,8 @@
 #include <OgreProcedural\Procedural.h>
 
 #include <vector>
-#include <boost\random\mersenne_twister.hpp>
 #include <boost\random\uniform_real_distribution.hpp>
+#include <boost\random\mersenne_twister.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <delaunay.h>
@@ -36,24 +36,17 @@ void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const in
 	int numPoints = 0;
 	point2d *vertices = new point2d[numNodes];
 	ac::es::EntityPtr *nodes = new ac::es::EntityPtr[numNodes];
-	
-	std::vector<Ogre::Vector2> positions;
 
-	vertices[0].x = 0.0;
-	vertices[0].y = 0.0;
-	nodes[0] = factory->createNodeEntity( 0, 0, 2.0, 100.0);
-
-	positions.push_back( Ogre::Vector2( 0, 0));
-
-	for ( int i = 1; i < numNodes; i++)
+	for ( int i = 0; i < numNodes; i++)
 	{
-		double rads = ( double(i) / double(numNodes)) * M_PI * 2.0;
+		vertices[i].x = distribution( mt) * 600 - 300;
+		vertices[i].y = distribution( mt) * 600 - 300;
+		distribution( mt);
+		double rOutput = 0.0;
+		if ( i == 0) rOutput = 0.5;
 
-		vertices[i].x = 300 * std::cos( rads);
-		vertices[i].y = 300 * std::sin( rads);
-		positions.push_back( Ogre::Vector2( 300 * std::cos( rads), 300 * std::sin( rads)));
-
-		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, 0.0, 100.0);
+		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, rOutput, distribution( mt) * 80 + 60);
+		if ( i == 0) nodes[i]->getComponent<TransformComponent>()->position.y = 15;
 	}
 
 	int *faces = NULL;

@@ -2,12 +2,18 @@
 
 #include <NodeComponent.h>
 #include <OutputComponent.h>
+#include <TransformComponent.h>
+#include <ReactionComponent.h>
 
 #include <list>
 
-np::OutputSystem::OutputSystem(void) :
+#include <AdvancedOgreFramework.hpp>
+#include <GameObjectFactory.h>
+
+np::OutputSystem::OutputSystem( np::GameObjectFactory* gameObjectFactory) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<OutputComponent>())
 {
+	this->gameObjectFactory = gameObjectFactory;
 }
 
 
@@ -19,30 +25,20 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 {
 	NodeComponent* node = e->getComponent<NodeComponent>();
 	OutputComponent* output = e->getComponent<OutputComponent>();
-
-	for (int i = 0; i < output->connections.size(); i++)
-	{
-		// Process all valid connections that were found.
-		np::ConnectionBase* connection = output->connections.at(i);
-
-		while ( !connection->inPulseBuffer.empty())
-		{
-			np::PulseComponent* pulse = connection->inPulseBuffer.back();
-			connection->inPulseBuffer.pop_back();
-
-			connection->inputPulse( pulse);
-			node->currentEnergy += pulse->energy;
-			delete pulse;
-		}
-	}
+	TransformComponent* transform = e->getComponent<TransformComponent>();
 
 	if ( node->currentEnergy >= node->energyThreshold)
 	{
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy threshold reached");
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->currentEnergy));
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->energyThreshold));
 		int valid = 0;
 		for (int i = 0; i < output->connections.size(); i++) if ( output->connections.at(i)->isValid()) valid++;
 
 		// Very inaccurate way of calculating the dispersed energy, but for now it could do.
 		double dispersedEnergy = node->energyThreshold / double(valid);
+		dispersedEnergy *= 0.5;
 
 		for (int i = 0; i < output->connections.size(); i++)
 		{
@@ -54,7 +50,40 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 
 				connection->outputPulse( pulse);
 				connection->target->inPulseBuffer.push_back( pulse);
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->inPulseBuffer.size()));
+
+				np::TransformComponent* transform1 = output->parent->getComponent<np::TransformComponent>();
+				np::TransformComponent* transform2 = connection->target->node->parent->getComponent<np::TransformComponent>();
+
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pulse Outputted!");
+				gameObjectFactory->createPulseEntity( transform1->position, transform2->position);
 			}
 		}
+
+		node->currentEnergy -= node->energyThreshold;
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy left");
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->currentEnergy));
+		
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)e->getComponent<np::ReactionComponent>()->output));
 	}
+
+	for (int i = 0; i < output->connections.size(); i++)
+	{
+		// Process all valid connections that were found.
+		np::ConnectionBase* connection = output->connections.at(i);
+
+		while ( !connection->inPulseBuffer.empty())
+		{
+			np::PulseComponent* pulse = connection->inPulseBuffer.back();
+			connection->inPulseBuffer.pop_back();
+
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage("input energy pulse!");
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));
+
+			connection->inputPulse( pulse);
+			node->currentEnergy += pulse->energy;
+			delete pulse;
+		}
+	}
+
 }

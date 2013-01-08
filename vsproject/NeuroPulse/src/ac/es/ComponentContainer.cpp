@@ -96,6 +96,8 @@ namespace ac
 				
 				// AND set the componentBit in the Entity for the componentType's ID
 				util::AssignBitsetIndexWithAutoResize(e->_componentBits, componentTypeId, true);
+
+				component->parent = e;
 			}
 			// if the component that was passed in isn't the same as the componentToAssign
 			else if(componentToAssign.get() != component)

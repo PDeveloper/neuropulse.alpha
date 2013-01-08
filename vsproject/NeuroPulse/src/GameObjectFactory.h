@@ -11,12 +11,14 @@ namespace np
 	class GameObjectFactory
 	{
 	public:
+
 		GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene);
 		~GameObjectFactory(void);
 
 		ac::es::EntityPtr createNodeEntity( double x, double y, double reactorOutput, double threshold);
 		ac::es::EntityPtr createConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2);
-		ac::es::EntityPtr createPulseEntity();
+		ac::es::EntityPtr createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2);
+
 	private:
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;

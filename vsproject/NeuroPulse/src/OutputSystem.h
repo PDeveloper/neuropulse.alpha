@@ -1,4 +1,5 @@
 #include <ac\es.h>
+#include <GameObjectFactory.h>
 
 #pragma once
 namespace np
@@ -7,7 +8,10 @@ namespace np
 	{
 		AC_ES_ENTITY_SYSTEM(OutputSystem)
 	public:
-		OutputSystem(void);
+
+		np::GameObjectFactory* gameObjectFactory;
+
+		OutputSystem( np::GameObjectFactory* gameObjectFactory);
 		~OutputSystem(void);
 
 	protected:

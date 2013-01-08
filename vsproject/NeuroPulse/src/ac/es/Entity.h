@@ -62,7 +62,7 @@ namespace ac
 			
 			/// Destructor
 			~Entity();
-			
+
 			
 			/// \return The ID that the Entity has
 			const EntityId& getId() const;

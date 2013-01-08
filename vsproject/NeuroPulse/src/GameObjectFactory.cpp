@@ -31,11 +31,6 @@ np::GameObjectFactory::~GameObjectFactory(void)
 
 void np::GameObjectFactory::generateMeshes(void)
 {
-    Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
- 
-    Ogre::MeshManager::getSingleton().createPlane("NODE_TEST", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-        plane, 40, 40, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
-
 	Ogre::ManualObject* manual = sceneManager->createManualObject("nodeManualObject");
 
 	int segments = 16;
@@ -136,6 +131,9 @@ void np::GameObjectFactory::generateMeshes(void)
 	Procedural::Shape circle = Procedural::CircleShape().setRadius( 2.0).realizeShape();
 	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &circle).realizeMesh( "ConnectionMesh");
 	connectionMesh->getSubMesh(0)->setMaterialName( "BaseWhiteNoLighting");
+
+	Ogre::MeshPtr pulseMesh = Procedural::SphereGenerator().setRadius(3.f).setUTile(.5f).realizeMesh("PulseMesh");
+	pulseMesh->getSubMesh(0)->setMaterialName( "BaseWhiteNoLighting");
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)
@@ -173,6 +171,28 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 	
 	e->addComponent( graphic);
 	e->addComponent( connection);
+
+	e->activate();
+
+	return e;
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2)
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+	np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
+
+	np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 2.0)};
+	np::AnimationComponent* animation = new np::AnimationComponent( states, 2);
+	animation->isLooping = false;
+	
+	e->addComponent( graphic);
+	e->addComponent( transform);
+	e->addComponent( animation);
 
 	e->activate();
 

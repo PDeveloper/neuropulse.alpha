@@ -2,6 +2,8 @@
 
 #include "GameState.hpp"
 
+#include <NodeComponent.h>
+
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 using namespace Ogre;
@@ -28,15 +30,15 @@ void GameState::enter()
 
 	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
 
+	esScene = new ac::es::Scene();
+	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
+
 	/* init systems and shit */
 	reactionSystem = new np::ReactionSystem();
-	outputSystem = new np::OutputSystem();
+	outputSystem = new np::OutputSystem(gameObjectFactory);
 	animationSystem = new np::AnimationSystem();
 	graphicSystem = new np::GraphicSystem(m_pSceneMgr);
 	connectionDisplaySystem = new np::ConnectionDisplaySystem( m_pSceneMgr);
-
-	esScene = new ac::es::Scene();
-	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
 
 	esScene->insertEntitySystem( reactionSystem);
 	esScene->insertEntitySystem( outputSystem);
@@ -350,7 +352,8 @@ void GameState::update(double timeSinceLastFrame)
             m_pDetailsPanel->setParamValue(3, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().w));
             m_pDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().x));
             m_pDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().y));
-            m_pDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().z));
+			const ac::es::EntityContainer& cont = esScene->getEntityContainer();
+			m_pDetailsPanel->setParamValue(6, Ogre::StringConverter::toString((Ogre::Real)(&(ac::es::EntityContainer&)cont)->getEntity(0)->getComponent<np::NodeComponent>()->currentEnergy));
             if(m_bSettingsMode)
                 m_pDetailsPanel->setParamValue(7, "Buffered Input");
             else

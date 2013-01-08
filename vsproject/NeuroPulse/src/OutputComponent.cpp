@@ -3,7 +3,6 @@
 np::OutputComponent::OutputComponent(void)
 	: connections()
 {
-	
 }
 
 np::OutputComponent::~OutputComponent(void)
