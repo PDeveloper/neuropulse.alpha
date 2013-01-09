@@ -10,10 +10,13 @@
 #include <AdvancedOgreFramework.hpp>
 #include <GameObjectFactory.h>
 
-np::OutputSystem::OutputSystem( np::GameObjectFactory* gameObjectFactory) :
+#include <PulseEvent.h>
+
+np::OutputSystem::OutputSystem( np::EventManager* eventManager) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<OutputComponent>())
 {
-	this->gameObjectFactory = gameObjectFactory;
+	this->eventManager = eventManager;
+	this->pulseEvent = eventManager->getType( "pulseEvent");
 }
 
 
@@ -46,7 +49,7 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 			np::ConnectionBase* connection = output->connections.at(i);
 			if ( connection->isValid())
 			{
-				np::PulseComponent* pulse = new np::PulseComponent( dispersedEnergy);
+				np::Pulse* pulse = new np::Pulse( dispersedEnergy);
 
 				connection->outputPulse( pulse);
 				connection->target->inPulseBuffer.push_back( pulse);
@@ -56,11 +59,14 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 				np::TransformComponent* transform2 = connection->target->node->parent->getComponent<np::TransformComponent>();
 
 				OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pulse Outputted!");
-				gameObjectFactory->createPulseEntity( transform1->position, transform2->position);
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->target->node->parent->getId()));
+
+				eventManager->dispatchEvent( new np::PulseEvent( pulseEvent, transform1->position, transform2->position));
 			}
 		}
 
-		node->currentEnergy -= node->energyThreshold;
+		if ( valid > 0) node->currentEnergy -= node->energyThreshold;
+
 		OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy left");
 		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->currentEnergy));
 		
@@ -74,7 +80,7 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 
 		while ( !connection->inPulseBuffer.empty())
 		{
-			np::PulseComponent* pulse = connection->inPulseBuffer.back();
+			np::Pulse* pulse = connection->inPulseBuffer.back();
 			connection->inPulseBuffer.pop_back();
 
 			OgreFramework::getSingletonPtr()->m_pLog->logMessage("input energy pulse!");

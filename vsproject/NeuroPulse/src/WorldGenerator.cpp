@@ -43,7 +43,7 @@ void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const in
 		vertices[i].y = distribution( mt) * 600 - 300;
 		distribution( mt);
 		double rOutput = 0.0;
-		if ( i == 0) rOutput = 0.5;
+		if ( i == 0) rOutput = 1.0;
 
 		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, rOutput, distribution( mt) * 80 + 60);
 		if ( i == 0) nodes[i]->getComponent<TransformComponent>()->position.y = 15;

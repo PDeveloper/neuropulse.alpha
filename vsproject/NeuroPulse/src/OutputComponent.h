@@ -5,7 +5,6 @@
 #include <math.h>
 
 #include <ConnectionBase.h>
-#include <PulseComponent.h>
 #include <NodeComponent.h>
 
 #include <IListener.h>

@@ -1,5 +1,6 @@
 #include <ac\es.h>
-#include <GameObjectFactory.h>
+
+#include <EventManager.h>
 
 #pragma once
 namespace np
@@ -9,12 +10,15 @@ namespace np
 		AC_ES_ENTITY_SYSTEM(OutputSystem)
 	public:
 
-		np::GameObjectFactory* gameObjectFactory;
+		np::EventManager* eventManager;
 
-		OutputSystem( np::GameObjectFactory* gameObjectFactory);
+		OutputSystem( np::EventManager* eventManager);
 		~OutputSystem(void);
 
 	protected:
 		virtual void process( ac::es::EntityPtr e);
+
+	private:
+		np::EventType* pulseEvent;
 	};
 }

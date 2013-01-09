@@ -7,6 +7,7 @@
 #include <OutputComponent.h>
 #include <NodeComponent.h>
 #include <ConnectionComponent.h>
+#include <PulseComponent.h>
 
 #include <TweenState.h>
 
@@ -17,7 +18,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-np::GameObjectFactory::GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene)
+np::GameObjectFactory::GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene) :
+	pulsePool()
 {
 	this->sceneManager = sceneManager;
 	this->scene = scene;
@@ -27,6 +29,7 @@ np::GameObjectFactory::GameObjectFactory( Ogre::SceneManager* sceneManager, ac::
 
 np::GameObjectFactory::~GameObjectFactory(void)
 {
+
 }
 
 void np::GameObjectFactory::generateMeshes(void)
@@ -36,7 +39,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	int segments = 16;
 	double innerRadius = 20.0;
 	double outerRadius = 30.0;
-	double yOffset = 10.0;
+	double yOffset = 20.0;
 
 	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
 	{
@@ -44,7 +47,7 @@ void np::GameObjectFactory::generateMeshes(void)
 		{
 			double rads = ( double(i) / double(segments)) * M_PI * 2.0;
 
-			manual->position( outerRadius * std::cos( rads), -yOffset, outerRadius * std::sin( rads));
+			manual->position( outerRadius * std::cos( rads), 0.0, outerRadius * std::sin( rads));
 			manual->colour( Ogre::ColourValue(0.4f,0.0f,0.0f,1.0f));
 
 			manual->position( innerRadius * std::cos( rads), yOffset, innerRadius * std::sin( rads));
@@ -179,22 +182,80 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 
 ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2)
 {
-	ac::es::EntityPtr e = scene->createEntity();
+	ac::es::EntityPtr e;
 
-	Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
+	if ( pulsePool.empty())
+	{
+		e = scene->createEntity();
 
-	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
-	np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
+		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
 
-	np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 2.0)};
-	np::AnimationComponent* animation = new np::AnimationComponent( states, 2);
-	animation->isLooping = false;
+		np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
+
+		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 1.0)};
+		np::AnimationComponent* animation = new np::AnimationComponent( states, 2);
+		animation->isLooping = false;
+
+		np::PulseComponent* pulse = new np::PulseComponent();
 	
-	e->addComponent( graphic);
-	e->addComponent( transform);
-	e->addComponent( animation);
+		e->addComponent( graphic);
+		e->addComponent( transform);
+		e->addComponent( animation);
+		e->addComponent( pulse);
+	}
+	else
+	{
+		e = pulsePool.front();
+		pulsePool.pop();
+		
+		np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
+		np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+		np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
+
+		transform->position = target1;
+		animation->states.at(0).target = target1;
+		animation->states.at(1).target = target2;
+
+		graphic->node->attachObject( graphic->entity);
+	}
 
 	e->activate();
 
 	return e;
+}
+
+void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)
+{
+	np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
+	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
+
+	graphic->node->detachObject( graphic->entity);
+
+	e->deactivate();
+	
+	pulsePool.push( e);
+}
+
+void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
+{
+	np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
+	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
+
+	graphic->node->detachObject( graphic->entity);
+	Ogre::SceneManager* sceneManager = graphic->node->getCreator();
+	sceneManager->destroySceneNode( graphic->node);
+
+	graphic->node = NULL;
+
+	e->destroyComponent( graphic);
+	e->destroyComponent( transform);
+	e->destroyComponent( animation);
+	e->destroyComponent( pulse);
+
+	e->kill();
 }

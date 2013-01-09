@@ -33,6 +33,9 @@
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\delaunay.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
+    <ClCompile Include="src\EventType.cpp" />
     <ClCompile Include="src\GameObjectFactory.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GraphicComponent.cpp" />
@@ -44,6 +47,7 @@
     <ClCompile Include="src\OutputSystem.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
     <ClCompile Include="src\PulseComponent.cpp" />
+    <ClCompile Include="src\PulseSystem.cpp" />
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
@@ -85,6 +89,9 @@
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
     <ClInclude Include="src\delaunay.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
+    <ClInclude Include="src\Event.h" />
+    <ClInclude Include="src\EventManager.h" />
+    <ClInclude Include="src\EventType.h" />
     <ClInclude Include="src\GameObjectFactory.h" />
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
@@ -96,7 +103,10 @@
     <ClInclude Include="src\ConnectionFeed.h" />
     <ClInclude Include="src\OutputSystem.h" />
     <ClInclude Include="src\PauseState.hpp" />
+    <ClInclude Include="src\Pulse.h" />
     <ClInclude Include="src\PulseComponent.h" />
+    <ClInclude Include="src\PulseEvent.h" />
+    <ClInclude Include="src\PulseSystem.h" />
     <ClInclude Include="src\rapidxml.hpp" />
     <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\ReactionSystem.h" />

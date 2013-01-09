@@ -1,4 +1,4 @@
-#include <PulseComponent.h>
+#include <Pulse.h>
 
 #pragma once
 namespace np
@@ -18,11 +18,11 @@ namespace np
 		{
 		}
 
-		virtual void inputPulse( np::PulseComponent* pulse)
+		virtual void inputPulse( np::Pulse* pulse)
 		{
 		}
 
-		virtual void outputPulse( np::PulseComponent* pulse)
+		virtual void outputPulse( np::Pulse* pulse)
 		{
 		}
 

@@ -19,6 +19,9 @@
 #include <OutputSystem.h>
 #include <ReactionSystem.h>
 #include <ConnectionDisplaySystem.h>
+#include <PulseSystem.h>
+
+#include <EventManager.h>
 
 #include <WorldGenerator.h>
 
@@ -93,6 +96,9 @@ private:
 	np::OutputSystem* outputSystem;
 	np::ReactionSystem* reactionSystem;
 	np::ConnectionDisplaySystem* connectionDisplaySystem;
+	np::PulseSystem* pulseSystem;
+
+	np::EventManager* eventManager;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

@@ -14,13 +14,8 @@ namespace np
 		AC_ES_COMPONENT(PulseComponent)
 	public:
 
-		double energy;
-
-		PulseComponent( double energy);
+		PulseComponent(void);
 		~PulseComponent(void);
-
-		double get( double requestedEnergy);
-		double getPercent( double rate);
 
 	};
 }

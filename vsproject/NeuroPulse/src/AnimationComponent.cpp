@@ -10,9 +10,6 @@ np::AnimationComponent::AnimationComponent( np::TweenState states[], int numStat
 
 	isPlaying = true;
 	isLooping = true;
-
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(this->states.size()));
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(sizeof(states[0])));
 }
 
 np::AnimationComponent::~AnimationComponent(void)

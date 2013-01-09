@@ -2,6 +2,7 @@
 
 #include <NodeComponent.h>
 #include <ReactionComponent.h>
+#include <TransformComponent.h>
 
 np::ReactionSystem::ReactionSystem(void) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<ReactionComponent>())
@@ -19,4 +20,9 @@ void np::ReactionSystem::process( ac::es::EntityPtr e)
 	ReactionComponent* reaction = e->getComponent<ReactionComponent>();
 
 	node->currentEnergy += reaction->output;
+
+	//// DEBUGGING ONLY!!!!!
+	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
+	transform->position.y = node->currentEnergy * 0.5;
+	////
 }

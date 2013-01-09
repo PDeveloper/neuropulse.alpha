@@ -1,6 +1,7 @@
 #include <NodeComponent.h>
-#include <PulseComponent.h>
 #include <ConnectionFeed.h>
+
+#include <Pulse.h>
 
 #include <algorithm>
 #include <list>
@@ -18,7 +19,7 @@ namespace np
 
 		std::list<np::ConnectionFeed*> feeds;
 
-		std::list<np::PulseComponent*> inPulseBuffer;
+		std::list<np::Pulse*> inPulseBuffer;
 
 		ConnectionBase( np::NodeComponent* node)
 		{
@@ -35,13 +36,13 @@ namespace np
 			target->target = this;
 		}
 
-		void outputPulse( np::PulseComponent* pulse)
+		void outputPulse( np::Pulse* pulse)
 		{
 			for (std::list<np::ConnectionFeed*>::iterator it = feeds.begin(); it != feeds.end(); it++)
 				(*it)->outputPulse( pulse);
 		}
 
-		void inputPulse( np::PulseComponent* pulse)
+		void inputPulse( np::Pulse* pulse)
 		{
 			for (std::list<np::ConnectionFeed*>::iterator it = feeds.end(); it != feeds.begin(); it--)
 				(*it)->inputPulse( pulse);

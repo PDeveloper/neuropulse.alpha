@@ -33,18 +33,26 @@ void GameState::enter()
 	esScene = new ac::es::Scene();
 	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
 
+	eventManager = new np::EventManager();
+
 	/* init systems and shit */
 	reactionSystem = new np::ReactionSystem();
-	outputSystem = new np::OutputSystem(gameObjectFactory);
+	outputSystem = new np::OutputSystem( eventManager);
 	animationSystem = new np::AnimationSystem();
 	graphicSystem = new np::GraphicSystem(m_pSceneMgr);
+	//graphicSystem->disable();
 	connectionDisplaySystem = new np::ConnectionDisplaySystem( m_pSceneMgr);
+	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
 
 	esScene->insertEntitySystem( reactionSystem);
 	esScene->insertEntitySystem( outputSystem);
+
 	esScene->insertEntitySystem( animationSystem);
+
 	esScene->insertEntitySystem( graphicSystem);
 	esScene->insertEntitySystem( connectionDisplaySystem);
+
+	esScene->insertEntitySystem( pulseSystem);
 	/* ................. */
 
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
@@ -368,6 +376,8 @@ void GameState::update(double timeSinceLastFrame)
 	m_TranslateRelativeVector = Vector3::ZERO;
 
 	esScene->update();
+
+	eventManager->refresh();
 
     getInput();
     moveCamera();

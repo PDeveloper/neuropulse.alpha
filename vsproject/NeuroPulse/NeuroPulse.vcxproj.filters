@@ -85,6 +85,15 @@
     <Filter Include="Source Files\delaunay">
       <UniqueIdentifier>{a119c61d-61a4-4b47-bc59-2831087c56f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\event">
+      <UniqueIdentifier>{22bfa5db-292e-4265-9fc2-f09f338e7951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\event">
+      <UniqueIdentifier>{6c4caaf1-e5be-4a99-acec-100658dabcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\events">
+      <UniqueIdentifier>{58809462-9a2b-46e3-a54a-f0d4d2fb2cda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -197,6 +206,18 @@
     </ClCompile>
     <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
       <Filter>Source Files\ac\es</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventManager.cpp">
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Event.cpp">
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventType.cpp">
+      <Filter>Source Files\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +379,24 @@
     </ClInclude>
     <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
       <Filter>Header Files\ac\es</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pulse.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventManager.h">
+      <Filter>Header Files\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event.h">
+      <Filter>Header Files\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventType.h">
+      <Filter>Header Files\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseEvent.h">
+      <Filter>Header Files\core\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
