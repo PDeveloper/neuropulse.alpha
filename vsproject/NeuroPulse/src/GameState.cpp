@@ -63,8 +63,8 @@ void GameState::enter()
     m_pRSQ->setQueryMask(OGRE_HEAD_MASK);
 
     m_pCamera = m_pSceneMgr->createCamera("GameCamera");
-    m_pCamera->setPosition(Vector3(5, 60, 60));
-    m_pCamera->lookAt(Vector3(5, 20, 0));
+    m_pCamera->setPosition(Vector3(5, 420, 60));
+    m_pCamera->lookAt(Vector3(5, 20, -60));
     m_pCamera->setNearClipDistance(5);
 
     m_pCamera->setAspectRatio(Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
@@ -135,14 +135,7 @@ void GameState::createScene()
     m_pOgreHeadMat = m_pOgreHeadEntity->getSubEntity(1)->getMaterial();
     m_pOgreHeadMatHigh = m_pOgreHeadMat->clone("OgreHeadMatHigh");
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);*/
-	
-	/*
-	ac::es::EntityPtr node1 = gameObjectFactory->createNodeEntity( 0.0, 0.0, 1.0, 100.0);
-	ac::es::EntityPtr node2 = gameObjectFactory->createNodeEntity( 200.0, 0.0, 1.0, 100.0);
-	ac::es::EntityPtr node3 = gameObjectFactory->createNodeEntity( 0.0, 200.0, 1.0, 100.0);
-	ac::es::EntityPtr node4 = gameObjectFactory->createNodeEntity( -200.0, 0.0, 1.0, 100.0);
-	ac::es::EntityPtr node5 = gameObjectFactory->createNodeEntity( 0.0, -200.0, 1.0, 100.0);
+    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);
 	*/
 
 	np::WorldGenerator generator;
@@ -354,18 +347,12 @@ void GameState::update(double timeSinceLastFrame)
     {
         if(m_pDetailsPanel->isVisible())
         {
-            m_pDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(m_pCamera->getDerivedPosition().x));
-            m_pDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(m_pCamera->getDerivedPosition().y));
-            m_pDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(m_pCamera->getDerivedPosition().z));
-            m_pDetailsPanel->setParamValue(3, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().w));
-            m_pDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().x));
-            m_pDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(m_pCamera->getDerivedOrientation().y));
 			const ac::es::EntityContainer& cont = esScene->getEntityContainer();
-			m_pDetailsPanel->setParamValue(6, Ogre::StringConverter::toString((Ogre::Real)(&(ac::es::EntityContainer&)cont)->getEntity(0)->getComponent<np::NodeComponent>()->currentEnergy));
+			m_pDetailsPanel->setParamValue(0, Ogre::StringConverter::toString((Ogre::Real)(&(ac::es::EntityContainer&)cont)->getEntity(0)->getComponent<np::NodeComponent>()->currentEnergy));
             if(m_bSettingsMode)
-                m_pDetailsPanel->setParamValue(7, "Buffered Input");
+                m_pDetailsPanel->setParamValue(1, "Buffered Input");
             else
-                m_pDetailsPanel->setParamValue(7, "Un-Buffered Input");
+                m_pDetailsPanel->setParamValue(1, "Un-Buffered Input");
         }
     }
 
@@ -389,26 +376,14 @@ void GameState::buildGUI()
 {
     OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
     OgreFramework::getSingletonPtr()->m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createLabel(OgreBites::TL_TOP, "GameLbl", "Game mode", 250);
     OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
 
     Ogre::StringVector items;
-    items.push_back("cam.pX");
-    items.push_back("cam.pY");
-    items.push_back("cam.pZ");
-    items.push_back("cam.oW");
-    items.push_back("cam.oX");
-    items.push_back("cam.oY");
-    items.push_back("cam.oZ");
+    items.push_back("debug val");
     items.push_back("Mode");
 
-    m_pDetailsPanel = OgreFramework::getSingletonPtr()->m_pTrayMgr->createParamsPanel(OgreBites::TL_TOPLEFT, "DetailsPanel", 200, items);
+    m_pDetailsPanel = OgreFramework::getSingletonPtr()->m_pTrayMgr->createParamsPanel(OgreBites::TL_TOPLEFT, "DetailsPanel", 180, items);
     m_pDetailsPanel->show();
-
-    Ogre::String infoText = "[TAB] - Switch input mode\n\n[W] - Forward / Mode up\n[S] - Backwards/ Mode down\n[A] - Left\n";
-    infoText.append("[D] - Right\n\nPress [SHIFT] to move faster\n\n[O] - Toggle FPS / logo\n");
-    infoText.append("[Print] - Take screenshot\n\n[ESC] - Exit");
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createTextBox(OgreBites::TL_RIGHT, "InfoPanel", infoText, 300, 220);
 
     Ogre::StringVector chatModes;
     chatModes.push_back("Solid mode");
