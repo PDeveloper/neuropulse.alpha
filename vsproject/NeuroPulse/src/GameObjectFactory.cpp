@@ -34,7 +34,7 @@ np::GameObjectFactory::~GameObjectFactory(void)
 
 void np::GameObjectFactory::generateMeshes(void)
 {
-	Ogre::ManualObject* manual = sceneManager->createManualObject("nodeManualObject");
+	/*Ogre::ManualObject* manual = sceneManager->createManualObject("nodeManualObject");
 
 	int segments = 16;
 	double innerRadius = 20.0;
@@ -82,7 +82,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	}
 	manual->end();
 
-	manual->convertToMesh( "NodeMesh");
+	manual->convertToMesh( "NodeMesh");*/
 	/*
 	float lSize = 0.7f;
 	manual->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_LIST);
@@ -128,15 +128,29 @@ void np::GameObjectFactory::generateMeshes(void)
 	manual->convertToMesh( "Cube");
 	*/
 
-	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( -50.0, 0.0, 0.0),
-																	Ogre::Vector3( 50.0, 0.0, 0.0)).realizePath();
+	Procedural::TriangleBuffer tb;
 	
-	Procedural::Shape circle = Procedural::CircleShape().setRadius( 2.0).realizeShape();
-	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &circle).realizeMesh( "ConnectionMesh");
-	connectionMesh->getSubMesh(0)->setMaterialName( "BaseWhiteNoLighting");
+	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 8.0, 0.0).addPoint( 4.0, 4.0).addPoint( 17.0, 10.0).addPoint( 15.0, 14.0);
+	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 15.0, 14.0).addPoint( 3.0, 6.0).addPoint( 4.0, 0.0);
 
-	Ogre::MeshPtr pulseMesh = Procedural::SphereGenerator().setRadius(3.f).setUTile(.5f).realizeMesh("PulseMesh");
-	pulseMesh->getSubMesh(0)->setMaterialName( "BaseWhiteNoLighting");
+	Procedural::Shape outNodeSiding = outSpline.realizeShape();
+	Procedural::Lathe().setShapeToExtrude( &outNodeSiding).addToTriangleBuffer( tb);
+	Procedural::Shape inNodeSiding = inSpline.realizeShape();
+	Procedural::Lathe().setShapeToExtrude( &inNodeSiding).addToTriangleBuffer( tb);
+
+	Ogre::MeshPtr nodeMesh = tb.transformToMesh( "NodeMesh");
+	nodeMesh->getSubMesh(0)->setMaterialName( "NodeMaterial");
+
+	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( 0.0, 0.0, -50.0),
+		Ogre::Vector3( 0.0, 0.0, 50.0)).realizePath();
+	
+	Procedural::Shape circle = Procedural::CircleShape().setRadius( 2.0).setNumSeg( 10).realizeShape();
+	Procedural::Track t = Procedural::Track(Procedural::Track::AM_RELATIVE_LINEIC).addKeyFrame( 0.0, 1.0).addKeyFrame( 0.5, 0.6).addKeyFrame( 1.0, 1.0);
+	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setScaleTrack( &t).setShapeToExtrude( &circle).realizeMesh( "ConnectionMesh");
+	connectionMesh->getSubMesh(0)->setMaterialName( "ConnectionMaterial");
+
+	Ogre::MeshPtr pulseMesh = Procedural::SphereGenerator().setRadius( 2.1).setUTile(.5f).realizeMesh("PulseMesh");
+	pulseMesh->getSubMesh(0)->setMaterialName( "PulseMaterial");
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)
@@ -168,6 +182,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 	ac::es::EntityPtr e = scene->createEntity();
 
 	Ogre::Entity* entity = sceneManager->createEntity( "ConnectionMesh");
+	entity->setCastShadows( false);
 
 	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
 	np::ConnectionComponent* connection = new np::ConnectionComponent( target1, target2);
@@ -189,11 +204,12 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		e = scene->createEntity();
 
 		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
+		entity->setCastShadows( false);
 
 		np::GraphicComponent* graphic = new np::GraphicComponent( entity);
 		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
 
-		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 1.0)};
+		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 0.7)};
 		np::AnimationComponent* animation = new np::AnimationComponent( states, 2);
 		animation->isLooping = false;
 

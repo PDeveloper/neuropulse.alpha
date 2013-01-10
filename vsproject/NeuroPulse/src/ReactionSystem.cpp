@@ -22,7 +22,7 @@ void np::ReactionSystem::process( ac::es::EntityPtr e)
 	node->currentEnergy += reaction->output;
 
 	//// DEBUGGING ONLY!!!!!
-	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
-	transform->position.y = node->currentEnergy * 0.5;
+	//np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
+	//transform->position.y = node->currentEnergy * 0.5;
 	////
 }

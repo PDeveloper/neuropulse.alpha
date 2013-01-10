@@ -44,10 +44,10 @@ void np::ConnectionDisplaySystem::onAddedEntity( ac::es::EntityPtr e)
 
 	Ogre::Vector3 position( mx, 0.0, mz);
 
-	double rads = std::atan2( dx, dz) + M_PI_2;
+	double rads = std::atan2( dx, dz);
 	Ogre::Quaternion rotation( Ogre::Radian( rads), Ogre::Vector3::UNIT_Y);
 	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( position, rotation);
-	newNode->setScale( d, 1.0, 1.0);
+	newNode->setScale( 1.0, 1.0, d);
 
 	newNode->attachObject( graphics->entity);
 

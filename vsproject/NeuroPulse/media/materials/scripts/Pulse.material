@@ -1,0 +1,14 @@
+material PulseMaterial
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+			ambient 0.0 0.0 0.6 1.0
+			diffuse 0.2 0.2 1.0 1.0
+			specular 1.0 1.0 1.0 1.0 64.0
+			emissive 0.0 0.0 0.5 1.0
+		}
+	}
+}

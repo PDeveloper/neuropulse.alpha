@@ -56,8 +56,9 @@ void GameState::enter()
 	/* ................. */
 
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
-
+	
     m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
+	m_pSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
     m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
     m_pRSQ->setQueryMask(OGRE_HEAD_MASK);
@@ -116,7 +117,12 @@ void GameState::exit()
 
 void GameState::createScene()
 {
-    m_pSceneMgr->createLight("Light")->setPosition(75,75,75);
+	Ogre::Light* directionalLight = m_pSceneMgr->createLight("Light");
+	directionalLight->setType( Ogre::Light::LT_DIRECTIONAL);
+    directionalLight->setDiffuseColour( Ogre::ColourValue(.25, .25, 0));
+    directionalLight->setSpecularColour( Ogre::ColourValue(.25, .25, 0));
+
+	directionalLight->setDirection( Ogre::Vector3( 0, -1, 1 ));
 
     /*DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
     pDotSceneLoader->parseDotScene("CubeScene.xml", "General", m_pSceneMgr, m_pSceneMgr->getRootSceneNode());
@@ -137,6 +143,16 @@ void GameState::createScene()
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
     m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);
 	*/
+
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+													plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	
+	Ogre::Entity* entGround = m_pSceneMgr->createEntity("GroundEntity", "GroundMesh");
+	m_pSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
+
+	entGround->setMaterialName("GroundMaterial");
+	entGround->setCastShadows(false);
 
 	np::WorldGenerator generator;
 	generator.generateWorld( gameObjectFactory, 9);
