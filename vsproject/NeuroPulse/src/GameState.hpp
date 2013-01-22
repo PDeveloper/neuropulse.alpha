@@ -25,6 +25,8 @@
 
 #include <WorldGenerator.h>
 
+#include <boost\thread.hpp>
+
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 enum QueryFlags
@@ -85,6 +87,8 @@ private:
 	Ogre::Entity*				m_pCurrentEntity;
 	bool						m_bLMouseDown, m_bRMouseDown;
 	bool						m_bSettingsMode;
+
+	boost::thread* gameLogicThread;
 
 	ac::es::Scene* esScene;
 

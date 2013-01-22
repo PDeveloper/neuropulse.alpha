@@ -32,13 +32,14 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 	GraphicComponent* graphics = e->getComponent<GraphicComponent>();
 	TransformComponent* transform = e->getComponent<TransformComponent>();
 	
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.x));
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.y));
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.z));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.x));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.y));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString(transform->position.z));
 
 	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( transform->position, transform->rotation);
 
-	newNode->attachObject( graphics->entity);
+	for (std::list<Ogre::Entity*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+		newNode->attachObject( (*it));
 
 	graphics->node = newNode;
 }

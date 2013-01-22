@@ -159,8 +159,9 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
-
-	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+	
+	Ogre::Entity* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
 	np::ReactionComponent* reactor = new np::ReactionComponent( reactorOutput);
 	np::NodeComponent* node = new np::NodeComponent( threshold);
@@ -184,7 +185,8 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 	Ogre::Entity* entity = sceneManager->createEntity( "ConnectionMesh");
 	entity->setCastShadows( false);
 
-	np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+	Ogre::Entity* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::ConnectionComponent* connection = new np::ConnectionComponent( target1, target2);
 	
 	e->addComponent( graphic);
@@ -205,8 +207,9 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 
 		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
 		entity->setCastShadows( false);
-
-		np::GraphicComponent* graphic = new np::GraphicComponent( entity);
+		
+		Ogre::Entity* entities[] = { entity};
+		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
 
 		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 0.7)};
@@ -214,7 +217,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		animation->isLooping = false;
 
 		np::PulseComponent* pulse = new np::PulseComponent();
-	
+		
 		e->addComponent( graphic);
 		e->addComponent( transform);
 		e->addComponent( animation);

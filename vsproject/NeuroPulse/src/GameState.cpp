@@ -51,13 +51,13 @@ void GameState::enter()
 
 	esScene->insertEntitySystem( graphicSystem);
 	esScene->insertEntitySystem( connectionDisplaySystem);
-
+	
 	esScene->insertEntitySystem( pulseSystem);
 	/* ................. */
 
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 	
-    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
+    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
 	m_pSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
     m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
@@ -117,14 +117,15 @@ void GameState::exit()
 
 void GameState::createScene()
 {
-	Ogre::Light* directionalLight = m_pSceneMgr->createLight("Light");
+	Ogre::Light* directionalLight = m_pSceneMgr->createLight("SunLight");
 	directionalLight->setType( Ogre::Light::LT_DIRECTIONAL);
-    directionalLight->setDiffuseColour( Ogre::ColourValue(.25, .25, 0));
-    directionalLight->setSpecularColour( Ogre::ColourValue(.25, .25, 0));
+    directionalLight->setDiffuseColour( Ogre::ColourValue( 0.25, 0.25, 0.25));
+    directionalLight->setSpecularColour( Ogre::ColourValue( 0.25, 0.25, 0.25));
 
-	directionalLight->setDirection( Ogre::Vector3( 0, -1, 1 ));
+	directionalLight->setDirection( Ogre::Vector3( 0.5, -1, -1 ));
 
-    /*DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
+    /*
+	DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
     pDotSceneLoader->parseDotScene("CubeScene.xml", "General", m_pSceneMgr, m_pSceneMgr->getRootSceneNode());
     delete pDotSceneLoader;
 

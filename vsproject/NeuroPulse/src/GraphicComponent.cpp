@@ -2,12 +2,17 @@
 
 #include <AdvancedOgreFramework.hpp>
 
-np::GraphicComponent::GraphicComponent( Ogre::Entity* entity)
+np::GraphicComponent::GraphicComponent( Ogre::Entity* entities[], int numEntities) :
+	entities( entities, entities + numEntities )
 {
-	this->entity = entity;
 }
 
 np::GraphicComponent::~GraphicComponent(void)
 {
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "graphic component destroyed");
+}
+
+void np::GraphicComponent::addEntity( Ogre::Entity* entity)
+{
+	entities.push_back( entity);
 }

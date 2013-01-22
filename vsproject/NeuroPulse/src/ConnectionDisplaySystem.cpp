@@ -5,6 +5,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
 #include <AdvancedOgreFramework.hpp>
 #include <Ogre.h>
 
@@ -32,11 +33,11 @@ void np::ConnectionDisplaySystem::onAddedEntity( ac::es::EntityPtr e)
 	np::ConnectionComponent* connection = e->getComponent<np::ConnectionComponent>();
 	np::GraphicComponent* graphics = e->getComponent<np::GraphicComponent>();
 	
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Connection to be displayed!");
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Connection to be displayed!");
 	double mx = ( connection->target1->position.x + connection->target2->position.x) * 0.5;
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mx));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mx));
 	double mz = ( connection->target1->position.z + connection->target2->position.z) * 0.5;
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
 
 	double dx = connection->target2->position.x - connection->target1->position.x;
 	double dz = connection->target2->position.z - connection->target1->position.z;
