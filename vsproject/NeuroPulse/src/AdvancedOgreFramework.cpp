@@ -24,6 +24,8 @@ OgreFramework::OgreFramework()
     m_pKeyboard			= 0;
     m_pMouse			= 0;
     m_pTrayMgr          = 0;
+
+	cegui_renderer      = 0;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -122,6 +124,23 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     m_pTrayMgr = new OgreBites::SdkTrayManager("AOFTrayMgr", m_pRenderWnd, m_pMouse, 0);
+
+	cegui_renderer = &CEGUI::OgreRenderer::bootstrapSystem();
+
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme");
+
+	CEGUI::System::getSingleton().setDefaultFont( "DejaVuSans-10");
+	CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow");
+
+	CEGUI::Window* root = CEGUI::WindowManager::getSingleton().createWindow( "DefaultWindow", "_MasterRoot");
+
+	CEGUI::System::getSingleton().setGUISheet( root);
 
     m_pTimer = new Ogre::Timer();
     m_pTimer->reset();

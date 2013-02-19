@@ -77,8 +77,8 @@ void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const in
 
 			if ( !output1->hasConnection( node2))
 			{
-				np::ConnectionBase* base1 = new np::ConnectionBase( node1);
-				np::ConnectionBase* base2 = new np::ConnectionBase( node2);
+				np::ConnectionBase* base1 = new np::ConnectionBase( e1);
+				np::ConnectionBase* base2 = new np::ConnectionBase( e2);
 				base1->connect( base2);
 
 				output1->addConnection( base1);
@@ -129,8 +129,8 @@ void np::WorldGenerator::generateWorld2( np::GameObjectFactory* factory, const i
 		np::TransformComponent* transform2 = e2->getComponent<np::TransformComponent>();
 		np::OutputComponent* output2	= e2->getComponent<np::OutputComponent>();
 
-		np::ConnectionBase* base1 = new np::ConnectionBase( node1);
-		np::ConnectionBase* base2 = new np::ConnectionBase( node2);
+		np::ConnectionBase* base1 = new np::ConnectionBase( e1);
+		np::ConnectionBase* base2 = new np::ConnectionBase( e2);
 		base1->connect( base2);
 
 		output1->addConnection( base1);
@@ -154,8 +154,8 @@ void np::WorldGenerator::generateWorld2( np::GameObjectFactory* factory, const i
 		np::TransformComponent* transform2 = e2->getComponent<np::TransformComponent>();
 		np::OutputComponent* output2	= e2->getComponent<np::OutputComponent>();
 
-		np::ConnectionBase* base1 = new np::ConnectionBase( node1);
-		np::ConnectionBase* base2 = new np::ConnectionBase( node2);
+		np::ConnectionBase* base1 = new np::ConnectionBase( e1);
+		np::ConnectionBase* base2 = new np::ConnectionBase( e2);
 		base1->connect( base2);
 
 		output1->addConnection( base1);

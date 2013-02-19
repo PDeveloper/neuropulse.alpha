@@ -147,9 +147,6 @@
     <ClCompile Include="src\ac\es\EntityObserver.cpp">
       <Filter>Source Files\ac\es</Filter>
     </ClCompile>
-    <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp">
-      <Filter>Source Files\ac\es</Filter>
-    </ClCompile>
     <ClCompile Include="src\ac\es\EntitySystem.cpp">
       <Filter>Source Files\ac\es</Filter>
     </ClCompile>
@@ -201,12 +198,6 @@
     <ClCompile Include="src\ConnectionDisplaySystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirector.cpp">
-      <Filter>Source Files\ac\es</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp">
-      <Filter>Source Files\ac\es</Filter>
-    </ClCompile>
     <ClCompile Include="src\PulseSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
@@ -218,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="src\EventType.cpp">
       <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp">
+      <Filter>Source Files\ac\es</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="src\TransformComponent.h">
       <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ac\Config.h">
-      <Filter>Header Files\ac</Filter>
     </ClInclude>
     <ClInclude Include="src\ac\es.h">
       <Filter>Header Files\ac</Filter>
@@ -309,9 +300,6 @@
       <Filter>Header Files\ac\es</Filter>
     </ClInclude>
     <ClInclude Include="src\ac\es\EntitySystemContainer.h">
-      <Filter>Header Files\ac\es</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ac\es\PushType.h">
       <Filter>Header Files\ac\es</Filter>
     </ClInclude>
     <ClInclude Include="src\ac\es\Scene.h">
@@ -374,12 +362,6 @@
     <ClInclude Include="src\ConnectionDisplaySystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirector.h">
-      <Filter>Header Files\ac\es</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h">
-      <Filter>Header Files\ac\es</Filter>
-    </ClInclude>
     <ClInclude Include="src\Pulse.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
@@ -397,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="src\PulseEvent.h">
       <Filter>Header Files\core\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ac\Config.h">
+      <Filter>Header Files\ac</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

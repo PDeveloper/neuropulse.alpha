@@ -52,7 +52,7 @@ namespace ac
 			/// Pure virtual destructor
 			virtual ~Component() = 0;
 			
-			EntityPtr parent;
+			
 			
 			/// Creates a component, through the use of a string
 			/// \param name The class name of the Component you wish to instantiate

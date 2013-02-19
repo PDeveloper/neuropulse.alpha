@@ -10,6 +10,8 @@ np::GraphicComponent::GraphicComponent( Ogre::Entity* entities[], int numEntitie
 np::GraphicComponent::~GraphicComponent(void)
 {
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "graphic component destroyed");
+
+
 }
 
 void np::GraphicComponent::addEntity( Ogre::Entity* entity)

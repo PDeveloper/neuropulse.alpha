@@ -21,8 +21,6 @@
     <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp" />
     <ClCompile Include="src\ac\es\EntitySystem.cpp" />
     <ClCompile Include="src\ac\es\Scene.cpp" />
-    <ClCompile Include="src\ac\es\SceneDirector.cpp" />
-    <ClCompile Include="src\ac\es\SceneDirectorDelegate.cpp" />
     <ClCompile Include="src\ac\Identfiable.cpp" />
     <ClCompile Include="src\AdvancedOgreFramework.cpp" />
     <ClCompile Include="src\AnimationComponent.cpp" />
@@ -68,10 +66,7 @@
     <ClInclude Include="src\ac\es\EntityProcessingSystem.h" />
     <ClInclude Include="src\ac\es\EntitySystem.h" />
     <ClInclude Include="src\ac\es\EntitySystemContainer.h" />
-    <ClInclude Include="src\ac\es\PushType.h" />
     <ClInclude Include="src\ac\es\Scene.h" />
-    <ClInclude Include="src\ac\es\SceneDirector.h" />
-    <ClInclude Include="src\ac\es\SceneDirectorDelegate.h" />
     <ClInclude Include="src\ac\es\Types.h" />
     <ClInclude Include="src\ac\es\util\DynamicArrayUtils.h" />
     <ClInclude Include="src\ac\Identfiable.h" />
@@ -157,13 +152,13 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(OGRE_PROCEDURAL_HOME)\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CEGUI_HOME)\cegui\include;$(OGRE_PROCEDURAL_HOME)\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(BOOST_HOME)\stage\lib;$(OGRE_HOME)\lib\$(Configuration);$(OGRE_PROCEDURAL_HOME)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreTerrain_d.lib;OgreProcedural_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BOOST_HOME)\stage\lib;$(OGRE_HOME)\lib\$(Configuration);$(OGRE_PROCEDURAL_HOME)\lib\$(Configuration);$(CEGUI_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreTerrain_d.lib;OgreProcedural_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

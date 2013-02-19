@@ -55,8 +55,8 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 				connection->target->inPulseBuffer.push_back( pulse);
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->inPulseBuffer.size()));
 
-				np::TransformComponent* transform1 = output->parent->getComponent<np::TransformComponent>();
-				np::TransformComponent* transform2 = connection->target->node->parent->getComponent<np::TransformComponent>();
+				np::TransformComponent* transform1 = e->getComponent<np::TransformComponent>();
+				np::TransformComponent* transform2 = connection->target->parent->getComponent<np::TransformComponent>();
 
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pulse Outputted!");
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->target->node->parent->getId()));

@@ -50,7 +50,8 @@ void np::ConnectionDisplaySystem::onAddedEntity( ac::es::EntityPtr e)
 	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( position, rotation);
 	newNode->setScale( 1.0, 1.0, d);
 
-	newNode->attachObject( graphics->entity);
+	for (std::list<Ogre::Entity*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+		newNode->attachObject( (*it));
 
 	graphics->node = newNode;
 }

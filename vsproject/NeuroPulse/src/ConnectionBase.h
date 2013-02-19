@@ -1,3 +1,5 @@
+#include <ac\es.h>
+
 #include <NodeComponent.h>
 #include <ConnectionFeed.h>
 
@@ -14,6 +16,8 @@ namespace np
 	{
 	public:
 
+		ac::es::EntityPtr parent;
+
 		np::NodeComponent* node;
 		np::ConnectionBase* target;
 
@@ -21,9 +25,11 @@ namespace np
 
 		std::list<np::Pulse*> inPulseBuffer;
 
-		ConnectionBase( np::NodeComponent* node)
+		ConnectionBase( ac::es::EntityPtr parent)
 		{
-			this->node = node;
+			this->parent = parent;
+
+			this->node = parent->getComponent<np::NodeComponent>();
 		}
 
 		~ConnectionBase(void)

@@ -24,6 +24,9 @@
 
 #include <SdkTrays.h>
 
+#include <CEGUI.h>
+#include <RendererModules\Ogre\CEGUIOgreRenderer.h>
+
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 class OgreFramework : public Ogre::Singleton<OgreFramework>, OIS::KeyListener, OIS::MouseListener
@@ -53,6 +56,8 @@ public:
 	OIS::Mouse*					m_pMouse;
 
     OgreBites::SdkTrayManager*	m_pTrayMgr;
+
+	CEGUI::OgreRenderer* cegui_renderer;
 
 	Ogre::String mPluginsCfg;
 	Ogre::String mResourcesCfg;
