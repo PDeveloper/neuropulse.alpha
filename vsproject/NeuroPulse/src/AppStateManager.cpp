@@ -86,7 +86,7 @@ void AppStateManager::start(AppState* state)
 			OgreFramework::getSingletonPtr()->m_pKeyboard->capture();
 			OgreFramework::getSingletonPtr()->m_pMouse->capture();
 
-			m_ActiveStateStack.back()->update(timeSinceLastFrame);
+			m_ActiveStateStack.back()->update( timeSinceLastFrame);
 
 			OgreFramework::getSingletonPtr()->updateOgre(timeSinceLastFrame);
 			OgreFramework::getSingletonPtr()->m_pRoot->renderOneFrame();

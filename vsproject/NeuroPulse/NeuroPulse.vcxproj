@@ -40,12 +40,14 @@
     <ClCompile Include="src\GraphicSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\NeuroWorld.cpp" />
     <ClCompile Include="src\NodeComponent.cpp" />
     <ClCompile Include="src\OutputComponent.cpp" />
     <ClCompile Include="src\OutputSystem.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
     <ClCompile Include="src\PulseComponent.cpp" />
     <ClCompile Include="src\PulseSystem.cpp" />
+    <ClCompile Include="src\PulseSystemSettings.cpp" />
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
@@ -94,6 +96,7 @@
     <ClInclude Include="src\GraphicSystem.h" />
     <ClInclude Include="src\IListener.h" />
     <ClInclude Include="src\MenuState.hpp" />
+    <ClInclude Include="src\NeuroWorld.h" />
     <ClInclude Include="src\NodeComponent.h" />
     <ClInclude Include="src\OutputComponent.h" />
     <ClInclude Include="src\ConnectionFeed.h" />
@@ -103,6 +106,7 @@
     <ClInclude Include="src\PulseComponent.h" />
     <ClInclude Include="src\PulseEvent.h" />
     <ClInclude Include="src\PulseSystem.h" />
+    <ClInclude Include="src\PulseSystemSettings.h" />
     <ClInclude Include="src\rapidxml.hpp" />
     <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\ReactionSystem.h" />

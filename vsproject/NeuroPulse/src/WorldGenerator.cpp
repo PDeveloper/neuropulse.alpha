@@ -24,11 +24,11 @@ np::WorldGenerator::~WorldGenerator(void)
 {
 }
 
-void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const int numNodes)
+void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes)
 {
 	boost::random::mt19937 mt;
 	boost::random::uniform_real_distribution<double> distribution;
-	
+
 	struct point2d {
 		float	x, y;
 	};
@@ -37,16 +37,55 @@ void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const in
 	point2d *vertices = new point2d[numNodes];
 	ac::es::EntityPtr *nodes = new ac::es::EntityPtr[numNodes];
 
+	double ax = 0.0;
+	double ay = 0.0;
+
 	for ( int i = 0; i < numNodes; i++)
 	{
 		vertices[i].x = distribution( mt) * 600 - 300;
 		vertices[i].y = distribution( mt) * 600 - 300;
-		distribution( mt);
-		double rOutput = 0.0;
-		if ( i == 0) rOutput = 1.0;
+		//distribution( mt);
+		//distribution( mt);
 
-		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, rOutput, distribution( mt) * 80 + 60);
-		//if ( i == 0) nodes[i]->getComponent<TransformComponent>()->position.y = 15;
+		ax += vertices[i].x;
+		ay += vertices[i].y;
+	}
+
+	ax = ax / numNodes;
+	ay = ay / numNodes;
+
+	for ( int i = 0; i < 8; i++)
+	{
+		for ( int j = 0; j < numNodes; j++)
+		{
+			double vx = 0.0;
+			double vy = 0.0;
+			double dx = 0.0;
+			double dy = 0.0;
+
+			for ( int k = 0; k < numNodes; k++)
+			{
+				if ( j == k) continue;
+
+				dx = ( vertices[j].x - vertices[k].x);
+				dy = ( vertices[j].y - vertices[k].y);
+				vx += 1 / ( dx * dx);
+				vy += 1 / ( dy * dy);
+			}
+
+			vertices[j].x += vx * 1000;
+			vertices[j].y += vy * 1000;
+		}
+	}
+
+	for ( int i = 0; i < numNodes; i++)
+	{
+		double rOutput = 0.0;
+
+		if ( i == 0) rOutput = 60.0;
+
+		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, rOutput, distribution( mt) * 100 + 60);
+		neuroWorld->nodes.push_back( nodes[i]);
 	}
 
 	int *faces = NULL;
@@ -97,13 +136,13 @@ void np::WorldGenerator::generateWorld( np::GameObjectFactory* factory, const in
 	delete nodes;
 }
 
-void np::WorldGenerator::generateWorld2( np::GameObjectFactory* factory, const int numNodes)
+void np::WorldGenerator::generateWorld2( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes)
 {
 	ac::es::EntityPtr *nodes = new ac::es::EntityPtr[numNodes];
 	
 	std::vector<Ogre::Vector2> positions;
 
-	nodes[0] = factory->createNodeEntity( 0, 0, 2.0, 100.0);
+	nodes[0] = factory->createNodeEntity( 0, 0, 60.0, 100.0);
 
 	positions.push_back( Ogre::Vector2( 0, 0));
 

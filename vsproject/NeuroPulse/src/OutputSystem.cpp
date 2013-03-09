@@ -12,16 +12,36 @@
 
 #include <PulseEvent.h>
 
-np::OutputSystem::OutputSystem( np::EventManager* eventManager) :
+np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::PulseSystemSettings* settings) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<OutputComponent>())
 {
 	this->eventManager = eventManager;
 	this->pulseEvent = eventManager->getType( "pulseEvent");
+
+	this->settings = settings;
+
+	timeSinceLastPulse = 0.0;
+	isPulsing = false;
 }
 
 
 np::OutputSystem::~OutputSystem(void)
 {
+}
+
+void np::OutputSystem::globalTick( double time)
+{
+	timeSinceLastPulse += time;
+}
+
+void np::OutputSystem::onBeginProcessing()
+{
+	if ( timeSinceLastPulse > settings->globalPulseTime)
+	{
+		timeSinceLastPulse -= settings->globalPulseTime;
+
+		isPulsing = true;
+	}
 }
 
 void np::OutputSystem::process( ac::es::EntityPtr e)
@@ -30,7 +50,7 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 	OutputComponent* output = e->getComponent<OutputComponent>();
 	TransformComponent* transform = e->getComponent<TransformComponent>();
 
-	if ( node->currentEnergy >= node->energyThreshold)
+	if ( node->currentEnergy >= node->energyThreshold && isPulsing)
 	{
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy threshold reached");
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));
@@ -41,7 +61,7 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 
 		// Very inaccurate way of calculating the dispersed energy, but for now it could do.
 		double dispersedEnergy = node->energyThreshold / double(valid);
-		dispersedEnergy *= 0.5;
+		dispersedEnergy *= 0.2;
 
 		for (int i = 0; i < output->connections.size(); i++)
 		{
@@ -92,4 +112,9 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 		}
 	}
 
+}
+
+void np::OutputSystem::onEndProcessing()
+{
+	isPulsing = false;
 }

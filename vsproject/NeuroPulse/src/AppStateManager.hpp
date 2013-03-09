@@ -7,6 +7,8 @@
 
 #include "AppState.hpp"
 
+#include <boost\thread.hpp>
+
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 class AppStateManager : public AppStateListener
@@ -39,6 +41,10 @@ protected:
 	std::vector<AppState*>		m_ActiveStateStack;
 	std::vector<state_info>		m_States;
 	bool						m_bShutdown;
+	
+private:
+	boost::thread* stateThread;
+	boost::thread* renderThread;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

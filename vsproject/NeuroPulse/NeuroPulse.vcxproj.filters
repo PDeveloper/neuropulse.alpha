@@ -213,6 +213,12 @@
     <ClCompile Include="src\ac\es\EntityProcessingSystem.cpp">
       <Filter>Source Files\ac\es</Filter>
     </ClCompile>
+    <ClCompile Include="src\PulseSystemSettings.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeuroWorld.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -385,6 +391,12 @@
     </ClInclude>
     <ClInclude Include="src\CEGUIState.h">
       <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseSystemSettings.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeuroWorld.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

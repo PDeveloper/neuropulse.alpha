@@ -21,11 +21,12 @@
 #include <ConnectionDisplaySystem.h>
 #include <PulseSystem.h>
 
+#include <PulseSystemSettings.h>
+
 #include <EventManager.h>
 
 #include <WorldGenerator.h>
-
-#include <boost\thread.hpp>
+#include <NeuroWorld.h>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -86,8 +87,6 @@ private:
 	bool						m_bLMouseDown, m_bRMouseDown;
 	bool						m_bSettingsMode;
 
-	boost::thread* gameLogicThread;
-
 	ac::es::Scene* esScene;
 
 	np::GameObjectFactory* gameObjectFactory;
@@ -102,7 +101,12 @@ private:
 
 	np::EventManager* eventManager;
 
+	np::PulseSystemSettings* pulseSettings;
+
 	CEGUI::Window *sheet;
+	CEGUI::Window* debug_txt;
+
+	np::NeuroWorld* neuroWorld;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

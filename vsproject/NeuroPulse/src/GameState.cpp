@@ -23,6 +23,15 @@ GameState::GameState()
 	// Create CEGUI interface!
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	sheet = wmgr.createWindow( "DefaultWindow", "InGame/Sheet");
+
+	debug_txt = wmgr.createWindow("TaharezLook/StaticText", "InGame/DebugTextfield");
+	debug_txt->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.0, 0)));
+	debug_txt->setSize(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.2, 0)));
+	debug_txt->setAlpha( 0.5);
+
+	sheet->addChildWindow( debug_txt);
+
+	pulseSettings = new np::PulseSystemSettings( 800.0);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -31,6 +40,8 @@ void GameState::enter()
 {
 	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
 
+	neuroWorld = new np::NeuroWorld();
+
 	esScene = new ac::es::Scene();
 	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
 
@@ -38,10 +49,9 @@ void GameState::enter()
 
 	/* init systems and shit */
 	reactionSystem = new np::ReactionSystem();
-	outputSystem = new np::OutputSystem( eventManager);
+	outputSystem = new np::OutputSystem( eventManager, pulseSettings);
 	animationSystem = new np::AnimationSystem();
 	graphicSystem = new np::GraphicSystem(m_pSceneMgr);
-	//graphicSystem->disable();
 	connectionDisplaySystem = new np::ConnectionDisplaySystem( m_pSceneMgr);
 	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
 
@@ -124,27 +134,6 @@ void GameState::createScene()
 
 	directionalLight->setDirection( Ogre::Vector3( 0.5, -1, -1 ));
 
-    /*
-	DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
-    pDotSceneLoader->parseDotScene("CubeScene.xml", "General", m_pSceneMgr, m_pSceneMgr->getRootSceneNode());
-    delete pDotSceneLoader;
-
-    m_pSceneMgr->getEntity("Cube01")->setQueryFlags(CUBE_MASK);
-    m_pSceneMgr->getEntity("Cube02")->setQueryFlags(CUBE_MASK);
-    m_pSceneMgr->getEntity("Cube03")->setQueryFlags(CUBE_MASK);
-
-    m_pOgreHeadEntity = m_pSceneMgr->createEntity("OgreHeadEntity", "ogrehead.mesh");
-    m_pOgreHeadEntity->setQueryFlags(OGRE_HEAD_MASK);
-    m_pOgreHeadNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("OgreHeadNode");
-    m_pOgreHeadNode->attachObject(m_pOgreHeadEntity);
-    m_pOgreHeadNode->setPosition(Vector3(0, 0, -25));
-
-    m_pOgreHeadMat = m_pOgreHeadEntity->getSubEntity(1)->getMaterial();
-    m_pOgreHeadMatHigh = m_pOgreHeadMat->clone("OgreHeadMatHigh");
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);
-	*/
-
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
 	Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 													plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
@@ -156,7 +145,7 @@ void GameState::createScene()
 	entGround->setCastShadows(false);
 
 	np::WorldGenerator generator;
-	generator.generateWorld( gameObjectFactory, 9);
+	generator.generateWorld( neuroWorld, gameObjectFactory, 9);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -356,6 +345,19 @@ void GameState::update(double timeSinceLastFrame)
 
     m_TranslateVector = Vector3::ZERO;
 	m_TranslateRelativeVector = Vector3::ZERO;
+
+	reactionSystem->setDeltaTime( timeSinceLastFrame);
+	outputSystem->globalTick( timeSinceLastFrame);
+
+	ac::es::EntityPtr e = neuroWorld->nodes.at( 0);
+	np::NodeComponent* node = e->getComponent<np::NodeComponent>();
+
+	CEGUI::String debugText = "";
+	debugText += CEGUI::String( "timeSinceLastFrame:" + Ogre::StringConverter::toString( Ogre::Real( timeSinceLastFrame))) + "\n";
+	debugText += CEGUI::String( "globalPulseTime:" + Ogre::StringConverter::toString( Ogre::Real( pulseSettings->globalPulseTime))) + "\n";
+	debugText += CEGUI::String( "node0 energy:" + Ogre::StringConverter::toString( Ogre::Real( node->currentEnergy))) + "\n";
+	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( outputSystem->timeSinceLastPulse))) + "\n";
+	debug_txt->setText( debugText);
 
 	esScene->update();
 
