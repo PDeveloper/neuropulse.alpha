@@ -19,13 +19,16 @@ GameState::GameState()
     m_bRMouseDown       = false;
     m_bQuit             = false;
     m_bSettingsMode     = false;
+	
+	// Create CEGUI interface!
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	sheet = wmgr.createWindow( "DefaultWindow", "InGame/Sheet");
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::enter()
 {
-
 	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
 
 	esScene = new ac::es::Scene();
@@ -71,7 +74,6 @@ void GameState::enter()
 
     OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
     m_pCurrentObject = 0;
-
 
     buildGUI();
 
@@ -159,7 +161,7 @@ void GameState::createScene()
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool GameState::keyPressed(const OIS::KeyEvent &keyEventRef)
+bool GameState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
     if(m_bSettingsMode == true)
     {
@@ -216,14 +218,14 @@ bool GameState::keyPressed(const OIS::KeyEvent &keyEventRef)
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool GameState::keyReleased(const OIS::KeyEvent &keyEventRef)
+bool GameState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 {
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool GameState::mouseMoved(const OIS::MouseEvent &evt)
+bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 {
     if(m_bRMouseDown)
     {
@@ -236,7 +238,7 @@ bool GameState::mouseMoved(const OIS::MouseEvent &evt)
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool GameState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool GameState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
     if(id == OIS::MB_Left)
     {
@@ -253,7 +255,7 @@ bool GameState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool GameState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
     if(id == OIS::MB_Left)
     {
@@ -349,19 +351,6 @@ void GameState::update(double timeSinceLastFrame)
         return;
     }
 
-    /*if(!OgreFramework::getSingletonPtr()->m_pTrayMgr->isDialogVisible())
-    {
-        if(m_pDetailsPanel->isVisible())
-        {
-			const ac::es::EntityContainer& cont = esScene->getEntityContainer();
-			m_pDetailsPanel->setParamValue(0, Ogre::StringConverter::toString((Ogre::Real)(&(ac::es::EntityContainer&)cont)->getEntity(0)->getComponent<np::NodeComponent>()->currentEnergy));
-            if(m_bSettingsMode)
-                m_pDetailsPanel->setParamValue(1, "Buffered Input");
-            else
-                m_pDetailsPanel->setParamValue(1, "Un-Buffered Input");
-        }
-    }*/
-
     m_MoveScale = m_MoveSpeed   * timeSinceLastFrame;
     m_RotScale  = m_RotateSpeed * timeSinceLastFrame;
 
@@ -380,6 +369,9 @@ void GameState::update(double timeSinceLastFrame)
 
 void GameState::buildGUI()
 {
+	CEGUI::System::getSingleton().setGUISheet( sheet);
+	CEGUI::System::getSingleton().signalRedraw();
+
     //OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
     //OgreFramework::getSingletonPtr()->m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
     //OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();

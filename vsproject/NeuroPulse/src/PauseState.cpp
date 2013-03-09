@@ -13,6 +13,25 @@ PauseState::PauseState()
     m_bQuit             = false;
     m_bQuestionActive   = false;
     m_FrameEvent        = Ogre::FrameEvent();
+	
+	// Create CEGUI interface!
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	sheet = wmgr.createWindow("DefaultWindow", "PauseMenu/Sheet");
+
+	CEGUI::Window *resume = wmgr.createWindow("TaharezLook/Button", "PauseMenu/ResumeButton");
+	resume->setText("Resume");
+	resume->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.45, 0)));
+	resume->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
+	resume->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &PauseState::onResume, this));
+
+	CEGUI::Window *menu = wmgr.createWindow("TaharezLook/Button", "PauseMenu/MenuButton");
+	menu->setText("Back To Menu");
+	menu->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.5, 0)));
+	menu->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
+	menu->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &PauseState::onMenu, this));
+	
+	sheet->addChildWindow(resume);
+	sheet->addChildWindow(menu);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -46,6 +65,9 @@ void PauseState::enter()
     m_bQuit = false;
 
     createScene();
+
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+	CEGUI::System::getSingleton().signalRedraw();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -67,7 +89,7 @@ void PauseState::exit()
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool PauseState::keyPressed(const OIS::KeyEvent &keyEventRef)
+bool PauseState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
     if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE) && !m_bQuestionActive)
     {
@@ -79,28 +101,28 @@ bool PauseState::keyPressed(const OIS::KeyEvent &keyEventRef)
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool PauseState::keyReleased(const OIS::KeyEvent &keyEventRef)
+bool PauseState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 {
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool PauseState::mouseMoved(const OIS::MouseEvent &evt)
+bool PauseState::onMouseMove(const OIS::MouseEvent &evt)
 {
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool PauseState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool PauseState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool PauseState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool PauseState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
     return true;
 }
@@ -119,3 +141,17 @@ void PauseState::update(double timeSinceLastFrame)
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
+
+bool PauseState::onResume( const CEGUI::EventArgs& /*e*/)
+{
+	m_bQuit = true;
+
+	return true;
+}
+
+bool PauseState::onMenu( const CEGUI::EventArgs& /*e*/)
+{
+	popAllAndPushAppState(findByName("MenuState"));
+
+	return true;
+}

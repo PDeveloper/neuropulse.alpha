@@ -5,7 +5,7 @@
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-#include "AppState.hpp"
+#include "CEGUIState.h"
 
 #include "DotSceneLoader.hpp"
 
@@ -37,7 +37,7 @@ enum QueryFlags
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-class GameState : public AppState
+class GameState : public CEGUIState
 {
 public:
 	GameState();
@@ -54,12 +54,12 @@ public:
 	void getInput();
     void buildGUI();
 
-	bool keyPressed(const OIS::KeyEvent &keyEventRef);
-	bool keyReleased(const OIS::KeyEvent &keyEventRef);
+	bool onKeyPress(const OIS::KeyEvent &keyEventRef);
+	bool onKeyRelease(const OIS::KeyEvent &keyEventRef);
 
-	bool mouseMoved(const OIS::MouseEvent &arg);
-	bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
-	bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+	bool onMouseMove(const OIS::MouseEvent &arg);
+	bool onMousePress(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+	bool onMouseRelease(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
 	void onLeftPressed(const OIS::MouseEvent &evt);
 
@@ -101,6 +101,8 @@ private:
 	np::PulseSystem* pulseSystem;
 
 	np::EventManager* eventManager;
+
+	CEGUI::Window *sheet;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

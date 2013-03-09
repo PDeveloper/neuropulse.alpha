@@ -110,7 +110,8 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
     m_pRenderWnd = m_pRoot->initialise(true, wndTitle);
 
     m_pViewport = m_pRenderWnd->addViewport(0);
-    m_pViewport->setBackgroundColour(ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
+    m_pViewport->setBackgroundColour( ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
+	//m_pViewport->setClearEveryFrame( true);
 
     m_pViewport->setCamera(0);
 
@@ -120,13 +121,13 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 
     paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
 
-    m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
+    m_pInputMgr = OIS::InputManager::createInputSystem( paramList);
 
     m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));
     m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
 	
-    m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
-    m_pMouse->getMouseState().width	 = m_pRenderWnd->getWidth();
+    //m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
+    //m_pMouse->getMouseState().width	 = m_pRenderWnd->getWidth();
 
     if(pKeyListener == 0)
         m_pKeyboard->setEventCallback(this);

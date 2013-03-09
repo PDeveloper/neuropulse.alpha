@@ -12,30 +12,10 @@ MenuState::MenuState()
 {
     m_bQuit         = false;
     m_FrameEvent    = Ogre::FrameEvent();
-}
-
-//|||||||||||||||||||||||||||||||||||||||||||||||
-
-void MenuState::enter()
-{
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering MenuState...");
-
-    m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager(ST_GENERIC, "MenuSceneMgr");
-    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
-
-    m_pCamera = m_pSceneMgr->createCamera("MenuCam");
-    m_pCamera->setPosition(Vector3(0, 25, -50));
-    m_pCamera->lookAt(Vector3(0, 0, 0));
-    m_pCamera->setNearClipDistance(1);
-
-    m_pCamera->setAspectRatio(Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
-        Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight()));
-
-    OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
 	
 	// Create CEGUI interface!
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
+	sheet = wmgr.createWindow("DefaultWindow", "MainMenu/Sheet");
 
 	CEGUI::Window *play = wmgr.createWindow("TaharezLook/Button", "MainMenu/PlayButton");
 	play->setText("Play");
@@ -58,10 +38,30 @@ void MenuState::enter()
 	sheet->addChildWindow(play);
 	sheet->addChildWindow(options);
 	sheet->addChildWindow(quit);
+}
 
-	CEGUI::System::getSingleton().setGUISheet(sheet);
+//|||||||||||||||||||||||||||||||||||||||||||||||
+
+void MenuState::enter()
+{
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering MenuState...");
+
+    m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager(ST_GENERIC, "MenuSceneMgr");
+    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
+
+    m_pCamera = m_pSceneMgr->createCamera("MenuCam");
+    m_pCamera->setPosition(Vector3(0, 25, -50));
+    m_pCamera->lookAt(Vector3(0, 0, 0));
+    m_pCamera->setNearClipDistance(1);
+
+    m_pCamera->setAspectRatio(Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
+        Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight()));
+
+    OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
 
     createScene();
+
+	CEGUI::System::getSingleton().setGUISheet(sheet);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
