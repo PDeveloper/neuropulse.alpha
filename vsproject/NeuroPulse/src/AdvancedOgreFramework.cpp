@@ -40,6 +40,27 @@ OgreFramework::~OgreFramework()
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
+CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
+{
+    switch ( buttonID)
+    {
+    case OIS::MB_Left:
+        return CEGUI::LeftButton;
+ 
+    case OIS::MB_Right:
+        return CEGUI::RightButton;
+ 
+    case OIS::MB_Middle:
+        return CEGUI::MiddleButton;
+ 
+    default:
+        return CEGUI::LeftButton;
+    }
+}
+
+//|||||||||||||||||||||||||||||||||||||||||||||||
+
+
 bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListener, OIS::MouseListener *pMouseListener)
 {
 #ifdef _DEBUG
@@ -154,25 +175,9 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 
 bool OgreFramework::keyPressed(const OIS::KeyEvent &keyEventRef)
 {
-    if(m_pKeyboard->isKeyDown(OIS::KC_SYSRQ))
-    {
-        m_pRenderWnd->writeContentsToTimestampedFile("AOF_Screenshot_", ".jpg");
-        return true;
-    }
-
-    if(m_pKeyboard->isKeyDown(OIS::KC_O))
-    {
-        if(m_pTrayMgr->isLogoVisible())
-        {
-            m_pTrayMgr->hideFrameStats();
-            m_pTrayMgr->hideLogo();
-        }
-        else
-        {
-            m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-            m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-        }
-    }
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown( keyEventRef.key);
+	sys.injectChar( keyEventRef.text);
 
     return true;
 }
@@ -181,34 +186,43 @@ bool OgreFramework::keyPressed(const OIS::KeyEvent &keyEventRef)
 
 bool OgreFramework::keyReleased(const OIS::KeyEvent &keyEventRef)
 {
-    return true;
+    CEGUI::System::getSingleton().injectKeyUp( keyEventRef.key);
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool OgreFramework::mouseMoved(const OIS::MouseEvent &evt)
 {
-    return true;
+    CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectMouseMove( evt.state.X.rel, evt.state.Y.rel);
+	// Scroll wheel.
+	if ( evt.state.Z.rel)
+		sys.injectMouseWheelChange( evt.state.Z.rel / 120.0f);
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool OgreFramework::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    return true;
+    CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool OgreFramework::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    return true;
+    CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void OgreFramework::updateOgre(double timeSinceLastFrame)
 {
+	CEGUI::System::getSingleton().injectTimePulse( timeSinceLastFrame);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

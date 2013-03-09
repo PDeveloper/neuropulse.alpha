@@ -29,7 +29,7 @@ bool ApplicationBase::run(void)
 	GameState::create(m_pAppStateManager, "GameState");
     PauseState::create(m_pAppStateManager, "PauseState");
 
-	m_pAppStateManager->start(m_pAppStateManager->findByName("GameState"));
+	m_pAppStateManager->start(m_pAppStateManager->findByName("MenuState"));
 
 	return true;
 }

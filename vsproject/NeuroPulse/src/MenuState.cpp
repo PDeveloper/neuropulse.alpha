@@ -32,16 +32,16 @@ void MenuState::enter()
         Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight()));
 
     OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
+	
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
 
+	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
+	quit->setText("Quit");
+	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
 	
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->destroyAllWidgets();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "EnterBtn", "Enter GameState", 250);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "ExitBtn", "Exit AdvancedOgreFramework", 250);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createLabel(OgreBites::TL_TOP, "MenuLbl", "Menu mode", 250);
-	
+	sheet->addChildWindow(quit);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
 
     createScene();
 }
@@ -95,7 +95,7 @@ bool MenuState::keyReleased(const OIS::KeyEvent &keyEventRef)
 
 bool MenuState::mouseMoved(const OIS::MouseEvent &evt)
 {
-    if(OgreFramework::getSingletonPtr()->m_pTrayMgr->injectMouseMove(evt)) return true;
+	OgreFramework::getSingletonPtr()->mouseMoved( evt);
     return true;
 }
 
@@ -103,7 +103,7 @@ bool MenuState::mouseMoved(const OIS::MouseEvent &evt)
 
 bool MenuState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(OgreFramework::getSingletonPtr()->m_pTrayMgr->injectMouseDown(evt, id)) return true;
+    OgreFramework::getSingletonPtr()->mousePressed( evt, id);
     return true;
 }
 
@@ -111,7 +111,7 @@ bool MenuState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 
 bool MenuState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(OgreFramework::getSingletonPtr()->m_pTrayMgr->injectMouseUp(evt, id)) return true;
+     OgreFramework::getSingletonPtr()->mouseReleased( evt, id);
     return true;
 }
 
@@ -120,7 +120,6 @@ bool MenuState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 void MenuState::update(double timeSinceLastFrame)
 {
     m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->frameRenderingQueued(m_FrameEvent);
 
     if(m_bQuit == true)
     {
