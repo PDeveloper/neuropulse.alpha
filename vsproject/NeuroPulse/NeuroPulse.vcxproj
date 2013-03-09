@@ -79,6 +79,7 @@
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\CEGUIState.h" />
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\ConnectionDisplaySystem.h" />

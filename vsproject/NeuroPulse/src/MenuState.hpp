@@ -5,11 +5,11 @@
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-#include "AppState.hpp"
+#include "CEGUIState.h"
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-class MenuState : public AppState
+class MenuState : public CEGUIState
 {
 public:
     MenuState();
@@ -20,16 +20,18 @@ public:
 	void createScene();
 	void exit();
 
-	bool keyPressed(const OIS::KeyEvent &keyEventRef);
-	bool keyReleased(const OIS::KeyEvent &keyEventRef);
+	bool onKeyPress(const OIS::KeyEvent &keyEventRef);
+	bool onKeyRelease(const OIS::KeyEvent &keyEventRef);
 
-	bool mouseMoved(const OIS::MouseEvent &evt);
-	bool mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id);
-	bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);
-
-	void buttonHit(OgreBites::Button* button);
+	bool onMouseMove(const OIS::MouseEvent &evt);
+	bool onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id);
+	bool onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id);
 
 	void update(double timeSinceLastFrame);
+
+	bool onPlay( const CEGUI::EventArgs& /*e*/);
+	bool onOptions( const CEGUI::EventArgs& /*e*/);
+	bool onQuit( const CEGUI::EventArgs& /*e*/);
 
 private:
 	bool m_bQuit;

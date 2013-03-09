@@ -383,5 +383,8 @@
     <ClInclude Include="src\ac\Config.h">
       <Filter>Header Files\ac</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEGUIState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

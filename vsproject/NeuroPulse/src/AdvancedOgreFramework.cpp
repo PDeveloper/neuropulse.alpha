@@ -23,7 +23,6 @@ OgreFramework::OgreFramework()
     m_pInputMgr			= 0;
     m_pKeyboard			= 0;
     m_pMouse			= 0;
-    m_pTrayMgr          = 0;
 
 	cegui_renderer      = 0;
 }
@@ -33,7 +32,6 @@ OgreFramework::OgreFramework()
 OgreFramework::~OgreFramework()
 {
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Shutdown OGRE...");
-    if(m_pTrayMgr)      delete m_pTrayMgr;
     if(m_pInputMgr)		OIS::InputManager::destroyInputSystem(m_pInputMgr);
     if(m_pRoot)			delete m_pRoot;
 }
@@ -139,12 +137,9 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
         m_pMouse->setEventCallback(this);
     else
         m_pMouse->setEventCallback(pMouseListener);
-
-    
+	
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-    m_pTrayMgr = new OgreBites::SdkTrayManager("AOFTrayMgr", m_pRenderWnd, m_pMouse, 0);
 
 	cegui_renderer = &CEGUI::OgreRenderer::bootstrapSystem();
 

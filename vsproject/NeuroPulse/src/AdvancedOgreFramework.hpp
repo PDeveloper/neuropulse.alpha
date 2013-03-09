@@ -22,8 +22,6 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-#include <SdkTrays.h>
-
 #include <CEGUI.h>
 #include <RendererModules\Ogre\CEGUIOgreRenderer.h>
 
@@ -54,8 +52,6 @@ public:
 	OIS::InputManager*			m_pInputMgr;
 	OIS::Keyboard*				m_pKeyboard;
 	OIS::Mouse*					m_pMouse;
-
-    OgreBites::SdkTrayManager*	m_pTrayMgr;
 
 	CEGUI::OgreRenderer* cegui_renderer;
 

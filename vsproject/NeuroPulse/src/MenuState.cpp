@@ -33,14 +33,32 @@ void MenuState::enter()
 
     OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
 	
+	// Create CEGUI interface!
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
 
-	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
+	CEGUI::Window *play = wmgr.createWindow("TaharezLook/Button", "MainMenu/PlayButton");
+	play->setText("Play");
+	play->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.45, 0)));
+	play->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
+	play->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &MenuState::onPlay, this));
+
+	CEGUI::Window *options = wmgr.createWindow("TaharezLook/Button", "MainMenu/OptionsButton");
+	options->setText("Options");
+	options->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.5, 0)));
+	options->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
+	options->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &MenuState::onOptions, this));
+
+	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "MainMenu/QuitButton");
 	quit->setText("Quit");
-	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+	quit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.55, 0)));
+	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
+	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &MenuState::onQuit, this));
 	
+	sheet->addChildWindow(play);
+	sheet->addChildWindow(options);
 	sheet->addChildWindow(quit);
+
 	CEGUI::System::getSingleton().setGUISheet(sheet);
 
     createScene();
@@ -61,57 +79,47 @@ void MenuState::exit()
     m_pSceneMgr->destroyCamera(m_pCamera);
     if(m_pSceneMgr)
         OgreFramework::getSingletonPtr()->m_pRoot->destroySceneManager(m_pSceneMgr);
-	
-	
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->clearAllTrays();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->destroyAllWidgets();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->setListener(0);
-	
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool MenuState::keyPressed(const OIS::KeyEvent &keyEventRef)
+bool MenuState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
     if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
     {
         m_bQuit = true;
+
         return true;
     }
 
-    OgreFramework::getSingletonPtr()->keyPressed(keyEventRef);
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool MenuState::keyReleased(const OIS::KeyEvent &keyEventRef)
+bool MenuState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 {
-    OgreFramework::getSingletonPtr()->keyReleased(keyEventRef);
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool MenuState::mouseMoved(const OIS::MouseEvent &evt)
+bool MenuState::onMouseMove(const OIS::MouseEvent &evt)
 {
-	OgreFramework::getSingletonPtr()->mouseMoved( evt);
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool MenuState::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool MenuState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    OgreFramework::getSingletonPtr()->mousePressed( evt, id);
     return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool MenuState::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+bool MenuState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-     OgreFramework::getSingletonPtr()->mouseReleased( evt, id);
     return true;
 }
 
@@ -130,12 +138,21 @@ void MenuState::update(double timeSinceLastFrame)
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-void MenuState::buttonHit(OgreBites::Button *button)
+bool MenuState::onPlay( const CEGUI::EventArgs& /*e*/)
 {
-    if(button->getName() == "ExitBtn")
-        m_bQuit = true;
-    else if(button->getName() == "EnterBtn")
-        changeAppState(findByName("GameState"));
+	changeAppState( findByName( "GameState"));
+
+	return true;
 }
 
-//|||||||||||||||||||||||||||||||||||||||||||||||
+bool MenuState::onOptions( const CEGUI::EventArgs& /*e*/)
+{
+	return true;
+}
+
+bool MenuState::onQuit( const CEGUI::EventArgs& /*e*/)
+{
+	m_bQuit = true;
+
+	return true;
+}
