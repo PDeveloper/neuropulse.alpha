@@ -225,6 +225,9 @@
     <ClCompile Include="src\NeuroWorld.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeuroPlayer.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -404,7 +407,6 @@
     <ClInclude Include="src\NeuroWorld.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-
     <ClInclude Include="HubComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
@@ -425,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="ConstructConnectionBase.h">
       <Filter>Header Files\core\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeuroPlayer.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

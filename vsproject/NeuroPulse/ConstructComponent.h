@@ -1,7 +1,6 @@
 #include <ac\es.h>
 #include <vector>
-#include "HubComponent.h"
-
+#include "ConstructProcessing.h";
 
 /**
 	ConstructComponent
@@ -11,6 +10,9 @@
 #pragma once
 namespace np
 {
+
+	class HubComponent;
+
 	class ConstructComponent : public ac::es::Component
 	{
 		AC_ES_COMPONENT(ConstructComponent)

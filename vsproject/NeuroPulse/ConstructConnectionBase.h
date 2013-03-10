@@ -12,7 +12,5 @@ namespace np
 		void connect(ConstructConnectionBase* target);
 		void disconnect();
 
-
-
 	};
 }

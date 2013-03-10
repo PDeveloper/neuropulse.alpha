@@ -1,7 +1,5 @@
 #include <ac\es.h>
 #include <vector>
-#include "ConstructComponent.h"
-
 
 /**
 	HubComponent
@@ -11,6 +9,9 @@
 #pragma once
 namespace np
 {
+
+	class ConstructComponent;
+
 	class HubComponent : public ac::es::Component
 	{
 		AC_ES_COMPONENT(HubComponent)
@@ -18,11 +19,8 @@ namespace np
 
 		std::vector<np::ConstructComponent*> constructs;
 
-
-
 		HubComponent();
 		~HubComponent(void);
-
 
 	};
 }

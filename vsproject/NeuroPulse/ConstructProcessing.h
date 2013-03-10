@@ -8,8 +8,6 @@ namespace np
 {
 	class ConstructProcessing
 	{
-		
-
 
 		virtual void processIncoming(np::Pulse* pulse);
 		virtual void processOutgoing(np::Pulse* pulse);

@@ -1,5 +1,6 @@
-#pragma once
 
+
+#pragma once
 namespace np
 {
 	class PulseSystemSettings
