@@ -10,7 +10,12 @@ namespace np
 		ReactionSystem(void);
 		~ReactionSystem(void);
 
+		void setDeltaTime( double time);
+
 	protected:
 		virtual void process( ac::es::EntityPtr e);
+
+	private:
+		double deltaTime;
 	};
 }

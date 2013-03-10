@@ -1,4 +1,5 @@
 #include <GameObjectFactory.h>
+#include <NeuroWorld.h>
 
 #pragma once
 namespace np
@@ -9,7 +10,7 @@ namespace np
 		WorldGenerator(void);
 		~WorldGenerator(void);
 
-		void generateWorld( np::GameObjectFactory* factory, const int numNodes);
-		void generateWorld2( np::GameObjectFactory* factory, const int numNodes);
+		void generateWorld( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes);
+		void generateWorld2( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes);
 	};
 }

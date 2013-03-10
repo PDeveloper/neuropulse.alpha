@@ -24,8 +24,6 @@ void np::ConnectionDisplaySystem::process( ac::es::EntityPtr e)
 {
 	np::ConnectionComponent* connection = e->getComponent<np::ConnectionComponent>();
 	np::GraphicComponent* graphics = e->getComponent<np::GraphicComponent>();
-
-
 }
 
 void np::ConnectionDisplaySystem::onAddedEntity( ac::es::EntityPtr e)
