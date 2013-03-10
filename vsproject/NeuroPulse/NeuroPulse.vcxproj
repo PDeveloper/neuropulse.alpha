@@ -29,6 +29,8 @@
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
+    <ClCompile Include="src\ConstructInput.cpp" />
+    <ClCompile Include="src\ConstructOutput.cpp" />
     <ClCompile Include="src\delaunay.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
     <ClCompile Include="src\Event.cpp" />
@@ -93,6 +95,8 @@
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
+    <ClInclude Include="src\ConstructInput.h" />
+    <ClInclude Include="src\ConstructOutput.h" />
     <ClInclude Include="src\delaunay.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
     <ClInclude Include="src\Event.h" />
