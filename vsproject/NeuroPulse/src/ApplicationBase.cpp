@@ -12,7 +12,7 @@ ApplicationBase::ApplicationBase(void)
 ApplicationBase::~ApplicationBase(void)
 {
 	delete m_pAppStateManager;
-    delete OgreFramework::getSingletonPtr();
+	delete OgreFramework::getSingletonPtr();
 }
 
 bool ApplicationBase::run(void)
@@ -27,9 +27,9 @@ bool ApplicationBase::run(void)
 
 	MenuState::create(m_pAppStateManager, "MenuState");
 	GameState::create(m_pAppStateManager, "GameState");
-    PauseState::create(m_pAppStateManager, "PauseState");
+	PauseState::create(m_pAppStateManager, "PauseState");
 
-	m_pAppStateManager->start(m_pAppStateManager->findByName("MenuState"));
+	m_pAppStateManager->start(m_pAppStateManager->findByName("GameState"));
 
 	return true;
 }

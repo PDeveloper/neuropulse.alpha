@@ -94,6 +94,12 @@
     <Filter Include="Header Files\core\events">
       <UniqueIdentifier>{58809462-9a2b-46e3-a54a-f0d4d2fb2cda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\constructs">
+      <UniqueIdentifier>{8216bb7a-c5a5-4772-9000-751fc0384b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\constructs\resourceTypes">
+      <UniqueIdentifier>{ad3cf812-b809-4ec5-8ab0-ee8cbb71bcaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -385,6 +391,27 @@
     </ClInclude>
     <ClInclude Include="src\CEGUIState.h">
       <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="HubComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructProcessing.h">
+      <Filter>Header Files\core\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceType.h">
+      <Filter>Header Files\core\constructs\resourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="EnergyResourceType.h">
+      <Filter>Header Files\core\constructs\resourceTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructConnectionComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructConnectionBase.h">
+      <Filter>Header Files\core\constructs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
