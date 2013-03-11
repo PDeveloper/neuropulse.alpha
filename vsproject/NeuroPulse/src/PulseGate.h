@@ -4,28 +4,31 @@
 #pragma once
 namespace np
 {
-	//class ConstructComponent;
+	class PulseFeed;
 
-	class ConstructComponent;
-
-	class ConnectionFeed
+	class PulseGate
 	{
 	public:
 
-		ConstructComponent* construct;
+		
+
+		bool isConnected;
 
 		double position;
 
-		ConnectionFeed( double position)
+		PulseFeed* target;
+
+		PulseGate( double position)
 		{
 			this->position = position;
+			isConnected = false;
 		}
 
-		~ConnectionFeed(void)
+		~PulseGate(void)
 		{
 		}		
 
-		bool operator < (const ConnectionFeed& conn) const
+		bool operator < (const PulseGate& conn) const
 		{
 			return (position < conn.position);
 		}
@@ -33,5 +36,10 @@ namespace np
 		void inputPulse( np::Pulse* pulse);
 
 		void outputPulse( np::Pulse* pulse);
+
+		void connect(PulseFeed* feed);
+
+		void disconnect();
+
 	};
 }

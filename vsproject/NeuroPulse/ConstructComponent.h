@@ -12,7 +12,7 @@ namespace np
 {
 
 	class HubComponent;
-	class ConstructProcessing;
+	class Construct;
 
 	class ConstructComponent : public ac::es::Component
 	{
@@ -21,9 +21,9 @@ namespace np
 
 		np::HubComponent* hubComponent;
 
-		np::ConstructProcessing* constructProcessing;
+		np::Construct* constructProcessing;
 
-		ConstructComponent(np::ConstructProcessing* constructProcessing);
+		ConstructComponent(np::Construct* constructProcessing);
 		~ConstructComponent(void);
 
 

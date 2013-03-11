@@ -94,17 +94,23 @@
     <Filter Include="Header Files\core\events">
       <UniqueIdentifier>{58809462-9a2b-46e3-a54a-f0d4d2fb2cda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\constructs">
-      <UniqueIdentifier>{8216bb7a-c5a5-4772-9000-751fc0384b4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\core\constructs\resourceTypes">
-      <UniqueIdentifier>{ad3cf812-b809-4ec5-8ab0-ee8cbb71bcaa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core\constructs">
-      <UniqueIdentifier>{6b43f0c0-dde9-407b-852a-9b0d97a6cf8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\core\data">
       <UniqueIdentifier>{7b9b241f-914f-4ccb-9367-702ac55d621f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\construct">
+      <UniqueIdentifier>{8216bb7a-c5a5-4772-9000-751fc0384b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\construct\resourceTypes">
+      <UniqueIdentifier>{ad3cf812-b809-4ec5-8ab0-ee8cbb71bcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\construct\constructs">
+      <UniqueIdentifier>{faa4d5c5-2d5b-4bcf-9276-2fadd6bebf4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\construct">
+      <UniqueIdentifier>{6b43f0c0-dde9-407b-852a-9b0d97a6cf8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\construct\constructs">
+      <UniqueIdentifier>{4592c5b2-faa6-4528-9bae-92cf5bd5f992}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -235,13 +241,19 @@
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="src\ConstructOutput.cpp">
-      <Filter>Source Files\core\constructs</Filter>
+      <Filter>Source Files\core\construct</Filter>
     </ClCompile>
     <ClCompile Include="src\ConstructInput.cpp">
-      <Filter>Source Files\core\constructs</Filter>
+      <Filter>Source Files\core\construct</Filter>
     </ClCompile>
-    <ClCompile Include="ConnectionFeed.cpp">
+    <ClCompile Include="PulseGate.cpp">
       <Filter>Source Files\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="PulseFeed.cpp">
+      <Filter>Source Files\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="EnergyRefinerConstruct.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +377,6 @@
     <ClInclude Include="src\ReactionSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConnectionFeed.h">
-      <Filter>Header Files\core\data</Filter>
-    </ClInclude>
     <ClInclude Include="src\ConnectionBase.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
@@ -428,11 +437,8 @@
     <ClInclude Include="ConstructComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="ConstructProcessing.h">
-      <Filter>Header Files\core\constructs</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceType.h">
-      <Filter>Header Files\core\constructs\resourceTypes</Filter>
+      <Filter>Header Files\core\construct\resourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="ConstructConnectionComponent.h">
       <Filter>Header Files\entity\components</Filter>
@@ -441,13 +447,25 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\ConstructOutput.h">
-      <Filter>Header Files\core\constructs</Filter>
+      <Filter>Header Files\core\construct</Filter>
     </ClInclude>
     <ClInclude Include="src\ConstructInput.h">
-      <Filter>Header Files\core\constructs</Filter>
+      <Filter>Header Files\core\construct</Filter>
     </ClInclude>
     <ClInclude Include="ResourcePacket.h">
-      <Filter>Header Files\core\constructs</Filter>
+      <Filter>Header Files\core\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseGate.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="PulseFeed.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="Construct.h">
+      <Filter>Header Files\core\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="EnergyRefinerConstruct.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

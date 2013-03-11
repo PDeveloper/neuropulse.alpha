@@ -6,9 +6,9 @@ namespace np
 {
 	class ResourceType
 	{
-		virtual std::string name() = 0;
-		virtual std::string description() = 0;
-		virtual int id() = 0;
+		virtual std::string name();
+		virtual std::string description();
+		virtual int id();
 
 		bool operator==(ResourceType& other)
 		{

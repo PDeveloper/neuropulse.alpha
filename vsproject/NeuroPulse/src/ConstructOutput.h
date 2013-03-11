@@ -12,13 +12,18 @@ namespace np
 	{
 	public:
 
-		np::ConstructInput* input;
+		np::ConstructInput* target;
 
 		np::ResourceType* resourceType;
 
 		std::vector<np::ResourcePacket*> buffer;
 
-		ConstructOutput(void);
-		~ConstructOutput(void);
+		bool isConnected;
+
+		ConstructOutput(np::ResourceType* resourceType);
+		~ConstructOutput();
+
+		void connect(np::ConstructInput* target);
+		void disconnect();
 	};
 }

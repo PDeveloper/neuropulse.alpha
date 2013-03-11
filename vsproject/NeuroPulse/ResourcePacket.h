@@ -8,7 +8,13 @@ namespace np
 	{
 	public:
 		ResourceType* resourceType;
-		double value;
+		double amount;
+
+		ResourcePacket(ResourceType* resourceType, double amount)
+		{
+			this->resourceType = resourceType;
+			this->amount = amount;
+		}
 		
 	};
 }

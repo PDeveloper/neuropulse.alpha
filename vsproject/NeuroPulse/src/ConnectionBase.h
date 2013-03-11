@@ -1,7 +1,7 @@
 #include <ac\es.h>
 
 #include <NodeComponent.h>
-#include <ConnectionFeed.h>
+#include <PulseGate.h>
 
 #include <Pulse.h>
 
@@ -21,7 +21,7 @@ namespace np
 		np::NodeComponent* node;
 		np::ConnectionBase* target;
 
-		std::list<np::ConnectionFeed*> feeds;
+		std::list<np::PulseGate*> feeds;
 
 		std::list<np::Pulse*> inPulseBuffer;
 
@@ -44,25 +44,25 @@ namespace np
 
 		void outputPulse( np::Pulse* pulse)
 		{
-			for (std::list<np::ConnectionFeed*>::iterator it = feeds.begin(); it != feeds.end(); it++)
+			for (std::list<np::PulseGate*>::iterator it = feeds.begin(); it != feeds.end(); it++)
 				(*it)->outputPulse( pulse);
 		}
 
 		void inputPulse( np::Pulse* pulse)
 		{
-			for (std::list<np::ConnectionFeed*>::iterator it = feeds.end(); it != feeds.begin(); it--)
+			for (std::list<np::PulseGate*>::iterator it = feeds.end(); it != feeds.begin(); it--)
 				(*it)->inputPulse( pulse);
 		}
 
-		void addFeed( np::ConnectionFeed* feed)
+		void addFeed( np::PulseGate* feed)
 		{
 			feeds.push_back( feed);
 			feeds.sort();
 		}
 
-		void removeFeed( np::ConnectionFeed* feed)
+		void removeFeed( np::PulseGate* feed)
 		{
-			for (std::list<np::ConnectionFeed*>::iterator it = feeds.begin(); it != feeds.end(); it++)
+			for (std::list<np::PulseGate*>::iterator it = feeds.begin(); it != feeds.end(); it++)
 			if ( (*it) == feed)
 			{
 				feeds.erase(it);
