@@ -1,5 +1,7 @@
 #include <ac\es.h>
 #include <TransformComponent.h>
+#include "ConstructInput.h"
+#include "ConstructOutput.h"
 
 
 /**

@@ -1,6 +1,6 @@
 #include <ac\es.h>
 #include <vector>
-#include "ConstructProcessing.h";
+
 
 /**
 	ConstructComponent
@@ -12,6 +12,7 @@ namespace np
 {
 
 	class HubComponent;
+	class ConstructProcessing;
 
 	class ConstructComponent : public ac::es::Component
 	{

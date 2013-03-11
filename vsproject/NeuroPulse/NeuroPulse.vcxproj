@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectionFeed.cpp" />
     <ClCompile Include="src\ac\es\Component.cpp" />
     <ClCompile Include="src\ac\es\ComponentContainer.cpp" />
     <ClCompile Include="src\ac\es\Entity.cpp" />
@@ -59,10 +60,9 @@
   <ItemGroup>
     <ClInclude Include="ConstructComponent.h" />
     <ClInclude Include="ConstructConnectionComponent.h" />
-    <ClInclude Include="ConstructConnectionBase.h" />
     <ClInclude Include="ConstructProcessing.h" />
-    <ClInclude Include="EnergyResourceType.h" />
     <ClInclude Include="HubComponent.h" />
+    <ClInclude Include="ResourcePacket.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="src\ac\Config.h" />
     <ClInclude Include="src\ac\es.h" />

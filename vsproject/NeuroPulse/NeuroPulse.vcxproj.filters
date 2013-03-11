@@ -103,6 +103,9 @@
     <Filter Include="Source Files\core\constructs">
       <UniqueIdentifier>{6b43f0c0-dde9-407b-852a-9b0d97a6cf8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\data">
+      <UniqueIdentifier>{7b9b241f-914f-4ccb-9367-702ac55d621f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -236,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="src\ConstructInput.cpp">
       <Filter>Source Files\core\constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionFeed.cpp">
+      <Filter>Source Files\core\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,14 +434,8 @@
     <ClInclude Include="ResourceType.h">
       <Filter>Header Files\core\constructs\resourceTypes</Filter>
     </ClInclude>
-    <ClInclude Include="EnergyResourceType.h">
-      <Filter>Header Files\core\constructs\resourceTypes</Filter>
-    </ClInclude>
     <ClInclude Include="ConstructConnectionComponent.h">
       <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstructConnectionBase.h">
-      <Filter>Header Files\core\constructs</Filter>
     </ClInclude>
     <ClInclude Include="src\NeuroPlayer.h">
       <Filter>Header Files\core</Filter>
@@ -444,6 +444,9 @@
       <Filter>Header Files\core\constructs</Filter>
     </ClInclude>
     <ClInclude Include="src\ConstructInput.h">
+      <Filter>Header Files\core\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourcePacket.h">
       <Filter>Header Files\core\constructs</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,11 +1,18 @@
 #include <Pulse.h>
 
+
 #pragma once
 namespace np
 {
+	//class ConstructComponent;
+
+	class ConstructComponent;
+
 	class ConnectionFeed
 	{
 	public:
+
+		ConstructComponent* construct;
 
 		double position;
 
@@ -16,19 +23,15 @@ namespace np
 
 		~ConnectionFeed(void)
 		{
-		}
-
-		virtual void inputPulse( np::Pulse* pulse)
-		{
-		}
-
-		virtual void outputPulse( np::Pulse* pulse)
-		{
-		}
+		}		
 
 		bool operator < (const ConnectionFeed& conn) const
 		{
 			return (position < conn.position);
 		}
+
+		void inputPulse( np::Pulse* pulse);
+
+		void outputPulse( np::Pulse* pulse);
 	};
 }
