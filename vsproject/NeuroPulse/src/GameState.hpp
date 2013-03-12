@@ -79,6 +79,7 @@ private:
 	Ogre::Real					m_MoveSpeed;
 	Ogre::Degree				m_RotateSpeed;
 	float						m_MoveScale;
+	float						m_MouseScrollSpeed;
 	Ogre::Degree				m_RotScale;
 
 	Ogre::RaySceneQuery*		m_pRSQ;

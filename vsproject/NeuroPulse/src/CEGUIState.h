@@ -22,45 +22,45 @@ protected:
 private:
 	bool keyPressed( const OIS::KeyEvent &keyEventRef)
 	{
-		OgreFramework::getSingletonPtr()->keyPressed(keyEventRef);
-		
 		onKeyPress( keyEventRef);
+
+		OgreFramework::getSingletonPtr()->keyPressed(keyEventRef);
 
 		return true;
 	}
 
 	bool keyReleased( const OIS::KeyEvent &keyEventRef)
 	{
-		OgreFramework::getSingletonPtr()->keyReleased(keyEventRef);
-
 		onKeyRelease( keyEventRef);
+
+		OgreFramework::getSingletonPtr()->keyReleased(keyEventRef);
 
 		return true;
 	}
 
 	bool mouseMoved( const OIS::MouseEvent &evt)
 	{
-		OgreFramework::getSingletonPtr()->mouseMoved( evt);
-
 		onMouseMove( evt);
+
+		OgreFramework::getSingletonPtr()->mouseMoved( evt);
 
 		return true;
 	}
 
 	bool mousePressed( const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
-		OgreFramework::getSingletonPtr()->mousePressed( evt, id);
-
 		onMousePress( evt, id);
+
+		OgreFramework::getSingletonPtr()->mousePressed( evt, id);
 
 		return true;
 	}
 
 	bool mouseReleased( const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
-		OgreFramework::getSingletonPtr()->mouseReleased( evt, id);
-
 		onMouseRelease( evt, id);
+
+		OgreFramework::getSingletonPtr()->mouseReleased( evt, id);
 
 		return true;
 	}

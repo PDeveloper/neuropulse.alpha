@@ -3,6 +3,7 @@
 #include "GameState.hpp"
 
 #include <NodeComponent.h>
+#include <AdvancedOgreFramework.hpp>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -14,6 +15,7 @@ GameState::GameState()
 {
     m_MoveSpeed			= 0.1f;
     m_RotateSpeed		= 0.3f;
+	m_MouseScrollSpeed	= 1.0f;
 
     m_bLMouseDown       = false;
     m_bRMouseDown       = false;
@@ -222,23 +224,27 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
         m_pCamera->pitch(Degree(evt.state.Y.rel * -0.1f));
 	}
 
-	if ( evt.state.X.abs < 0)
+	Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
+
+	if ( evt.state.X.abs <= 0)
 	{
-		m_TranslateVector.x = m_MoveScale * evt.state.X.abs;
+		scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
 	}
-	else if ( evt.state.X.abs > evt.state.width)
+	else if ( evt.state.X.abs >= evt.state.width)
 	{
-		m_TranslateVector.x = m_MoveScale * ( evt.state.X.abs - evt.state.width);
+		scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
 	}
 
-	if ( evt.state.Y.abs < 0)
+	if ( evt.state.Y.abs <= 0)
 	{
-		m_TranslateVector.y = m_MoveScale * evt.state.Y.abs;
+		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
 	}
-	else if ( evt.state.Y.abs > evt.state.height)
+	else if ( evt.state.Y.abs >= evt.state.height)
 	{
-		m_TranslateVector.y = m_MoveScale * ( evt.state.Y.abs - evt.state.height);
+		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
 	}
+
+	m_pCamera->move( scrollVector);
 
     return true;
 }
@@ -375,6 +381,8 @@ void GameState::update(double timeSinceLastFrame)
 	debugText += CEGUI::String( "globalPulseTime:" + Ogre::StringConverter::toString( Ogre::Real( pulseSettings->globalPulseTime))) + "\n";
 	debugText += CEGUI::String( "node0 energy:" + Ogre::StringConverter::toString( Ogre::Real( node->currentEnergy))) + "\n";
 	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( outputSystem->timeSinceLastPulse))) + "\n";
+	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( OgreFramework::getSingleton().m_pMouse->getMouseState().X.rel))) + "\n";
+	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( OgreFramework::getSingleton().m_pMouse->getMouseState().Y.rel))) + "\n";
 	debug_txt->setText( debugText);
 
 	esScene->update();

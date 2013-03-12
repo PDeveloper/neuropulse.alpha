@@ -120,14 +120,27 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
     m_pRenderWnd->getCustomAttribute("WINDOW", &hWnd);
 
     paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
-
+	/*
+#if defined OIS_WIN32_PLATFORM
+	paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
+	paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+	paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+	paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
+#elif defined OIS_LINUX_PLATFORM
+	paramList.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+	paramList.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
+	paramList.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+	paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+#endif
+	*/
     m_pInputMgr = OIS::InputManager::createInputSystem( paramList);
 
     m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));
-    m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
-	
-    //m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
-    //m_pMouse->getMouseState().width	 = m_pRenderWnd->getWidth();
+	m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
+
+	const OIS::MouseState &ms = m_pMouse->getMouseState();
+	ms.width = m_pRenderWnd->getWidth();
+	ms.height = m_pRenderWnd->getHeight();
 
     if(pKeyListener == 0)
         m_pKeyboard->setEventCallback(this);
@@ -191,7 +204,8 @@ bool OgreFramework::keyReleased(const OIS::KeyEvent &keyEventRef)
 bool OgreFramework::mouseMoved(const OIS::MouseEvent &evt)
 {
     CEGUI::System &sys = CEGUI::System::getSingleton();
-	sys.injectMouseMove( evt.state.X.rel, evt.state.Y.rel);
+	//sys.injectinjectMouseMove( evt.state.X.rel, evt.state.Y.rel);
+	sys.injectMousePosition( evt.state.X.abs, evt.state.Y.abs);
 	// Scroll wheel.
 	if ( evt.state.Z.rel)
 		sys.injectMouseWheelChange( evt.state.Z.rel / 120.0f);
