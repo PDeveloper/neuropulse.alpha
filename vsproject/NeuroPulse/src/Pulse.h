@@ -26,9 +26,10 @@ namespace np
 			}
 			else
 			{
+				double ne = energy;
 				energy = 0.0;
 				// Must notify shit that this pulse was just destroyed.
-				return energy;
+				return ne;
 			} 
 		}
 

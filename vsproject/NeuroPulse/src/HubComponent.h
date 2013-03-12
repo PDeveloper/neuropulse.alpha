@@ -1,5 +1,6 @@
 #include <ac\es.h>
 #include <vector>
+#include <NeuroPlayer.h>
 
 /**
 	HubComponent
@@ -17,9 +18,13 @@ namespace np
 		AC_ES_COMPONENT(HubComponent)
 	public:
 
+		np::NeuroPlayer* owner;
+
 		std::vector<np::ConstructComponent*> constructs;
 
-		HubComponent();
+		double health;
+
+		HubComponent( np::NeuroPlayer* owner);
 		~HubComponent(void);
 
 	};

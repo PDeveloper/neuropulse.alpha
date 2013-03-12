@@ -100,9 +100,6 @@
     <Filter Include="Header Files\core\construct">
       <UniqueIdentifier>{8216bb7a-c5a5-4772-9000-751fc0384b4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\construct\resourceTypes">
-      <UniqueIdentifier>{ad3cf812-b809-4ec5-8ab0-ee8cbb71bcaa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\core\construct\constructs">
       <UniqueIdentifier>{faa4d5c5-2d5b-4bcf-9276-2fadd6bebf4b}</UniqueIdentifier>
     </Filter>
@@ -111,6 +108,30 @@
     </Filter>
     <Filter Include="Source Files\core\construct\constructs">
       <UniqueIdentifier>{4592c5b2-faa6-4528-9bae-92cf5bd5f992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\construct\resource">
+      <UniqueIdentifier>{ad3cf812-b809-4ec5-8ab0-ee8cbb71bcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\construct\resource">
+      <UniqueIdentifier>{acac6723-ea98-4219-9fe2-576a9bcf9e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{3b62593c-ece0-4f83-9bac-7c49e8426e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{1de863a0-5f90-4503-b399-2185707b5f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\menu">
+      <UniqueIdentifier>{bc8a7abe-f32b-4b49-869c-9c0ac25aa2c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\game">
+      <UniqueIdentifier>{3632f03d-de6c-40c4-a410-918bca9cbcae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\menu">
+      <UniqueIdentifier>{8438d300-b840-4f82-b9f7-d7de7c405b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\game">
+      <UniqueIdentifier>{0ccd27ed-373d-4691-a56c-724840d3bf5c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,14 +267,23 @@
     <ClCompile Include="src\ConstructInput.cpp">
       <Filter>Source Files\core\construct</Filter>
     </ClCompile>
-    <ClCompile Include="PulseGate.cpp">
+    <ClCompile Include="src\PulseFeed.cpp">
       <Filter>Source Files\core\data</Filter>
     </ClCompile>
-    <ClCompile Include="PulseFeed.cpp">
+    <ClCompile Include="src\PulseGate.cpp">
       <Filter>Source Files\core\data</Filter>
     </ClCompile>
-    <ClCompile Include="EnergyRefinerConstruct.cpp">
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>Source Files\core\construct\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnergyRefinerConstruct.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HubInfoPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeInfoPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,18 +461,6 @@
     <ClInclude Include="src\NeuroWorld.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="HubComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstructComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceType.h">
-      <Filter>Header Files\core\construct\resourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstructConnectionComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\NeuroPlayer.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -452,20 +470,41 @@
     <ClInclude Include="src\ConstructInput.h">
       <Filter>Header Files\core\construct</Filter>
     </ClInclude>
-    <ClInclude Include="ResourcePacket.h">
-      <Filter>Header Files\core\construct</Filter>
-    </ClInclude>
     <ClInclude Include="src\PulseGate.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
-    <ClInclude Include="PulseFeed.h">
+    <ClInclude Include="src\ResourceManager.h">
+      <Filter>Header Files\core\construct\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseFeed.h">
       <Filter>Header Files\core\data</Filter>
     </ClInclude>
-    <ClInclude Include="Construct.h">
+    <ClInclude Include="src\HubComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnergyRefinerConstruct.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Construct.h">
       <Filter>Header Files\core\construct</Filter>
     </ClInclude>
-    <ClInclude Include="EnergyRefinerConstruct.h">
-      <Filter>Header Files\core\construct\constructs</Filter>
+    <ClInclude Include="src\ConstructComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructConnectionComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourcePacket.h">
+      <Filter>Header Files\core\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceType.h">
+      <Filter>Header Files\core\construct\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HubInfoPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodeInfoPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #pragma once
 namespace np
 {
+
 	class PulseFeed;
 	class ConstructInput;
 	class ConstructOutput;
@@ -22,6 +23,8 @@ namespace np
 
 		void processIncoming(np::Pulse* pulse);
 		void processOutgoing(np::Pulse* pulse);
+
+		void update(void);
 
 		virtual std::string getName();
 		virtual std::string getDescription();

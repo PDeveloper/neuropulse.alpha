@@ -1,6 +1,5 @@
 #include "NeuroWorld.h"
 
-
 np::NeuroWorld::NeuroWorld(void) :
 	nodes()
 {

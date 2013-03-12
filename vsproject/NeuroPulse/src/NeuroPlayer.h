@@ -13,7 +13,7 @@ namespace np
 
 		Ogre::ColourValue colour;
 
-		NeuroPlayer( std::string name, float R, float G, float B);
+		NeuroPlayer( std::string name, Ogre::ColourValue colour);
 		~NeuroPlayer(void);
 
 	};

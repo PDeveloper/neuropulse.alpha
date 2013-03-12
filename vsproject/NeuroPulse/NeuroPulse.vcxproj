@@ -11,9 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnergyRefinerConstruct.cpp" />
-    <ClCompile Include="PulseFeed.cpp" />
-    <ClCompile Include="PulseGate.cpp" />
     <ClCompile Include="src\ac\es\Component.cpp" />
     <ClCompile Include="src\ac\es\ComponentContainer.cpp" />
     <ClCompile Include="src\ac\es\Entity.cpp" />
@@ -36,6 +33,7 @@
     <ClCompile Include="src\ConstructOutput.cpp" />
     <ClCompile Include="src\delaunay.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
+    <ClCompile Include="src\EnergyRefinerConstruct.cpp" />
     <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\EventType.cpp" />
@@ -43,31 +41,28 @@
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GraphicComponent.cpp" />
     <ClCompile Include="src\GraphicSystem.cpp" />
+    <ClCompile Include="src\HubInfoPanel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\NeuroPlayer.cpp" />
     <ClCompile Include="src\NeuroWorld.cpp" />
     <ClCompile Include="src\NodeComponent.cpp" />
+    <ClCompile Include="src\NodeInfoPanel.cpp" />
     <ClCompile Include="src\OutputComponent.cpp" />
     <ClCompile Include="src\OutputSystem.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
     <ClCompile Include="src\PulseComponent.cpp" />
+    <ClCompile Include="src\PulseFeed.cpp" />
+    <ClCompile Include="src\PulseGate.cpp" />
     <ClCompile Include="src\PulseSystem.cpp" />
     <ClCompile Include="src\PulseSystemSettings.cpp" />
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConstructComponent.h" />
-    <ClInclude Include="ConstructConnectionComponent.h" />
-    <ClInclude Include="Construct.h" />
-    <ClInclude Include="EnergyRefinerConstruct.h" />
-    <ClInclude Include="HubComponent.h" />
-    <ClInclude Include="PulseFeed.h" />
-    <ClInclude Include="ResourcePacket.h" />
-    <ClInclude Include="ResourceType.h" />
     <ClInclude Include="src\ac\Config.h" />
     <ClInclude Include="src\ac\es.h" />
     <ClInclude Include="src\ac\es\Component.h" />
@@ -99,10 +94,14 @@
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
+    <ClInclude Include="src\Construct.h" />
+    <ClInclude Include="src\ConstructComponent.h" />
+    <ClInclude Include="src\ConstructConnectionComponent.h" />
     <ClInclude Include="src\ConstructInput.h" />
     <ClInclude Include="src\ConstructOutput.h" />
     <ClInclude Include="src\delaunay.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
+    <ClInclude Include="src\EnergyRefinerConstruct.h" />
     <ClInclude Include="src\Event.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\EventType.h" />
@@ -110,12 +109,16 @@
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
     <ClInclude Include="src\GraphicSystem.h" />
+    <ClInclude Include="src\HubComponent.h" />
+    <ClInclude Include="src\HubInfoPanel.h" />
     <ClInclude Include="src\IListener.h" />
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\NeuroPlayer.h" />
     <ClInclude Include="src\NeuroWorld.h" />
     <ClInclude Include="src\NodeComponent.h" />
+    <ClInclude Include="src\NodeInfoPanel.h" />
     <ClInclude Include="src\OutputComponent.h" />
+    <ClInclude Include="src\PulseFeed.h" />
     <ClInclude Include="src\PulseGate.h" />
     <ClInclude Include="src\OutputSystem.h" />
     <ClInclude Include="src\PauseState.hpp" />
@@ -127,6 +130,9 @@
     <ClInclude Include="src\rapidxml.hpp" />
     <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\ReactionSystem.h" />
+    <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\ResourcePacket.h" />
+    <ClInclude Include="src\ResourceType.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TweenState.h" />
     <ClInclude Include="src\WorldGenerator.h" />

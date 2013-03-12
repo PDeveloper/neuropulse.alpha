@@ -1,5 +1,4 @@
-#include "ResourceType.h"
-
+#include "ResourceManager.h"
 
 #pragma once
 namespace np
@@ -10,7 +9,7 @@ namespace np
 		ResourceType* resourceType;
 		double amount;
 
-		ResourcePacket(ResourceType* resourceType, double amount)
+		ResourcePacket( ResourceType* resourceType, double amount)
 		{
 			this->resourceType = resourceType;
 			this->amount = amount;

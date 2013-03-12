@@ -8,14 +8,16 @@ np::EnergyRefineryConstruct::EnergyRefineryConstruct()
 	conversionRate = 0.5;
 
 	//Define pulseFeeds
-	pulseFeeds.push_back(new np::PulseFeed(this));
+	pulseFeeds.push_back(new np::PulseFeed( this));
 
 	//Define inputs
 
 
 
 	//Define outputs
-	outputs.push_back(new np::ConstructOutput(new ResourceType()));
+
+
+
 }
 
 void np::EnergyRefineryConstruct::processIncoming( np::Pulse* pulse )
@@ -28,8 +30,11 @@ void np::EnergyRefineryConstruct::processOutgoing( np::Pulse* pulse )
 	double takenEnergy = pulse->energy * takePercentage;
 
 	pulse->energy -= takenEnergy;
+}
 
-	outputs.at(0)->buffer.push_back(new ResourcePacket(new ResourceType, takenEnergy));
+void np::EnergyRefineryConstruct::update(void)
+{
+
 }
 
 std::string np::EnergyRefineryConstruct::getName()

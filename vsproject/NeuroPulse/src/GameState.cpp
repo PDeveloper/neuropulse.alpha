@@ -220,7 +220,25 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
     {
         m_pCamera->yaw(Degree(evt.state.X.rel * -0.1f));
         m_pCamera->pitch(Degree(evt.state.Y.rel * -0.1f));
-    }
+	}
+
+	if ( evt.state.X.abs < 0)
+	{
+		m_TranslateVector.x = m_MoveScale * evt.state.X.abs;
+	}
+	else if ( evt.state.X.abs > evt.state.width)
+	{
+		m_TranslateVector.x = m_MoveScale * ( evt.state.X.abs - evt.state.width);
+	}
+
+	if ( evt.state.Y.abs < 0)
+	{
+		m_TranslateVector.y = m_MoveScale * evt.state.Y.abs;
+	}
+	else if ( evt.state.Y.abs > evt.state.height)
+	{
+		m_TranslateVector.y = m_MoveScale * ( evt.state.Y.abs - evt.state.height);
+	}
 
     return true;
 }
