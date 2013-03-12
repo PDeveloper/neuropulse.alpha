@@ -41,6 +41,7 @@ GameState::GameState()
 void GameState::enter()
 {
 	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
+	Ogre::MovableObject::setDefaultQueryFlags(0);
 
 	neuroWorld = new np::NeuroWorld();
 
@@ -66,7 +67,7 @@ void GameState::enter()
 	esScene->insertEntitySystem( connectionDisplaySystem);
 	
 	esScene->insertEntitySystem( pulseSystem);
-	/* ................. */
+	/* ...oooOOOOOOOooo... */
 
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 	
@@ -74,7 +75,6 @@ void GameState::enter()
 	m_pSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
     m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
-    m_pRSQ->setQueryMask(OGRE_HEAD_MASK);
 
     m_pCamera = m_pSceneMgr->createCamera("GameCamera");
     m_pCamera->setPosition(Vector3(5, 420, 60));
@@ -154,54 +154,10 @@ void GameState::createScene()
 
 bool GameState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
-    if(m_bSettingsMode == true)
-    {
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_S))
-        {
-            //OgreBites::SelectMenu* pMenu = (OgreBites::SelectMenu*)OgreFramework::getSingletonPtr()->m_pTrayMgr->getWidget("ChatModeSelMenu");
-            //if(pMenu->getSelectionIndex() + 1 < (int)pMenu->getNumItems())
-            //    pMenu->selectItem(pMenu->getSelectionIndex() + 1);
-        }
-
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
-        {
-            //OgreBites::SelectMenu* pMenu = (OgreBites::SelectMenu*)OgreFramework::getSingletonPtr()->m_pTrayMgr->getWidget("ChatModeSelMenu");
-            //if(pMenu->getSelectionIndex() - 1 >= 0)
-            //    pMenu->selectItem(pMenu->getSelectionIndex() - 1);
-        }
-    }
-
     if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
     {
         pushAppState(findByName("PauseState"));
         return true;
-    }
-
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_I))
-    {
-        /*
-		if(m_pDetailsPanel->getTrayLocation() == OgreBites::TL_NONE)
-        {
-            OgreFramework::getSingletonPtr()->m_pTrayMgr->moveWidgetToTray(m_pDetailsPanel, OgreBites::TL_TOPLEFT, 0);
-            m_pDetailsPanel->show();
-        }
-        else
-        {
-            OgreFramework::getSingletonPtr()->m_pTrayMgr->removeWidgetFromTray(m_pDetailsPanel);
-            m_pDetailsPanel->hide();
-        }
-		*/
-    }
-
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_TAB))
-    {
-        m_bSettingsMode = !m_bSettingsMode;
-        return true;
-    }
-
-    if(m_bSettingsMode && OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_RETURN) ||
-        OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_NUMPADENTER))
-    {
     }
 
     return true;
@@ -286,16 +242,16 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
-    /*if(m_pCurrentObject)
+    if(m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
-        m_pCurrentEntity->getSubEntity(1)->setMaterial(m_pOgreHeadMat);
     }
 
     Ogre::Ray mouseRay = m_pCamera->getCameraToViewportRay(OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().X.abs / float(evt.state.width),
         OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().Y.abs / float(evt.state.height));
-    m_pRSQ->setRay(mouseRay);
-    m_pRSQ->setSortByDistance(true);
+    m_pRSQ->setRay( mouseRay);
+    m_pRSQ->setSortByDistance( true);
+	m_pRSQ->setQueryMask( NODE_MASK);
 
     Ogre::RaySceneQueryResult &result = m_pRSQ->execute();
     Ogre::RaySceneQueryResult::iterator itr;
@@ -309,10 +265,9 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
             OgreFramework::getSingletonPtr()->m_pLog->logMessage("ObjName " + m_pCurrentObject->getName());
             m_pCurrentObject->showBoundingBox(true);
             m_pCurrentEntity = m_pSceneMgr->getEntity(itr->movable->getName());
-            m_pCurrentEntity->getSubEntity(1)->setMaterial(m_pOgreHeadMatHigh);
             break;
         }
-    }*/
+	}
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

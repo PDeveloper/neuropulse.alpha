@@ -7,6 +7,13 @@
 #include <TransformComponent.h>
 
 #pragma once
+
+enum QueryFlags
+{
+	NODE_MASK = 1 << 0,
+	CONSTRUCT_MASK = 1 << 1
+};
+
 namespace np
 {
 	class GameObjectFactory

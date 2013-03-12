@@ -120,6 +120,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
     m_pRenderWnd->getCustomAttribute("WINDOW", &hWnd);
 
     paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
+
 	/*
 #if defined OIS_WIN32_PLATFORM
 	paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
@@ -133,6 +134,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 	paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
 #endif
 	*/
+
     m_pInputMgr = OIS::InputManager::createInputSystem( paramList);
 
     m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));

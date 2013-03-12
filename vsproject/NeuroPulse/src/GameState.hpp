@@ -30,14 +30,6 @@
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-enum QueryFlags
-{
-	OGRE_HEAD_MASK	= 1<<0,
-    CUBE_MASK		= 1<<1
-};
-
-//|||||||||||||||||||||||||||||||||||||||||||||||
-
 class GameState : public CEGUIState
 {
 public:
@@ -108,6 +100,8 @@ private:
 	CEGUI::Window* debug_txt;
 
 	np::NeuroWorld* neuroWorld;
+
+	Ogre::MovableObject* selectedObject;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
