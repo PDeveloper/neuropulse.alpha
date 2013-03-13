@@ -163,7 +163,7 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 
 	entity->setQueryFlags( NODE_MASK);
 	
-	Ogre::Entity* entities[] = { entity};
+	Ogre::MovableObject* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
 	np::ReactionComponent* reactor = new np::ReactionComponent( reactorOutput);
@@ -188,7 +188,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 	Ogre::Entity* entity = sceneManager->createEntity( "ConnectionMesh");
 	entity->setCastShadows( false);
 
-	Ogre::Entity* entities[] = { entity};
+	Ogre::MovableObject* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::ConnectionComponent* connection = new np::ConnectionComponent( target1, target2);
 	
@@ -211,7 +211,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
 		entity->setCastShadows( false);
 		
-		Ogre::Entity* entities[] = { entity};
+		Ogre::MovableObject* entities[] = { entity};
 		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
 
@@ -239,7 +239,8 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		animation->states.at(0).target = target1;
 		animation->states.at(1).target = target2;
 
-		graphic->node->attachObject( graphic->entity);
+		for ( Ogre::MovableObject* entity : graphic->entities)
+			graphic->node->attachObject( entity);
 	}
 
 	e->activate();
@@ -254,7 +255,7 @@ void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)
 	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
 	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
 	
-	for (std::list<Ogre::Entity*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
 		graphics->node->detachObject( (*it));
 
 	e->deactivate();
@@ -269,7 +270,7 @@ void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
 	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
 	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
 
-	for (std::list<Ogre::Entity*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
 		graphics->node->detachObject( (*it));
 
 	Ogre::SceneManager* sceneManager = graphics->node->getCreator();

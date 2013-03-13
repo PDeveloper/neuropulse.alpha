@@ -297,26 +297,23 @@ void GameState::moveCamera()
 
 void GameState::getInput()
 {
-    if(m_bSettingsMode == false)
-    {
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_A))
-            m_TranslateVector.x = -m_MoveScale;
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_A))
+		m_TranslateVector.x = -m_MoveScale;
 
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_D))
-            m_TranslateVector.x = m_MoveScale;
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_D))
+		m_TranslateVector.x = m_MoveScale;
 		
-		if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
-            m_TranslateVector.z = -m_MoveScale;
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
+		m_TranslateVector.z = -m_MoveScale;
 
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_S))
-            m_TranslateVector.z = m_MoveScale;
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_S))
+		m_TranslateVector.z = m_MoveScale;
 
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_R))
-            m_TranslateRelativeVector.z = -m_MoveScale;
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_R))
+		m_TranslateRelativeVector.z = -m_MoveScale;
 
-        if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_F))
-            m_TranslateRelativeVector.z = m_MoveScale;
-    }
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_F))
+		m_TranslateRelativeVector.z = m_MoveScale;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
