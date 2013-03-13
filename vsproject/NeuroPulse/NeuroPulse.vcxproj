@@ -59,6 +59,7 @@
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\SetupState.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
@@ -115,6 +116,7 @@
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\NeuroPlayer.h" />
     <ClInclude Include="src\NeuroWorld.h" />
+    <ClInclude Include="src\NeuroWorldSettings.h" />
     <ClInclude Include="src\NodeComponent.h" />
     <ClInclude Include="src\NodeInfoPanel.h" />
     <ClInclude Include="src\OutputComponent.h" />
@@ -126,13 +128,13 @@
     <ClInclude Include="src\PulseComponent.h" />
     <ClInclude Include="src\PulseEvent.h" />
     <ClInclude Include="src\PulseSystem.h" />
-    <ClInclude Include="src\PulseSystemSettings.h" />
     <ClInclude Include="src\rapidxml.hpp" />
     <ClInclude Include="src\ReactionComponent.h" />
     <ClInclude Include="src\ReactionSystem.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\ResourcePacket.h" />
     <ClInclude Include="src\ResourceType.h" />
+    <ClInclude Include="src\SetupState.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TweenState.h" />
     <ClInclude Include="src\WorldGenerator.h" />

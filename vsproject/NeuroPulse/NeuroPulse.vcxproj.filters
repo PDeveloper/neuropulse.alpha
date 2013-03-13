@@ -285,6 +285,9 @@
     <ClCompile Include="src\NodeInfoPanel.cpp">
       <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\SetupState.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -455,9 +458,6 @@
     <ClInclude Include="src\CEGUIState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\PulseSystemSettings.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="src\NeuroWorld.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -505,6 +505,12 @@
     </ClInclude>
     <ClInclude Include="src\NodeInfoPanel.h">
       <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SetupState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeuroWorldSettings.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

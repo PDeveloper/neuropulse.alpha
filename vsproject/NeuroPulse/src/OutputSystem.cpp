@@ -12,7 +12,7 @@
 
 #include <PulseEvent.h>
 
-np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::PulseSystemSettings* settings) :
+np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::NeuroWorldSettings* settings) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<OutputComponent>())
 {
 	this->eventManager = eventManager;

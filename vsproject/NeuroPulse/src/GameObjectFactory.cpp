@@ -24,6 +24,8 @@ np::GameObjectFactory::GameObjectFactory( Ogre::SceneManager* sceneManager, ac::
 	this->sceneManager = sceneManager;
 	this->scene = scene;
 
+	Ogre::MovableObject::setDefaultQueryFlags(0);
+
 	generateMeshes();
 }
 
@@ -128,6 +130,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	manual->convertToMesh( "Cube");
 	*/
 
+	///////// NODE MESH
 	Procedural::TriangleBuffer tb;
 	
 	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 8.0, 0.0).addPoint( 4.0, 4.0).addPoint( 17.0, 10.0).addPoint( 15.0, 14.0);
@@ -141,6 +144,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Ogre::MeshPtr nodeMesh = tb.transformToMesh( "NodeMesh");
 	nodeMesh->getSubMesh(0)->setMaterialName( "NodeMaterial");
 
+	///////// CONNECTION MESH
 	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( 0.0, 0.0, -50.0),
 		Ogre::Vector3( 0.0, 0.0, 50.0)).realizePath();
 	
@@ -149,8 +153,44 @@ void np::GameObjectFactory::generateMeshes(void)
 	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setScaleTrack( &t).setShapeToExtrude( &circle).realizeMesh( "ConnectionMesh");
 	connectionMesh->getSubMesh(0)->setMaterialName( "ConnectionMaterial");
 
+	///////// PULSE MESH
 	Ogre::MeshPtr pulseMesh = Procedural::SphereGenerator().setRadius( 2.1).setUTile(.5f).realizeMesh("PulseMesh");
 	pulseMesh->getSubMesh(0)->setMaterialName( "PulseMaterial");
+
+	///////// GROUND MESH
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshPtr groundMesh = Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+		plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+
+	groundMesh->getSubMesh(0)->setMaterialName( "GroundMaterial");
+}
+
+Ogre::Light* np::GameObjectFactory::createLight( std::string name,
+												Ogre::Light::LightTypes type,
+												Ogre::ColourValue diffuseColour,
+												Ogre::ColourValue specularColour,
+												Ogre::Vector3 direction)
+{
+	Ogre::Light* directionalLight = sceneManager->createLight( name);
+
+	directionalLight->setType( type);
+
+	directionalLight->setDiffuseColour( diffuseColour);
+	directionalLight->setSpecularColour( specularColour);
+
+	directionalLight->setDirection( direction);
+
+	return directionalLight;
+}
+
+Ogre::Entity* np::GameObjectFactory::createGround()
+{
+	Ogre::Entity* entGround = sceneManager->createEntity( "GroundMesh");
+	entGround->setCastShadows( false);
+
+	sceneManager->getRootSceneNode()->createChildSceneNode()->attachObject( entGround);
+
+	return entGround;
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)

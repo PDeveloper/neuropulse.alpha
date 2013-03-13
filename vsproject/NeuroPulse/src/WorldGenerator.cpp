@@ -24,8 +24,16 @@ np::WorldGenerator::~WorldGenerator(void)
 {
 }
 
-void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes)
+void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 {
+	np::NeuroWorldSettings* settings = neuroWorld->settings;
+	np::GameObjectFactory* factory = neuroWorld->gameObjectFactory;
+
+	Ogre::Light* directionalLight = factory->createLight( "SunLight");
+	Ogre::Entity* entGround = factory->createGround();
+	
+	int numNodes = settings->numberOfNodes;
+
 	boost::random::mt19937 mt;
 	boost::random::uniform_real_distribution<double> distribution;
 
@@ -136,8 +144,13 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld, np::GameObje
 	delete nodes;
 }
 
-void np::WorldGenerator::generateWorld2( np::NeuroWorld* neuroWorld, np::GameObjectFactory* factory, const int numNodes)
+void np::WorldGenerator::generateWorld2( np::NeuroWorld* neuroWorld)
 {
+	np::NeuroWorldSettings* settings = neuroWorld->settings;
+	np::GameObjectFactory* factory = neuroWorld->gameObjectFactory;
+
+	int numNodes = settings->numberOfNodes;
+	
 	ac::es::EntityPtr *nodes = new ac::es::EntityPtr[numNodes];
 	
 	std::vector<Ogre::Vector2> positions;

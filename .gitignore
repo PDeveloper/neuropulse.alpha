@@ -37,3 +37,7 @@
 *.unsuccessfulbuild
 *.cfg
 datafiles
+/vsproject/NeuroPulse/media/materials/textures/dirt.jpg
+/vsproject/NeuroPulse/media/materials/textures/dirt2.jpg
+/vsproject/NeuroPulse/media/materials/textures/electricRain.png
+/vsproject/NeuroPulse/media/materials/textures/nodeSelector.png

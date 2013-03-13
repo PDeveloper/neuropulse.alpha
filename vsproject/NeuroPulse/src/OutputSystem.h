@@ -1,7 +1,7 @@
 #include <ac\es.h>
 
 #include <EventManager.h>
-#include <PulseSystemSettings.h>
+#include <NeuroWorldSettings.h>
 
 #pragma once
 namespace np
@@ -15,9 +15,9 @@ namespace np
 
 		double timeSinceLastPulse;
 
-		np::PulseSystemSettings* settings;
+		np::NeuroWorldSettings* settings;
 
-		OutputSystem( np::EventManager* eventManager, np::PulseSystemSettings* settings);
+		OutputSystem( np::EventManager* eventManager, np::NeuroWorldSettings* settings);
 		~OutputSystem(void);
 
 		void globalTick( double time);

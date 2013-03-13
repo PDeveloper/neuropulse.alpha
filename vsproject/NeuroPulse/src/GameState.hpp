@@ -12,18 +12,7 @@
 #include <OgreSubEntity.h>
 #include <OgreMaterialManager.h>
 
-#include <GameObjectFactory.h>
-
-#include <GraphicSystem.h>
-#include <AnimationSystem.h>
-#include <OutputSystem.h>
-#include <ReactionSystem.h>
-#include <ConnectionDisplaySystem.h>
-#include <PulseSystem.h>
-
-#include <PulseSystemSettings.h>
-
-#include <EventManager.h>
+#include <NeuroWorldSettings.h>
 
 #include <WorldGenerator.h>
 #include <NeuroWorld.h>
@@ -59,41 +48,20 @@ public:
 	void update(double timeSinceLastFrame);
 
 private:
-	Ogre::SceneNode*			m_pOgreHeadNode;
-	Ogre::Entity*				m_pOgreHeadEntity;
-	Ogre::MaterialPtr			m_pOgreHeadMat;
-	Ogre::MaterialPtr			m_pOgreHeadMatHigh;
-
 	bool						m_bQuit;
 
 	Ogre::Vector3				m_TranslateVector;
 	Ogre::Vector3				m_TranslateRelativeVector;
-	Ogre::Real					m_MoveSpeed;
-	Ogre::Degree				m_RotateSpeed;
-	float						m_MoveScale;
-	float						m_MouseScrollSpeed;
-	Ogre::Degree				m_RotScale;
 
-	Ogre::RaySceneQuery*		m_pRSQ;
+	float						m_MoveScale;
+	Ogre::Real					m_MoveSpeed;
+
+	float						m_MouseScrollSpeed;
+
 	Ogre::SceneNode*			m_pCurrentObject;
-	Ogre::Entity*				m_pCurrentEntity;
 	bool						m_bLMouseDown, m_bRMouseDown;
 
-	ac::es::Scene* esScene;
-
-	np::GameObjectFactory* gameObjectFactory;
-
-	// Systems
-	np::GraphicSystem* graphicSystem;
-	np::AnimationSystem* animationSystem;
-	np::OutputSystem* outputSystem;
-	np::ReactionSystem* reactionSystem;
-	np::ConnectionDisplaySystem* connectionDisplaySystem;
-	np::PulseSystem* pulseSystem;
-
-	np::EventManager* eventManager;
-
-	np::PulseSystemSettings* pulseSettings;
+	np::NeuroWorldSettings* worldSettings;
 
 	CEGUI::Window *sheet;
 	CEGUI::Window* debug_txt;

@@ -14,8 +14,7 @@ using namespace Ogre;
 GameState::GameState()
 {
     m_MoveSpeed			= 0.1f;
-    m_RotateSpeed		= 0.3f;
-	m_MouseScrollSpeed	= 1.0f;
+	m_MouseScrollSpeed	= 0.8f;
 
     m_bLMouseDown       = false;
     m_bRMouseDown       = false;
@@ -32,58 +31,22 @@ GameState::GameState()
 
 	sheet->addChildWindow( debug_txt);
 
-	pulseSettings = new np::PulseSystemSettings( 800.0);
+	worldSettings = new np::NeuroWorldSettings();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::enter()
 {
-	m_pSceneMgr = OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "GlobalSceneMgr");
-	Ogre::MovableObject::setDefaultQueryFlags(0);
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 
-	neuroWorld = new np::NeuroWorld();
+	neuroWorld = new np::NeuroWorld( worldSettings);
 
-	esScene = new ac::es::Scene();
-	gameObjectFactory = new np::GameObjectFactory( m_pSceneMgr, esScene);
+	m_pSceneMgr = neuroWorld->sceneManager;
+	m_pCamera = neuroWorld->camera;
 
-	eventManager = new np::EventManager();
-
-	/* init systems and shit */
-	reactionSystem = new np::ReactionSystem();
-	outputSystem = new np::OutputSystem( eventManager, pulseSettings);
-	animationSystem = new np::AnimationSystem();
-	graphicSystem = new np::GraphicSystem(m_pSceneMgr);
-	connectionDisplaySystem = new np::ConnectionDisplaySystem( m_pSceneMgr);
-	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
-
-	esScene->insertEntitySystem( reactionSystem);
-	esScene->insertEntitySystem( outputSystem);
-
-	esScene->insertEntitySystem( animationSystem);
-
-	esScene->insertEntitySystem( graphicSystem);
-	esScene->insertEntitySystem( connectionDisplaySystem);
-	
-	esScene->insertEntitySystem( pulseSystem);
 	/* ...oooOOOOOOOooo... */
 
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
-	
-    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
-	m_pSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-
-    m_pRSQ = m_pSceneMgr->createRayQuery(Ray());
-
-    m_pCamera = m_pSceneMgr->createCamera("GameCamera");
-    m_pCamera->setPosition(Vector3(5, 420, 60));
-    m_pCamera->lookAt(Vector3(5, 20, -60));
-    m_pCamera->setNearClipDistance(5);
-
-    m_pCamera->setAspectRatio(Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
-        Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight()));
-
-    OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
     m_pCurrentObject = 0;
 
     buildGUI();
@@ -104,12 +67,13 @@ bool GameState::pause()
 
 void GameState::resume()
 {
+	m_bQuit = false;
+
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
 
     buildGUI();
 
-    OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
-    m_bQuit = false;
+    OgreFramework::getSingletonPtr()->m_pViewport->setCamera( m_pCamera);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -118,35 +82,16 @@ void GameState::exit()
 {
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
 
-    m_pSceneMgr->destroyCamera(m_pCamera);
-    m_pSceneMgr->destroyQuery(m_pRSQ);
-    if(m_pSceneMgr)
-        OgreFramework::getSingletonPtr()->m_pRoot->destroySceneManager(m_pSceneMgr);
+	neuroWorld->cleanup();
+	delete neuroWorld;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::createScene()
 {
-	Ogre::Light* directionalLight = m_pSceneMgr->createLight("SunLight");
-	directionalLight->setType( Ogre::Light::LT_DIRECTIONAL);
-    directionalLight->setDiffuseColour( Ogre::ColourValue( 0.25, 0.25, 0.25));
-    directionalLight->setSpecularColour( Ogre::ColourValue( 0.25, 0.25, 0.25));
-
-	directionalLight->setDirection( Ogre::Vector3( 0.5, -1, -1 ));
-
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
-	Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-													plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
-	
-	Ogre::Entity* entGround = m_pSceneMgr->createEntity("GroundEntity", "GroundMesh");
-	m_pSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(entGround);
-
-	entGround->setMaterialName("GroundMaterial");
-	entGround->setCastShadows(false);
-
 	np::WorldGenerator generator;
-	generator.generateWorld( neuroWorld, gameObjectFactory, 9);
+	generator.generateWorld( neuroWorld);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -175,27 +120,15 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 {
     if(m_bRMouseDown)
     {
-        m_pCamera->yaw(Degree(evt.state.X.rel * -0.1f));
-        m_pCamera->pitch(Degree(evt.state.Y.rel * -0.1f));
+        m_pCamera->yaw( Degree( evt.state.X.rel * -0.1f));
+        m_pCamera->pitch( Degree( evt.state.Y.rel * -0.1f));
 	}
 
 	Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
 
-	if ( evt.state.X.abs <= 0)
+	if ( evt.state.X.abs <= 0 || evt.state.X.abs >= evt.state.width || evt.state.Y.abs <= 0 || evt.state.Y.abs >= evt.state.height)
 	{
 		scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
-	}
-	else if ( evt.state.X.abs >= evt.state.width)
-	{
-		scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
-	}
-
-	if ( evt.state.Y.abs <= 0)
-	{
-		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
-	}
-	else if ( evt.state.Y.abs >= evt.state.height)
-	{
 		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
 	}
 
@@ -241,31 +174,17 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
-    if(m_pCurrentObject)
+    if( m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
+		m_pCurrentObject = NULL;
     }
-
-    Ogre::Ray mouseRay = m_pCamera->getCameraToViewportRay(OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().X.abs / float(evt.state.width),
-        OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().Y.abs / float(evt.state.height));
-    m_pRSQ->setRay( mouseRay);
-    m_pRSQ->setSortByDistance( true);
-	m_pRSQ->setQueryMask( NODE_MASK);
-
-    Ogre::RaySceneQueryResult &result = m_pRSQ->execute();
-    Ogre::RaySceneQueryResult::iterator itr;
-
-    for(itr = result.begin(); itr != result.end(); itr++)
-    {
-        if(itr->movable)
-        {
-            OgreFramework::getSingletonPtr()->m_pLog->logMessage("MovableName: " + itr->movable->getName());
-            m_pCurrentObject = m_pSceneMgr->getEntity(itr->movable->getName())->getParentSceneNode();
-            OgreFramework::getSingletonPtr()->m_pLog->logMessage("ObjName " + m_pCurrentObject->getName());
-            m_pCurrentObject->showBoundingBox(true);
-            m_pCurrentEntity = m_pSceneMgr->getEntity(itr->movable->getName());
-            break;
-        }
+	//OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().X.abs
+	Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
+	if ( entity != NULL)
+	{
+		m_pCurrentObject = entity->getParentSceneNode();
+		m_pCurrentObject->showBoundingBox( true);
 	}
 }
 
@@ -315,30 +234,19 @@ void GameState::update(double timeSinceLastFrame)
         return;
     }
 
-    m_MoveScale = m_MoveSpeed   * timeSinceLastFrame;
-    m_RotScale  = m_RotateSpeed * timeSinceLastFrame;
-
     m_TranslateVector = Vector3::ZERO;
 	m_TranslateRelativeVector = Vector3::ZERO;
 
-	reactionSystem->setDeltaTime( timeSinceLastFrame);
-	outputSystem->globalTick( timeSinceLastFrame);
+	m_MoveScale = m_MoveSpeed * timeSinceLastFrame;
 
 	ac::es::EntityPtr e = neuroWorld->nodes.at( 0);
 	np::NodeComponent* node = e->getComponent<np::NodeComponent>();
 
+	neuroWorld->update( timeSinceLastFrame);
+
 	CEGUI::String debugText = "";
-	debugText += CEGUI::String( "timeSinceLastFrame:" + Ogre::StringConverter::toString( Ogre::Real( timeSinceLastFrame))) + "\n";
-	debugText += CEGUI::String( "globalPulseTime:" + Ogre::StringConverter::toString( Ogre::Real( pulseSettings->globalPulseTime))) + "\n";
 	debugText += CEGUI::String( "node0 energy:" + Ogre::StringConverter::toString( Ogre::Real( node->currentEnergy))) + "\n";
-	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( outputSystem->timeSinceLastPulse))) + "\n";
-	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( OgreFramework::getSingleton().m_pMouse->getMouseState().X.rel))) + "\n";
-	debugText += CEGUI::String( Ogre::StringConverter::toString( Ogre::Real( OgreFramework::getSingleton().m_pMouse->getMouseState().Y.rel))) + "\n";
 	debug_txt->setText( debugText);
-
-	esScene->update();
-
-	eventManager->refresh();
 
     getInput();
     moveCamera();
@@ -350,21 +258,4 @@ void GameState::buildGUI()
 {
 	CEGUI::System::getSingleton().setGUISheet( sheet);
 	CEGUI::System::getSingleton().signalRedraw();
-
-    //OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-    //OgreFramework::getSingletonPtr()->m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-    //OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
-
-    //Ogre::StringVector items;
-    //items.push_back("debug val");
-    //items.push_back("Mode");
-
-    //m_pDetailsPanel = OgreFramework::getSingletonPtr()->m_pTrayMgr->createParamsPanel(OgreBites::TL_TOPLEFT, "DetailsPanel", 180, items);
-    //m_pDetailsPanel->show();
-
-    //Ogre::StringVector chatModes;
-    //chatModes.push_back("Solid mode");
-    //chatModes.push_back("Wireframe mode");
-    //chatModes.push_back("Point mode");
-    //OgreFramework::getSingletonPtr()->m_pTrayMgr->createLongSelectMenu(OgreBites::TL_TOPRIGHT, "ChatModeSelMenu", "ChatMode", 200, 3, chatModes);
 }
