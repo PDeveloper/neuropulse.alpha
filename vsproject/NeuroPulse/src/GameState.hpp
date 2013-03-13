@@ -100,7 +100,7 @@ private:
 
 	np::NeuroWorld* neuroWorld;
 
-	ac::es::EntityPtr selectedEntity;
+	Ogre::MovableObject* selectedObject;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

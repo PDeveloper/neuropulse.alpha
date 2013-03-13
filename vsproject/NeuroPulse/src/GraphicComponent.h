@@ -18,12 +18,13 @@ namespace np
 	public:
 
 		std::list<Ogre::MovableObject*> entities;
+
 		Ogre::SceneNode* node;
 
 		GraphicComponent( Ogre::MovableObject* entities[], int numEntities);
 		~GraphicComponent(void);
 
-		void addEntity( Ogre::MovableObject* entity);
+		void addEntity( Ogre::Entity* entity);
 	};
 }
 

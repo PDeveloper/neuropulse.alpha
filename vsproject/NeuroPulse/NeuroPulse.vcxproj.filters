@@ -133,9 +133,6 @@
     <Filter Include="Source Files\gui\game">
       <UniqueIdentifier>{0ccd27ed-373d-4691-a56c-724840d3bf5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\sys">
-      <UniqueIdentifier>{b05ca92e-4532-4464-8298-b9a04905a020}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -508,12 +505,6 @@
     </ClInclude>
     <ClInclude Include="src\NodeInfoPanel.h">
       <Filter>Header Files\gui\menu</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalSystemSettings.h">
-      <Filter>Header Files\sys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSettings.h">
-      <Filter>Header Files\sys</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

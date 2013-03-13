@@ -3,7 +3,6 @@
 #include "GameState.hpp"
 
 #include <NodeComponent.h>
-#include <HubComponent.h>
 #include <AdvancedOgreFramework.hpp>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -242,7 +241,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
-    if( m_pCurrentObject)
+    if(m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
     }
@@ -253,8 +252,6 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
     m_pRSQ->setSortByDistance( true);
 	m_pRSQ->setQueryMask( NODE_MASK);
 
-	selectedEntity = NULL;
-
     Ogre::RaySceneQueryResult &result = m_pRSQ->execute();
     Ogre::RaySceneQueryResult::iterator itr;
 
@@ -262,21 +259,11 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
     {
         if(itr->movable)
         {
+            OgreFramework::getSingletonPtr()->m_pLog->logMessage("MovableName: " + itr->movable->getName());
             m_pCurrentObject = m_pSceneMgr->getEntity(itr->movable->getName())->getParentSceneNode();
+            OgreFramework::getSingletonPtr()->m_pLog->logMessage("ObjName " + m_pCurrentObject->getName());
             m_pCurrentObject->showBoundingBox(true);
-            m_pCurrentEntity = m_pSceneMgr->getEntity( itr->movable->getName());
-			ac::es::EntityPtr e = any_cast<ac::es::EntityPtr>( m_pCurrentEntity->getUserObjectBindings().getUserAny( "Entity"));
-
-			selectedEntity = e;
-
-			np::NodeComponent* node = e->getComponent<np::NodeComponent>();
-
-			np::HubComponent* hub = e->getComponent<np::HubComponent>();
-			if ( hub != NULL)
-			{
-				// SET SELECTION INDICATOR HERE AND UPDATE INFO ETC.
-			}
-
+            m_pCurrentEntity = m_pSceneMgr->getEntity(itr->movable->getName());
             break;
         }
 	}
@@ -302,7 +289,7 @@ void GameState::getInput()
 
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_D))
 		m_TranslateVector.x = m_MoveScale;
-		
+
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_W))
 		m_TranslateVector.z = -m_MoveScale;
 

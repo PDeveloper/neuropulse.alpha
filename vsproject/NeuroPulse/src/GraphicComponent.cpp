@@ -14,7 +14,7 @@ np::GraphicComponent::~GraphicComponent(void)
 
 }
 
-void np::GraphicComponent::addEntity( Ogre::MovableObject* entity)
+void np::GraphicComponent::addEntity( Ogre::Entity* entity)
 {
 	entities.push_back( entity);
 }

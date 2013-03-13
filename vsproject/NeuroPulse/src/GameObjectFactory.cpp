@@ -159,8 +159,6 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
-	entity->getUserObjectBindings().setUserAny( Ogre::String( "Entity"), Ogre::Any( e));
-
 	entity->setQueryFlags( NODE_MASK);
 	
 	Ogre::MovableObject* entities[] = { entity};
@@ -239,8 +237,8 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		animation->states.at(0).target = target1;
 		animation->states.at(1).target = target2;
 
-		for ( Ogre::MovableObject* entity : graphic->entities)
-			graphic->node->attachObject( entity);
+		for (std::list<Ogre::MovableObject*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
+			graphic->node->attachObject( (*it));
 	}
 
 	e->activate();

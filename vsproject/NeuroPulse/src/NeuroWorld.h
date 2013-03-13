@@ -12,7 +12,6 @@ namespace np
 	public:
 
 		np::NeuroPlayer* player;
-		std::vector<np::NeuroPlayer*> players;
 
 		std::vector<ac::es::EntityPtr> nodes;
 
