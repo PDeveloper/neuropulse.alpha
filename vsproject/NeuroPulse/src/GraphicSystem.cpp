@@ -38,7 +38,7 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 
 	Ogre::SceneNode* newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( transform->position, transform->rotation);
 
-	for (std::list<Ogre::Entity*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
 		newNode->attachObject( (*it));
 
 	graphics->node = newNode;

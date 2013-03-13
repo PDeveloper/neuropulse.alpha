@@ -78,7 +78,6 @@ private:
 	Ogre::SceneNode*			m_pCurrentObject;
 	Ogre::Entity*				m_pCurrentEntity;
 	bool						m_bLMouseDown, m_bRMouseDown;
-	bool						m_bSettingsMode;
 
 	ac::es::Scene* esScene;
 
@@ -101,7 +100,7 @@ private:
 
 	np::NeuroWorld* neuroWorld;
 
-	Ogre::MovableObject* selectedObject;
+	ac::es::EntityPtr selectedEntity;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

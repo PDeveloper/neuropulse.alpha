@@ -2,7 +2,7 @@
 
 #include <AdvancedOgreFramework.hpp>
 
-np::GraphicComponent::GraphicComponent( Ogre::Entity* entities[], int numEntities) :
+np::GraphicComponent::GraphicComponent( Ogre::MovableObject* entities[], int numEntities) :
 	entities( entities, entities + numEntities )
 {
 }
@@ -14,7 +14,7 @@ np::GraphicComponent::~GraphicComponent(void)
 
 }
 
-void np::GraphicComponent::addEntity( Ogre::Entity* entity)
+void np::GraphicComponent::addEntity( Ogre::MovableObject* entity)
 {
 	entities.push_back( entity);
 }

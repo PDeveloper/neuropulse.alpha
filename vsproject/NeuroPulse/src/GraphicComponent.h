@@ -17,15 +17,13 @@ namespace np
 		AC_ES_COMPONENT(GraphicComponent)
 	public:
 
-		std::list<Ogre::Entity*> entities;
-
-		Ogre::Entity* entity;
+		std::list<Ogre::MovableObject*> entities;
 		Ogre::SceneNode* node;
 
-		GraphicComponent( Ogre::Entity* entities[], int numEntities);
+		GraphicComponent( Ogre::MovableObject* entities[], int numEntities);
 		~GraphicComponent(void);
 
-		void addEntity( Ogre::Entity* entity);
+		void addEntity( Ogre::MovableObject* entity);
 	};
 }
 

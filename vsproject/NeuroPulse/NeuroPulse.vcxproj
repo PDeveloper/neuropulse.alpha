@@ -63,6 +63,7 @@
     <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GlobalSystemSettings.h" />
     <ClInclude Include="src\ac\Config.h" />
     <ClInclude Include="src\ac\es.h" />
     <ClInclude Include="src\ac\es\Component.h" />
@@ -106,6 +107,7 @@
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\EventType.h" />
     <ClInclude Include="src\GameObjectFactory.h" />
+    <ClInclude Include="src\GameSettings.h" />
     <ClInclude Include="src\GameState.hpp" />
     <ClInclude Include="src\GraphicComponent.h" />
     <ClInclude Include="src\GraphicSystem.h" />

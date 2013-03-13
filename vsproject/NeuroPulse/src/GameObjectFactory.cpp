@@ -159,6 +159,8 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
+	entity->getUserObjectBindings().setUserAny( Ogre::String( "Entity"), Ogre::Any( e));
+
 	entity->setQueryFlags( NODE_MASK);
 	
 	Ogre::Entity* entities[] = { entity};
