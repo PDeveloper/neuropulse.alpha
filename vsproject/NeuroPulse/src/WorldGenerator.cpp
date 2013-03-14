@@ -11,7 +11,11 @@
 #include <boost\random\mersenne_twister.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <algorithm>
 #include <delaunay.h>
+#include <boost/polygon/point_data.hpp>
+
+#include <LloydRelaxation.h>
 
 #include <AdvancedOgreFramework.hpp>
 
@@ -26,6 +30,8 @@ np::WorldGenerator::~WorldGenerator(void)
 
 void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 {
+	np::LloydRelaxation<double> relax;
+
 	np::NeuroWorldSettings* settings = neuroWorld->settings;
 	np::GameObjectFactory* factory = neuroWorld->gameObjectFactory;
 
@@ -42,28 +48,40 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 	};
 
 	int numPoints = 0;
+
 	point2d *vertices = new point2d[numNodes];
+	point2d *temp = new point2d[numNodes];
+	std::vector<boost::polygon::point_data<double>> points;
+
 	ac::es::EntityPtr *nodes = new ac::es::EntityPtr[numNodes];
 
 	double ax = 0.0;
 	double ay = 0.0;
 
+	double mapWidth		= settings->mapWidth;
+	double mapHeight	= settings->mapHeight;
+	double mw2 = mapWidth * 0.5;
+	double mh2 = mapHeight * 0.5;
+	double mwp2 = mw2 + 50;
+	double mhp2 = mh2 + 50;
+
+	float boundWeight = 5;
+
+	double nx;
+	double ny;
+
 	for ( int i = 0; i < numNodes; i++)
 	{
-		vertices[i].x = distribution( mt) * 600 - 300;
-		vertices[i].y = distribution( mt) * 600 - 300;
-		//distribution( mt);
-		//distribution( mt);
+		nx = ( distribution( mt) - 0.5) * mapWidth;
+		ny = ( distribution( mt) - 0.5) * mapHeight;
 
-		ax += vertices[i].x;
-		ay += vertices[i].y;
+		points.push_back( boost::polygon::point_data<double>( nx, ny));
 	}
 
-	ax = ax / numNodes;
-	ay = ay / numNodes;
-
-	for ( int i = 0; i < 8; i++)
+	for ( int i = 0; i < 20; i++)
 	{
+		relax.relax( points, -mw2, -mh2, mw2, mh2);
+		/*
 		for ( int j = 0; j < numNodes; j++)
 		{
 			double vx = 0.0;
@@ -71,23 +89,54 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 			double dx = 0.0;
 			double dy = 0.0;
 
+			dx = ( vertices[j].x - mwp2);
+			dy = ( vertices[j].y - mhp2);
+			vx += boundWeight / dx;
+			vy += boundWeight / dy;
+
+			dx = ( vertices[j].x + mwp2);
+			dy = ( vertices[j].y - mhp2);
+			vx += boundWeight / dx;
+			vy += boundWeight / dy;
+
+			dx = ( vertices[j].x + mwp2);
+			dy = ( vertices[j].y + mhp2);
+			vx += boundWeight / dx;
+			vy += boundWeight / dy;
+
+			dx = ( vertices[j].x - mwp2);
+			dy = ( vertices[j].y + mhp2);
+			vx += boundWeight / dx;
+			vy += boundWeight / dy;
+
 			for ( int k = 0; k < numNodes; k++)
 			{
 				if ( j == k) continue;
 
 				dx = ( vertices[j].x - vertices[k].x);
 				dy = ( vertices[j].y - vertices[k].y);
-				vx += 1 / ( dx * dx);
-				vy += 1 / ( dy * dy);
-			}
 
-			vertices[j].x += vx * 1000;
-			vertices[j].y += vy * 1000;
+				//if ( dx * dx + dy * dy > 10000) continue;
+
+				vx += 1 / dx;
+				vy += 1 / dy;
+			}
+			
+			temp[j].x = std::min( std::max( vertices[j].x + vx * 100, -mw2), mw2);
+			temp[j].y = std::min( std::max( vertices[j].y + vy * 100, -mh2), mh2);
 		}
+
+		for ( int j = 0; j < numNodes; j++)
+		{
+			vertices[j] = temp[j];
+		}*/
 	}
 
 	for ( int i = 0; i < numNodes; i++)
 	{
+		vertices[i].x = points[i].x();
+		vertices[i].y = points[i].y();
+
 		double rOutput = 0.0;
 
 		if ( i == 0) rOutput = 60.0;
@@ -121,7 +170,7 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 			np::NodeComponent* node2		= e2->getComponent<np::NodeComponent>();
 			np::TransformComponent* transform2 = e2->getComponent<np::TransformComponent>();
 			np::OutputComponent* output2	= e2->getComponent<np::OutputComponent>();
-
+			// && transform1->position.distance( transform2->position) < 400
 			if ( !output1->hasConnection( node2))
 			{
 				np::ConnectionBase* base1 = new np::ConnectionBase( e1);

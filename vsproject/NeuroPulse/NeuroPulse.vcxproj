@@ -55,7 +55,6 @@
     <ClCompile Include="src\PulseFeed.cpp" />
     <ClCompile Include="src\PulseGate.cpp" />
     <ClCompile Include="src\PulseSystem.cpp" />
-    <ClCompile Include="src\PulseSystemSettings.cpp" />
     <ClCompile Include="src\ReactionComponent.cpp" />
     <ClCompile Include="src\ReactionSystem.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
@@ -113,6 +112,7 @@
     <ClInclude Include="src\HubComponent.h" />
     <ClInclude Include="src\HubInfoPanel.h" />
     <ClInclude Include="src\IListener.h" />
+    <ClInclude Include="src\LloydRelaxation.h" />
     <ClInclude Include="src\MenuState.hpp" />
     <ClInclude Include="src\NeuroPlayer.h" />
     <ClInclude Include="src\NeuroWorld.h" />
