@@ -19,8 +19,9 @@ namespace np
 	public:
 
 		np::NeuroPlayer* owner;
-
 		std::vector<np::ConstructComponent*> constructs;
+
+		Ogre::BillboardSet* constructDisplay;
 
 		double health;
 

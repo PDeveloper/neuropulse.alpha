@@ -8,6 +8,8 @@
 #include <Pulse.h>
 #include <ResourceType.h>
 
+#include <OgreColourValue.h>
+
 #pragma once
 namespace np
 {
@@ -19,6 +21,8 @@ namespace np
 		std::vector<np::ConstructInput*> inputs;
 		std::vector<np::ConstructOutput*> outputs;
 		std::vector<np::PulseFeed*> pulseFeeds;
+
+		Ogre::ColourValue colour;
 
 		virtual void processIncoming(np::Pulse* pulse) = 0;
 		virtual void processOutgoing(np::Pulse* pulse) = 0;

@@ -28,7 +28,6 @@ namespace np
 		ConnectionBase( ac::es::EntityPtr parent)
 		{
 			this->parent = parent;
-
 			this->node = parent->getComponent<np::NodeComponent>();
 		}
 

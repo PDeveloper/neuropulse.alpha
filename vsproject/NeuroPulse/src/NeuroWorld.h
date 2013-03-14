@@ -36,6 +36,7 @@ namespace np
 		// Objects
 		np::NeuroPlayer* player;
 		std::vector<ac::es::EntityPtr> nodes;
+		std::vector<ac::es::EntitySystem*> systems;
 
 		np::GameObjectFactory* gameObjectFactory;
 
@@ -57,7 +58,11 @@ namespace np
 
 		void update( double timeSinceLastFrame);
 		Ogre::Entity* getEntityUnderPoint( float x, float y);
+
+	private:
 		void cleanup(void);
+		void addEntitySystem( ac::es::EntitySystem* system);
+		void removeAllEntitySystems();
 	};
 
 }

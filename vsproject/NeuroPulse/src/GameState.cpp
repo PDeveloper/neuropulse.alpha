@@ -82,7 +82,6 @@ void GameState::exit()
 {
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
 
-	neuroWorld->cleanup();
 	delete neuroWorld;
 }
 

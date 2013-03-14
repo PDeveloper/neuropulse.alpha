@@ -30,7 +30,8 @@ namespace np
 		OutputComponent(void);
 		~OutputComponent(void);
 
-		void addConnection( np::ConnectionBase* connection);
+		void addConnection( np::ConnectionBase* base);
+		void removeConnection( np::ConnectionBase* base);
 
 		bool hasConnection( np::NodeComponent* node);
 	};

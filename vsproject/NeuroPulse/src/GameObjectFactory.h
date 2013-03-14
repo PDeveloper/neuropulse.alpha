@@ -5,6 +5,7 @@
 #include <queue>
 
 #include <TransformComponent.h>
+#include <Construct.h>
 
 #pragma once
 
@@ -32,11 +33,21 @@ namespace np
 		Ogre::Entity* createGround();
 
 		ac::es::EntityPtr createNodeEntity( double x, double y, double reactorOutput, double threshold);
+		void killNodeEntity( ac::es::EntityPtr e);
+
 		ac::es::EntityPtr createConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2);
+		void killConnectionEntity( ac::es::EntityPtr e);
+
 		ac::es::EntityPtr createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2);
+		void killPulseEntity( ac::es::EntityPtr e);
+
+		ac::es::EntityPtr createConstructEntity( ac::es::EntityPtr hubEntity, np::Construct* construct);
+		void killConstructEntity( ac::es::EntityPtr e);
+
+		ac::es::EntityPtr createHubEntity( ac::es::EntityPtr nodeEntity);
+		void killHubEntity( ac::es::EntityPtr e);
 
 		void releasePulseEntity( ac::es::EntityPtr e);
-		void killPulseEntity( ac::es::EntityPtr e);
 
 	private:
 		Ogre::SceneManager* sceneManager;

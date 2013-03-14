@@ -20,9 +20,6 @@ namespace np
 		double energyThreshold;
 		double currentEnergy;
 
-		std::list<np::Pulse*> outPulseBuffer;
-		std::list<np::Pulse*> inPulseBuffer;
-
 		NodeComponent( double energyThreshold);
 		~NodeComponent(void);
 		

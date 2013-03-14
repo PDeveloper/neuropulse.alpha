@@ -5,7 +5,8 @@
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
 	settings( settings),
-	nodes()
+	nodes(),
+	systems()
 {
 	sceneManager->setAmbientLight( Ogre::ColourValue(0.4f, 0.4f, 0.4f));
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
@@ -33,19 +34,20 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	connectionDisplaySystem = new np::ConnectionDisplaySystem( sceneManager);
 	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
 
-	esScene->insertEntitySystem( reactionSystem);
-	esScene->insertEntitySystem( outputSystem);
+	addEntitySystem( reactionSystem);
+	addEntitySystem( outputSystem);
 
-	esScene->insertEntitySystem( animationSystem);
+	addEntitySystem( animationSystem);
 
-	esScene->insertEntitySystem( graphicSystem);
-	esScene->insertEntitySystem( connectionDisplaySystem);
+	addEntitySystem( graphicSystem);
+	addEntitySystem( connectionDisplaySystem);
 
-	esScene->insertEntitySystem( pulseSystem);
+	addEntitySystem( pulseSystem);
 }
 
 np::NeuroWorld::~NeuroWorld(void)
 {
+	cleanup();
 }
 
 void np::NeuroWorld::update( double timeSinceLastFrame )
@@ -81,9 +83,24 @@ Ogre::Entity* np::NeuroWorld::getEntityUnderPoint( float x, float y)
 
 void np::NeuroWorld::cleanup( void )
 {
+	removeAllEntitySystems();
+
+	delete esScene;
+
 	sceneManager->destroyCamera( camera);
 	sceneManager->destroyQuery( entityRayQuery);
 
 	if( sceneManager)
 		OgreFramework::getSingletonPtr()->m_pRoot->destroySceneManager( sceneManager);
+}
+
+void np::NeuroWorld::addEntitySystem( ac::es::EntitySystem* system )
+{
+	esScene->insertEntitySystem( system);
+	systems.push_back( system);
+}
+
+void np::NeuroWorld::removeAllEntitySystems()
+{
+	for ( int i = 0; i < systems.size(); i++) esScene->removeEntitySystem( systems[i]);
 }
