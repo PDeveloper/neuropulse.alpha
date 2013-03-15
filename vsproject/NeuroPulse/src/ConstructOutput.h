@@ -1,4 +1,4 @@
-#include <vector>
+#include <list>
 
 #pragma once
 namespace np
@@ -16,14 +16,22 @@ namespace np
 
 		np::ResourceType* resourceType;
 
-		std::vector<np::ResourcePacket*> buffer;
+		std::list<np::ResourcePacket*> buffer;
+		double maxBufferSize;
+		bool didOverflow;
 
 		bool isConnected;
 
-		ConstructOutput(np::ResourceType* resourceType);
+		ConstructOutput(np::ResourceType* resourceType, double maxBufferSize);
 		~ConstructOutput();
 
 		void connect(np::ConstructInput* target);
 		void disconnect();
+
+		void putBuffer(np::ResourcePacket* packet);
+
+		double getBufferFreeSpace();
+
+		void send();
 	};
 }

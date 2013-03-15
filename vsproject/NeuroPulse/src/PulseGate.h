@@ -4,19 +4,25 @@
 #pragma once
 namespace np
 {
-	class PulseFeed;
+
+	class ConstructInput;
+	class ConstructOutput;
 
 	class PulseGate
 	{
 	public:
 
-		
+		static const int MODE_OUTPUT = 0;
+		static const int MODE_INPUT = 1;
+
+		int mode;
 
 		bool isConnected;
 
 		double position;
 
-		PulseFeed* target;
+		ConstructInput* constructInput;
+		ConstructOutput* constructOutput;
 
 		PulseGate( double position)
 		{
@@ -33,11 +39,12 @@ namespace np
 			return (position < conn.position);
 		}
 
-		void inputPulse( np::Pulse* pulse);
+		void inPulse( np::Pulse* pulse);
 
-		void outputPulse( np::Pulse* pulse);
+		void outPulse( np::Pulse* pulse);
 
-		void connect(PulseFeed* feed);
+		void connect(ConstructInput* input);
+		void connect(ConstructOutput* output);
 
 		void disconnect();
 

@@ -133,6 +133,9 @@
     <Filter Include="Source Files\gui\game">
       <UniqueIdentifier>{0ccd27ed-373d-4691-a56c-724840d3bf5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\construct\instructions">
+      <UniqueIdentifier>{a69ee523-25b3-4e61-857c-363562e7b8ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -264,9 +267,6 @@
     <ClCompile Include="src\ConstructInput.cpp">
       <Filter>Source Files\core\construct</Filter>
     </ClCompile>
-    <ClCompile Include="src\PulseFeed.cpp">
-      <Filter>Source Files\core\data</Filter>
-    </ClCompile>
     <ClCompile Include="src\PulseGate.cpp">
       <Filter>Source Files\core\data</Filter>
     </ClCompile>
@@ -284,6 +284,12 @@
     </ClCompile>
     <ClCompile Include="src\SetupState.cpp">
       <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructConnectionSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,9 +479,6 @@
     <ClInclude Include="src\ResourceManager.h">
       <Filter>Header Files\core\construct\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\PulseFeed.h">
-      <Filter>Header Files\core\data</Filter>
-    </ClInclude>
     <ClInclude Include="src\HubComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
@@ -511,6 +514,15 @@
     </ClInclude>
     <ClInclude Include="src\LloydRelaxation.h">
       <Filter>Header Files\core\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Instruction.h">
+      <Filter>Header Files\core\construct\instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructConnectionSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
