@@ -1,31 +1,78 @@
 #include "PulseGate.h"
-#include "PulseFeed.h"
 #include "ConstructComponent.h"
 #include "Construct.h"
 
-void np::PulseGate::inputPulse(np::Pulse* pulse)
+void np::PulseGate::inPulse(np::Pulse* pulse)
 {
 	if(isConnected)
-		target->inputPulse(pulse);
+	{
+		if(mode == MODE_INPUT)
+		{
+			//Probably not do anything
+		}
+		else if(mode == MODE_OUTPUT)
+		{
+			//Take, put directly into the input
+		}
+	}
 }
 
-void np::PulseGate::outputPulse(np::Pulse* pulse)
+void np::PulseGate::outPulse(np::Pulse* pulse)
 {
 	if(isConnected)
-		target->outputPulse(pulse);
+	{
+		if(mode == MODE_INPUT)
+		{
+			for(int i=0; i<constructInput->buffer.size(); i++)
+			{
+				//add to pulse constructInput->buffer.at(i);
+				constructInput->buffer.empty();
+			}
+		}
+		else if(mode == MODE_OUTPUT)
+		{
+			//Take, put directly into the input
+		}
+	}
 }
 
-void np::PulseGate::connect(np::PulseFeed* target )
+void np::PulseGate::connect(ConstructInput* input)
 {
-	this->target = target;
-	this->isConnected = true;
+	mode = MODE_OUTPUT;
 
-	target->target = this;
-	target->isConnected = true;
+	constructOutput = new ConstructOutput(input->resourceType, input->maxBufferSize);
+
+	constructOutput->connect(input);
+
+	isConnected = true;
+}
+
+void np::PulseGate::connect(ConstructOutput* output)
+{
+	mode = MODE_INPUT;
+
+	constructInput = new ConstructInput(output->resourceType, output->maxBufferSize);
+
+	constructInput->connect(output);
+
+	isConnected = true;
 }
 
 void np::PulseGate::disconnect()
 {
-	target->isConnected = false;
-	this->isConnected = false;
+	if(mode == MODE_INPUT)
+	{
+		constructOutput->disconnect();	
+
+		delete constructOutput;
+
+	}
+	else if(mode == MODE_OUTPUT)
+	{
+		constructInput->disconnect();
+
+		delete constructInput;
+	}
+
+	isConnected = false;
 }

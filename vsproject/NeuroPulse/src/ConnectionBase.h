@@ -44,13 +44,13 @@ namespace np
 		void outputPulse( np::Pulse* pulse)
 		{
 			for (std::list<np::PulseGate*>::iterator it = feeds.begin(); it != feeds.end(); it++)
-				(*it)->outputPulse( pulse);
+				(*it)->outPulse( pulse);
 		}
 
 		void inputPulse( np::Pulse* pulse)
 		{
 			for (std::list<np::PulseGate*>::iterator it = feeds.end(); it != feeds.begin(); it--)
-				(*it)->inputPulse( pulse);
+				(*it)->inPulse( pulse);
 		}
 
 		void addFeed( np::PulseGate* feed)

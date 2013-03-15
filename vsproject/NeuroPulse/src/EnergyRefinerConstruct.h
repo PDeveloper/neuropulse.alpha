@@ -16,18 +16,16 @@ namespace np
 	{
 	public:
 
-		double takePercentage;
+		double takeEnergy;
 		double conversionRate;
 
 		EnergyRefineryConstruct();
 
-		void processIncoming(np::Pulse* pulse);
-		void processOutgoing(np::Pulse* pulse);
+		void process();
+		void processInstructions(np::ResourcePacket* packet);
 
-		void update(void);
-
-		virtual std::string getName();
-		virtual std::string getDescription();
+		std::string getName();
+		std::string getDescription();
 		
 	};
 }

@@ -21,7 +21,7 @@ namespace np
 
 		np::HubComponent* hubComponent;
 
-		np::Construct* constructProcessing;
+		np::Construct* construct;
 
 		ConstructComponent(np::Construct* constructProcessing);
 		~ConstructComponent(void);

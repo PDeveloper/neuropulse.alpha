@@ -20,13 +20,11 @@ namespace np
 
 		std::vector<np::ConstructInput*> inputs;
 		std::vector<np::ConstructOutput*> outputs;
-		std::vector<np::PulseFeed*> pulseFeeds;
 
 		Ogre::ColourValue colour;
 
-		virtual void processIncoming(np::Pulse* pulse) = 0;
-		virtual void processOutgoing(np::Pulse* pulse) = 0;
-		virtual void update(void) = 0;
+		virtual void process() = 0;
+		virtual void processInstructions(np::ResourcePacket* packet) = 0;
 
 		virtual std::string getName() = 0;
 		virtual std::string getDescription() = 0;
