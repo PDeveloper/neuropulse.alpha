@@ -5,6 +5,8 @@
 
 #include <boost/polygon/voronoi.hpp>
 
+#include <AdvancedOgreFramework.hpp>
+
 #pragma once
 namespace np
 {
@@ -35,6 +37,28 @@ namespace np
 			double ax;
 			double ay;
 
+			/*
+			int result2 = 0;
+			for ( boost::polygon::voronoi_diagram<PointType>::const_vertex_iterator it = vd.vertices().begin();
+				it != vd.vertices().end(); ++it)
+			{
+				const boost::polygon::voronoi_diagram<PointType>::vertex_type &vertex = *it;
+				const boost::polygon::voronoi_diagram<PointType>::edge_type *edge = vertex.incident_edge();
+
+				if ( vertex.)
+
+				// This is convenient way to iterate edges around Voronoi vertex.
+				do
+				{
+					edge = edge->rot_next();
+				}
+				while (edge != vertex.incident_edge());
+			}
+
+			*/
+
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "HERE I AM YOU MOTHER FUCKER FUCKER FUCKER!!!!!");
+
 			for ( boost::polygon::voronoi_diagram<PointType>::const_cell_iterator it = vd.cells().begin();
 				it != vd.cells().end(); ++it)
 			{
@@ -52,11 +76,17 @@ namespace np
 
 					do
 					{
-						if (edge->is_primary() && edge->vertex0() != NULL)
+						if ( edge->vertex1() != NULL)
 						{
-							ax += std::min( std::max( edge->vertex0()->x(), minX), maxX);;
-							ay += std::min( std::max( edge->vertex0()->y(), minY), maxY);;
+							ax += std::min( std::max( edge->vertex1()->x(), minX), maxX);
+							OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->x()));
+							ay += std::min( std::max( edge->vertex1()->y(), minY), maxY);
+							OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->y()));
 							numPoints++;
+						}
+						else
+						{
+							
 						}
 
 						edge = edge->next();
@@ -71,7 +101,7 @@ namespace np
 					points[index].y( ay / (double)numPoints);
 				}
 			}
-	
+			
 			/*for ( int i = 0; i < points.size(); i++)
 			{
 				points[i] = result[i];

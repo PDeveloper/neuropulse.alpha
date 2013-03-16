@@ -78,7 +78,7 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 		points.push_back( boost::polygon::point_data<double>( nx, ny));
 	}
 
-	for ( int i = 0; i < 20; i++)
+	for ( int i = 0; i < 15; i++)
 	{
 		relax.relax( points, -mw2, -mh2, mw2, mh2);
 		/*
