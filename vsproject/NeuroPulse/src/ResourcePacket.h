@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include "Instruction.h"
 
 #pragma once
 namespace np
@@ -8,11 +9,19 @@ namespace np
 	public:
 		ResourceType* resourceType;
 		double amount;
+		Instruction* instruction;
 
-		ResourcePacket( ResourceType* resourceType, double amount)
+		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction)
 		{
 			this->resourceType = resourceType;
 			this->amount = amount;
+			this->instruction = instruction;
+		}
+
+		double size()
+		{
+			//Can be used later for weights and shit
+			return amount;
 		}
 		
 	};

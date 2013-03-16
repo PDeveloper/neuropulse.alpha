@@ -1,4 +1,5 @@
-#include <vector>
+#include <list>
+#include "ResourcePacket.h"
 
 #pragma once
 namespace np
@@ -6,7 +7,7 @@ namespace np
 
 	class ConstructOutput;
 	class ResourceType;
-	class ResourcePacket;
+	
 
 	class ConstructInput
 	{
@@ -16,15 +17,22 @@ namespace np
 
 		np::ResourceType* resourceType;
 
-		std::vector<np::ResourcePacket*> buffer;
+		std::list<np::ResourcePacket*> buffer;
+		double maxBufferSize;
+		bool didOverflow;
 
 		bool isConnected;
 
-		ConstructInput(np::ResourceType* resourceType);
+		ConstructInput(np::ResourceType* resourceType, double maxBufferSize);
 		~ConstructInput();
 
 		void connect(np::ConstructOutput* target);
 		void disconnect();
+
+		void putBuffer(np::ResourcePacket* packet);
+
+		double getBufferFreeSpace();
+		
 	};
 
 }
