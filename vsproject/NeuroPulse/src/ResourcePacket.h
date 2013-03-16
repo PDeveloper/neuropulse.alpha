@@ -11,7 +11,7 @@ namespace np
 		double amount;
 		Instruction* instruction;
 
-		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction)
+		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction = NULL)
 		{
 			this->resourceType = resourceType;
 			this->amount = amount;

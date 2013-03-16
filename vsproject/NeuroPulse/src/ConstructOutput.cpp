@@ -73,5 +73,4 @@ void np::ConstructOutput::send()
 		}
 	}
 
-	
 }

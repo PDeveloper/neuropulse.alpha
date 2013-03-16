@@ -9,6 +9,5 @@ void np::ConstructSystem::process( ac::es::EntityPtr e )
 	Construct* construct = constructComponent->construct;
 
 	construct->process();
-
 }
 

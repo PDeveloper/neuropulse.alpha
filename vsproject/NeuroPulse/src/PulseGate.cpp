@@ -23,7 +23,7 @@ void np::PulseGate::outPulse(np::Pulse* pulse)
 	{
 		if(mode == MODE_INPUT)
 		{
-			for(int i=0; i<constructInput->buffer.size(); i++)
+			for(int i = 0; i<constructInput->buffer.size(); i++)
 			{
 				//add to pulse constructInput->buffer.at(i);
 				constructInput->buffer.empty();
