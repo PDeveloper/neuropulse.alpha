@@ -13,6 +13,7 @@ void np::PulseGate::inPulse(np::Pulse* pulse)
 		else if(mode == MODE_OUTPUT)
 		{
 			//Take, put directly into the input
+			output->target->putBuffer(pulse->getResource(output->resourceType, output->getBufferFreeSpace()));
 		}
 	}
 }
@@ -23,15 +24,19 @@ void np::PulseGate::outPulse(np::Pulse* pulse)
 	{
 		if(mode == MODE_INPUT)
 		{
-			for(int i = 0; i<constructInput->buffer.size(); i++)
+			std::list<np::ResourcePacket*>::iterator i;
+
+			for(i = input->buffer.begin(); i != input->buffer.end(); ++i)
 			{
-				//add to pulse constructInput->buffer.at(i);
-				constructInput->buffer.empty();
+				pulse->addPacket((*i));
+
+				i = input->buffer.erase(i);
 			}
 		}
 		else if(mode == MODE_OUTPUT)
 		{
 			//Take, put directly into the input
+			output->target->putBuffer(pulse->getResource(output->resourceType, output->getBufferFreeSpace()));
 		}
 	}
 }
@@ -40,9 +45,9 @@ void np::PulseGate::connect(ConstructInput* input)
 {
 	mode = MODE_OUTPUT;
 
-	constructOutput = new ConstructOutput(input->resourceType, input->maxBufferSize);
+	output = new ConstructOutput(input->resourceType, input->maxBufferSize);
 
-	constructOutput->connect(input);
+	output->connect(input);
 
 	isConnected = true;
 }
@@ -51,9 +56,9 @@ void np::PulseGate::connect(ConstructOutput* output)
 {
 	mode = MODE_INPUT;
 
-	constructInput = new ConstructInput(output->resourceType, output->maxBufferSize);
+	input = new ConstructInput(output->resourceType, output->maxBufferSize);
 
-	constructInput->connect(output);
+	input->connect(output);
 
 	isConnected = true;
 }
@@ -62,16 +67,16 @@ void np::PulseGate::disconnect()
 {
 	if(mode == MODE_INPUT)
 	{
-		constructOutput->disconnect();	
+		output->disconnect();	
 
-		delete constructOutput;
+		delete output;
 
 	}
 	else if(mode == MODE_OUTPUT)
 	{
-		constructInput->disconnect();
+		input->disconnect();
 
-		delete constructInput;
+		delete input;
 	}
 
 	isConnected = false;

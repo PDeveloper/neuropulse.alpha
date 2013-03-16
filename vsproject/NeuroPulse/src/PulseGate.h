@@ -21,8 +21,8 @@ namespace np
 
 		double position;
 
-		ConstructInput* constructInput;
-		ConstructOutput* constructOutput;
+		ConstructInput* input;
+		ConstructOutput* output;
 
 		PulseGate( double position)
 		{

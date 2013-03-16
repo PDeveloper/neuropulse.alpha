@@ -288,7 +288,7 @@
     <ClCompile Include="src\ConstructSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConstructConnectionSystem.cpp">
+    <ClCompile Include="src\ConstructResourceTransferSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
   </ItemGroup>
@@ -491,9 +491,6 @@
     <ClInclude Include="src\ConstructComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConstructConnectionComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\ResourcePacket.h">
       <Filter>Header Files\core\construct</Filter>
     </ClInclude>
@@ -521,7 +518,10 @@
     <ClInclude Include="src\ConstructSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConstructConnectionSystem.h">
+    <ClInclude Include="src\ConstructConnectionComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructResourceTransferSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,6 +47,9 @@ namespace np
 		ac::es::EntityPtr createHubEntity( ac::es::EntityPtr nodeEntity);
 		void killHubEntity( ac::es::EntityPtr e);
 
+		ac::es::EntityPtr createConstructConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2 );
+		void killConstructConnectionEntity( ac::es::EntityPtr e);
+
 		void releasePulseEntity( ac::es::EntityPtr e);
 
 	private:

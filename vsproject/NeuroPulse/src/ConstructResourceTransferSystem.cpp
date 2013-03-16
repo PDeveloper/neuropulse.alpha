@@ -1,11 +1,11 @@
-#include "ConstructConnectionSystem.h"
+#include "ConstructResourceTransferSystem.h"
 #include "ConstructComponent.h"
 #include "Construct.h"
 
 
 
 
-void np::ConstructConnectionSystem::process( ac::es::EntityPtr e )
+void np::ConstructResourceTransferSystem::process( ac::es::EntityPtr e )
 {
 	ConstructComponent* constructComponent = e->getComponent<ConstructComponent>();
 

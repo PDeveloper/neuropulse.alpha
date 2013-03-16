@@ -29,7 +29,7 @@
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
-    <ClCompile Include="src\ConstructConnectionSystem.cpp" />
+    <ClCompile Include="src\ConstructResourceTransferSystem.cpp" />
     <ClCompile Include="src\ConstructInput.cpp" />
     <ClCompile Include="src\ConstructOutput.cpp" />
     <ClCompile Include="src\ConstructSystem.cpp" />
@@ -98,7 +98,7 @@
     <ClInclude Include="src\Construct.h" />
     <ClInclude Include="src\ConstructComponent.h" />
     <ClInclude Include="src\ConstructConnectionComponent.h" />
-    <ClInclude Include="src\ConstructConnectionSystem.h" />
+    <ClInclude Include="src\ConstructResourceTransferSystem.h" />
     <ClInclude Include="src\ConstructInput.h" />
     <ClInclude Include="src\ConstructOutput.h" />
     <ClInclude Include="src\ConstructSystem.h" />
