@@ -7,6 +7,7 @@
 
 #include <Pulse.h>
 #include <ResourceType.h>
+#include <ResourceManager.h>
 
 #include <OgreColourValue.h>
 

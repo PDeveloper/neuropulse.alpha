@@ -26,6 +26,8 @@ namespace np
 
 		std::string getName();
 		std::string getDescription();
-		
+
+	private:
+		np::ResourceType* sexyEnergy;
 	};
 }

@@ -36,7 +36,7 @@ void np::PulseGate::outPulse(np::Pulse* pulse)
 		else if(mode == MODE_OUTPUT)
 		{
 			//Take, put directly into the input
-			output->target->putBuffer(pulse->getResource(output->resourceType, output->getBufferFreeSpace()));
+			output->target->putBuffer( pulse->getResource( output->resourceType, output->getBufferFreeSpace()));
 		}
 	}
 }

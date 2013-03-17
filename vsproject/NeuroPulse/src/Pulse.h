@@ -52,6 +52,7 @@ namespace np
 					{
 						cp->amount -= amount;
 						value += amount;
+
 						break;
 					}
 					else
@@ -66,12 +67,10 @@ namespace np
 				}
 			}
 
-			np::ResourcePacket* packet = new np::ResourcePacket( resourceType, value);
-
-			return packet;
+			return new np::ResourcePacket( resourceType, value);
 		}
 
-		np::ResourcePacket* getAllResource( np::ResourceType* resourceType)
+		std::list<np::ResourcePacket*> getAllResource( np::ResourceType* resourceType)
 		{
 			double value = 0.0;
 

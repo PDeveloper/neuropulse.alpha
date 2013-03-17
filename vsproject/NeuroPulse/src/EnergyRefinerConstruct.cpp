@@ -5,15 +5,13 @@ np::EnergyRefineryConstruct::EnergyRefineryConstruct()
 {
 	conversionRate = 0.5;
 
-	//Define inputs
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
 
-	inputs.push_back(new ConstructInput(new ResourceType("RawEnergy", ""), 50));
+	//Define inputs
+	inputs.push_back(new ConstructInput( np::ResourceManager::getSingletonPtr()->getType( "RawEnergy"), 50));
 
 	//Define outputs
-
-	outputs.push_back(new ConstructOutput(new ResourceType("SexyEnergy", ""), 50));
-
-	//outputs.push_back(new np::ConstructOutput(new ResourceType(), 100));
+	outputs.push_back(new ConstructOutput( sexyEnergy, 50));
 
 }
 
@@ -37,7 +35,7 @@ void np::EnergyRefineryConstruct::process()
 	}
 	
 
-	ResourcePacket* product =  new ResourcePacket(new ResourceType("SexyEnergy", ""), totalEnergy*conversionRate, NULL);
+	ResourcePacket* product =  new ResourcePacket( sexyEnergy, totalEnergy*conversionRate, NULL);
 
 	outputs.at(0)->putBuffer(product);
 
@@ -53,7 +51,7 @@ std::string np::EnergyRefineryConstruct::getDescription()
 	return "Takes a percentage of raw energy from pulse and converts it to refined energy, to be used in your dick";
 }
 
-void np::EnergyRefineryConstruct::processInstructions( np::ResourcePacket* packet )
+void np::EnergyRefineryConstruct::processInstructions( np::ResourcePacket* packet)
 {
 	//pimpididmpim
 }

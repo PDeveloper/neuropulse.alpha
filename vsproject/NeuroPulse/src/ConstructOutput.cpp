@@ -37,7 +37,7 @@ void np::ConstructOutput::putBuffer(np::ResourcePacket* packet)
 {
 	if(packet->size() < maxBufferSize - getBufferFreeSpace() && packet->resourceType == resourceType)
 	{
-		buffer.push_back(packet);
+		buffer.push_back( packet);
 	}
 	else
 	{
@@ -61,7 +61,7 @@ double np::ConstructOutput::getBufferFreeSpace()
 
 void np::ConstructOutput::send()
 {
-	if(isConnected)
+	if( isConnected)
 	{
 		std::list<np::ResourcePacket*>::iterator i;
 
