@@ -1,3 +1,8 @@
+#include <vector>
+#include <string>
+
+#include <NeuroPlayer.h>
+
 #pragma once
 namespace np
 {
@@ -10,8 +15,11 @@ namespace np
 		int numberOfNodes;
 		double mapWidth;
 		double mapHeight;
-	
-		NeuroWorldSettings(void)
+
+		std::vector<np::NeuroPlayer*> players;
+		
+		NeuroWorldSettings(void) :
+			players()
 		{
 			globalPulseTime = 800;
 			numberOfNodes = 20;
@@ -22,6 +30,17 @@ namespace np
 	
 		~NeuroWorldSettings(void)
 		{
+			std::vector<np::NeuroPlayer*>::iterator it;
+
+			for ( it = players.begin(); it < players.end(); ++it)
+			{
+				delete (*it);
+			}
+		}
+		
+		void addPlayer( std::string name, Ogre::ColourValue colour)
+		{
+			players.push_back( new np::NeuroPlayer( name, colour));
 		}
 	};
 }

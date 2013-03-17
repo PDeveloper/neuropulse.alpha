@@ -7,9 +7,6 @@ namespace np
 	{
 		AC_ES_ENTITY_SYSTEM(ConstructResourceTransferSystem)
 	public:
-
-
-
 		ConstructResourceTransferSystem();
 		~ConstructResourceTransferSystem(void);
 

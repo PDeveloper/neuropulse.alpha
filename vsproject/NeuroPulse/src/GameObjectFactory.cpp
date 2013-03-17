@@ -165,6 +165,22 @@ void np::GameObjectFactory::generateMeshes(void)
 		plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 
 	groundMesh->getSubMesh(0)->setMaterialName( "GroundMaterial");
+
+	///////// HUB MESH
+	Procedural::Path hubPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 15.0, 0.0),
+		Ogre::Vector3( 0.0, 16.0, 0.0)).realizePath();
+
+	Procedural::Shape hubCircle = Procedural::CircleShape().setRadius( 20.0).setNumSeg( 10).realizeShape();
+	Ogre::MeshPtr hubMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &hubCircle).realizeMesh( "HubMesh");
+	//hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
+
+	///////// CONSTRUCT MESH
+	Procedural::Path constructPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 15.0, 0.0),
+		Ogre::Vector3( 0.0, 16.0, 0.0)).realizePath();
+
+	Procedural::Shape square = Procedural::RectangleShape().setWidth( 12.0).setHeight( 12.0).realizeShape();
+	Ogre::MeshPtr constructMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &square).realizeMesh( "ConstructMesh");
+	//constructMesh->getSubMesh(0)->setMaterialName( "ConstructMaterial");
 }
 
 Ogre::Light* np::GameObjectFactory::createLight( std::string name,
@@ -201,6 +217,7 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( NODE_MASK);
 	
 	Ogre::MovableObject* entities[] = { entity};
@@ -323,7 +340,7 @@ void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
 	e->kill();
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPtr hubEntity, np::Construct* construct)
+ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPtr hubEntity)
 {
 	np::HubComponent* _hub = hubEntity->getComponent<np::HubComponent>();
 	np::TransformComponent* _transform = hubEntity->getComponent<np::TransformComponent>();
@@ -334,12 +351,12 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 
 		//Need to fill in correct params:
 		Ogre::Entity* entity = sceneManager->createEntity( "ConstructMesh");
+		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 
 		//Ogre::BillboardSet* constructDisplaySet = sceneManager->createBillboardSet( "constructDisplaySet");
 		//constructDisplaySet->setBillboardType( Ogre::BBT_PERPENDICULAR_COMMON);
 
-		Ogre::Billboard* billBoard = _hub->constructDisplay->createBillboard( Ogre::Vector3(100, 0, 200));
-		billBoard->setColour( construct->colour);
+
 
 		entity->setQueryFlags( NODE_MASK);
 
@@ -355,13 +372,35 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 	return NULL;
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createHubEntity( ac::es::EntityPtr nodeEntity)
+void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
 {
-	ac::es::EntityPtr e = scene->createEntity();
+	np::HubComponent* _hub = nodeEntity->getComponent<np::HubComponent>();
+	np::GraphicComponent* graphics = nodeEntity->getComponent<np::GraphicComponent>();
 
-	e->activate();
+	if ( _hub != NULL)
+	{
+		
+	}
+	else
+	{
+		_hub = new np::HubComponent( player);
 
-	return e;
+		Ogre::Entity* entity = sceneManager->createEntity( "HubMesh");
+
+		_hub->display = entity;
+
+		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( nodeEntity));
+
+		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->createTextureUnitState();
+		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			player->colour);
+
+		graphics->addEntity( entity);
+		nodeEntity->addComponent( _hub);
+	}
 }
 
 void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)

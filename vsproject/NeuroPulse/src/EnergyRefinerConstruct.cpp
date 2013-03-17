@@ -12,7 +12,6 @@ np::EnergyRefineryConstruct::EnergyRefineryConstruct()
 
 	//Define outputs
 	outputs.push_back(new ConstructOutput( sexyEnergy, 50));
-
 }
 
 
@@ -33,11 +32,10 @@ void np::EnergyRefineryConstruct::process()
 
 		i = energyInput->buffer.erase(i);
 	}
-	
 
 	ResourcePacket* product =  new ResourcePacket( sexyEnergy, totalEnergy*conversionRate, NULL);
 
-	outputs.at(0)->putBuffer(product);
+	outputs.at(0)->putBuffer( product);
 
 }
 

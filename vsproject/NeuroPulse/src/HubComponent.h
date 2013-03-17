@@ -1,6 +1,8 @@
 #include <ac\es.h>
 #include <vector>
+
 #include <NeuroPlayer.h>
+#include <OgreEntity.h>
 
 /**
 	HubComponent
@@ -19,9 +21,9 @@ namespace np
 	public:
 
 		np::NeuroPlayer* owner;
-		std::vector<np::ConstructComponent*> constructs;
+		std::vector<ac::es::EntityPtr*> constructs;
 
-		Ogre::BillboardSet* constructDisplay;
+		Ogre::Entity* display;
 
 		double health;
 

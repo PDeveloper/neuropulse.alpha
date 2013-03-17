@@ -6,6 +6,7 @@ np::GraphicComponent::GraphicComponent( Ogre::MovableObject* entities[], int num
 	entities( entities, entities + numEntities ),
 	node( NULL)
 {
+	isDirty = false;
 }
 
 np::GraphicComponent::~GraphicComponent(void)
@@ -28,5 +29,18 @@ np::GraphicComponent::~GraphicComponent(void)
 
 void np::GraphicComponent::addEntity( Ogre::Entity* entity)
 {
+	isDirty = true;
 	entities.push_back( entity);
+}
+
+void np::GraphicComponent::removeEntity( Ogre::Entity* entity)
+{
+	for (std::list<Ogre::MovableObject*>::iterator it = entities.begin(); it != entities.end(); it++)
+	{
+		if ( entity == (*it) && entity->getParentSceneNode() != NULL)
+		{
+			entity->getParentSceneNode()->detachObject( (*it)->getName());
+			entities.remove( (*it));
+		}
+	}
 }

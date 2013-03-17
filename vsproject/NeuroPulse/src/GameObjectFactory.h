@@ -41,10 +41,10 @@ namespace np
 		ac::es::EntityPtr createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2);
 		void killPulseEntity( ac::es::EntityPtr e);
 
-		ac::es::EntityPtr createConstructEntity( ac::es::EntityPtr hubEntity, np::Construct* construct);
+		ac::es::EntityPtr createConstructEntity( ac::es::EntityPtr hubEntity);
 		void killConstructEntity( ac::es::EntityPtr e);
 
-		ac::es::EntityPtr createHubEntity( ac::es::EntityPtr nodeEntity);
+		void createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
 		void killHubEntity( ac::es::EntityPtr e);
 
 		ac::es::EntityPtr createConstructConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2 );

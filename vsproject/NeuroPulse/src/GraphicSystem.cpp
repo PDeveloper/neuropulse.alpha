@@ -24,6 +24,16 @@ void np::GraphicSystem::process( ac::es::EntityPtr e)
 
 	graphic->node->setPosition( transform->position);
 	graphic->node->setOrientation( transform->rotation);
+
+	if ( graphic->isDirty)
+	{
+
+		for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+			if ( (*it)->getParentSceneNode() == NULL)
+			{
+				graphic->node->attachObject( (*it));
+			}
+	}
 }
 
 void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
@@ -42,6 +52,7 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 		newNode->attachObject( (*it));
 
 	graphics->node = newNode;
+	graphics->isDirty = false;
 }
 
 void np::GraphicSystem::onRemovedEntity( ac::es::EntityPtr e)

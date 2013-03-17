@@ -21,10 +21,13 @@ namespace np
 
 		Ogre::SceneNode* node;
 
+		bool isDirty;
+
 		GraphicComponent( Ogre::MovableObject* entities[], int numEntities);
 		~GraphicComponent(void);
 
 		void addEntity( Ogre::Entity* entity);
+		void removeEntity( Ogre::Entity* entity);
 	};
 }
 

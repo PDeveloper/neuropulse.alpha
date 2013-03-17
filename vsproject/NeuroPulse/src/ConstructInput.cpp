@@ -7,7 +7,6 @@ np::ConstructInput::ConstructInput(np::ResourceType* resourceType, double maxBuf
 	this->maxBufferSize = maxBufferSize;
 
 	didOverflow = false;
-
 }
 
 np::ConstructInput::~ConstructInput()
