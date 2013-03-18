@@ -346,3 +346,13 @@ bool np::BufferComponent::isEmpty()
 {
 	return buffer.empty();
 }
+
+void np::BufferComponent::clear()
+{
+	std::list<np::ResourcePacket*>::iterator i;
+	for ( i = buffer.begin(); i != buffer.end(); ++i)
+	{
+		delete (*i);
+	}
+	buffer.clear();
+}

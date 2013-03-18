@@ -18,7 +18,7 @@ namespace np
 	protected:
 		void process( ac::es::EntityPtr e);
 		void onAddedEntity( ac::es::EntityPtr e);
-		void addChildren( np::GraphicComponent* parent, np::GraphicComponent* child);
+		void addChildren( Ogre::SceneNode* parent, ac::es::EntityPtr child);
 		void onRemovedEntity( ac::es::EntityPtr e);
 	};
 }

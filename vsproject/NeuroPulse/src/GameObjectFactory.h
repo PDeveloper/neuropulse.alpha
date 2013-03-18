@@ -3,6 +3,7 @@
 
 #include <string>
 #include <queue>
+#include <stack>
 
 #include <TransformComponent.h>
 #include <Construct.h>
@@ -43,7 +44,7 @@ namespace np
 		ac::es::EntityPtr createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2);
 		void killPulseEntity( ac::es::EntityPtr e);
 
-		ac::es::EntityPtr createConstructEntity( ac::es::EntityPtr hubEntity);
+		ac::es::EntityPtr createConstructEntity( ac::es::EntityPtr hubEntity, Ogre::Degree degrees, Ogre::Real distance);
 		void killConstructEntity( ac::es::EntityPtr e);
 
 		void createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
@@ -58,8 +59,11 @@ namespace np
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;
 
-		std::queue<ac::es::EntityPtr> pulsePool;
+		std::stack<ac::es::EntityPtr> pulsePool;
 
 		void generateMeshes(void);
+		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
+		void createResourceInput( ac::es::EntityPtr constructEntity, int slot);
+		void createResourceOutput( ac::es::EntityPtr constructEntity, int slot);
 	};
 }

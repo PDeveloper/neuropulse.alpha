@@ -26,6 +26,7 @@ namespace np
 		double getNormalSpaceLeft();
 
 		bool isEmpty();
+		void clear();
 
 		np::TransferSuccess addPacket( np::ResourcePacket* packet);
 		np::TransferSuccess addPackets( std::list<np::ResourcePacket*>* packets);

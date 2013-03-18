@@ -1,0 +1,24 @@
+material ConstructMaterial
+{
+	technique
+	{
+		pass
+		{
+			lighting on
+			ambient 0.1 0.1 0.1 1.0
+			diffuse 1.0 1.0 1.0 1.0
+			specular 1.0 1.0 1.0 1.0 64.0
+			emissive 0.0 0.0 0.0 1.0
+			
+			
+			scene_blend alpha_blend
+			depth_write off
+			
+			texture_unit
+			{
+				colour_op_ex modulate src_current src_manual 1 1 1
+				alpha_op_ex source1 src_manual src_current 0.8
+       			}
+		}
+	}
+}

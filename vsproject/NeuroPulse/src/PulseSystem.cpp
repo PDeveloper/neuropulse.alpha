@@ -52,6 +52,6 @@ void np::PulseSystem::process( ac::es::EntityPtr e)
 
 	if ( !animation->isPlaying)
 	{
-		factory->killPulseEntity( e);
+		factory->releasePulseEntity( e);
 	}
 }

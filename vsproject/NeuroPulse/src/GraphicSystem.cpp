@@ -51,38 +51,34 @@ void np::GraphicSystem::onAddedEntity( ac::es::EntityPtr e)
 
 		if ( graphics->parent != NULL && graphics->parent->node != NULL)
 		{
-			newNode = graphics->parent->node->createChildSceneNode( transform->position, transform->rotation);
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Processing a child graphic");
+			newNode = graphics->parent->node;
 		}
 		else
 		{
-			newNode = mSceneMgr->getRootSceneNode()->createChildSceneNode( transform->position, transform->rotation);
+			newNode = mSceneMgr->getRootSceneNode();
 		}
 
-		for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
-			newNode->attachObject( (*it));
-		
-		for (std::list<np::GraphicComponent*>::iterator it = graphics->children.begin(); it != graphics->children.end(); it++)
-		{
-			addChildren( graphics, *it);
-		}
-
-		graphics->node = newNode;
+		addChildren( newNode, e);
 		graphics->isDirty = false;
 	}
 }
 
-void np::GraphicSystem::addChildren( np::GraphicComponent* parent, np::GraphicComponent* child )
+void np::GraphicSystem::addChildren( Ogre::SceneNode* parent, ac::es::EntityPtr child)
 {
-	Ogre::SceneNode* newNode = parent->node->createChildSceneNode();
+	np::GraphicComponent* graphic = child->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform = child->getComponent<np::TransformComponent>();
 
-	child->node = newNode;
+	Ogre::SceneNode* newNode = parent->createChildSceneNode( transform->position, transform->rotation);
 
-	for (std::list<Ogre::MovableObject*>::iterator it = child->entities.begin(); it != child->entities.end(); it++)
+	graphic->node = newNode;
+
+	for (std::list<Ogre::MovableObject*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
 		newNode->attachObject( (*it));
 
-	for (std::list<np::GraphicComponent*>::iterator it = child->children.begin(); it != child->children.end(); it++)
+	for (std::list<ac::es::EntityPtr>::iterator it = graphic->children.begin(); it != graphic->children.end(); it++)
 	{
-		addChildren( child, *it);
+		addChildren( newNode, *it);
 	}
 }
 

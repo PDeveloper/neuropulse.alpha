@@ -136,15 +136,13 @@ void np::GameObjectFactory::generateMeshes(void)
 	///////// NODE MESH
 	Procedural::TriangleBuffer tb;
 	
-	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 8.0, 0.0).addPoint( 4.0, 4.0).addPoint( 17.0, 10.0).addPoint( 15.0, 14.0);
-	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 15.0, 14.0).addPoint( 3.0, 6.0).addPoint( 4.0, 0.0);
+	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 14.0, 0.0).addPoint( 9.0, 4.0).addPoint( 7.0, 6.0);
+	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 7.0, 6.0).addPoint( 4.0, 2.0).addPoint( 2.0, 0.0);
 
 	Procedural::Shape outNodeSiding = outSpline.realizeShape();
-	Procedural::Lathe().setShapeToExtrude( &outNodeSiding).addToTriangleBuffer( tb);
-	Procedural::Shape inNodeSiding = inSpline.realizeShape();
-	Procedural::Lathe().setShapeToExtrude( &inNodeSiding).addToTriangleBuffer( tb);
+	Procedural::Shape inNodeSiding = inSpline.realizeShape().appendShape( outNodeSiding);
 
-	Ogre::MeshPtr nodeMesh = tb.transformToMesh( "NodeMesh");
+	Ogre::MeshPtr nodeMesh = Procedural::Lathe().setShapeToExtrude( &inNodeSiding).realizeMesh( "NodeMesh");
 	nodeMesh->getSubMesh(0)->setMaterialName( "NodeMaterial");
 
 	///////// CONNECTION MESH
@@ -160,6 +158,10 @@ void np::GameObjectFactory::generateMeshes(void)
 	Ogre::MeshPtr pulseMesh = Procedural::SphereGenerator().setRadius( 2.1).setUTile(.5f).realizeMesh("PulseMesh");
 	pulseMesh->getSubMesh(0)->setMaterialName( "PulseMaterial");
 
+	///////// RESOURCE BUD MESH
+	Ogre::MeshPtr resMesh = Procedural::SphereGenerator().setRadius( 1.0).setUTile(.5f).realizeMesh("ResourceBudMesh");
+	resMesh->getSubMesh(0)->setMaterialName( "ResourceBudMaterial");
+
 	///////// GROUND MESH
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
 	Ogre::MeshPtr groundMesh = Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
@@ -168,20 +170,28 @@ void np::GameObjectFactory::generateMeshes(void)
 	groundMesh->getSubMesh(0)->setMaterialName( "GroundMaterial");
 
 	///////// HUB MESH
+
+	Procedural::Shape hubShape = Procedural::RectangleShape().setHeight( 0.5).setWidth( 5.0).realizeShape();
+	hubShape.translate( 10.0, 12.0);
+
+	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).realizeMesh( "HubMesh");
+	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
+	/*
 	Procedural::Path hubPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 15.0, 0.0),
-		Ogre::Vector3( 0.0, 16.0, 0.0)).realizePath();
+		Ogre::Vector3( 0.0, 15.2, 0.0)).realizePath();
 
 	Procedural::Shape hubCircle = Procedural::CircleShape().setRadius( 20.0).setNumSeg( 10).realizeShape();
-	Ogre::MeshPtr hubMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &hubCircle).realizeMesh( "HubMesh");
-	//hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
-
+	Ogre::MeshPtr hubMesh = Procedural::Extruder().setExtrusionPath( &hubPath).setShapeToExtrude( &hubCircle).realizeMesh( "HubMesh");
+	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
+	*/
 	///////// CONSTRUCT MESH
-	Procedural::Path constructPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 15.0, 0.0),
-		Ogre::Vector3( 0.0, 16.0, 0.0)).realizePath();
+	Procedural::Path constructPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 12.0, 0.0),
+		Ogre::Vector3( 0.0, 13.0, 0.0)).realizePath();
 
-	Procedural::Shape square = Procedural::RectangleShape().setWidth( 12.0).setHeight( 12.0).realizeShape();
-	Ogre::MeshPtr constructMesh = Procedural::Extruder().setExtrusionPath( &path).setShapeToExtrude( &square).realizeMesh( "ConstructMesh");
-	//constructMesh->getSubMesh(0)->setMaterialName( "ConstructMaterial");
+	Procedural::Shape square = Procedural::RectangleShape().setWidth( 16.0).setHeight( 16.0).realizeShape();//Procedural::Shape().addPoint( 0.0, -10.0).addPoint( -10.0, -9.0).addPoint( -8.0, 10.0).addPoint( 0.0, 10.0).reflect( Ogre::Vector2( 1.0, 0.0));
+		//
+	Ogre::MeshPtr constructMesh = Procedural::Extruder().setExtrusionPath( &constructPath).setShapeToExtrude( &square).realizeMesh( "ConstructMesh");
+	constructMesh->getSubMesh(0)->setMaterialName( "ConstructMaterial");
 }
 
 Ogre::Light* np::GameObjectFactory::createLight( std::string name,
@@ -290,6 +300,8 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 	{
 		e = scene->createEntity();
 
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage( "New Pulse Entity created");
+
 		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
 		entity->setCastShadows( false);
 		
@@ -313,19 +325,26 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 	}
 	else
 	{
-		e = pulsePool.front();
+		e = pulsePool.top();
 		pulsePool.pop();
 		
 		np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
 		np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
 		np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
+		np::BufferComponent* buffer			= e->getComponent<np::BufferComponent>();
+
+		buffer->clear();
 
 		transform->position = target1;
+
+		animation->stop();
+		animation->play();
 		animation->states.at(0).target = target1;
 		animation->states.at(1).target = target2;
 
-		for (std::list<Ogre::MovableObject*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
-			graphic->node->attachObject( (*it));
+		std::list<Ogre::MovableObject*>::iterator it;
+		for ( it = graphic->entities.begin(); it != graphic->entities.end(); ++it)
+			(*it)->setVisible( true);
 	}
 
 	e->activate();
@@ -350,10 +369,26 @@ void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
 	e->kill();
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPtr hubEntity)
+void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)
+{
+	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
+	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
+
+	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+		(*it)->setVisible( false);
+
+	e->deactivate();
+
+	pulsePool.push( e);
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPtr hubEntity, Ogre::Degree degrees, Ogre::Real distance)
 {
 	np::HubComponent* _hub = hubEntity->getComponent<np::HubComponent>();
 	np::TransformComponent* _transform = hubEntity->getComponent<np::TransformComponent>();
+	np::GraphicComponent* _graphic = hubEntity->getComponent<np::GraphicComponent>();
 
 	if ( _hub != NULL && _transform != NULL)
 	{
@@ -366,20 +401,56 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 		//Ogre::BillboardSet* constructDisplaySet = sceneManager->createBillboardSet( "constructDisplaySet");
 		//constructDisplaySet->setBillboardType( Ogre::BBT_PERPENDICULAR_COMMON);
 
-
-
 		entity->setQueryFlags( NODE_MASK);
 
-		np::TransformComponent* transform = new np::TransformComponent( _transform->position.x, 40.0, _transform->position.z);
+		double tx = std::cos( degrees.valueRadians()) * distance;
+		double tz = std::sin( degrees.valueRadians()) * distance;
+
+		Ogre::MovableObject* entities[] = { entity};
+		np::TransformComponent* transform = new np::TransformComponent( tx, 0.0, tz);
+		transform->rotation = Ogre::Quaternion( Ogre::Radian( -degrees), Ogre::Vector3( Ogre::Vector3::UNIT_Y)) * transform->rotation;
+		
+		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+
+		np::ConstructComponent* construct = new np::ConstructComponent();
+		construct->hub = hubEntity;
 		
 		e->addComponent( transform);
+		e->addComponent( graphic);
+		e->addComponent( construct);
 
 		e->activate();
+
+		_graphic->addChild( e);
+
+		_hub->constructs.push_back( e);
 
 		return e;
 	}
 
 	return NULL;
+}
+
+void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct)
+{
+	bool hasConstructComp = constructEntity->containsComponent<np::ConstructComponent>();
+
+	if ( hasConstructComp)
+	{
+		np::ConstructComponent* constructComponent = constructEntity->getComponent<np::ConstructComponent>();
+
+		constructComponent->setConstruct( construct);
+	}
+}
+
+void np::GameObjectFactory::createResourceInput( ac::es::EntityPtr constructEntity, int slot)
+{
+
+}
+
+void np::GameObjectFactory::createResourceOutput( ac::es::EntityPtr constructEntity, int slot)
+{
+
 }
 
 void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
@@ -401,29 +472,22 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 
 		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( nodeEntity));
 
-		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->createTextureUnitState();
+		/*entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->createTextureUnitState();
 		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
 			Ogre::LBX_SOURCE1,
 			Ogre::LBS_MANUAL,
 			Ogre::LBS_CURRENT,
-			player->colour);
+			player->colour);*/
+
+		entity->getSubEntity(0)->getMaterial()->setAmbient( player->colour * 0.2);
+		entity->getSubEntity(0)->getMaterial()->setDiffuse( player->colour);
 
 		graphics->addEntity( entity);
 		nodeEntity->addComponent( _hub);
+
+		for ( int i = 0; i < 6; i++)
+		{
+			createConstructEntity( nodeEntity, Ogre::Degree( i * 60.0), 30.0);
+		}
 	}
-}
-
-void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)
-{
-	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
-	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
-	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
-	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
-	
-	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
-		graphics->node->detachObject( (*it));
-
-	e->deactivate();
-	
-	pulsePool.push( e);
 }

@@ -10,10 +10,6 @@ np::PulseTransferSystem::PulseTransferSystem(void) :
 {
 	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
 	requirement = new np::ResourceRequirement( rawEnergy);
-
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "PULSE TRANSFER SYSTEM");
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( rawEnergy->getFlag()));
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( requirement->getFlag()));
 }
 
 np::PulseTransferSystem::~PulseTransferSystem(void)
