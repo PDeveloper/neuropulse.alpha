@@ -11,7 +11,6 @@
 namespace np
 {
 
-	class HubComponent;
 	class Construct;
 
 	class ConstructComponent : public ac::es::Component
@@ -19,11 +18,13 @@ namespace np
 		AC_ES_COMPONENT(ConstructComponent)
 	public:
 
-		np::HubComponent* hubComponent;
+		ac::es::EntityPtr hub;
 
 		np::Construct* construct;
 
-		ConstructComponent(np::Construct* construct);
+		void setConstruct( np::Construct* construct);
+
+		ConstructComponent(np::Construct* construct = NULL);
 		~ConstructComponent(void);
 
 

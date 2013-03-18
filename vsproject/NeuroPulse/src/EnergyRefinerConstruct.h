@@ -16,18 +16,18 @@ namespace np
 	{
 	public:
 
-		double takeEnergy;
-		double conversionRate;
-
-		EnergyRefineryConstruct();
-
 		void process();
 		void processInstructions(np::ResourcePacket* packet);
 
 		std::string getName();
 		std::string getDescription();
 
+		double takeEnergy;
+		double conversionRate;
+
+		EnergyRefineryConstruct();
 	private:
+		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;
 	};
 }

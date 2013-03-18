@@ -7,6 +7,8 @@
 #include <TransformComponent.h>
 #include <Construct.h>
 
+#include <NeuroPlayer.h>
+
 #pragma once
 
 enum QueryFlags

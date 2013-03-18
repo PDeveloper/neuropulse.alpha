@@ -3,6 +3,9 @@
 #include <PulseComponent.h>
 #include <GraphicComponent.h>
 #include <AnimationComponent.h>
+#include <TransformComponent.h>
+
+#include <OutputComponent.h>
 
 #include <OgreSceneManager.h>
 #include <AdvancedOgreFramework.hpp>
@@ -30,9 +33,16 @@ void np::PulseSystem::onBeginProcessing()
 
 	for (std::list<np::Event*>::iterator it = pulseEvents->begin(); it != pulseEvents->end(); it++)
 	{
-		np::PulseEvent* e = static_cast<np::PulseEvent*>( (*it));
+		np::PulseEvent* event = static_cast<np::PulseEvent*>( *it);
 
-		factory->createPulseEntity( e->target1, e->target2);
+		np::TransformComponent* t1 = event->target1->getComponent<np::TransformComponent>();
+		np::TransformComponent* t2 = event->target2->getComponent<np::TransformComponent>();
+
+		np::OutputComponent* output1 = event->target1->getComponent<np::OutputComponent>();
+
+		ac::es::EntityPtr pulse = factory->createPulseEntity( t1->position, t2->position);
+
+		output1->getConnection( event->target2)->outputPulses.push_back( pulse);
 	}
 }
 

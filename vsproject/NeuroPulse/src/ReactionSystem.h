@@ -1,4 +1,5 @@
 #include <ac\es.h>
+#include <ResourceManager.h>
 
 #pragma once
 namespace np
@@ -17,5 +18,6 @@ namespace np
 
 	private:
 		double deltaTime;
+		np::ResourceType* rawEnergy;
 	};
 }

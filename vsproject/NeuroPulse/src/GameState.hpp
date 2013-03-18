@@ -59,6 +59,7 @@ private:
 	float						m_MouseScrollSpeed;
 
 	Ogre::SceneNode*			m_pCurrentObject;
+	ac::es::EntityPtr			currentNode;
 	bool						m_bLMouseDown, m_bRMouseDown;
 
 	np::NeuroWorldSettings* worldSettings;

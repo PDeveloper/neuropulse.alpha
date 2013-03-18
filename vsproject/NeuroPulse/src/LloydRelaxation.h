@@ -79,9 +79,9 @@ namespace np
 						if ( edge->vertex1() != NULL)
 						{
 							ax += std::min( std::max( edge->vertex1()->x(), minX), maxX);
-							OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->x()));
+							//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->x()));
 							ay += std::min( std::max( edge->vertex1()->y(), minY), maxY);
-							OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->y()));
+							//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)edge->vertex1()->y()));
 							numPoints++;
 						}
 						else

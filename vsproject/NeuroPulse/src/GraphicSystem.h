@@ -4,6 +4,9 @@
 #pragma once
 namespace np
 {
+
+	class GraphicComponent;
+
 	class GraphicSystem : public ac::es::EntityProcessingSystem
 	{
 		AC_ES_ENTITY_SYSTEM(GraphicSystem)
@@ -15,6 +18,7 @@ namespace np
 	protected:
 		void process( ac::es::EntityPtr e);
 		void onAddedEntity( ac::es::EntityPtr e);
+		void addChildren( np::GraphicComponent* parent, np::GraphicComponent* child);
 		void onRemovedEntity( ac::es::EntityPtr e);
 	};
 }

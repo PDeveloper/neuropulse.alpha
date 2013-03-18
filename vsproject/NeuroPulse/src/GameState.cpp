@@ -32,6 +32,8 @@ GameState::GameState()
 	sheet->addChildWindow( debug_txt);
 
 	worldSettings = new np::NeuroWorldSettings();
+
+	currentNode = NULL;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -176,6 +178,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
     if( m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
+		currentNode = NULL;
 		m_pCurrentObject = NULL;
     }
 	//OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().X.abs
@@ -183,6 +186,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	if ( entity != NULL)
 	{
 		m_pCurrentObject = entity->getParentSceneNode();
+		currentNode = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
 		m_pCurrentObject->showBoundingBox( true);
 	}
 }
@@ -244,7 +248,10 @@ void GameState::update(double timeSinceLastFrame)
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";
-	debugText += CEGUI::String( "node0 energy:" + Ogre::StringConverter::toString( Ogre::Real( node->currentEnergy))) + "\n";
+	if ( currentNode != NULL)
+	{
+		debugText += CEGUI::String( "energy:" + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
+	}
 	debug_txt->setText( debugText);
 
     getInput();

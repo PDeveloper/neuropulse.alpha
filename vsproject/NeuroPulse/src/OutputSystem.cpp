@@ -4,8 +4,13 @@
 #include <OutputComponent.h>
 #include <TransformComponent.h>
 #include <ReactionComponent.h>
+#include <BufferComponent.h>
+
+#include <ResourcePacket.h>
+#include <ResourceRequirement.h>
 
 #include <list>
+#include <algorithm>
 
 #include <AdvancedOgreFramework.hpp>
 #include <GameObjectFactory.h>
@@ -13,7 +18,7 @@
 #include <PulseEvent.h>
 
 np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::NeuroWorldSettings* settings) :
-	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<OutputComponent>())
+	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<NodeComponent>().requires<OutputComponent>())
 {
 	this->eventManager = eventManager;
 	this->pulseEvent = eventManager->getType( "pulseEvent");
@@ -22,6 +27,9 @@ np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::NeuroWorldSe
 
 	timeSinceLastPulse = 0.0;
 	isPulsing = false;
+
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
+	requirement = new np::ResourceRequirement( rawEnergy);
 }
 
 
@@ -47,74 +55,58 @@ void np::OutputSystem::onBeginProcessing()
 void np::OutputSystem::process( ac::es::EntityPtr e)
 {
 	NodeComponent* node = e->getComponent<NodeComponent>();
+	BufferComponent* buffer = e->getComponent<BufferComponent>();
 	OutputComponent* output = e->getComponent<OutputComponent>();
 	TransformComponent* transform = e->getComponent<TransformComponent>();
 
-	if ( node->currentEnergy >= node->energyThreshold && isPulsing)
+	if ( isPulsing)
 	{
+		//// CHECK IF NODE HAS ENOUGH ENERGY!!!
+		node->currentEnergy = buffer->getAmountOf( rawEnergy);
+		if ( node->currentEnergy < node->energyThreshold) return;
+
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy threshold reached");
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->currentEnergy));
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->energyThreshold));
-		int valid = 0;
-		for (int i = 0; i < output->connections.size(); i++) if ( output->connections.at(i)->isValid()) valid++;
-
-		// Very inaccurate way of calculating the dispersed energy, but for now it could do.
-		double dispersedEnergy = node->energyThreshold / double(valid);
-		dispersedEnergy *= 0.2;
 
 		for (int i = 0; i < output->connections.size(); i++)
 		{
 			// Process all valid connections that were found.
 			np::ConnectionBase* connection = output->connections.at(i);
-			if ( connection->isValid())
+
+			double tEnergy = std::max( getRawEnergy( connection->target), getThreshold( connection->target));
+
+			if ( tEnergy < node->currentEnergy)
 			{
-				np::Pulse* pulse = new np::Pulse( dispersedEnergy);
-
-				connection->outputPulse( pulse);
-				connection->target->inPulseBuffer.push_back( pulse);
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->inPulseBuffer.size()));
-
-				np::TransformComponent* transform1 = e->getComponent<np::TransformComponent>();
-				np::TransformComponent* transform2 = connection->target->parent->getComponent<np::TransformComponent>();
 
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pulse Outputted!");
 				//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( connection->target->node->parent->getId()));
 
-				eventManager->dispatchEvent( new np::PulseEvent( pulseEvent, transform1->position, transform2->position));
+				eventManager->dispatchEvent( new np::PulseEvent( pulseEvent, e, connection->target->parent));
 			}
 		}
-
-		if ( valid > 0) node->currentEnergy -= node->energyThreshold;
-
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy left");
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)node->currentEnergy));
 		
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)e->getComponent<np::ReactionComponent>()->output));
 	}
-
-	for (int i = 0; i < output->connections.size(); i++)
-	{
-		// Process all valid connections that were found.
-		np::ConnectionBase* connection = output->connections.at(i);
-
-		while ( !connection->inPulseBuffer.empty())
-		{
-			np::Pulse* pulse = connection->inPulseBuffer.back();
-			connection->inPulseBuffer.pop_back();
-
-			//OgreFramework::getSingletonPtr()->m_pLog->logMessage("input energy pulse!");
-			//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));
-
-			connection->inputPulse( pulse);
-			node->currentEnergy += pulse->energy;
-			delete pulse;
-		}
-	}
-
 }
 
 void np::OutputSystem::onEndProcessing()
 {
 	isPulsing = false;
+}
+
+double np::OutputSystem::getRawEnergy( np::ConnectionBase* base )
+{
+	np::BufferComponent* buffer = base->parent->getComponent<np::BufferComponent>();
+	return buffer->getAmountOf( rawEnergy);
+}
+
+double np::OutputSystem::getThreshold( np::ConnectionBase* base )
+{
+	np::NodeComponent* node = base->parent->getComponent<np::NodeComponent>();
+	return node->energyThreshold;
 }

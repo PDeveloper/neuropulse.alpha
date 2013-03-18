@@ -1,6 +1,5 @@
 #include "ResourceManager.h"
 
-
 template<> np::ResourceManager* Ogre::Singleton<np::ResourceManager>::msSingleton = 0;
 
 np::ResourceManager::ResourceManager(void) :
@@ -13,7 +12,7 @@ np::ResourceManager::~ResourceManager(void)
 
 }
 
-bool np::ResourceManager::registerType( std::string name, std::string description )
+bool np::ResourceManager::registerType( std::string name, std::string description, double weight)
 {
 	std::vector<np::ResourceType>::iterator i;
 
@@ -23,7 +22,7 @@ bool np::ResourceManager::registerType( std::string name, std::string descriptio
 			return false;
 		}
 
-	resourceTypes.push_back( np::ResourceType( name, description, resourceTypes.size()));
+	resourceTypes.push_back( np::ResourceType( name, description, weight, resourceTypes.size()));
 
 	return true;
 }
@@ -39,4 +38,16 @@ np::ResourceType* np::ResourceManager::getType( std::string name)
 		}
 
 	return NULL;
+}
+
+np::ResourceRequirement* np::ResourceManager::getReq( std::string names[], size_t numNames )
+{
+	np::ResourceRequirement* req = new np::ResourceRequirement();
+
+	for ( size_t i = 0; i < numNames; i++)
+	{
+		req->add( getType( names[i]));
+	}
+
+	return req;
 }

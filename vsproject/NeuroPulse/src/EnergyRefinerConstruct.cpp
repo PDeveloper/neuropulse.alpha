@@ -1,41 +1,30 @@
 #include "EnergyRefinerConstruct.h"
-#include "ConstructOutput.h"
 
 np::EnergyRefineryConstruct::EnergyRefineryConstruct()
 {
 	conversionRate = 0.5;
 
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
 	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
 
-	//Define inputs
-	inputs.push_back(new ConstructInput( np::ResourceManager::getSingletonPtr()->getType( "RawEnergy"), 50));
-
-	//Define outputs
-	outputs.push_back(new ConstructOutput( sexyEnergy, 50));
+	inputRequirements.push_back( np::ResourceRequirement( rawEnergy));
+	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 }
-
-
 
 void np::EnergyRefineryConstruct::process()
 {
-	ConstructInput* energyInput = inputs.at(0);
 	double totalEnergy = 0;
 
-	
-	std::list<np::ResourcePacket*>::iterator i;
+	np::ResourcePacket* rawPacket;
 
-	for(i = energyInput->buffer.begin(); i != energyInput->buffer.end(); ++i)
+	while ( ( rawPacket = getNextPacket( inputRequirements.at(0))) != NULL)
 	{
-		processInstructions(*i);
-
-		totalEnergy += (*i)->amount;
-
-		i = energyInput->buffer.erase(i);
+		totalEnergy += rawPacket->amount;
 	}
 
-	ResourcePacket* product =  new ResourcePacket( sexyEnergy, totalEnergy*conversionRate, NULL);
+	ResourcePacket* product =  new ResourcePacket( sexyEnergy, totalEnergy * conversionRate);
 
-	outputs.at(0)->putBuffer( product);
+	putPacket( 0, product);
 
 }
 

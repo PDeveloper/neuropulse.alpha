@@ -2,12 +2,16 @@
 
 #include <NodeComponent.h>
 #include <ReactionComponent.h>
+#include <BufferComponent.h>
 #include <TransformComponent.h>
 
+#include <ResourcePacket.h>
+
 np::ReactionSystem::ReactionSystem() :
-	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<NodeComponent>().requires<ReactionComponent>())
+	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<ReactionComponent>())
 {
 	deltaTime = 0.0;
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
 }
 
 
@@ -22,10 +26,10 @@ void np::ReactionSystem::setDeltaTime( double time)
 
 void np::ReactionSystem::process( ac::es::EntityPtr e)
 {
-	NodeComponent* node = e->getComponent<NodeComponent>();
+	BufferComponent* buffer = e->getComponent<BufferComponent>();
 	ReactionComponent* reaction = e->getComponent<ReactionComponent>();
 
-	node->currentEnergy += reaction->output * ( deltaTime / 1000.0);
+	buffer->appendPacket( new np::ResourcePacket( rawEnergy, reaction->output * ( deltaTime / 1000.0)));
 
 	//// DEBUGGING ONLY!!!!!
 	//np::TransformComponent* transform = e->getComponent<np::TransformComponent>();

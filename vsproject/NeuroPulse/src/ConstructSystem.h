@@ -15,9 +15,7 @@ namespace np
 
 		
 	protected:
-		void onBeginProcessing();
 		void process( ac::es::EntityPtr e);
-		void onEndProcessing();
 	
 	};
 }

@@ -7,6 +7,8 @@ np::GraphicComponent::GraphicComponent( Ogre::MovableObject* entities[], int num
 	node( NULL)
 {
 	isDirty = false;
+
+	parent = NULL;
 }
 
 np::GraphicComponent::~GraphicComponent(void)
@@ -43,4 +45,16 @@ void np::GraphicComponent::removeEntity( Ogre::Entity* entity)
 			entities.remove( (*it));
 		}
 	}
+}
+
+void np::GraphicComponent::addChild( np::GraphicComponent* graphic )
+{
+	children.push_back( graphic);
+	graphic->parent = this;
+}
+
+void np::GraphicComponent::removeChild( np::GraphicComponent* graphic )
+{
+	children.remove( graphic);
+	graphic->parent = NULL;
 }

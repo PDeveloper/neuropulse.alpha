@@ -17,6 +17,9 @@ namespace np
 		AC_ES_COMPONENT(GraphicComponent)
 	public:
 
+		np::GraphicComponent* parent;
+		std::list<np::GraphicComponent*> children;
+
 		std::list<Ogre::MovableObject*> entities;
 
 		Ogre::SceneNode* node;
@@ -28,6 +31,9 @@ namespace np
 
 		void addEntity( Ogre::Entity* entity);
 		void removeEntity( Ogre::Entity* entity);
+
+		void addChild( np::GraphicComponent* graphic);
+		void removeChild( np::GraphicComponent* graphic);
 	};
 }
 

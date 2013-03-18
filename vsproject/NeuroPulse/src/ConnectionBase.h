@@ -1,7 +1,11 @@
 #include <ac\es.h>
 
 #include <NodeComponent.h>
-#include <PulseGate.h>
+#include <BufferComponent.h>
+#include <PulseGateComponent.h>
+
+#include <ResourceInputComponent.h>
+#include <ResourceOutputComponent.h>
 
 #include <Pulse.h>
 
@@ -21,9 +25,9 @@ namespace np
 		np::NodeComponent* node;
 		np::ConnectionBase* target;
 
-		std::list<np::PulseGate*> feeds;
+		std::list<ac::es::EntityPtr> feeds;
 
-		std::list<np::Pulse*> inPulseBuffer;
+		std::vector<ac::es::EntityPtr> outputPulses;
 
 		ConnectionBase( ac::es::EntityPtr parent)
 		{
@@ -41,42 +45,55 @@ namespace np
 			target->target = this;
 		}
 
-		void outputPulse( np::Pulse* pulse)
+		void outputPulse( ac::es::EntityPtr pulseEntity)
 		{
-			for (std::list<np::PulseGate*>::iterator it = feeds.begin(); it != feeds.end(); it++)
-				(*it)->outPulse( pulse);
-		}
+			np::BufferComponent* pulseBuffer = pulseEntity->getComponent<np::BufferComponent>();
 
-		void inputPulse( np::Pulse* pulse)
-		{
-			for (std::list<np::PulseGate*>::iterator it = feeds.end(); it != feeds.begin(); it--)
-				(*it)->inPulse( pulse);
-		}
-
-		void addFeed( np::PulseGate* feed)
-		{
-			feeds.push_back( feed);
-			feeds.sort();
-		}
-
-		void removeFeed( np::PulseGate* feed)
-		{
-			for (std::list<np::PulseGate*>::iterator it = feeds.begin(); it != feeds.end(); it++)
-			if ( (*it) == feed)
+			for (std::list<ac::es::EntityPtr>::iterator it = feeds.begin(); it != feeds.end(); it++)
 			{
-				feeds.erase(it);
-				return;
+				ac::es::EntityPtr e = *it;
+				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
+				np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
+
+				if ( input != NULL)
+				{
+					std::list<np::ResourcePacket*> packets = buffer->getPackets();
+
+					if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
+				}
 			}
 		}
 
-		double resistance()
+		void inputPulse( ac::es::EntityPtr pulseEntity)
 		{
-			return std::max<double>( target->node->currentEnergy, target->node->energyThreshold);
+			np::BufferComponent* pulseBuffer = pulseEntity->getComponent<np::BufferComponent>();
+
+			for (std::list<ac::es::EntityPtr>::iterator it = feeds.end(); it != feeds.begin(); it--)
+			{
+				ac::es::EntityPtr e = *it;
+				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
+				np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+
+				if ( output != NULL)
+				{
+
+				}
+			}
 		}
 
-		bool isValid()
+		void addFeed( ac::es::EntityPtr feed)
 		{
-			return node->currentEnergy > resistance();
+			if ( feed->getComponent<np::PulseGateComponent>() != NULL)
+			{
+				feeds.push_back( feed);
+				feeds.sort();
+			}
 		}
+
+		void removeFeed( ac::es::EntityPtr feed)
+		{
+			feeds.remove( feed);
+		}
+
 	};
 }

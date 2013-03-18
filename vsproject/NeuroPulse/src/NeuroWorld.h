@@ -11,6 +11,7 @@
 #include <ReactionSystem.h>
 #include <ConnectionDisplaySystem.h>
 #include <PulseSystem.h>
+#include <PulseTransferSystem.h>
 
 #include <EventManager.h>
 
@@ -49,6 +50,7 @@ namespace np
 		np::ReactionSystem* reactionSystem;
 		np::ConnectionDisplaySystem* connectionDisplaySystem;
 		np::PulseSystem* pulseSystem;
+		np::PulseTransferSystem* pulseTransferSystem;
 
 		// Event system
 		np::EventManager* eventManager;

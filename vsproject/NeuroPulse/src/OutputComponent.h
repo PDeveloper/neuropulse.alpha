@@ -34,6 +34,7 @@ namespace np
 		void removeConnection( np::ConnectionBase* base);
 
 		bool hasConnection( np::NodeComponent* node);
+		np::ConnectionBase* getConnection( ac::es::EntityPtr e);
 	};
 
 }

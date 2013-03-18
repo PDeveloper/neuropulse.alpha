@@ -21,7 +21,7 @@ namespace np
 	public:
 
 		np::NeuroPlayer* owner;
-		std::vector<ac::es::EntityPtr*> constructs;
+		std::vector<ac::es::EntityPtr> constructs;
 
 		Ogre::Entity* display;
 

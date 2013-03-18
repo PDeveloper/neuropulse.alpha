@@ -27,7 +27,15 @@ void np::OutputComponent::removeConnection( np::ConnectionBase* base )
 bool np::OutputComponent::hasConnection( np::NodeComponent* node)
 {
 	for ( int i = 0; i < connections.size(); i++)
-	if ( connections.at(i)->target->node == node) return true;
+		if ( connections.at(i)->target->node == node) return true;
 
 	return false;
+}
+
+np::ConnectionBase* np::OutputComponent::getConnection( ac::es::EntityPtr e)
+{
+	for ( int i = 0; i < connections.size(); i++)
+		if ( connections[i]->target->parent == e) return connections[i];
+
+	return NULL;
 }

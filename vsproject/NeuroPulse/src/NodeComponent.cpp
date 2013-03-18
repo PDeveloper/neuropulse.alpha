@@ -4,6 +4,7 @@
 np::NodeComponent::NodeComponent( double energyThreshold)
 {
 	this->energyThreshold = energyThreshold;
+
 	currentEnergy = 0.0;
 }
 

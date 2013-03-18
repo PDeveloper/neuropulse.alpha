@@ -23,12 +23,24 @@ namespace np
 			return _id;
 		}
 
-		ResourceType( std::string name, std::string description, int id)
+		double weight()
+		{
+			return _weight;
+		}
+
+		unsigned long int getFlag()
+		{
+			return flag;
+		}
+
+		ResourceType( std::string name, std::string description, double weight, int id)
 		{
 			_name = name;
 			_description = description;
+			_weight = weight;
 
 			_id = id;
+			flag = 1 << ( id + 1);
 		}
 
 		bool operator==(ResourceType& other)
@@ -37,8 +49,11 @@ namespace np
 		}
 	private:
 		int _id;
+		unsigned long int flag;
 
 		std::string _name;
 		std::string _description;
+
+		double _weight;
 	};
 }

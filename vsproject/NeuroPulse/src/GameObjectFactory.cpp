@@ -10,6 +10,7 @@
 #include <PulseComponent.h>
 #include <ConstructComponent.h>
 #include <HubComponent.h>
+#include <BufferComponent.h>
 
 #include <TweenState.h>
 
@@ -227,12 +228,14 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	np::ReactionComponent* reactor = new np::ReactionComponent( reactorOutput);
 	np::NodeComponent* node = new np::NodeComponent( threshold);
 	np::OutputComponent* output = new np::OutputComponent();
+	np::BufferComponent* buffer = new np::BufferComponent( np::ResourceRequirement::ANY);
 
 	e->addComponent( graphic);
 	e->addComponent( transform);
 	e->addComponent( reactor);
 	e->addComponent( node);
 	e->addComponent( output);
+	e->addComponent( buffer);
 
 	e->activate();
 
@@ -243,16 +246,18 @@ void np::GameObjectFactory::killNodeEntity( ac::es::EntityPtr e)
 {
 	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
 	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
-	np::ReactionComponent* reactor = e->getComponent<np::ReactionComponent>();
-	np::NodeComponent* node = e->getComponent<np::NodeComponent>();
-	np::OutputComponent* output = e->getComponent<np::OutputComponent>();
-	np::HubComponent* hub = e->getComponent<np::HubComponent>();
+	np::ReactionComponent* reactor		= e->getComponent<np::ReactionComponent>();
+	np::NodeComponent* node				= e->getComponent<np::NodeComponent>();
+	np::OutputComponent* output			= e->getComponent<np::OutputComponent>();
+	np::HubComponent* hub				= e->getComponent<np::HubComponent>();
+	np::BufferComponent* buffer			= e->getComponent<np::BufferComponent>();
 
 	e->destroyComponent( graphics);
 	e->destroyComponent( transform);
 	e->destroyComponent( node);
 	e->destroyComponent( reactor);
 	e->destroyComponent( output);
+	e->destroyComponent( buffer);
 	if ( hub != NULL) e->destroyComponent( hub);
 
 	e->kill();
@@ -292,16 +297,19 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
 
-		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 0.7)};
+		np::TweenState states[] = { np::TweenState( target1, 0.0), np::TweenState( target2, 0.4)};
 		np::AnimationComponent* animation = new np::AnimationComponent( states, 2);
 		animation->isLooping = false;
 
 		np::PulseComponent* pulse = new np::PulseComponent();
+
+		np::BufferComponent* buffer = new np::BufferComponent( np::ResourceRequirement::ANY);
 		
 		e->addComponent( graphic);
 		e->addComponent( transform);
 		e->addComponent( animation);
 		e->addComponent( pulse);
+		e->addComponent( buffer);
 	}
 	else
 	{
@@ -331,11 +339,13 @@ void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
 	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
 	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
 	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
+	np::BufferComponent* buffer			= e->getComponent<np::BufferComponent>();
 
 	e->destroyComponent( graphics);
 	e->destroyComponent( transform);
 	e->destroyComponent( animation);
 	e->destroyComponent( pulse);
+	e->destroyComponent( buffer);
 
 	e->kill();
 }

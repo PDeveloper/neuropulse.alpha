@@ -267,9 +267,6 @@
     <ClCompile Include="src\ConstructInput.cpp">
       <Filter>Source Files\core\construct</Filter>
     </ClCompile>
-    <ClCompile Include="src\PulseGate.cpp">
-      <Filter>Source Files\core\data</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>Source Files\core\construct\resource</Filter>
     </ClCompile>
@@ -288,8 +285,32 @@
     <ClCompile Include="src\ConstructSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConstructResourceTransferSystem.cpp">
+    <ClCompile Include="src\BufferComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HubComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseGateComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceInputComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceOutputComponent.cpp">
+      <Filter>Source Files\entity\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceTransferSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseTransferSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceRequirement.cpp">
+      <Filter>Source Files\core\construct\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -437,9 +458,6 @@
     <ClInclude Include="src\ConnectionDisplaySystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pulse.h">
-      <Filter>Header Files\core\data</Filter>
-    </ClInclude>
     <ClInclude Include="src\PulseSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
@@ -472,9 +490,6 @@
     </ClInclude>
     <ClInclude Include="src\ConstructInput.h">
       <Filter>Header Files\core\construct</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PulseGate.h">
-      <Filter>Header Files\core\data</Filter>
     </ClInclude>
     <ClInclude Include="src\ResourceManager.h">
       <Filter>Header Files\core\construct\resource</Filter>
@@ -521,7 +536,25 @@
     <ClInclude Include="src\ConstructConnectionComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConstructResourceTransferSystem.h">
+    <ClInclude Include="src\BufferComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseGateComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceInputComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceOutputComponent.h">
+      <Filter>Header Files\entity\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceRequirement.h">
+      <Filter>Header Files\core\construct\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceTransferSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseTransferSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>

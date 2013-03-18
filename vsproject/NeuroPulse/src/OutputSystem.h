@@ -3,6 +3,10 @@
 #include <EventManager.h>
 #include <NeuroWorldSettings.h>
 
+#include <ResourceRequirement.h>
+
+#include <ConnectionBase.h>
+
 #pragma once
 namespace np
 {
@@ -16,6 +20,9 @@ namespace np
 		double timeSinceLastPulse;
 
 		np::NeuroWorldSettings* settings;
+		
+		np::ResourceRequirement* requirement;
+		np::ResourceType* rawEnergy;
 
 		OutputSystem( np::EventManager* eventManager, np::NeuroWorldSettings* settings);
 		~OutputSystem(void);
@@ -31,5 +38,8 @@ namespace np
 		np::EventType* pulseEvent;
 
 		bool isPulsing;
+
+		double getRawEnergy( np::ConnectionBase* base);
+		double getThreshold( np::ConnectionBase* base);
 	};
 }
