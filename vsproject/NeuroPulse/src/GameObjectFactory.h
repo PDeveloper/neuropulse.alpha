@@ -54,6 +54,7 @@ namespace np
 		void killConstructConnectionEntity( ac::es::EntityPtr e);
 
 		void releasePulseEntity( ac::es::EntityPtr e);
+		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
 
 	private:
 		Ogre::SceneManager* sceneManager;
@@ -62,8 +63,6 @@ namespace np
 		std::stack<ac::es::EntityPtr> pulsePool;
 
 		void generateMeshes(void);
-		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
-		void createResourceInput( ac::es::EntityPtr constructEntity, int slot);
-		void createResourceOutput( ac::es::EntityPtr constructEntity, int slot);
+		ac::es::EntityPtr createResourceBud( ac::es::EntityPtr constructEntity, np::ResourceRequirement* requirement, bool isInput, int slot);
 	};
 }

@@ -12,7 +12,7 @@ namespace np
 	class ConstructInput;
 	class ConstructOutput;
 
-	class EnergyRefineryConstruct : public Construct
+	class RefineryConstruct : public Construct
 	{
 	public:
 
@@ -25,7 +25,7 @@ namespace np
 		double takeEnergy;
 		double conversionRate;
 
-		EnergyRefineryConstruct();
+		RefineryConstruct();
 	private:
 		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;

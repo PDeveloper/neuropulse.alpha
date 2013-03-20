@@ -39,7 +39,7 @@
     <ClCompile Include="src\ConstructSystem.cpp" />
     <ClCompile Include="src\delaunay.cpp" />
     <ClCompile Include="src\DotSceneLoader.cpp" />
-    <ClCompile Include="src\EnergyRefinerConstruct.cpp" />
+    <ClCompile Include="src\RefineryConstruct.cpp" />
     <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\EventType.cpp" />
@@ -114,7 +114,7 @@
     <ClInclude Include="src\ConstructSystem.h" />
     <ClInclude Include="src\delaunay.h" />
     <ClInclude Include="src\DotSceneLoader.hpp" />
-    <ClInclude Include="src\EnergyRefinerConstruct.h" />
+    <ClInclude Include="src\RefineryConstruct.h" />
     <ClInclude Include="src\Event.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\EventType.h" />

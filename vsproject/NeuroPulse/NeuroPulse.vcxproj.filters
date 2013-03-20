@@ -270,9 +270,6 @@
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>Source Files\core\construct\resource</Filter>
     </ClCompile>
-    <ClCompile Include="src\EnergyRefinerConstruct.cpp">
-      <Filter>Source Files\core\construct\constructs</Filter>
-    </ClCompile>
     <ClCompile Include="src\HubInfoPanel.cpp">
       <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
@@ -311,6 +308,9 @@
     </ClCompile>
     <ClCompile Include="src\ResourceRequirement.cpp">
       <Filter>Source Files\core\construct\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RefineryConstruct.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +497,6 @@
     <ClInclude Include="src\HubComponent.h">
       <Filter>Header Files\entity\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\EnergyRefinerConstruct.h">
-      <Filter>Header Files\core\construct\constructs</Filter>
-    </ClInclude>
     <ClInclude Include="src\Construct.h">
       <Filter>Header Files\core\construct</Filter>
     </ClInclude>
@@ -556,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="src\PulseTransferSystem.h">
       <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RefineryConstruct.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

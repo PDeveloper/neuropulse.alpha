@@ -244,9 +244,6 @@ void GameState::update(double timeSinceLastFrame)
 
 	m_MoveScale = m_MoveSpeed * timeSinceLastFrame;
 
-	ac::es::EntityPtr e = neuroWorld->nodes.at( 0);
-	np::NodeComponent* node = e->getComponent<np::NodeComponent>();
-
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";

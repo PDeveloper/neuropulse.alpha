@@ -1,6 +1,6 @@
-#include "EnergyRefinerConstruct.h"
+#include "RefineryConstruct.h"
 
-np::EnergyRefineryConstruct::EnergyRefineryConstruct()
+np::RefineryConstruct::RefineryConstruct()
 {
 	conversionRate = 0.5;
 
@@ -11,7 +11,7 @@ np::EnergyRefineryConstruct::EnergyRefineryConstruct()
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 }
 
-void np::EnergyRefineryConstruct::process()
+void np::RefineryConstruct::process()
 {
 	double totalEnergy = 0;
 
@@ -28,17 +28,17 @@ void np::EnergyRefineryConstruct::process()
 
 }
 
-std::string np::EnergyRefineryConstruct::getName()
+std::string np::RefineryConstruct::getName()
 {
 	return "Energy Refinery";
 }
 
-std::string np::EnergyRefineryConstruct::getDescription()
+std::string np::RefineryConstruct::getDescription()
 {
 	return "Takes a percentage of raw energy from pulse and converts it to refined energy, to be used in your dick";
 }
 
-void np::EnergyRefineryConstruct::processInstructions( np::ResourcePacket* packet)
+void np::RefineryConstruct::processInstructions( np::ResourcePacket* packet)
 {
 	//pimpididmpim
 }

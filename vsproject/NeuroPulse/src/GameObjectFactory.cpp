@@ -159,7 +159,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	pulseMesh->getSubMesh(0)->setMaterialName( "PulseMaterial");
 
 	///////// RESOURCE BUD MESH
-	Ogre::MeshPtr resMesh = Procedural::SphereGenerator().setRadius( 1.0).setUTile(.5f).realizeMesh("ResourceBudMesh");
+	Ogre::MeshPtr resMesh = Procedural::SphereGenerator().setRadius( 2.0).setNumSegments( 6).setNumRings(6).realizeMesh("ResourceBudMesh");
 	resMesh->getSubMesh(0)->setMaterialName( "ResourceBudMaterial");
 
 	///////// GROUND MESH
@@ -174,7 +174,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Procedural::Shape hubShape = Procedural::RectangleShape().setHeight( 0.5).setWidth( 5.0).realizeShape();
 	hubShape.translate( 10.0, 12.0);
 
-	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).realizeMesh( "HubMesh");
+	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).setNumSeg( 24).realizeMesh( "HubMesh");
 	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
 
 	/*
@@ -443,18 +443,51 @@ void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np:
 
 		constructComponent->setConstruct( construct);
 
+		int i;
+		for ( i = 0; i < construct->inputRequirements.size(); i++)
+			construct->inputs.push_back( createResourceBud( constructEntity, &construct->inputRequirements[i], true, i));
+
+		for ( i = 0; i < construct->outputRequirements.size(); i++)
+			construct->outputs.push_back( createResourceBud( constructEntity, &construct->outputRequirements[i], false, i));
 
 	}
 }
 
-void np::GameObjectFactory::createResourceInput( ac::es::EntityPtr constructEntity, int slot)
+ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr constructEntity, np::ResourceRequirement* requirement, bool isInput, int slot)
 {
+	np::GraphicComponent* parent = constructEntity->getComponent<np::GraphicComponent>();
+	ac::es::EntityPtr e = scene->createEntity();
 
-}
+	int mult = (int)isInput * -2 + 1;
 
-void np::GameObjectFactory::createResourceOutput( ac::es::EntityPtr constructEntity, int slot)
-{
+	Ogre::Entity* entity = sceneManager->createEntity( "ResourceBudMesh");
+	entity->setCastShadows( false);
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+	entity->setQueryFlags( NODE_MASK);
 
+	Ogre::MovableObject* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent( -8.0 * mult, 13.0, ( -4.0 + slot * 4.0) * mult);
+	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 100.0);
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+	e->addComponent( buffer);
+
+	if ( isInput)
+	{
+		np::ResourceInputComponent* input = new np::ResourceInputComponent();
+		e->addComponent( input);
+	}
+	else
+	{
+		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
+		e->addComponent( output);
+	}
+
+	parent->addChild( e);
+
+	return e;
 }
 
 void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
@@ -483,8 +516,14 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 			Ogre::LBS_CURRENT,
 			player->colour);*/
 
-		entity->getSubEntity(0)->getMaterial()->setAmbient( player->colour * 0.2);
-		entity->getSubEntity(0)->getMaterial()->setDiffuse( player->colour);
+		//entity->getSubEntity(0)->getMaterial()->setAmbient( player->colour * 0.2);
+		//entity->getSubEntity(0)->getMaterial()->setDiffuse( player->colour);
+
+		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			player->colour);
 
 		graphics->addEntity( entity);
 		nodeEntity->addComponent( _hub);
