@@ -176,6 +176,7 @@ void np::GameObjectFactory::generateMeshes(void)
 
 	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).realizeMesh( "HubMesh");
 	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
+
 	/*
 	Procedural::Path hubPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 15.0, 0.0),
 		Ogre::Vector3( 0.0, 15.2, 0.0)).realizePath();
@@ -184,6 +185,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Ogre::MeshPtr hubMesh = Procedural::Extruder().setExtrusionPath( &hubPath).setShapeToExtrude( &hubCircle).realizeMesh( "HubMesh");
 	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
 	*/
+
 	///////// CONSTRUCT MESH
 	Procedural::Path constructPath = Procedural::LinePath().betweenPoints( Ogre::Vector3( 0.0, 12.0, 0.0),
 		Ogre::Vector3( 0.0, 13.0, 0.0)).realizePath();
@@ -440,6 +442,8 @@ void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np:
 		np::ConstructComponent* constructComponent = constructEntity->getComponent<np::ConstructComponent>();
 
 		constructComponent->setConstruct( construct);
+
+
 	}
 }
 

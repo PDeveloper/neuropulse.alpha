@@ -250,7 +250,7 @@ void GameState::update(double timeSinceLastFrame)
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";
-	if ( currentNode != NULL)
+	if ( currentNode != NULL && currentNode->containsComponent<np::BufferComponent>())
 	{
 		debugText += CEGUI::String( "energy:" + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
 	}
