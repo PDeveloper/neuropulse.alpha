@@ -594,7 +594,6 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity( const 
 
 	return e;
 }
-}
 
 void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
 {

@@ -287,11 +287,14 @@ void GameState::update(double timeSinceLastFrame)
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";
-	if ( currentNode != NULL && currentNode->containsComponent<np::BufferComponent>())
+	if ( currentNode != NULL && currentNode->containsComponent<np::BufferComponent>() )
 	{
 		debugText += CEGUI::String( "energy:      " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
-		debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
-		debugText += CEGUI::String( "temperature: " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::NodeComponent>()->temperature))) + "\n";
+		if(currentNode->getComponent<np::NodeComponent>() != NULL)
+		{
+			debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
+			debugText += CEGUI::String( "temperature: " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::NodeComponent>()->temperature))) + "\n";
+		}
 		if(currentNode->getComponent<np::HubComponent>() != NULL)
 			debugText += CEGUI::String( "health:      " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::HubComponent>()->health))) + "\n";
 	}
