@@ -136,6 +136,30 @@
     <Filter Include="Header Files\core\construct\instructions">
       <UniqueIdentifier>{a69ee523-25b3-4e61-857c-363562e7b8ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\entity\components\display">
+      <UniqueIdentifier>{2d26cc7f-daf6-40c6-9c84-b4aa2aa166ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity\components\pulse">
+      <UniqueIdentifier>{7f2be511-b00c-4287-bc9f-fc7138dc94d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity\components\construct">
+      <UniqueIdentifier>{0b97ff7a-9b23-4a6b-bbdf-57cdc7fb3ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity\components\info">
+      <UniqueIdentifier>{8eacaa67-3f25-478f-a47f-22755f466fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\components\display">
+      <UniqueIdentifier>{5ca3007b-e458-455b-b9c9-c0ca75f9c946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\components\construct">
+      <UniqueIdentifier>{d25a46d2-fcbe-4be9-a7f2-f980670cd43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\components\info">
+      <UniqueIdentifier>{f7f93c9b-5f49-48b1-9c01-d7015d642dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entity\components\pulse">
+      <UniqueIdentifier>{853d1fd8-f343-4a66-9db6-8d04bff262f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -204,32 +228,8 @@
     <ClCompile Include="src\ReactionSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConnectionComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GraphicComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\NodeComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OutputComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PulseComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReactionComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TransformComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\AnimationSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AnimationComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
     </ClCompile>
     <ClCompile Include="src\WorldGenerator.cpp">
       <Filter>Source Files\core\map</Filter>
@@ -282,24 +282,6 @@
     <ClCompile Include="src\ConstructSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\BufferComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ConstructComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HubComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PulseGateComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ResourceInputComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ResourceOutputComponent.cpp">
-      <Filter>Source Files\entity\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceTransferSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
@@ -310,6 +292,54 @@
       <Filter>Source Files\core\construct\resource</Filter>
     </ClCompile>
     <ClCompile Include="src\RefineryConstruct.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructInfoPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnimationComponent.cpp">
+      <Filter>Source Files\entity\components\display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GraphicComponent.cpp">
+      <Filter>Source Files\entity\components\display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>Source Files\entity\components\display</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HubComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceInputComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceOutputComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BufferComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionComponent.cpp">
+      <Filter>Source Files\entity\components\pulse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeComponent.cpp">
+      <Filter>Source Files\entity\components\pulse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OutputComponent.cpp">
+      <Filter>Source Files\entity\components\pulse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseComponent.cpp">
+      <Filter>Source Files\entity\components\pulse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReactionComponent.cpp">
+      <Filter>Source Files\entity\components\pulse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PulseGateComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SexyEnergyBuffer.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
     <ClCompile Include="src\HeatSystem.cpp">
@@ -346,12 +376,6 @@
     </ClInclude>
     <ClInclude Include="src\GraphicSystem.h">
       <Filter>Header Files\entity\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GraphicComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TransformComponent.h">
-      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
     <ClInclude Include="src\ac\es.h">
       <Filter>Header Files\ac</Filter>
@@ -416,18 +440,6 @@
     <ClInclude Include="src\GameObjectFactory.h">
       <Filter>Header Files\entity</Filter>
     </ClInclude>
-    <ClInclude Include="src\NodeComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ReactionComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ConnectionComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PulseComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\OutputSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
@@ -443,9 +455,6 @@
     <ClInclude Include="src\AnimationSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\AnimationComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\TweenState.h">
       <Filter>Header Files\core\animation</Filter>
     </ClInclude>
@@ -454,9 +463,6 @@
     </ClInclude>
     <ClInclude Include="src\delaunay.h">
       <Filter>Header Files\delaunay</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OutputComponent.h">
-      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
     <ClInclude Include="src\ConnectionDisplaySystem.h">
       <Filter>Header Files\entity\systems</Filter>
@@ -497,14 +503,8 @@
     <ClInclude Include="src\ResourceManager.h">
       <Filter>Header Files\core\construct\resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\HubComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\Construct.h">
       <Filter>Header Files\core\construct</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ConstructComponent.h">
-      <Filter>Header Files\entity\components</Filter>
     </ClInclude>
     <ClInclude Include="src\ResourcePacket.h">
       <Filter>Header Files\core\construct</Filter>
@@ -533,21 +533,6 @@
     <ClInclude Include="src\ConstructSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConstructConnectionComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BufferComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PulseGateComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ResourceInputComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ResourceOutputComponent.h">
-      <Filter>Header Files\entity\components</Filter>
-    </ClInclude>
     <ClInclude Include="src\ResourceRequirement.h">
       <Filter>Header Files\core\construct\resource</Filter>
     </ClInclude>
@@ -558,6 +543,57 @@
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\RefineryConstruct.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructInfoPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationComponent.h">
+      <Filter>Header Files\entity\components\display</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicComponent.h">
+      <Filter>Header Files\entity\components\display</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputComponent.h">
+      <Filter>Header Files\entity\components\pulse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseComponent.h">
+      <Filter>Header Files\entity\components\pulse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReactionComponent.h">
+      <Filter>Header Files\entity\components\pulse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TransformComponent.h">
+      <Filter>Header Files\entity\components\display</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionComponent.h">
+      <Filter>Header Files\entity\components\pulse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodeComponent.h">
+      <Filter>Header Files\entity\components\pulse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructConnectionComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HubComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceInputComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceOutputComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BufferComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PulseGateComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SexyEnergyBuffer.h">
       <Filter>Header Files\core\construct\constructs</Filter>
     </ClInclude>
     <ClInclude Include="src\HeatSystem.h">

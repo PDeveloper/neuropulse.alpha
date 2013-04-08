@@ -50,7 +50,7 @@ namespace np
 		void createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
 		void killHub( ac::es::EntityPtr nodeEntity);
 
-		ac::es::EntityPtr createConstructConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2 );
+		ac::es::EntityPtr createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 		void killConstructConnectionEntity( ac::es::EntityPtr e);
 
 		void releasePulseEntity( ac::es::EntityPtr e);
