@@ -31,6 +31,7 @@
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\ConstructComponent.cpp" />
+    <ClCompile Include="src\ConstructInfoPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\ResourceRequirement.cpp" />
     <ClCompile Include="src\ResourceTransferSystem.cpp" />
@@ -67,6 +68,7 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\ResourceOutputComponent.cpp" />
     <ClCompile Include="src\SetupState.cpp" />
+    <ClCompile Include="src\SexyEnergyBuffer.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
@@ -106,6 +108,7 @@
     <ClInclude Include="src\Construct.h" />
     <ClInclude Include="src\ConstructComponent.h" />
     <ClInclude Include="src\ConstructConnectionComponent.h" />
+    <ClInclude Include="src\ConstructInfoPanel.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />
     <ClInclude Include="src\ResourceRequirement.h" />
     <ClInclude Include="src\ResourceTransferSystem.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="src\ResourcePacket.h" />
     <ClInclude Include="src\ResourceType.h" />
     <ClInclude Include="src\SetupState.h" />
+    <ClInclude Include="src\SexyEnergyBuffer.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TweenState.h" />
     <ClInclude Include="src\WorldGenerator.h" />

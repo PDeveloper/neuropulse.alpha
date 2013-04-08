@@ -534,3 +534,45 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 		}
 	}
 }
+
+ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2)
+{
+	double distance = position1.distance( position2);
+
+	///////// CONNECTION MESH
+	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( 0.0, 0.0, 0.0),
+		Ogre::Vector3( 0.0, 0.0, distance)).realizePath();
+
+	Procedural::Shape circle = Procedural::CircleShape().setRadius( 1.2).setNumSeg( 10).realizeShape();
+	Procedural::Track t = Procedural::Track(Procedural::Track::AM_RELATIVE_LINEIC).addKeyFrame( 0.0, 1.0).addKeyFrame( 0.5, 0.6).addKeyFrame( 1.0, 1.0);
+	Ogre::MeshPtr connectionMesh = Procedural::Extruder().setExtrusionPath( &path).setScaleTrack( &t).setShapeToExtrude( &circle).realizeMesh();
+	
+	connectionMesh->getSubMesh(0)->setMaterialName( "ConnectionMaterial");
+
+	ac::es::EntityPtr e = scene->createEntity();
+
+	Ogre::Entity* entity = sceneManager->createEntity( connectionMesh);
+	entity->setCastShadows( false);
+
+	Ogre::MovableObject* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent();
+
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
+
+	double dx = position2.x - position1.x;
+	double dz = position2.z - position1.z;
+	double d = std::sqrt( dx * dx + dz * dz) / 100.0;
+
+	double rads = std::atan2( dx, dz);
+
+	transform->position = position1;
+	transform->rotation = Ogre::Quaternion( Ogre::Radian( rads), Ogre::Vector3::UNIT_Y);
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+
+	e->activate();
+
+	return e;
+}

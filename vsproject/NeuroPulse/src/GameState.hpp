@@ -60,6 +60,7 @@ private:
 
 	Ogre::SceneNode*			m_pCurrentObject;
 	ac::es::EntityPtr			currentNode;
+	Ogre::Entity*				currentEntity;
 	bool						m_bLMouseDown, m_bRMouseDown;
 
 	np::NeuroWorldSettings* worldSettings;

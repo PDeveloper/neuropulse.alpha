@@ -164,6 +164,44 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
     if(id == OIS::MB_Left)
     {
         m_bLMouseDown = false;
+
+		if( currentNode != NULL)
+		{
+			Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
+			ac::es::EntityPtr connector = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
+			if ( connector != NULL)
+			{
+				np::ResourceInputComponent* input1 = currentNode->getComponent<np::ResourceInputComponent>();
+				np::ResourceInputComponent* input2 = connector->getComponent<np::ResourceInputComponent>();
+				np::ResourceOutputComponent* output1 = currentNode->getComponent<np::ResourceOutputComponent>();
+				np::ResourceOutputComponent* output2 = connector->getComponent<np::ResourceOutputComponent>();
+				np::BufferComponent* buffer1 = currentNode->getComponent<np::BufferComponent>();
+				np::BufferComponent* buffer2 = connector->getComponent<np::BufferComponent>();
+
+				if ( buffer1 != NULL && buffer2 != NULL)
+				{
+					Ogre::SceneNode* parent1 = currentEntity->getParentSceneNode();
+					Ogre::SceneNode* parent2 = entity->getParentSceneNode();
+
+					parent1->showBoundingBox( true);
+
+					if ( input2 != NULL && output1 != NULL && buffer2->getTypes().contains( &buffer1->getTypes()))
+					{
+						input2->connect( currentNode);
+						neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+					}
+					else if ( input1 != NULL && output2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
+					{
+						input1->connect( connector);
+						neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+					}
+					else
+					{
+						entity->getParentSceneNode()->showBoundingBox( false);
+					}
+				}
+			}
+		}
     }
     else if(id == OIS::MB_Right)
     {
@@ -187,6 +225,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
 	if ( entity != NULL)
 	{
+		currentEntity = entity;
 		m_pCurrentObject = entity->getParentSceneNode();
 		currentNode = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
 		m_pCurrentObject->showBoundingBox( true);

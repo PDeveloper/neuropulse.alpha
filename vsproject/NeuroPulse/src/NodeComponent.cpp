@@ -1,5 +1,4 @@
 #include <NodeComponent.h>
-#include <PulseComponent.h>
 
 np::NodeComponent::NodeComponent( double energyThreshold)
 {
