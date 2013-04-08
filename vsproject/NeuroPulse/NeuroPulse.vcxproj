@@ -31,6 +31,7 @@
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\ConstructComponent.cpp" />
+    <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\ResourceRequirement.cpp" />
     <ClCompile Include="src\ResourceTransferSystem.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="src\Construct.h" />
     <ClInclude Include="src\ConstructComponent.h" />
     <ClInclude Include="src\ConstructConnectionComponent.h" />
+    <ClInclude Include="src\HeatSystem.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />
     <ClInclude Include="src\ResourceRequirement.h" />
     <ClInclude Include="src\ResourceTransferSystem.h" />

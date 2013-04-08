@@ -48,7 +48,7 @@ namespace np
 		void killConstructEntity( ac::es::EntityPtr e);
 
 		void createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
-		void killHubEntity( ac::es::EntityPtr e);
+		void killHub( ac::es::EntityPtr nodeEntity);
 
 		ac::es::EntityPtr createConstructConnectionEntity( np::TransformComponent* target1, np::TransformComponent* target2 );
 		void killConstructConnectionEntity( ac::es::EntityPtr e);

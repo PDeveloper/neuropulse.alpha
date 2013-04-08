@@ -9,7 +9,11 @@ np::PulseTransferSystem::PulseTransferSystem(void) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<OutputComponent>().requires<NodeComponent>().requires<BufferComponent>())
 {
 	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
+	heat = np::ResourceManager::getSingletonPtr()->getType( "Heat");
 	requirement = new np::ResourceRequirement( rawEnergy);
+
+
+	heatConversionRate = 30;
 }
 
 np::PulseTransferSystem::~PulseTransferSystem(void)
@@ -18,6 +22,8 @@ np::PulseTransferSystem::~PulseTransferSystem(void)
 
 void np::PulseTransferSystem::process( ac::es::EntityPtr e)
 {
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "s");
+
 	np::NodeComponent* node = e->getComponent<NodeComponent>();
 	np::OutputComponent* output = e->getComponent<OutputComponent>();
 	np::BufferComponent* buffer = e->getComponent<BufferComponent>();
@@ -42,6 +48,7 @@ void np::PulseTransferSystem::process( ac::es::EntityPtr e)
 			ac::es::EntityPtr pulse = connection->outputPulses[0];
 			np::BufferComponent* pulseBuffer = pulse->getComponent<BufferComponent>();
 			std::list<np::ResourcePacket*> packets = buffer->getPackets( dispersedEnergy, requirement);
+			
 
 			packets.front()->amount *= 0.2;
 
@@ -51,11 +58,23 @@ void np::PulseTransferSystem::process( ac::es::EntityPtr e)
 
 			//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( Ogre::Real( pulseBuffer->getAmountOf( rawEnergy))));
 
+
+			double transferedEnergy = pulseBuffer->getAmountOf(rawEnergy);
+
+
 			connection->outputPulse( pulse);
 			connection->outputPulses.clear();
 
 			connection->target->inputPulse( pulse);
 			connection->target->parent->getComponent<BufferComponent>()->addPackets( &pulseBuffer->getPackets());
+
+			//Heat
+			buffer->appendPacket(new ResourcePacket(heat, transferedEnergy*heatConversionRate));
+			connection->target->parent->getComponent<BufferComponent>()->appendPacket(new ResourcePacket(heat, transferedEnergy*heatConversionRate));
+			//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (int)transferedEnergy));
+
 		}
 	}
+
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "e");
 }

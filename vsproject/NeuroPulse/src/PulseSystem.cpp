@@ -29,10 +29,12 @@ np::PulseSystem::~PulseSystem(void)
 
 void np::PulseSystem::onBeginProcessing()
 {
+	
 	std::list<np::Event*>* pulseEvents = eventManager->getEvents( pulseEvent);
 
 	for (std::list<np::Event*>::iterator it = pulseEvents->begin(); it != pulseEvents->end(); it++)
 	{
+		
 		np::PulseEvent* event = static_cast<np::PulseEvent*>( *it);
 
 		np::TransformComponent* t1 = event->target1->getComponent<np::TransformComponent>();
@@ -42,7 +44,11 @@ void np::PulseSystem::onBeginProcessing()
 
 		ac::es::EntityPtr pulse = factory->createPulseEntity( t1->position, t2->position);
 
+		
+
 		output1->getConnection( event->target2)->outputPulses.push_back( pulse);
+
+
 	}
 }
 
@@ -54,4 +60,6 @@ void np::PulseSystem::process( ac::es::EntityPtr e)
 	{
 		factory->releasePulseEntity( e);
 	}
+
+	
 }

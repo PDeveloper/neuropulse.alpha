@@ -296,6 +296,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 
 ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& target1, Ogre::Vector3& target2)
 {
+	
 	ac::es::EntityPtr e;
 
 	if ( pulsePool.empty())
@@ -350,6 +351,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 	}
 
 	e->activate();
+
 
 	return e;
 }
@@ -431,6 +433,22 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 	}
 
 	return NULL;
+}
+
+void np::GameObjectFactory::killConstructEntity( ac::es::EntityPtr e)
+{
+	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+	np::ConstructComponent* construct    = e->getComponent<np::ConstructComponent>();
+
+	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
+		(*it)->setVisible( false);
+
+	e->destroyComponent( graphics);
+	e->destroyComponent( transform);
+	e->destroyComponent( construct);
+
+	e->kill();
 }
 
 void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct)
@@ -533,4 +551,19 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 			createConstructEntity( nodeEntity, Ogre::Degree( i * 60.0), 30.0);
 		}
 	}
+}
+
+void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
+{
+	np::HubComponent* hub = nodeEntity->getComponent<np::HubComponent>();
+	
+	std::vector<ac::es::EntityPtr> constructs;
+
+	for(int i=0; i < constructs.size(); i++)
+	{
+		killConstructEntity(constructs.at(i));
+	}
+
+	nodeEntity->destroyComponent(hub);
+
 }

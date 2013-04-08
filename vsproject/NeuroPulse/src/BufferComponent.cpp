@@ -49,7 +49,7 @@ np::TransferSuccess np::BufferComponent::addPacket( np::ResourcePacket* packet )
 	if ( types.contains( packet->resourceType))
 	{
 		double spaceLeft = getSpaceLeft( packet->resourceType);
-
+		
 		if ( packet->amount < spaceLeft)
 		{
 			buffer.push_back( packet);
@@ -60,7 +60,7 @@ np::TransferSuccess np::BufferComponent::addPacket( np::ResourcePacket* packet )
 		{
 			packet->amount -= spaceLeft;
 			buffer.push_back( new np::ResourcePacket( packet->resourceType, spaceLeft));
-
+			
 			return PARTIAL;
 		}
 	}
@@ -75,7 +75,7 @@ np::TransferSuccess np::BufferComponent::appendPacket( np::ResourcePacket* packe
 	if ( types.contains( packet->resourceType))
 	{
 		double spaceLeft = getSpaceLeft( packet->resourceType);
-
+		
 		std::list<np::ResourcePacket*>::iterator i = buffer.begin();
 		while ( i != buffer.end())
 		{
@@ -96,6 +96,7 @@ np::TransferSuccess np::BufferComponent::appendPacket( np::ResourcePacket* packe
 					return PARTIAL;
 				}
 			}
+			i++;
 		}
 
 		return addPacket( packet);

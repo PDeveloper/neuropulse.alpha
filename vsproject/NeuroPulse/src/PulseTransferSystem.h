@@ -17,6 +17,10 @@ namespace np
 
 		np::ResourceRequirement* requirement;
 		np::ResourceType* rawEnergy;
+		np::ResourceType* heat;
+
+
+		double heatConversionRate;
 
 		PulseTransferSystem(void);
 		~PulseTransferSystem(void);

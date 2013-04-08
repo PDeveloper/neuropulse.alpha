@@ -36,7 +36,7 @@ namespace np
 
 	private:
 		np::EventType* pulseEvent;
-
+		
 		bool isPulsing;
 
 		double getRawEnergy( np::ConnectionBase* base);

@@ -312,6 +312,9 @@
     <ClCompile Include="src\RefineryConstruct.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\HeatSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -556,6 +559,9 @@
     </ClInclude>
     <ClInclude Include="src\RefineryConstruct.h">
       <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HeatSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

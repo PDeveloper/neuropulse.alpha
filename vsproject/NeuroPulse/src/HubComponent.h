@@ -25,10 +25,17 @@ namespace np
 
 		Ogre::Entity* display;
 
+		//Heat stuff
 		double health;
+		
+		double overheatTemperature;
+		double overheatDamage;
+		
 
 		HubComponent( np::NeuroPlayer* owner);
 		~HubComponent(void);
+
+		void destroy();
 
 	};
 }

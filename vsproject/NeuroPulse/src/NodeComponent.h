@@ -20,6 +20,11 @@ namespace np
 		double energyThreshold;
 		double currentEnergy;
 
+		double temperature;
+
+		double heatDissipation;
+		double heatCapacity;
+
 		NodeComponent( double energyThreshold);
 		~NodeComponent(void);
 		
