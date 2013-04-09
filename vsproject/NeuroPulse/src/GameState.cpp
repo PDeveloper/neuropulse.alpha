@@ -14,12 +14,12 @@ using namespace Ogre;
 
 GameState::GameState()
 {
-    m_MoveSpeed			= 0.1f;
+	m_MoveSpeed			= 0.1f;
 	m_MouseScrollSpeed	= 0.8f;
 
-    m_bLMouseDown       = false;
-    m_bRMouseDown       = false;
-    m_bQuit             = false;
+	m_bLMouseDown       = false;
+	m_bRMouseDown       = false;
+	m_bQuit             = false;
 	
 	// Create CEGUI interface!
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
@@ -52,20 +52,20 @@ void GameState::enter()
 
 	/* ...oooOOOOOOOooo... */
 
-    m_pCurrentObject = 0;
+	m_pCurrentObject = 0;
 
-    buildGUI();
+	buildGUI();
 
-    createScene();
+	createScene();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::pause()
 {
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pausing GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pausing GameState...");
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -74,18 +74,18 @@ void GameState::resume()
 {
 	m_bQuit = false;
 
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
 
-    buildGUI();
+	buildGUI();
 
-    OgreFramework::getSingletonPtr()->m_pViewport->setCamera( m_pCamera);
+	OgreFramework::getSingletonPtr()->m_pViewport->setCamera( m_pCamera);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::exit()
 {
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
 
 	delete neuroWorld;
 }
@@ -102,30 +102,30 @@ void GameState::createScene()
 
 bool GameState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
-    {
-        pushAppState(findByName("PauseState"));
-        return true;
-    }
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
+	{
+		pushAppState(findByName("PauseState"));
+		return true;
+	}
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 {
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 {
-    if(m_bRMouseDown)
-    {
-        m_pCamera->yaw( Degree( evt.state.X.rel * -0.1f));
-        m_pCamera->pitch( Degree( evt.state.Y.rel * -0.1f));
+	if(m_bRMouseDown)
+	{
+		m_pCamera->yaw( Degree( evt.state.X.rel * -0.1f));
+		m_pCamera->pitch( Degree( evt.state.Y.rel * -0.1f));
 	}
 
 	Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
@@ -138,33 +138,33 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 
 	m_pCamera->move( scrollVector);
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(id == OIS::MB_Left)
-    {
-        onLeftPressed(evt);
-        m_bLMouseDown = true;
-    }
-    else if(id == OIS::MB_Right)
-    {
-        m_bRMouseDown = true;
-    }
+	if(id == OIS::MB_Left)
+	{
+		onLeftPressed(evt);
+		m_bLMouseDown = true;
+	}
+	else if(id == OIS::MB_Right)
+	{
+		m_bRMouseDown = true;
+	}
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(id == OIS::MB_Left)
-    {
-        m_bLMouseDown = false;
+	if(id == OIS::MB_Left)
+	{
+		m_bLMouseDown = false;
 
 		if( currentNode != NULL)
 		{
@@ -203,25 +203,25 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 				}
 			}
 		}
-    }
-    else if(id == OIS::MB_Right)
-    {
-        m_bRMouseDown = false;
-    }
+	}
+	else if(id == OIS::MB_Right)
+	{
+		m_bRMouseDown = false;
+	}
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
-    if( m_pCurrentObject)
-    {
-        m_pCurrentObject->showBoundingBox(false);
+	if( m_pCurrentObject)
+	{
+		m_pCurrentObject->showBoundingBox(false);
 		currentNode = NULL;
 		m_pCurrentObject = NULL;
-    }
+	}
 	//OgreFramework::getSingletonPtr()->m_pMouse->getMouseState().X.abs
 	Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
 	if ( entity != NULL)
@@ -237,9 +237,9 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 void GameState::moveCamera()
 {
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
-        m_pCamera->moveRelative(m_TranslateRelativeVector);
-    m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
+		m_pCamera->moveRelative(m_TranslateRelativeVector);
+	m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
 
 	m_pCamera->move( m_TranslateVector);
 }
@@ -271,15 +271,15 @@ void GameState::getInput()
 
 void GameState::update(double timeSinceLastFrame)
 {
-    m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
+	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
 
-    if(m_bQuit == true)
-    {
-        popAppState();
-        return;
-    }
+	if(m_bQuit == true)
+	{
+		popAppState();
+		return;
+	}
 
-    m_TranslateVector = Vector3::ZERO;
+	m_TranslateVector = Vector3::ZERO;
 	m_TranslateRelativeVector = Vector3::ZERO;
 
 	m_MoveScale = m_MoveSpeed * timeSinceLastFrame;
@@ -300,8 +300,8 @@ void GameState::update(double timeSinceLastFrame)
 	}
 	debug_txt->setText( debugText);
 
-    getInput();
-    moveCamera();
+	getInput();
+	moveCamera();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
