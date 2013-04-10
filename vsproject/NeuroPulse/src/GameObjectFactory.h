@@ -55,6 +55,7 @@ namespace np
 		void killHub( ac::es::EntityPtr nodeEntity);
 
 		ac::es::EntityPtr createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
+		ac::es::EntityPtr createConstructConnectionEntity( ac::es::EntityPtr e1, ac::es::EntityPtr e2);
 		void killConstructConnectionEntity( ac::es::EntityPtr e);
 
 		ac::es::EntityPtr createPulseGate( int connection, double position, ac::es::EntityPtr nodeEntity, np::ResourceRequirement* requirement, bool isInput);

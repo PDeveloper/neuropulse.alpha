@@ -9,6 +9,7 @@
 #include <ConnectionComponent.h>
 #include <PulseComponent.h>
 #include <ConstructComponent.h>
+#include <ConstructConnectionComponent.h>
 #include <HubComponent.h>
 #include <BufferComponent.h>
 
@@ -612,9 +613,20 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 	}
 }
 
-ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2)
+ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::es::EntityPtr e1, ac::es::EntityPtr e2)
 {
-	double distance = position1.distance( position2);
+	np::GraphicComponent* _graphic1 = e1->getComponent<np::GraphicComponent>();
+	np::GraphicComponent* _graphic2 = e2->getComponent<np::GraphicComponent>();
+
+	const Ogre::Vector3* position1;
+	const Ogre::Vector3* position2;
+	if ( _graphic1->node != NULL)	position1 = &_graphic1->node->_getDerivedPosition();
+	else							position1 = &e1->getComponent<np::TransformComponent>()->position;
+
+	if ( _graphic2->node != NULL)	position2 = &_graphic2->node->_getDerivedPosition();
+	else							position2 = &e2->getComponent<np::TransformComponent>()->position;
+
+	double distance = position1->distance( *position2);
 	ac::es::EntityPtr e = scene->createEntity();
 
 	Ogre::Entity* entity = sceneManager->createEntity( "ConstructConnectionMesh");
@@ -623,21 +635,23 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity( const 
 	Ogre::MovableObject* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent();
+	np::ConstructConnectionComponent* connection = new np::ConstructConnectionComponent( e1, e2);
 
 	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
 
-	double dx = position2.x - position1.x;
-	double dz = position2.z - position1.z;
+	double dx = position2->x - position1->x;
+	double dz = position2->z - position1->z;
 	double d = std::sqrt( dx * dx + dz * dz) / 100.0;
 
-	double rads = std::atan2( dx, dz);
+	//double rads = std::atan2( dx, dz);
 
-	transform->position = position1;
-	transform->rotation = Ogre::Quaternion( Ogre::Radian( rads), Ogre::Vector3::UNIT_Y);
+	transform->position = *position1;
+	transform->rotation = Ogre::Vector3::UNIT_Z.getRotationTo( *position2 - *position1);
 	transform->scale = Ogre::Vector3( 1.0, 1.0, d);
 
 	e->addComponent( graphic);
 	e->addComponent( transform);
+	e->addComponent( connection);
 
 	e->activate();
 

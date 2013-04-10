@@ -207,14 +207,14 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 							foundConnection = true;
 							OgreFramework::getSingletonPtr()->m_pLog->logMessage( "2 thingies connected!");
 							input2->connect( connector1);
-							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( connector1, connector2);
 						}
 						else if ( input1 != NULL && output2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
 						{
 							foundConnection = true;
 							OgreFramework::getSingletonPtr()->m_pLog->logMessage( "2 thingies connected!");
 							input1->connect( connector2);
-							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( connector2, connector1);
 						}
 						else
 						{
@@ -243,11 +243,13 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 					{
 						pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, nodeEntity, &buffer1->getTypes(), false);
 						input1->connect( pulseGate);
+						neuroWorld->gameObjectFactory->createConstructConnectionEntity( pulseGate, connector1);
 					}
 					else if ( output1 != NULL)
 					{
 						pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, nodeEntity, &buffer1->getTypes(), true);
 						output1->connect( pulseGate);
+						neuroWorld->gameObjectFactory->createConstructConnectionEntity( pulseGate, connector1);
 					}
 				}
 			}
