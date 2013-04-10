@@ -16,6 +16,7 @@ namespace np
 	
 		Ogre::Vector3 position;
 		Ogre::Quaternion rotation;
+		Ogre::Vector3 scale;
 	
 		TransformComponent(void);
 		TransformComponent( Ogre::Real x, Ogre::Real y, Ogre::Real z);

@@ -17,10 +17,13 @@ namespace np
 		AC_ES_COMPONENT(ConstructConnectionComponent)
 	public:
 
+		ac::es::EntityPtr entity1;
+		ac::es::EntityPtr entity2;
+
 		np::TransformComponent* target1;
 		np::TransformComponent* target2;
 
-		ConstructConnectionComponent( np::TransformComponent* target1, np::TransformComponent* target2);
+		ConstructConnectionComponent( ac::es::EntityPtr entity1, ac::es::EntityPtr entity2);
 		~ConstructConnectionComponent(void);
 
 

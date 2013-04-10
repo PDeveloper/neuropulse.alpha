@@ -5,6 +5,7 @@
 #include <NodeComponent.h>
 #include <HubComponent.h>
 #include <AdvancedOgreFramework.hpp>
+#include "OutputComponent.h"
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -37,6 +38,8 @@ GameState::GameState()
 	worldSettings->addPlayer( "Edib0y", Ogre::ColourValue( 0.0, 0.0, 1.0));
 
 	currentNode = NULL;
+	currentConstruct = NULL;
+	currentConnector = NULL;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -164,45 +167,135 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 {
     if(id == OIS::MB_Left)
     {
-        m_bLMouseDown = false;
+		m_bLMouseDown = false;
 
-		if( currentNode != NULL)
+		if ( currentNode != NULL)
 		{
-			Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
-			ac::es::EntityPtr connector = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
-			if ( connector != NULL)
+			Ogre::Entity* selectedObject;
+			ac::es::EntityPtr nodeEntity = getEntityPtr(currentNode);
+
+			float mx = (float)evt.state.X.abs / (float)evt.state.width;
+			float my = (float)evt.state.Y.abs / (float)evt.state.height;
+
+			selectedObject = neuroWorld->getConstructConnectorUnderPoint( mx, my);
+			std::pair<int, double> nearestConnection = neuroWorld->getNearestConnectionFromPoint( mx, my, nodeEntity);
+
+			bool foundConnection = false;
+
+			if ( currentConnector != NULL && selectedObject != NULL && lastSelected == currentConnector)
 			{
-				np::ResourceInputComponent* input1 = currentNode->getComponent<np::ResourceInputComponent>();
-				np::ResourceInputComponent* input2 = connector->getComponent<np::ResourceInputComponent>();
-				np::ResourceOutputComponent* output1 = currentNode->getComponent<np::ResourceOutputComponent>();
-				np::ResourceOutputComponent* output2 = connector->getComponent<np::ResourceOutputComponent>();
-				np::BufferComponent* buffer1 = currentNode->getComponent<np::BufferComponent>();
-				np::BufferComponent* buffer2 = connector->getComponent<np::BufferComponent>();
-
-				if ( buffer1 != NULL && buffer2 != NULL)
+				ac::es::EntityPtr connector1 = getEntityPtr( currentConnector);
+				ac::es::EntityPtr connector2 = getEntityPtr( selectedObject);
+				if ( connector2 != NULL)
 				{
-					Ogre::SceneNode* parent1 = currentEntity->getParentSceneNode();
-					Ogre::SceneNode* parent2 = entity->getParentSceneNode();
+					np::ResourceInputComponent* input1 = connector1->getComponent<np::ResourceInputComponent>();
+					np::ResourceInputComponent* input2 = connector2->getComponent<np::ResourceInputComponent>();
+					np::ResourceOutputComponent* output1 = connector1->getComponent<np::ResourceOutputComponent>();
+					np::ResourceOutputComponent* output2 = connector2->getComponent<np::ResourceOutputComponent>();
+					np::BufferComponent* buffer1 = connector1->getComponent<np::BufferComponent>();
+					np::BufferComponent* buffer2 = connector2->getComponent<np::BufferComponent>();
 
-					parent1->showBoundingBox( true);
+					if ( buffer1 != NULL && buffer2 != NULL)
+					{
+						Ogre::SceneNode* parent1 = currentConnector->getParentSceneNode();
+						Ogre::SceneNode* parent2 = selectedObject->getParentSceneNode();
 
-					if ( input2 != NULL && output1 != NULL && buffer2->getTypes().contains( &buffer1->getTypes()))
-					{
-						input2->connect( currentNode);
-						neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						parent1->showBoundingBox( true);
+
+						if ( input2 != NULL && output1 != NULL && buffer2->getTypes().contains( &buffer1->getTypes()))
+						{
+							foundConnection = true;
+							OgreFramework::getSingletonPtr()->m_pLog->logMessage( "2 thingies connected!");
+							input2->connect( connector1);
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						}
+						else if ( input1 != NULL && output2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
+						{
+							foundConnection = true;
+							OgreFramework::getSingletonPtr()->m_pLog->logMessage( "2 thingies connected!");
+							input1->connect( connector2);
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						}
+						else
+						{
+							selectedObject->getParentSceneNode()->showBoundingBox( false);
+						}
 					}
-					else if ( input1 != NULL && output2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
+				}
+			}
+			
+			if ( nearestConnection.first > -1 && !foundConnection && currentConnector != NULL)
+			{
+				ac::es::EntityPtr connector1 = getEntityPtr( currentConnector);
+
+				np::ResourceInputComponent* input1 = connector1->getComponent<np::ResourceInputComponent>();
+				np::ResourceOutputComponent* output1 = connector1->getComponent<np::ResourceOutputComponent>();
+				np::BufferComponent* buffer1 = connector1->getComponent<np::BufferComponent>();
+
+				np::OutputComponent* output = nodeEntity->getComponent<np::OutputComponent>();
+
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Connection FOUND!!!!!!!!!!!");
+
+				if ( buffer1 != NULL)
+				{
+					ac::es::EntityPtr pulseGate;
+					if ( input1 != NULL)
 					{
-						input1->connect( connector);
-						neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, nodeEntity, &buffer1->getTypes(), false);
+						input1->connect( pulseGate);
 					}
-					else
+					else if ( output1 != NULL)
 					{
-						entity->getParentSceneNode()->showBoundingBox( false);
+						pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, nodeEntity, &buffer1->getTypes(), true);
+						output1->connect( pulseGate);
 					}
 				}
 			}
 		}
+
+		/*
+		if( currentNode != NULL)
+		{
+			Ogre::Entity* entity = neuroWorld->getEntityUnderPoint( (float)evt.state.X.abs / (float)evt.state.width, (float)evt.state.Y.abs / (float)evt.state.height);
+
+			if ( entity != NULL && !entity->getUserObjectBindings().getUserAny("Entity").isEmpty())
+			{
+				ac::es::EntityPtr connector = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
+				if ( connector != NULL)
+				{
+					np::ResourceInputComponent* input1 = currentNode->getComponent<np::ResourceInputComponent>();
+					np::ResourceInputComponent* input2 = connector->getComponent<np::ResourceInputComponent>();
+					np::ResourceOutputComponent* output1 = currentNode->getComponent<np::ResourceOutputComponent>();
+					np::ResourceOutputComponent* output2 = connector->getComponent<np::ResourceOutputComponent>();
+					np::BufferComponent* buffer1 = currentNode->getComponent<np::BufferComponent>();
+					np::BufferComponent* buffer2 = connector->getComponent<np::BufferComponent>();
+
+					if ( buffer1 != NULL && buffer2 != NULL)
+					{
+						Ogre::SceneNode* parent1 = currentEntity->getParentSceneNode();
+						Ogre::SceneNode* parent2 = entity->getParentSceneNode();
+
+						parent1->showBoundingBox( true);
+
+						if ( input2 != NULL && output1 != NULL && buffer2->getTypes().contains( &buffer1->getTypes()))
+						{
+							input2->connect( currentNode);
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						}
+						else if ( input1 != NULL && output2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
+						{
+							input1->connect( connector);
+							neuroWorld->gameObjectFactory->createConstructConnectionEntity( parent1->_getDerivedPosition(), parent2->_getDerivedPosition());
+						}
+						else
+						{
+							entity->getParentSceneNode()->showBoundingBox( false);
+						}
+					}
+				}
+			}
+		}
+		*/
     }
     else if(id == OIS::MB_Right)
     {
@@ -216,6 +309,71 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 {
+	Ogre::Entity* entity;
+
+	float mx = (float)evt.state.X.abs / (float)evt.state.width;
+	float my = (float)evt.state.Y.abs / (float)evt.state.height;
+
+	if ( currentNode != NULL)
+	{
+		Ogre::Entity* selectedObject;
+
+		selectedObject = neuroWorld->getConstructConnectorUnderPoint( mx, my);
+
+		if ( selectedObject != NULL)
+		{
+			if ( currentConnector != NULL) currentConnector->getParentSceneNode()->showBoundingBox(false);
+			currentConnector = selectedObject;
+			currentConnector->getParentSceneNode()->showBoundingBox(true);
+
+			lastSelected = currentConnector;
+
+			return;
+		}
+		else if ( currentConnector != NULL)
+		{
+			currentConnector->getParentSceneNode()->showBoundingBox(false);
+			currentConnector = NULL;
+		}
+
+		selectedObject = neuroWorld->getConstructUnderPoint( mx, my);
+
+		if ( selectedObject != NULL)
+		{
+			if ( currentConstruct != NULL) currentConstruct->getParentSceneNode()->showBoundingBox(false);
+			currentConstruct = selectedObject;
+			currentConstruct->getParentSceneNode()->showBoundingBox(true);
+
+			lastSelected = currentConstruct;
+
+			return;
+		}
+		else if ( currentConstruct != NULL)
+		{
+			currentConstruct->getParentSceneNode()->showBoundingBox(false);
+			currentConstruct = NULL;
+		}
+	}
+
+	Ogre::Entity* newNode = neuroWorld->getNodeUnderPoint( mx, my);
+
+	if ( newNode != NULL && currentNode != newNode)
+	{
+		onNodeSelected( newNode);
+
+		if ( currentNode != NULL) currentNode->getParentSceneNode()->showBoundingBox(false);
+		currentNode = newNode;
+		currentNode->getParentSceneNode()->showBoundingBox(true);
+
+		lastSelected = currentNode;
+	}
+	else if ( newNode == NULL && currentNode != NULL)
+	{
+		currentNode->getParentSceneNode()->showBoundingBox(false);
+		currentNode = NULL;
+	}
+
+	/*
     if( m_pCurrentObject)
     {
         m_pCurrentObject->showBoundingBox(false);
@@ -230,7 +388,8 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 		m_pCurrentObject = entity->getParentSceneNode();
 		currentNode = entity->getUserObjectBindings().getUserAny( "Entity").get<ac::es::EntityPtr>();
 		m_pCurrentObject->showBoundingBox( true);
-	}
+		}
+		*/
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -287,16 +446,19 @@ void GameState::update(double timeSinceLastFrame)
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";
-	if ( currentNode != NULL && currentNode->containsComponent<np::BufferComponent>() )
+	if ( currentNode != NULL)
 	{
-		debugText += CEGUI::String( "energy:      " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
-		if(currentNode->getComponent<np::NodeComponent>() != NULL)
+		ac::es::EntityPtr nodeEntity = getEntityPtr( currentNode);
+
+		if ( nodeEntity->containsComponent<np::BufferComponent>() )
+			debugText += CEGUI::String( "energy:      " + Ogre::StringConverter::toString( Ogre::Real( nodeEntity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
+		if( nodeEntity->getComponent<np::NodeComponent>() != NULL)
 		{
-			debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
-			debugText += CEGUI::String( "temperature: " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::NodeComponent>()->temperature))) + "\n";
+			debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( nodeEntity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
+			debugText += CEGUI::String( "temperature: " + Ogre::StringConverter::toString( Ogre::Real( nodeEntity->getComponent<np::NodeComponent>()->temperature))) + "\n";
 		}
-		if(currentNode->getComponent<np::HubComponent>() != NULL)
-			debugText += CEGUI::String( "health:      " + Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::HubComponent>()->health))) + "\n";
+		if( nodeEntity->getComponent<np::HubComponent>() != NULL)
+			debugText += CEGUI::String( "health:      " + Ogre::StringConverter::toString( Ogre::Real( nodeEntity->getComponent<np::HubComponent>()->health))) + "\n";
 	}
 	debug_txt->setText( debugText);
 
@@ -310,4 +472,30 @@ void GameState::buildGUI()
 {
 	CEGUI::System::getSingleton().setGUISheet( sheet);
 	CEGUI::System::getSingleton().signalRedraw();
+}
+
+ac::es::EntityPtr GameState::getEntityPtr( Ogre::Entity* entity)
+{
+	const Ogre::Any& entityAny = entity->getUserObjectBindings().getUserAny("Entity");
+	if ( !entityAny.isEmpty())
+	{
+		return entityAny.get<ac::es::EntityPtr>();
+	}
+
+	return NULL;
+}
+
+void GameState::onNodeSelected( Ogre::Entity* node)
+{
+	// at this point currentNode is still the old node.
+}
+
+void GameState::onConstructSelected( Ogre::Entity* construct)
+{
+
+}
+
+void GameState::onConnectorSelected( Ogre::Entity* connector)
+{
+
 }

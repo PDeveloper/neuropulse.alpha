@@ -31,7 +31,7 @@
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\ConstructComponent.cpp" />
-
+    <ClCompile Include="src\ConstructConnectionComponent.cpp" />
     <ClCompile Include="src\ConstructInfoPanel.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />

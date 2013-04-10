@@ -4,10 +4,14 @@
 
 #include <ResourceManager.h>
 
+#include <OutputComponent.h>
+
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
 	settings( settings),
 	nodes(),
+	constructs(),
+	constructConnections(),
 	systems()
 {
 	new np::ResourceManager();
@@ -32,7 +36,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	entityRayQuery = sceneManager->createRayQuery( Ogre::Ray());
 
 	esScene = new ac::es::Scene();
-	gameObjectFactory = new np::GameObjectFactory( sceneManager, esScene);
+	gameObjectFactory = new np::GameObjectFactory( this);
 
 	eventManager = new np::EventManager();
 
@@ -122,4 +126,164 @@ void np::NeuroWorld::addEntitySystem( ac::es::EntitySystem* system )
 void np::NeuroWorld::removeAllEntitySystems()
 {
 	for ( int i = 0; i < systems.size(); i++) esScene->removeEntitySystem( systems[i]);
+}
+
+Ogre::Entity* np::NeuroWorld::getNodeUnderPoint( float x, float y )
+{
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	entityRayQuery->setRay( mouseRay);
+	entityRayQuery->setSortByDistance( true);
+	entityRayQuery->setQueryMask( NODE_MASK);
+
+	Ogre::RaySceneQueryResult &result = entityRayQuery->execute();
+	Ogre::RaySceneQueryResult::iterator itr;
+
+	for( itr = result.begin(); itr != result.end(); itr++)
+	{
+		if( itr->movable)
+		{
+			return sceneManager->getEntity( itr->movable->getName());
+		}
+	}
+
+	return NULL;
+}
+
+Ogre::Entity* np::NeuroWorld::getConstructUnderPoint( float x, float y)
+{
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	entityRayQuery->setRay( mouseRay);
+	entityRayQuery->setSortByDistance( true);
+	entityRayQuery->setQueryMask( CONSTRUCT_MASK);
+
+	Ogre::RaySceneQueryResult &result = entityRayQuery->execute();
+	Ogre::RaySceneQueryResult::iterator itr;
+
+	for( itr = result.begin(); itr != result.end(); itr++)
+	{
+		if( itr->movable)
+		{
+			Ogre::Entity* entity = sceneManager->getEntity( itr->movable->getName());
+
+			/*Ogre::Plane constructPlane( Ogre::Vector3::UNIT_Y, 13.0);
+			std::pair<bool, Ogre::Real> result = mouseRay.intersects( constructPlane);
+
+			if ( result.first)
+			{
+				Ogre::Vector3 intersectionPoint = mouseRay.getPoint( result.second);
+				intersectionPoint = entity->_getParentNodeFullTransform().transformAffine( intersectionPoint);
+				
+				if ( intersectionPoint.x > -8.0 && intersectionPoint.x < 8.0 && intersectionPoint.y > -8.0 && intersectionPoint.y < 8.0)
+				{*/
+					return entity;
+				/*}
+			}*/
+		}
+	}
+
+	return NULL;
+}
+
+Ogre::Entity* np::NeuroWorld::getConstructConnectorUnderPoint( float x, float y)
+{
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	entityRayQuery->setRay( mouseRay);
+	entityRayQuery->setSortByDistance( true);
+	entityRayQuery->setQueryMask( CONSTRUCT_CONNECTOR_MASK);
+
+	Ogre::RaySceneQueryResult &result = entityRayQuery->execute();
+	Ogre::RaySceneQueryResult::iterator itr;
+
+	for( itr = result.begin(); itr != result.end(); itr++)
+	{
+		if( itr->movable)
+		{
+			Ogre::Entity* entity = sceneManager->getEntity( itr->movable->getName());
+
+			/*Ogre::Plane constructPlane( Ogre::Vector3::UNIT_Y, 13.0);
+			std::pair<bool, Ogre::Real> result = mouseRay.intersects( constructPlane);
+
+			if ( result.first)
+			{
+				Ogre::Vector3 intersectionPoint = mouseRay.getPoint( result.second);
+				intersectionPoint = entity->_getParentNodeFullTransform().transformAffine( intersectionPoint);
+
+				if ( intersectionPoint.squaredDistance( entity->getParentSceneNode()->getPosition()) < 2.0 * 2.0)
+				{*/
+					return entity;
+				/*}
+			}*/
+		}
+	}
+
+	return NULL;
+}
+
+std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr nodeEntity)
+{
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("try conn: ");
+
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	const Ogre::Vector3& p1 = mouseRay.getOrigin();
+	const Ogre::Vector3& p2 = mouseRay.getOrigin() + mouseRay.getDirection();
+
+	np::OutputComponent* output = nodeEntity->getComponent<np::OutputComponent>();
+	np::TransformComponent* transform = nodeEntity->getComponent<np::TransformComponent>();
+
+	const Ogre::Vector3& p3 = transform->position;
+
+	double minDistance = 5.0;
+	double minU = 0.0;
+	int connection = -1;
+
+	for ( int i = 0; i < output->connections.size(); i++)
+	{
+		np::ConnectionBase* base = output->connections[i];
+
+		ac::es::EntityPtr e2 = base->target->parent;
+		np::TransformComponent* transform2 = e2->getComponent<np::TransformComponent>();
+
+		const Ogre::Vector3& p4 = transform2->position;
+
+		double d1343 =	( p1.x - p3.x) * ( p4.x - p3.x) +
+						( p1.y - p3.y) * ( p4.y - p3.y) +
+						( p1.z - p3.z) * ( p4.z - p3.z);
+
+		double d4321 =	( p4.x - p3.x) * ( p2.x - p1.x) +
+						( p4.y - p3.y) * ( p2.y - p1.y) +
+						( p4.z - p3.z) * ( p2.z - p1.z);
+
+		double d1321 =	( p1.x - p3.x) * ( p2.x - p1.x) +
+						( p1.y - p3.y) * ( p2.y - p1.y) +
+						( p1.z - p3.z) * ( p2.z - p1.z);
+
+		double d4343 =	( p4.x - p3.x) * ( p4.x - p3.x) +
+						( p4.y - p3.y) * ( p4.y - p3.y) +
+						( p4.z - p3.z) * ( p4.z - p3.z);
+
+		double d2121 =	( p2.x - p1.x) * ( p2.x - p1.x) +
+						( p2.y - p1.y) * ( p2.y - p1.y) +
+						( p2.z - p1.z) * ( p2.z - p1.z);
+
+		double u1 = ( d1343 * d4321 - d1321 * d4343) / ( d2121 * d4343 - d4321 * d4321);
+		double u2 = ( d1343 + u1 * d4321) / d4343;
+
+		Ogre::Vector3 fp1 = mouseRay.getPoint( u1);
+		Ogre::Vector3 fp2 = p3 + u2 * ( p4 - p3);
+
+		double dist = fp1.distance( fp2);
+
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( i) + " " + Ogre::StringConverter::toString( (float)dist));
+
+		if ( dist < minDistance && u2 >= 0.0 && u2 <= 0.5)
+		{
+			minDistance = dist;
+			minU = u2;
+			connection = i;
+		}
+	}
+
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("final: " + Ogre::StringConverter::toString( connection) + " " + Ogre::StringConverter::toString( (float)minDistance));
+
+	return std::pair<int, double>( connection, minU);
 }

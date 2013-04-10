@@ -15,16 +15,20 @@
 enum QueryFlags
 {
 	NODE_MASK = 1 << 0,
-	CONSTRUCT_MASK = 1 << 1
+	CONSTRUCT_MASK = 1 << 1,
+	CONSTRUCT_CONNECTOR_MASK = 1 << 2
 };
 
 namespace np
 {
+
+	class NeuroWorld;
+
 	class GameObjectFactory
 	{
 	public:
 
-		GameObjectFactory( Ogre::SceneManager* sceneManager, ac::es::Scene* scene);
+		GameObjectFactory( np::NeuroWorld* world);
 		~GameObjectFactory(void);
 
 		Ogre::Light* createLight( std::string name,
@@ -53,10 +57,15 @@ namespace np
 		ac::es::EntityPtr createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 		void killConstructConnectionEntity( ac::es::EntityPtr e);
 
+		ac::es::EntityPtr createPulseGate( int connection, double position, ac::es::EntityPtr nodeEntity, np::ResourceRequirement* requirement, bool isInput);
+		void killPulseGate( ac::es::EntityPtr e);
+
 		void releasePulseEntity( ac::es::EntityPtr e);
 		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
 
 	private:
+
+		np::NeuroWorld* world;
 		Ogre::SceneManager* sceneManager;
 		ac::es::Scene* scene;
 

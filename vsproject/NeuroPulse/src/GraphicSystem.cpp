@@ -24,6 +24,7 @@ void np::GraphicSystem::process( ac::es::EntityPtr e)
 
 	graphic->node->setPosition( transform->position);
 	graphic->node->setOrientation( transform->rotation);
+	graphic->node->setScale( transform->scale);
 
 	if ( graphic->isDirty)
 	{

@@ -46,7 +46,10 @@ public:
 	void onLeftPressed(const OIS::MouseEvent &evt);
 
 	void update(double timeSinceLastFrame);
-
+	ac::es::EntityPtr getEntityPtr( Ogre::Entity* entity);
+	void onNodeSelected( Ogre::Entity* node);
+	void onConstructSelected( Ogre::Entity* construct);
+	void onConnectorSelected( Ogre::Entity* connector);
 private:
 	bool						m_bQuit;
 
@@ -59,8 +62,13 @@ private:
 	float						m_MouseScrollSpeed;
 
 	Ogre::SceneNode*			m_pCurrentObject;
-	ac::es::EntityPtr			currentNode;
-	Ogre::Entity*				currentEntity;
+
+	Ogre::Entity*				currentNode;
+	Ogre::Entity*				currentConstruct;
+	Ogre::Entity*				currentConnector;
+
+	Ogre::Entity*				lastSelected;
+
 	bool						m_bLMouseDown, m_bRMouseDown;
 
 	np::NeuroWorldSettings* worldSettings;

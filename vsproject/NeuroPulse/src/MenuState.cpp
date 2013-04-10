@@ -17,6 +17,12 @@ MenuState::MenuState()
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	sheet = wmgr.createWindow("DefaultWindow", "MainMenu/Sheet");
 
+	CEGUI::ImagesetManager::getSingleton().createFromImageFile("NeuroPulseLogo", "neuroPulseLogo_1.png");
+	CEGUI::Window* neuroPulseLogo = wmgr.createWindow("TaharezLook/StaticImage", "MainMenu/Logo");
+	neuroPulseLogo->setProperty( "Image", "set:NeuroPulseLogo image:full_image");
+	neuroPulseLogo->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.5, -275.0), CEGUI::UDim( 0.1, 0)));
+	neuroPulseLogo->setSize(CEGUI::UVector2(CEGUI::UDim(0.0, 550.0), CEGUI::UDim(0.0, 200.0)));
+
 	CEGUI::Window *play = wmgr.createWindow("TaharezLook/Button", "MainMenu/PlayButton");
 	play->setText("Play");
 	play->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.4, 0), CEGUI::UDim( 0.45, 0)));
@@ -35,6 +41,7 @@ MenuState::MenuState()
 	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.04, 0)));
 	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber( &MenuState::onQuit, this));
 	
+	sheet->addChildWindow(neuroPulseLogo);
 	sheet->addChildWindow(play);
 	sheet->addChildWindow(options);
 	sheet->addChildWindow(quit);
