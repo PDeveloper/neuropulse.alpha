@@ -3,7 +3,9 @@
 #include <ResourceOutputComponent.h>
 
 
-np::ResourceInputComponent::ResourceInputComponent(void)
+np::ResourceInputComponent::ResourceInputComponent(void) :
+	target(NULL),
+	connection(NULL)
 {
 }
 
@@ -22,4 +24,13 @@ bool np::ResourceInputComponent::connect( ac::es::EntityPtr target )
 	}
 
 	return false;
+}
+
+void np::ResourceInputComponent::disconnect()
+{
+	if ( this->target != NULL)
+	{
+		this->target->getComponent<np::ResourceOutputComponent>()->target = NULL;
+		this->target = NULL;
+	}
 }

@@ -348,6 +348,9 @@
     <ClCompile Include="src\ConstructConnectionComponent.cpp">
       <Filter>Source Files\entity\components\construct</Filter>
     </ClCompile>
+    <ClCompile Include="src\SelectionManager.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -601,6 +604,9 @@
     </ClInclude>
     <ClInclude Include="src\HeatSystem.h">
       <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SelectionManager.h">
+      <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

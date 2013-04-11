@@ -5,6 +5,8 @@
 #include <ResourceManager.h>
 
 #include <OutputComponent.h>
+#include "ConstructConnectionComponent.h"
+#include "GraphicComponent.h"
 
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
@@ -26,9 +28,11 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	camera = sceneManager->createCamera("NeuroWorldCamera");
-	camera->setPosition( Ogre::Vector3(5, 420, 60));
-	camera->lookAt( Ogre::Vector3(5, 20, -60));
-	camera->setNearClipDistance(5);
+
+	camera->setPosition( Ogre::Vector3( 0.0, 220.0, 0.0));
+	camera->lookAt( Ogre::Vector3( 0.0, 0.0, -60.0));
+
+	camera->setNearClipDistance( 5);
 	camera->setAspectRatio( Ogre::Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
 		Ogre::Real( OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight()));
 	OgreFramework::getSingletonPtr()->m_pViewport->setCamera( camera);
@@ -54,14 +58,13 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	addEntitySystem( outputSystem);
 
 	addEntitySystem( animationSystem);
-
 	addEntitySystem( graphicSystem);
 	addEntitySystem( connectionDisplaySystem);
 
 	addEntitySystem( pulseSystem);
 	addEntitySystem( pulseTransferSystem);
 
-	addEntitySystem(heatSystem);
+	addEntitySystem( heatSystem);
 }
 
 np::NeuroWorld::~NeuroWorld(void)
@@ -286,4 +289,159 @@ std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, fl
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("final: " + Ogre::StringConverter::toString( connection) + " " + Ogre::StringConverter::toString( (float)minDistance));
 
 	return std::pair<int, double>( connection, minU);
+}
+
+Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, float y )
+{
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	entityRayQuery->setRay( mouseRay);
+	entityRayQuery->setSortByDistance( true);
+	entityRayQuery->setQueryMask( CONSTRUCT_CONNECTION_MASK);
+
+	const Ogre::Vector3& p1 = mouseRay.getOrigin();
+	const Ogre::Vector3& p2 = mouseRay.getOrigin() + mouseRay.getDirection();
+
+	Ogre::RaySceneQueryResult &result = entityRayQuery->execute();
+	Ogre::RaySceneQueryResult::iterator itr;
+
+	double minDistance = 4.0;
+	double minU = 0.0;
+	Ogre::Entity* connection = NULL;
+
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Commencing const conn search");
+	for( itr = result.begin(); itr != result.end(); itr++)
+	{
+		if( itr->movable)
+		{
+			Ogre::Entity* entity = sceneManager->getEntity( itr->movable->getName());
+			ac::es::EntityPtr connectionEntity = entity->getUserObjectBindings().getUserAny("Entity").get<ac::es::EntityPtr>();
+			np::ConstructConnectionComponent* constructConnection = connectionEntity->getComponent<np::ConstructConnectionComponent>();
+
+			ac::es::EntityPtr e1 = constructConnection->entity1;
+			np::TransformComponent* transform1 = e1->getComponent<np::TransformComponent>();
+			np::GraphicComponent* graphic1 = e1->getComponent<np::GraphicComponent>();
+			ac::es::EntityPtr e2 = constructConnection->entity2;
+			np::TransformComponent* transform2 = e2->getComponent<np::TransformComponent>();
+			np::GraphicComponent* graphic2 = e2->getComponent<np::GraphicComponent>();
+
+			const Ogre::Vector3& p3 = graphic1->node->_getDerivedPosition();
+			const Ogre::Vector3& p4 = graphic2->node->_getDerivedPosition();
+
+			double d1343 =	( p1.x - p3.x) * ( p4.x - p3.x) +
+				( p1.y - p3.y) * ( p4.y - p3.y) +
+				( p1.z - p3.z) * ( p4.z - p3.z);
+
+			double d4321 =	( p4.x - p3.x) * ( p2.x - p1.x) +
+				( p4.y - p3.y) * ( p2.y - p1.y) +
+				( p4.z - p3.z) * ( p2.z - p1.z);
+
+			double d1321 =	( p1.x - p3.x) * ( p2.x - p1.x) +
+				( p1.y - p3.y) * ( p2.y - p1.y) +
+				( p1.z - p3.z) * ( p2.z - p1.z);
+
+			double d4343 =	( p4.x - p3.x) * ( p4.x - p3.x) +
+				( p4.y - p3.y) * ( p4.y - p3.y) +
+				( p4.z - p3.z) * ( p4.z - p3.z);
+
+			double d2121 =	( p2.x - p1.x) * ( p2.x - p1.x) +
+				( p2.y - p1.y) * ( p2.y - p1.y) +
+				( p2.z - p1.z) * ( p2.z - p1.z);
+
+			double u1 = ( d1343 * d4321 - d1321 * d4343) / ( d2121 * d4343 - d4321 * d4321);
+			double u2 = ( d1343 + u1 * d4321) / d4343;
+
+			Ogre::Vector3 fp1 = mouseRay.getPoint( u1);
+			Ogre::Vector3 fp2 = p3 + u2 * ( p4 - p3);
+
+			double dist = fp1.distance( fp2);
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (float)dist));
+
+			if ( dist < minDistance && u2 >= 0.0 && u2 <= 1.0)
+			{
+				minDistance = dist;
+				minU = u2;
+				connection = entity;
+
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Found closest const conn.");
+			}
+		}
+	}
+
+	return connection;
+}
+
+bool np::NeuroWorld::isValidInputOutput( ac::es::EntityPtr inputEntity, ac::es::EntityPtr outputEntity)
+{
+	np::ResourceInputComponent* input1 = inputEntity->getComponent<np::ResourceInputComponent>();
+	np::ResourceOutputComponent* output2 = outputEntity->getComponent<np::ResourceOutputComponent>();
+	np::BufferComponent* buffer1 = inputEntity->getComponent<np::BufferComponent>();
+	np::BufferComponent* buffer2 = outputEntity->getComponent<np::BufferComponent>();
+
+	if ( input1 != NULL && output2 != NULL && buffer1 != NULL && buffer2 != NULL && buffer1->getTypes().contains( &buffer2->getTypes()))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool np::NeuroWorld::connect( ac::es::EntityPtr e1, ac::es::EntityPtr e2 )
+{
+	if ( connectInputOutput( e1, e2)) return true;
+	else if ( connectInputOutput( e2, e1)) return true;
+
+	return false;
+}
+
+bool np::NeuroWorld::connectInputOutput( ac::es::EntityPtr inputEntity, ac::es::EntityPtr outputEntity)
+{
+	if ( isValidInputOutput( inputEntity, outputEntity))
+	{
+		np::ResourceInputComponent* input1 = inputEntity->getComponent<np::ResourceInputComponent>();
+		np::ResourceOutputComponent* output2 = outputEntity->getComponent<np::ResourceOutputComponent>();
+
+		input1->connect( outputEntity);
+		output2->connect( inputEntity);
+
+		ac::es::EntityPtr connection = gameObjectFactory->createConstructConnectionEntity( inputEntity, outputEntity);
+		input1->connection = connection;
+		output2->connection = connection;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool np::NeuroWorld::disconnect( ac::es::EntityPtr e1, ac::es::EntityPtr e2 )
+{
+	if ( disconnectInputOutput( e1, e2)) return true;
+	else if ( disconnectInputOutput( e2, e1)) return true;
+
+	return false;
+}
+
+bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::es::EntityPtr outputEntity)
+{
+	np::ResourceInputComponent* input1 = inputEntity->getComponent<np::ResourceInputComponent>();
+	np::ResourceOutputComponent* output2 = outputEntity->getComponent<np::ResourceOutputComponent>();
+
+	if ( input1 == NULL || output2 == NULL || !isValidInputOutput( inputEntity, outputEntity)) return false;
+
+	np::PulseGateComponent* pulseGate;
+
+	if ( input1->target == outputEntity && output2->target == inputEntity)
+	{
+		gameObjectFactory->killConstructConnectionEntity( input1->connection);
+
+		input1->disconnect();
+		output2->disconnect();
+
+		if ( inputEntity->containsComponent<np::PulseGateComponent>()) gameObjectFactory->killPulseGate( inputEntity);
+		else if ( outputEntity->containsComponent<np::PulseGateComponent>()) gameObjectFactory->killPulseGate( outputEntity);
+
+		return true;
+	}
+
+	return false;
 }

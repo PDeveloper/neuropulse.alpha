@@ -69,6 +69,7 @@
     <ClCompile Include="src\ResourceInputComponent.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\ResourceOutputComponent.cpp" />
+    <ClCompile Include="src\SelectionManager.cpp" />
     <ClCompile Include="src\SetupState.cpp" />
     <ClCompile Include="src\SexyEnergyBuffer.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="src\ResourceOutputComponent.h" />
     <ClInclude Include="src\ResourcePacket.h" />
     <ClInclude Include="src\ResourceType.h" />
+    <ClInclude Include="src\SelectionManager.h" />
     <ClInclude Include="src\SetupState.h" />
     <ClInclude Include="src\SexyEnergyBuffer.h" />
     <ClInclude Include="src\TransformComponent.h" />

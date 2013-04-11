@@ -16,8 +16,9 @@ material ConstructMaterial
 			
 			texture_unit
 			{
-				colour_op_ex modulate src_current src_manual 1 1 1
+				texture C1.jpg
 				alpha_op_ex source1 src_manual src_current 0.8
+				scale 20.0 20.0
        			}
 		}
 	}

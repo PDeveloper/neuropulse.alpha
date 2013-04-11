@@ -16,6 +16,7 @@
 
 #include <WorldGenerator.h>
 #include <NeuroWorld.h>
+#include "SelectionManager.h"
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -66,8 +67,11 @@ private:
 	Ogre::Entity*				currentNode;
 	Ogre::Entity*				currentConstruct;
 	Ogre::Entity*				currentConnector;
+	Ogre::Entity*				currentConstructConnection;
 
 	Ogre::Entity*				lastSelected;
+
+	np::SelectionManager*		selectionManager;
 
 	bool						m_bLMouseDown, m_bRMouseDown;
 

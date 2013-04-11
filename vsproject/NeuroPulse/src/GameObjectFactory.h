@@ -16,7 +16,8 @@ enum QueryFlags
 {
 	NODE_MASK = 1 << 0,
 	CONSTRUCT_MASK = 1 << 1,
-	CONSTRUCT_CONNECTOR_MASK = 1 << 2
+	CONSTRUCT_CONNECTOR_MASK = 1 << 2,
+	CONSTRUCT_CONNECTION_MASK = 1 << 3
 };
 
 namespace np
@@ -54,7 +55,6 @@ namespace np
 		void createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
 		void killHub( ac::es::EntityPtr nodeEntity);
 
-		ac::es::EntityPtr createConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 		ac::es::EntityPtr createConstructConnectionEntity( ac::es::EntityPtr e1, ac::es::EntityPtr e2);
 		void killConstructConnectionEntity( ac::es::EntityPtr e);
 

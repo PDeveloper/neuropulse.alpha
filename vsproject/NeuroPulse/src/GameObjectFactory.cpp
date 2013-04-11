@@ -42,100 +42,6 @@ np::GameObjectFactory::~GameObjectFactory(void)
 
 void np::GameObjectFactory::generateMeshes(void)
 {
-	/*Ogre::ManualObject* manual = sceneManager->createManualObject("nodeManualObject");
-
-	int segments = 16;
-	double innerRadius = 20.0;
-	double outerRadius = 30.0;
-	double yOffset = 20.0;
-
-	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
-	{
-		for ( int i = 0; i < segments; i++)
-		{
-			double rads = ( double(i) / double(segments)) * M_PI * 2.0;
-
-			manual->position( outerRadius * std::cos( rads), 0.0, outerRadius * std::sin( rads));
-			manual->colour( Ogre::ColourValue(0.4f,0.0f,0.0f,1.0f));
-
-			manual->position( innerRadius * std::cos( rads), yOffset, innerRadius * std::sin( rads));
-			manual->colour( Ogre::ColourValue(0.4f,0.0f,0.0f,1.0f));
-
-			manual->index( i << 1);
-			manual->index(( i << 1) + 1);
-		}
-
-		manual->index(0);
-		manual->index(1);
-	}
-	manual->end();
-	manual->begin( "BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_FAN);
-	{
-		manual->position( 0.0, yOffset * 0.9, 0.0);
-		manual->colour( Ogre::ColourValue(0.0f,0.0f,1.0f,1.0f));
-
-		manual->index(0);
-
-		for ( int i = 0; i < segments; i++)
-		{
-			double rads = ( double(i) / double(segments)) * M_PI * 2.0;
-
-			manual->position( innerRadius * std::cos( -rads), yOffset, innerRadius * std::sin( -rads));
-			manual->colour( Ogre::ColourValue(0.0f,0.0f,0.6f,1.0f));
-
-			manual->index( i + 1);
-		}
-
-		manual->index(1);
-	}
-	manual->end();
-
-	manual->convertToMesh( "NodeMesh");*/
-	/*
-	float lSize = 0.7f;
-	manual->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_LIST);
-	{
-		float cp = 1.0f * lSize ;
-		float cm = -1.0f * lSize;
- 
-		manual->position(cm, cp, cm);// a vertex
-		manual->colour(Ogre::ColourValue(0.0f,1.0f,0.0f,1.0f));
-		manual->position(cp, cp, cm);// a vertex
-		manual->colour(Ogre::ColourValue(1.0f,1.0f,0.0f,1.0f));
-		manual->position(cp, cm, cm);// a vertex
-		manual->colour(Ogre::ColourValue(1.0f,0.0f,0.0f,1.0f));
-		manual->position(cm, cm, cm);// a vertex
-		manual->colour(Ogre::ColourValue(0.0f,0.0f,0.0f,1.0f));
-		
-		manual->position(cm, cp, cp);// a vertex
-		manual->colour(Ogre::ColourValue(0.0f,1.0f,1.0f,1.0f));
-		manual->position(cp, cp, cp);// a vertex
-		manual->colour(Ogre::ColourValue(1.0f,1.0f,1.0f,1.0f));
-		manual->position(cp, cm, cp);// a vertex
-		manual->colour(Ogre::ColourValue(1.0f,0.0f,1.0f,1.0f));
-		manual->position(cm, cm, cp);// a vertex
-		manual->colour(Ogre::ColourValue(0.0f,0.0f,1.0f,1.0f));
-
-		manual->triangle(0,1,2);
-		manual->triangle(2,3,0);
-		manual->triangle(4,6,5);
-		manual->triangle(6,4,7);
-
-		manual->triangle(0,4,5);
-		manual->triangle(5,1,0);
-		manual->triangle(2,6,7);
-		manual->triangle(7,3,2);
-
-		manual->triangle(0,7,4);
-		manual->triangle(7,0,3);
-		manual->triangle(1,5,6);
-		manual->triangle(6,2,1);			
-	}
-	manual->end();
-
-	manual->convertToMesh( "Cube");
-	*/
-
 	///////// NODE MESH
 	Procedural::TriangleBuffer tb;
 	
@@ -568,6 +474,27 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	return e;
 }
 
+void np::GameObjectFactory::killPulseGate( ac::es::EntityPtr e )
+{
+	np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
+	np::BufferComponent* buffer			= e->getComponent<np::BufferComponent>();
+	np::PulseGateComponent* pulseGate	= e->getComponent<np::PulseGateComponent>();
+
+	np::ResourceInputComponent* input	= e->getComponent<np::ResourceInputComponent>();
+	np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+
+	e->destroyComponent( graphic);
+	e->destroyComponent( transform);
+	e->destroyComponent( buffer);
+	e->destroyComponent( pulseGate);
+
+	if ( input != NULL) e->destroyComponent( input);
+	if ( output != NULL) e->destroyComponent( output);
+
+	e->kill();
+}
+
 void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
 {
 	np::HubComponent* _hub = nodeEntity->getComponent<np::HubComponent>();
@@ -631,6 +558,8 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::e
 
 	Ogre::Entity* entity = sceneManager->createEntity( "ConstructConnectionMesh");
 	entity->setCastShadows( false);
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+	entity->setQueryFlags( CONSTRUCT_CONNECTION_MASK);
 
 	Ogre::MovableObject* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
@@ -639,9 +568,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::e
 
 	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
 
-	double dx = position2->x - position1->x;
-	double dz = position2->z - position1->z;
-	double d = std::sqrt( dx * dx + dz * dz) / 100.0;
+	double d = distance / 100.0;
 
 	//double rads = std::atan2( dx, dz);
 
@@ -662,9 +589,13 @@ void np::GameObjectFactory::killConstructConnectionEntity( ac::es::EntityPtr e)
 {
 	np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
 	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
+	np::ConstructConnectionComponent* connection = e->getComponent<np::ConstructConnectionComponent>();
 
 	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
+	e->destroyComponent( connection);
+
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Construct Connection KILLED!");
 
 	e->kill();
 }
