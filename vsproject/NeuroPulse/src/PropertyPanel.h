@@ -1,21 +1,22 @@
 #include <CEGUI.h>
 #include <ac/es.h>
 
+#include <ComponentInterface.h>
+
 #pragma once
 namespace np
 {
-	class HubInfoPanel
+	class PropertyPanel
 	{
 	public:
 
 		CEGUI::Window* sheet;
+		
 		CEGUI::WindowManager* wmgr;
 
-		CEGUI::Window* healthText;
+		np::ComponentInterface* currentInterface;
 
-		ac::es::EntityPtr currentHub;
-
-		void setHub( ac::es::EntityPtr hub);
+		void setInterface(np::ComponentInterface* currentInterface);
 
 		void update();
 
@@ -24,8 +25,11 @@ namespace np
 			sheet->setPosition(positionVector);
 		}
 
-		HubInfoPanel(CEGUI::WindowManager* wmgr);
-		~HubInfoPanel(void);
+		PropertyPanel(CEGUI::WindowManager* wmgr);
+		~PropertyPanel(void);
+
+	private:
+
 	};
 }
 

@@ -9,6 +9,7 @@
 #include <OgreColourValue.h>
 
 #include <BufferComponent.h>
+#include <ComponentInterface.h>
 
 #pragma once
 namespace np
@@ -25,6 +26,18 @@ namespace np
 		std::vector<np::ResourceRequirement> outputRequirements;
 
 		Ogre::ColourValue colour;
+
+		np::ComponentInterface* componentInterface;
+
+		bool getOn()
+		{
+			return isOn;
+		}
+
+		void setOn(bool val)
+		{
+			isOn = val;
+		}
 
 		virtual void process() = 0;
 		virtual void processInstructions(np::ResourcePacket* packet) = 0;
@@ -72,5 +85,8 @@ namespace np
 
 			return buffer->addPacket( packet);
 		}
+
+	protected:
+		bool isOn;
 	};
 }

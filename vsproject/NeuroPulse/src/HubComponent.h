@@ -13,8 +13,7 @@
 namespace np
 {
 
-	class ConstructComponent;
-
+	
 	class HubComponent : public ac::es::Component
 	{
 		AC_ES_COMPONENT(HubComponent)

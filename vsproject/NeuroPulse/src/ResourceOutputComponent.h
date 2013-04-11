@@ -9,6 +9,7 @@ namespace np
 		AC_ES_COMPONENT( ResourceOutputComponent)
 	public:
 		ac::es::EntityPtr target;
+		ac::es::EntityPtr parent;
 
 		bool connect( ac::es::EntityPtr target);
 

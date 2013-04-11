@@ -1,22 +1,24 @@
 #include <CEGUI.h>
 #include <ac/es.h>
+#include <BufferInfoPanel.h>
 
 #pragma once
 namespace np
 {
-	class HubInfoPanel
+	class BudInfoPanel
 	{
 	public:
 
 		CEGUI::Window* sheet;
 		CEGUI::WindowManager* wmgr;
 
-		CEGUI::Window* healthText;
+		BufferInfoPanel* bufferInfo;
 
-		ac::es::EntityPtr currentHub;
+		CEGUI::Window* typeText;
 
-		void setHub( ac::es::EntityPtr hub);
+		ac::es::EntityPtr currentBud;
 
+		void setBud( ac::es::EntityPtr bud);
 		void update();
 
 		void setPosition(CEGUI::UVector2 positionVector)
@@ -24,8 +26,10 @@ namespace np
 			sheet->setPosition(positionVector);
 		}
 
-		HubInfoPanel(CEGUI::WindowManager* wmgr);
-		~HubInfoPanel(void);
+		BudInfoPanel(CEGUI::WindowManager* wmgr);
+		~BudInfoPanel(void);
+
+	private:
+
 	};
 }
-

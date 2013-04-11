@@ -51,3 +51,18 @@ np::ResourceRequirement* np::ResourceManager::getReq( std::string names[], size_
 
 	return req;
 }
+
+std::vector<np::ResourceType*> np::ResourceManager::getTypes( np::ResourceRequirement* req)
+{
+	std::vector<np::ResourceType*> types;
+
+	for(int i=0; i<resourceTypes.size(); i++)
+	{
+		if(req->contains(&resourceTypes.at(i)))
+		{
+			types.push_back(&resourceTypes.at(i));
+		}
+	}
+
+	return types;
+}

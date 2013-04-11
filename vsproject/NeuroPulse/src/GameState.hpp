@@ -16,6 +16,8 @@
 
 #include <WorldGenerator.h>
 #include <NeuroWorld.h>
+#include <GuiManager.h>
+
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -34,7 +36,7 @@ public:
 
 	void moveCamera();
 	void getInput();
-    void buildGUI();
+	void buildGUI();
 
 	bool onKeyPress(const OIS::KeyEvent &keyEventRef);
 	bool onKeyRelease(const OIS::KeyEvent &keyEventRef);
@@ -46,6 +48,9 @@ public:
 	void onLeftPressed(const OIS::MouseEvent &evt);
 
 	void update(double timeSinceLastFrame);
+
+	void InjectOISKey(bool bButtonDown, OIS::KeyEvent inKey);
+	bool InjectOISMouseButton(bool bButtonDown, OIS::MouseButtonID inButton);
 
 private:
 	bool						m_bQuit;
@@ -65,8 +70,11 @@ private:
 
 	np::NeuroWorldSettings* worldSettings;
 
-	CEGUI::Window *sheet;
+	CEGUI::Window* sheet;
+
 	CEGUI::Window* debug_txt;
+
+	np::GuiManager* guiManager;
 
 	np::NeuroWorld* neuroWorld;
 

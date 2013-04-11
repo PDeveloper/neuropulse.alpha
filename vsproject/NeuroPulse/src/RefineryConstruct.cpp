@@ -1,7 +1,11 @@
 #include "RefineryConstruct.h"
 
+#include <DoubleProperty.h>
+
 np::RefineryConstruct::RefineryConstruct()
 {
+	isOn = false;
+
 	conversionRate = 0.5;
 
 	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
@@ -9,6 +13,9 @@ np::RefineryConstruct::RefineryConstruct()
 
 	inputRequirements.push_back( np::ResourceRequirement( rawEnergy));
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
+
+	componentInterface = new np::ComponentInterface();
+	componentInterface->addProperty(new DoubleProperty("Conversion Rate", &conversionRate, 0.1, 0.9, 0.01));
 }
 
 void np::RefineryConstruct::process()

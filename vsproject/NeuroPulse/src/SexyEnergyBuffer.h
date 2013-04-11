@@ -18,7 +18,7 @@ namespace np
 
 		bool isReleasing;
 
-		void process();
+		void process(); 
 		void processInstructions(np::ResourcePacket* packet);
 
 		std::string getName();
@@ -27,6 +27,8 @@ namespace np
 		double takeEnergy;
 		double conversionRate;
 		double storage;
+
+		int selectedItem;
 
 		SexyEnergyBuffer();
 	private:
