@@ -7,8 +7,8 @@ material ConstructConnectionMaterial
 			lighting on
 			
 			ambient 0.0 0.0 0.0 1.0
-			diffuse 0.05 0.05 0.99 1.0
-			specular 1.0 1.0 1.0 1.0 64.0
+			diffuse 0.0 0.0 1.0 1.0
+			specular 1.0 1.0 1.0 1.0 16.0
 			emissive 0.1 0.1 0.25 1.0
 		}
 	}

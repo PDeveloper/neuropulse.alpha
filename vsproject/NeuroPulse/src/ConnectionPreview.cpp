@@ -6,7 +6,10 @@ np::ConnectionPreview::ConnectionPreview( ac::es::EntityPtr constructConnectionE
 {
 	this->previewConnection = constructConnectionEntity;
 	np::TransformComponent* transform = previewConnection->getComponent<np::TransformComponent>();
+	np::GraphicComponent* graphic = previewConnection->getComponent<np::GraphicComponent>();
 	
+	graphic->entities.front()->getSubEntity(0)->setMaterialName( "ConnectionPreviewMaterial");
+
 	updateTarget( transform->rotation.zAxis());
 	_isShowing = true;
 }
@@ -61,9 +64,15 @@ void np::ConnectionPreview::setColor( Ogre::ColourValue& colour )
 {
 	np::GraphicComponent* graphic = previewConnection->getComponent<np::GraphicComponent>();
 
-	std::list<Ogre::Entity*>::iterator iterator;
-	for ( iterator = graphic->entities.begin(); iterator != graphic->entities.end(); ++iterator)
-	{
-		(*iterator)->getSubEntity(0)->getMaterial()->setDiffuse( colour);
-	}
+	//std::list<Ogre::Entity*>::iterator iterator;
+	//for ( iterator = graphic->entities.begin(); iterator != graphic->entities.end(); ++iterator)
+	//{
+		Ogre::MaterialPtr material = graphic->entities.front()->getSubEntity(0)->getMaterial();
+		//material->getTechnique(0)->getPass(0)->setAmbient( colour);
+		material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			colour);
+	//}
 }

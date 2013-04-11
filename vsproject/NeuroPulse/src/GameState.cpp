@@ -178,6 +178,7 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 					{
 						np::GraphicComponent* graphic = connector2->getComponent<np::GraphicComponent>();
 						connectionPreview->updateTarget( graphic->node->_getDerivedPosition());
+
 						if ( neuroWorld->isValid( connector2, lastEntity)) connectionPreview->setColor( Ogre::ColourValue( 0.0, 1.0, 0.0));
 						else connectionPreview->setColor( Ogre::ColourValue( 1.0, 0.0, 0.0));
 					}
@@ -192,11 +193,13 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 					np::TransformComponent* transform2 = targetNode->getComponent<np::TransformComponent>();
 
 					connectionPreview->updateTarget( transform->position + nearestConnection.second * ( transform2->position - transform->position));
+					
 					connectionPreview->setColor( Ogre::ColourValue( 0.0, 1.0, 0.0));
 				}
 				else
 				{
 					connectionPreview->updateTarget( neuroWorld->getRayPlane( mx, my));
+
 					connectionPreview->setColor( Ogre::ColourValue( 1.0, 0.0, 0.0));
 				}
 			}
@@ -440,6 +443,8 @@ void GameState::update(double timeSinceLastFrame)
 	neuroWorld->update( timeSinceLastFrame);
 
 	CEGUI::String debugText = "";
+
+	lastSelected = selectionManager->getLast();
 	if ( lastSelected != NULL)
 	{
 		ac::es::EntityPtr entity = getEntityPtr( lastSelected);
