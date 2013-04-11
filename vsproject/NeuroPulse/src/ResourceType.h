@@ -1,4 +1,5 @@
 #include <string>
+#include <OgreColourValue.h>
 
 #pragma once
 namespace np
@@ -33,11 +34,12 @@ namespace np
 			return flag;
 		}
 
-		ResourceType( std::string name, std::string description, double weight, int id)
+		ResourceType( std::string name, std::string description, Ogre::ColourValue colour, int id) :
+			_name( name),
+			_description( description),
+			colour( colour)
 		{
-			_name = name;
-			_description = description;
-			_weight = weight;
+			_weight = 1.0;
 
 			_id = id;
 			flag = 1 << ( id + 1);
@@ -51,6 +53,7 @@ namespace np
 		int _id;
 		unsigned long int flag;
 
+		Ogre::ColourValue colour;
 		std::string _name;
 		std::string _description;
 

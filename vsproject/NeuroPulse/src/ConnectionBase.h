@@ -109,15 +109,21 @@ namespace np
 
 		void removeFeed( ac::es::EntityPtr pulseGate)
 		{
-			std::list<np::PulseGateSlot*>::iterator it;
 			np::PulseGateSlot* slot;
-			for ( it = pulseGates.begin(); it != pulseGates.end(); it++)
+			std::list<np::PulseGateSlot*>::iterator it;
+
+			it = pulseGates.begin();
+			while ( it != pulseGates.end())
 			{
 				slot = *it;
 				if ( slot->pulseGate == pulseGate)
 				{
-					pulseGates.erase( it);
+					pulseGates.erase( it++);
 					delete slot;
+				}
+				else
+				{
+					++it;
 				}
 			}
 		}

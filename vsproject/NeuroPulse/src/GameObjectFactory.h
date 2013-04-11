@@ -63,6 +63,7 @@ namespace np
 
 		void releasePulseEntity( ac::es::EntityPtr e);
 		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
+		void removeConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
 
 		ac::es::EntityPtr createRawConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 	private:
@@ -75,5 +76,6 @@ namespace np
 
 		void generateMeshes(void);
 		ac::es::EntityPtr createResourceBud( ac::es::EntityPtr constructEntity, np::ResourceRequirement* requirement, bool isInput, int slot);
+		void killResourceBud( ac::es::EntityPtr e);
 	};
 }

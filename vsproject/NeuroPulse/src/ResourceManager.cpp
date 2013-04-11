@@ -12,7 +12,7 @@ np::ResourceManager::~ResourceManager(void)
 
 }
 
-bool np::ResourceManager::registerType( std::string name, std::string description, double weight)
+bool np::ResourceManager::registerType( std::string name, std::string description, Ogre::ColourValue colour)
 {
 	std::vector<np::ResourceType>::iterator i;
 
@@ -22,7 +22,7 @@ bool np::ResourceManager::registerType( std::string name, std::string descriptio
 			return false;
 		}
 
-	resourceTypes.push_back( np::ResourceType( name, description, weight, resourceTypes.size()));
+	resourceTypes.push_back( np::ResourceType( name, description, colour, resourceTypes.size()));
 
 	return true;
 }

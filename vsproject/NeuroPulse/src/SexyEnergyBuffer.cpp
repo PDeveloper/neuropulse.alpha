@@ -2,7 +2,8 @@
 
 #include <algorithm>
 
-np::SexyEnergyBuffer::SexyEnergyBuffer()
+np::SexyEnergyBuffer::SexyEnergyBuffer() :
+	Construct( Ogre::ColourValue( 0.2, 0.6, 1.0))
 {
 	isReleasing = true;
 	storage = 0.0;
@@ -22,6 +23,8 @@ void np::SexyEnergyBuffer::process()
 	if ( isReleasing)
 	{
 		ResourcePacket* product =  new ResourcePacket( sexyEnergy, std::min( 0.2, storage));
+
+		storage -= product->amount;
 
 		if ( putPacket( 0, product) == PARTIAL)
 		{

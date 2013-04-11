@@ -32,7 +32,8 @@ namespace np
 		virtual std::string getName() = 0;
 		virtual std::string getDescription() = 0;
 
-		Construct()
+		Construct(Ogre::ColourValue colour) :
+			colour( colour)
 		{
 		}
 
@@ -53,6 +54,11 @@ namespace np
 		np::BufferComponent* getOutputBuffer( int output)
 		{
 			return outputs.at( output)->getComponent<np::BufferComponent>();
+		}
+
+		double getOutputLeft( int output)
+		{
+			return outputs.at( output)->getComponent<np::BufferComponent>()->getNormalSpaceLeft();
 		}
 
 		np::ResourcePacket* getPacketOf( np::ResourceType* type, double amount)

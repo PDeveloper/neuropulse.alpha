@@ -13,7 +13,7 @@ namespace np
 	class ResourceManager : public Ogre::Singleton<np::ResourceManager>
 	{
 	public:
-		bool registerType( std::string name, std::string description, double weight);
+		bool registerType( std::string name, std::string description, Ogre::ColourValue colour);
 
 		np::ResourceType* getType( std::string name);
 		np::ResourceRequirement* getReq( std::string names[], size_t numNames);

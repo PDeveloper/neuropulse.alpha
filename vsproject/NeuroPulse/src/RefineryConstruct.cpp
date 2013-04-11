@@ -2,9 +2,12 @@
 #include "OgreStringConverter.h"
 #include "AdvancedOgreFramework.hpp"
 
-np::RefineryConstruct::RefineryConstruct()
+#include <algorithm>
+
+np::RefineryConstruct::RefineryConstruct() :
+	Construct( Ogre::ColourValue( 0.0, 0.0, 1.0))
 {
-	conversionRate = 0.5;
+	conversionRate = 0.7;
 
 	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
 	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
@@ -15,7 +18,7 @@ np::RefineryConstruct::RefineryConstruct()
 
 void np::RefineryConstruct::process()
 {
-	double processingAmount = 50.0;
+	double processingAmount = std::min( 0.25, getOutputLeft(0) / conversionRate);
 
 	double totalEnergy = 0;
 
@@ -23,7 +26,7 @@ void np::RefineryConstruct::process()
 
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
 
-	ResourcePacket* product = new ResourcePacket( sexyEnergy, rawPacket->amount);
+	ResourcePacket* product = new ResourcePacket( sexyEnergy, rawPacket->amount * conversionRate);
 
 	putPacket( 0, product);
 }

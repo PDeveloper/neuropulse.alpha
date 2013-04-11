@@ -372,6 +372,7 @@ void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np:
 	if ( hasConstructComp)
 	{
 		np::ConstructComponent* constructComponent = constructEntity->getComponent<np::ConstructComponent>();
+		np::GraphicComponent* graphicComponent = constructEntity->getComponent<np::GraphicComponent>();
 
 		constructComponent->setConstruct( construct);
 
@@ -382,6 +383,56 @@ void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np:
 		for ( i = 0; i < construct->outputRequirements.size(); i++)
 			construct->outputs.push_back( createResourceBud( constructEntity, &construct->outputRequirements[i], false, i));
 
+		Ogre::MaterialPtr material = graphicComponent->entities.front()->getSubEntity(0)->getMaterial()->clone( construct->getName() + "Material");
+		material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			construct->colour);
+
+		material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			0.4);
+
+		graphicComponent->entities.front()->getSubEntity(0)->setMaterial( material);
+	}
+}
+
+void np::GameObjectFactory::removeConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct)
+{
+	bool hasConstructComp = constructEntity->containsComponent<np::ConstructComponent>();
+
+	if ( hasConstructComp)
+	{
+		np::ConstructComponent* constructComponent = constructEntity->getComponent<np::ConstructComponent>();
+		np::GraphicComponent* graphicComponent = constructEntity->getComponent<np::GraphicComponent>();
+
+		int i;
+		for ( i = 0; i < construct->inputs.size(); i++)
+		{
+			killResourceBud( construct->inputs[i]);
+		}
+
+		for ( i = 0; i < construct->outputs.size(); i++)
+		{
+			killResourceBud( construct->outputs[i]);
+		}
+
+		constructComponent->setConstruct( NULL);
+
+		graphicComponent->entities.front()->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			Ogre::ColourValue( 0.0, 0.0, 0.0));
+
+		graphicComponent->entities.front()->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setAlphaOperation(
+			Ogre::LBX_SOURCE1,
+			Ogre::LBS_MANUAL,
+			Ogre::LBS_CURRENT,
+			0.2);
 	}
 }
 
@@ -399,6 +450,15 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTOR_MASK);
 
+	/*
+	Ogre::MaterialPtr material = entity->getSubEntity(0)->getMaterial()->clone( entity->getName());
+	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+		Ogre::LBX_SOURCE1,
+		Ogre::LBS_MANUAL,
+		Ogre::LBS_CURRENT,
+		Ogre::ColourValue( 0.0, 0.0, 0.0));
+		*/
+
 	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( -8.0 * mult, 13.0, ( -4.0 + slot * 4.0) * mult);
@@ -412,12 +472,28 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	{
 		np::ResourceInputComponent* input = new np::ResourceInputComponent();
 		input->hub = construct->hub;
+
+		input->disconnect();
+		if ( input->target != NULL)
+		{
+			input->target->getComponent<np::ResourceOutputComponent>()->disconnect();
+			killConstructConnectionEntity( input->connection);
+		}
+
 		e->addComponent( input);
 	}
 	else
 	{
 		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
 		output->hub = construct->hub;
+
+		output->disconnect();
+		if ( output->target != NULL)
+		{
+			output->target->getComponent<np::ResourceInputComponent>()->disconnect();
+			killConstructConnectionEntity( output->connection);
+		}
+
 		e->addComponent( output);
 	}
 
@@ -428,6 +504,36 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	e->activate();
 
 	return e;
+}
+
+void np::GameObjectFactory::killResourceBud( ac::es::EntityPtr e )
+{
+	np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
+	np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
+
+	e->destroyComponent( graphic);
+	e->destroyComponent( transform);
+	e->destroyComponent( buffer);
+
+	if ( e->containsComponent<np::ResourceInputComponent>())
+	{
+		np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
+		e->destroyComponent( input);
+
+		input->hub->getComponent<np::HubComponent>()->removeBud( e);
+	}
+	else if ( e->containsComponent<np::ResourceOutputComponent>())
+	{
+		np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+		e->destroyComponent( output);
+
+		output->hub->getComponent<np::HubComponent>()->removeBud( e);
+	}
+
+	graphic->parent->removeChild( e);
+
+	e->kill();
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double position, ac::es::EntityPtr nodeEntity, np::ResourceRequirement* requirement, bool isInput)
@@ -517,16 +623,6 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 		_hub->display = entity;
 
 		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( nodeEntity));
-
-		/*entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->createTextureUnitState();
-		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
-			Ogre::LBX_SOURCE1,
-			Ogre::LBS_MANUAL,
-			Ogre::LBS_CURRENT,
-			player->colour);*/
-
-		//entity->getSubEntity(0)->getMaterial()->setAmbient( player->colour * 0.2);
-		//entity->getSubEntity(0)->getMaterial()->setDiffuse( player->colour);
 
 		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
 			Ogre::LBX_SOURCE1,

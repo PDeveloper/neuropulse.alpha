@@ -16,9 +16,8 @@ material ConstructMaterial
 			
 			texture_unit
 			{
-				texture C1.jpg
-				alpha_op_ex source1 src_manual src_current 0.8
-				scale 20.0 20.0
+				colour_op_ex source1 src_manual src_current 0.5 0.5 0.5
+				alpha_op_ex source1 src_manual src_current 0.2
        			}
 		}
 	}
