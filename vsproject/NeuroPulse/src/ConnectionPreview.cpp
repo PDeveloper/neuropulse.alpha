@@ -6,6 +6,9 @@ np::ConnectionPreview::ConnectionPreview( ac::es::EntityPtr constructConnectionE
 {
 	this->previewConnection = constructConnectionEntity;
 	np::TransformComponent* transform = previewConnection->getComponent<np::TransformComponent>();
+	transform->scale.x = 0.6;
+	transform->scale.y = 0.6;
+	
 	np::GraphicComponent* graphic = previewConnection->getComponent<np::GraphicComponent>();
 	
 	graphic->entities.front()->getSubEntity(0)->setMaterialName( "ConnectionPreviewMaterial");
@@ -57,7 +60,7 @@ void np::ConnectionPreview::updateTarget( const Ogre::Vector3& target )
 	double d = distance / 100.0;
 
 	transform->rotation = Ogre::Vector3::UNIT_Z.getRotationTo( target - transform->position);
-	transform->scale = Ogre::Vector3( 1.0, 1.0, d);
+	transform->scale.z = d;
 }
 
 void np::ConnectionPreview::setColor( Ogre::ColourValue& colour )

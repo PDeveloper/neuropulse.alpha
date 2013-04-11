@@ -55,6 +55,9 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	heatSystem = new HeatSystem(gameObjectFactory);
 	constructConnectionSystem = new np::ConstructConnectionSystem();
 
+	constructSystem = new np::ConstructSystem();
+	resourceTransferSystem = new np::ResourceTransferSystem();
+
 	addEntitySystem( reactionSystem);
 	addEntitySystem( outputSystem);
 
@@ -65,6 +68,10 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	addEntitySystem( pulseSystem);
 	addEntitySystem( pulseTransferSystem);
+
+	addEntitySystem( resourceTransferSystem);
+
+	addEntitySystem( constructSystem);
 
 	addEntitySystem( heatSystem);
 }
@@ -467,8 +474,24 @@ bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::e
 		input1->disconnect();
 		output2->disconnect();
 
-		if ( inputEntity->containsComponent<np::PulseGateComponent>()) gameObjectFactory->killPulseGate( inputEntity);
-		else if ( outputEntity->containsComponent<np::PulseGateComponent>()) gameObjectFactory->killPulseGate( outputEntity);
+		if ( inputEntity->containsComponent<np::PulseGateComponent>())
+		{
+			gameObjectFactory->killPulseGate( inputEntity);
+
+			np::PulseGateComponent* pulseGateComponent = inputEntity->getComponent<np::PulseGateComponent>();
+			
+			np::OutputComponent* output = pulseGateComponent->nodeEntity->getComponent<np::OutputComponent>();
+			output->connections[ pulseGateComponent->connection]->removeFeed( inputEntity);
+		}
+		else if ( outputEntity->containsComponent<np::PulseGateComponent>())
+		{
+			gameObjectFactory->killPulseGate( outputEntity);
+
+			np::PulseGateComponent* pulseGateComponent = outputEntity->getComponent<np::PulseGateComponent>();
+
+			np::OutputComponent* output = pulseGateComponent->nodeEntity->getComponent<np::OutputComponent>();
+			output->connections[ pulseGateComponent->connection]->removeFeed( outputEntity);
+		}
 
 		return true;
 	}

@@ -1,4 +1,6 @@
 #include "RefineryConstruct.h"
+#include "OgreStringConverter.h"
+#include "AdvancedOgreFramework.hpp"
 
 np::RefineryConstruct::RefineryConstruct()
 {
@@ -13,19 +15,17 @@ np::RefineryConstruct::RefineryConstruct()
 
 void np::RefineryConstruct::process()
 {
+	double processingAmount = 50.0;
+
 	double totalEnergy = 0;
 
-	np::ResourcePacket* rawPacket;
+	np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, processingAmount);
 
-	while ( ( rawPacket = getNextPacket( inputRequirements.at(0))) != NULL)
-	{
-		totalEnergy += rawPacket->amount;
-	}
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
 
-	ResourcePacket* product =  new ResourcePacket( sexyEnergy, totalEnergy * conversionRate);
+	ResourcePacket* product = new ResourcePacket( sexyEnergy, rawPacket->amount);
 
 	putPacket( 0, product);
-
 }
 
 std::string np::RefineryConstruct::getName()

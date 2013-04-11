@@ -114,7 +114,7 @@ np::TransferSuccess np::BufferComponent::addPackets( std::list<np::ResourcePacke
 	std::list<np::ResourcePacket*>::iterator i = packets->begin();
 	while ( !packets->empty())
 	{
-		TransferSuccess result = addPacket( packets->front());
+		TransferSuccess result = appendPacket( packets->front());
 
 		if ( result == PARTIAL)
 		{
@@ -165,29 +165,36 @@ np::ResourcePacket* np::BufferComponent::getNextPacketOf( const np::ResourceRequ
 
 np::ResourcePacket* np::BufferComponent::getPacket( np::ResourceType* type, double amount)
 {
-	amount = amount / type->weight();
 	double value = 0.0;
 
 	std::list<np::ResourcePacket*>::iterator i;
-	for ( i = buffer.begin(); i != buffer.end(); ++i)
+	i = buffer.begin();
+	while (  i != buffer.end())
 	{
-		np::ResourcePacket* packet = (*i);
-		if ( packet->amount <= amount)
+		np::ResourcePacket* packet = *i;
+		if ( packet->resourceType == type)
 		{
-			value += packet->amount;
-			amount -= packet->amount;
+			if ( packet->amount <= amount)
+			{
+				value += packet->amount;
+				amount -= packet->amount;
 
-			buffer.erase( i);
-			//delete packet;
+				buffer.erase( i++);
+				delete packet;
+			}
+			else
+			{
+				packet->amount -= amount;
+				value += amount;
+
+				amount = 0.0;
+
+				break;
+			}
 		}
 		else
 		{
-			packet->amount -= amount;
-			value += amount;
-
-			amount = 0.0;
-
-			break;
+			i++;
 		}
 	}
 

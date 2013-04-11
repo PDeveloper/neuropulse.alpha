@@ -402,7 +402,7 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( -8.0 * mult, 13.0, ( -4.0 + slot * 4.0) * mult);
-	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 100.0);
+	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 10.0);
 
 	e->addComponent( graphic);
 	e->addComponent( transform);
@@ -451,7 +451,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( _transform1->position));
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( transform->position));
 
-	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 100.0);
+	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 10.0);
 
 	np::PulseGateComponent* pulseGate = new np::PulseGateComponent( connection, position, nodeEntity);
 

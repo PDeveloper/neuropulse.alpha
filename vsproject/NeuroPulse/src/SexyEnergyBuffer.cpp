@@ -15,20 +15,15 @@ np::SexyEnergyBuffer::SexyEnergyBuffer()
 
 void np::SexyEnergyBuffer::process()
 {
-	np::ResourcePacket* sexyPacket;
+	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, 40.0 - storage);
 
-	storage *= 0.995;
-
-	while ( ( sexyPacket = getNextPacket( inputRequirements.at(0))) != NULL)
-	{
-		storage += sexyPacket->amount;
-	}
+	storage += sexyPacket->amount;
 
 	if ( isReleasing)
 	{
-		ResourcePacket* product =  new ResourcePacket( sexyEnergy, std::min( 5.0, storage));
+		ResourcePacket* product =  new ResourcePacket( sexyEnergy, std::min( 0.2, storage));
 
-		if ( !putPacket( 0, product))
+		if ( putPacket( 0, product) == PARTIAL)
 		{
 			storage += product->amount;
 		}

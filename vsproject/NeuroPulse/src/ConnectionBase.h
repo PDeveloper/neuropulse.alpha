@@ -8,6 +8,7 @@
 #include <ResourceOutputComponent.h>
 
 #include <Pulse.h>
+#include <PulseGateSlot.h>
 
 #include <algorithm>
 #include <list>
@@ -25,7 +26,7 @@ namespace np
 		np::NodeComponent* node;
 		np::ConnectionBase* target;
 
-		std::list<ac::es::EntityPtr> feeds;
+		std::list<np::PulseGateSlot*> pulseGates;
 
 		std::vector<ac::es::EntityPtr> outputPulses;
 
@@ -49,17 +50,24 @@ namespace np
 		{
 			np::BufferComponent* pulseBuffer = pulseEntity->getComponent<np::BufferComponent>();
 
-			for (std::list<ac::es::EntityPtr>::iterator it = feeds.begin(); it != feeds.end(); it++)
+			std::list<np::PulseGateSlot*>::iterator it;
+			for ( it = pulseGates.begin(); it != pulseGates.end(); it++)
 			{
-				ac::es::EntityPtr e = *it;
+				ac::es::EntityPtr e = (*it)->pulseGate;
 				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
 				np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
+				np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
 
 				if ( input != NULL)
 				{
 					std::list<np::ResourcePacket*> packets = buffer->getPackets();
-
 					if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
+				}
+
+				if ( output != NULL)
+				{
+					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets();
+					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
 				}
 			}
 		}
@@ -68,31 +76,50 @@ namespace np
 		{
 			np::BufferComponent* pulseBuffer = pulseEntity->getComponent<np::BufferComponent>();
 
-			for (std::list<ac::es::EntityPtr>::iterator it = feeds.end(); it != feeds.begin(); it--)
+			std::list<np::PulseGateSlot*>::iterator it;
+			for ( it = pulseGates.begin(); it != pulseGates.end(); it++)
 			{
-				ac::es::EntityPtr e = *it;
+				ac::es::EntityPtr e = (*it)->pulseGate;
 				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
+				np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
 				np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+
+				if ( input != NULL)
+				{
+					std::list<np::ResourcePacket*> packets = buffer->getPackets();
+					if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
+				}
 
 				if ( output != NULL)
 				{
-
+					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets();
+					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
 				}
 			}
 		}
 
-		void addFeed( ac::es::EntityPtr feed)
+		void addFeed( ac::es::EntityPtr pulseGate)
 		{
-			if ( feed->getComponent<np::PulseGateComponent>() != NULL)
+			if ( pulseGate->getComponent<np::PulseGateComponent>() != NULL)
 			{
-				feeds.push_back( feed);
-				feeds.sort();
+				pulseGates.push_back( new np::PulseGateSlot( pulseGate));
+				pulseGates.sort();
 			}
 		}
 
-		void removeFeed( ac::es::EntityPtr feed)
+		void removeFeed( ac::es::EntityPtr pulseGate)
 		{
-			feeds.remove( feed);
+			std::list<np::PulseGateSlot*>::iterator it;
+			np::PulseGateSlot* slot;
+			for ( it = pulseGates.begin(); it != pulseGates.end(); it++)
+			{
+				slot = *it;
+				if ( slot->pulseGate == pulseGate)
+				{
+					pulseGates.erase( it);
+					delete slot;
+				}
+			}
 		}
 
 	};

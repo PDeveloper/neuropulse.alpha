@@ -20,6 +20,8 @@
 #include <NeuroWorldSettings.h>
 
 #pragma once
+#include "ResourceTransferSystem.h"
+#include "ConstructSystem.h"
 namespace np
 {
 
@@ -57,6 +59,9 @@ namespace np
 		np::PulseTransferSystem* pulseTransferSystem;
 		np::HeatSystem* heatSystem;
 		np::ConstructConnectionSystem* constructConnectionSystem;
+
+		np::ConstructSystem* constructSystem;
+		np::ResourceTransferSystem* resourceTransferSystem;
 
 		// Event system
 		np::EventManager* eventManager;

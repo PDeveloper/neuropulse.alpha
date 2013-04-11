@@ -117,6 +117,7 @@
     <ClInclude Include="src\ConstructConnectionSystem.h" />
     <ClInclude Include="src\ConstructInfoPanel.h" />
     <ClInclude Include="src\HeatSystem.h" />
+    <ClInclude Include="src\PulseGateSlot.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />
     <ClInclude Include="src\ResourceRequirement.h" />
     <ClInclude Include="src\ResourceTransferSystem.h" />

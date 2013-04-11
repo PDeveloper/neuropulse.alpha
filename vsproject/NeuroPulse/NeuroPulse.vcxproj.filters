@@ -620,5 +620,8 @@
     <ClInclude Include="src\ConstructConnectionSystem.h">
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
+    <ClInclude Include="src\PulseGateSlot.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

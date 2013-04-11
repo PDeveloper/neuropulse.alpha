@@ -37,6 +37,7 @@ namespace np
 		}
 
 	protected:
+
 		bool isEmpty( int input)
 		{
 			np::BufferComponent* buffer = inputs.at( input)->getComponent<np::BufferComponent>();
@@ -44,33 +45,47 @@ namespace np
 			return buffer->isEmpty();
 		}
 
-		np::ResourcePacket* getNextPacket( np::ResourceRequirement requirement)
+		np::BufferComponent* getInputBuffer( int input)
 		{
-			std::vector<ac::es::EntityPtr>::iterator i;
+			return inputs.at( input)->getComponent<np::BufferComponent>();
+		}
 
+		np::BufferComponent* getOutputBuffer( int output)
+		{
+			return outputs.at( output)->getComponent<np::BufferComponent>();
+		}
+
+		np::ResourcePacket* getPacketOf( np::ResourceType* type, double amount)
+		{
+			np::ResourcePacket* finalPacket = new np::ResourcePacket( type, 0.0);
+
+			std::vector<ac::es::EntityPtr>::iterator i;
 			for ( i = inputs.begin(); i != inputs.end(); ++i)
 			{
 				np::BufferComponent* buffer = (*i)->getComponent<np::BufferComponent>();
-				np::ResourcePacket* packet = buffer->getNextPacketOf( &requirement);
+				np::ResourcePacket* packet = buffer->getPacket( type, amount);
 
-				if ( packet != NULL) return packet;
+				finalPacket->amount += packet->amount;
+				amount -= packet->amount;
+
+				if ( amount == 0.0) break;
 			}
 
-			return NULL;
+			return finalPacket;
 		}
 
-		np::ResourcePacket* getNextPacket( int input)
+		np::ResourcePacket* getPacketOf( int input)
 		{
 			np::BufferComponent* buffer = inputs.at( input)->getComponent<np::BufferComponent>();
 
 			return buffer->getPacket();
 		}
 
-		bool putPacket( int output, np::ResourcePacket* packet)
+		np::TransferSuccess putPacket( int output, np::ResourcePacket* packet)
 		{
 			np::BufferComponent* buffer = outputs.at( output)->getComponent<np::BufferComponent>();
 
-			return buffer->addPacket( packet);
+			return buffer->appendPacket( packet);
 		}
 	};
 }

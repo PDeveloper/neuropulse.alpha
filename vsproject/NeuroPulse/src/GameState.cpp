@@ -293,6 +293,9 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 					if ( lastEntity->containsComponent<np::ResourceInputComponent>()) pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, selectionManager->getLastNode(), &buffer->getTypes(), false);
 					else if ( lastEntity->containsComponent<np::ResourceOutputComponent>()) pulseGate = neuroWorld->gameObjectFactory->createPulseGate( nearestConnection.first, nearestConnection.second, selectionManager->getLastNode(), &buffer->getTypes(), true);
 
+					np::OutputComponent* output = selectionManager->getLastNode()->getComponent<np::OutputComponent>();
+					output->connections[ nearestConnection.first]->addFeed( pulseGate);
+
 					neuroWorld->connect( lastEntity, pulseGate);
 				}
 			}
@@ -452,7 +455,10 @@ void GameState::update(double timeSinceLastFrame)
 		if ( entity != NULL)
 		{
 			if ( entity->containsComponent<np::BufferComponent>() )
-				debugText += CEGUI::String( "energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
+			{
+				debugText += CEGUI::String( "raw energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
+				debugText += CEGUI::String( "sexy energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("SexyEnergy"))))) + "\n";
+			}
 			if( entity->containsComponent<np::NodeComponent>())
 			{
 				debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
