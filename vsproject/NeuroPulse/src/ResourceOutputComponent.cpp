@@ -5,7 +5,8 @@
 
 np::ResourceOutputComponent::ResourceOutputComponent(void) :
 	target(NULL),
-	connection(NULL)
+	connection(NULL),
+	hub(NULL)
 {
 }
 

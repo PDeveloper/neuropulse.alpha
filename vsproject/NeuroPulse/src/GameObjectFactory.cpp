@@ -111,7 +111,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Procedural::Shape connectorCircle = Procedural::CircleShape().setRadius( 0.8).setNumSeg( 10).realizeShape();
 	Procedural::Track connectorTrack = Procedural::Track(Procedural::Track::AM_RELATIVE_LINEIC).addKeyFrame( 0.0, 1.0).addKeyFrame( 0.5, 0.75).addKeyFrame( 1.0, 1.0);
 	Ogre::MeshPtr constructConnectionMesh = Procedural::Extruder().setExtrusionPath( &connectorPath).setScaleTrack( &connectorTrack).setShapeToExtrude( &connectorCircle).realizeMesh( "ConstructConnectionMesh");
-	constructConnectionMesh->getSubMesh(0)->setMaterialName( "ConnectionMaterial");
+	constructConnectionMesh->getSubMesh(0)->setMaterialName( "ConstructConnectionMaterial");
 }
 
 Ogre::Light* np::GameObjectFactory::createLight( std::string name,
@@ -151,7 +151,7 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( NODE_MASK);
 	
-	Ogre::MovableObject* entities[] = { entity};
+	Ogre::Entity* entities[] = { entity};
 
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
@@ -200,7 +200,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConnectionEntity( np::TransformCo
 	Ogre::Entity* entity = sceneManager->createEntity( "ConnectionMesh");
 	entity->setCastShadows( false);
 
-	Ogre::MovableObject* entities[] = { entity};
+	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::ConnectionComponent* connection = new np::ConnectionComponent( target1, target2);
 	
@@ -226,7 +226,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		Ogre::Entity* entity = sceneManager->createEntity( "PulseMesh");
 		entity->setCastShadows( false);
 		
-		Ogre::MovableObject* entities[] = { entity};
+		Ogre::Entity* entities[] = { entity};
 		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 		np::TransformComponent* transform = new np::TransformComponent( target1.x, target1.y, target1.z);
 
@@ -263,9 +263,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseEntity( Ogre::Vector3& targe
 		animation->states.at(0).target = target1;
 		animation->states.at(1).target = target2;
 
-		std::list<Ogre::MovableObject*>::iterator it;
-		for ( it = graphic->entities.begin(); it != graphic->entities.end(); ++it)
-			(*it)->setVisible( true);
+		graphic->show();
 	}
 
 	e->activate();
@@ -293,13 +291,12 @@ void np::GameObjectFactory::killPulseEntity( ac::es::EntityPtr e)
 
 void np::GameObjectFactory::releasePulseEntity( ac::es::EntityPtr e)
 {
-	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
+	np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
 	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
 	np::AnimationComponent* animation	= e->getComponent<np::AnimationComponent>();
 	np::PulseComponent* pulse			= e->getComponent<np::PulseComponent>();
 
-	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
-		(*it)->setVisible( false);
+	graphic->hide();
 
 	e->deactivate();
 
@@ -328,7 +325,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 		double tx = std::cos( degrees.valueRadians()) * distance;
 		double tz = std::sin( degrees.valueRadians()) * distance;
 
-		Ogre::MovableObject* entities[] = { entity};
+		Ogre::Entity* entities[] = { entity};
 		np::TransformComponent* transform = new np::TransformComponent( tx, 0.0, tz);
 		transform->rotation = Ogre::Quaternion( Ogre::Radian( -degrees), Ogre::Vector3( Ogre::Vector3::UNIT_Y)) * transform->rotation;
 		
@@ -345,7 +342,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 
 		_graphic->addChild( e);
 
-		_hub->constructs.push_back( e);
+		_hub->addConstruct( e);
 
 		return e;
 	}
@@ -355,14 +352,13 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 
 void np::GameObjectFactory::killConstructEntity( ac::es::EntityPtr e)
 {
-	np::GraphicComponent* graphics		= e->getComponent<np::GraphicComponent>();
+	np::GraphicComponent* graphic		= e->getComponent<np::GraphicComponent>();
 	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
 	np::ConstructComponent* construct    = e->getComponent<np::ConstructComponent>();
 
-	for (std::list<Ogre::MovableObject*>::iterator it = graphics->entities.begin(); it != graphics->entities.end(); it++)
-		(*it)->setVisible( false);
+	graphic->hide();
 
-	e->destroyComponent( graphics);
+	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
 	e->destroyComponent( construct);
 
@@ -392,6 +388,8 @@ void np::GameObjectFactory::setConstruct( ac::es::EntityPtr constructEntity, np:
 ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr constructEntity, np::ResourceRequirement* requirement, bool isInput, int slot)
 {
 	np::GraphicComponent* parent = constructEntity->getComponent<np::GraphicComponent>();
+	np::ConstructComponent* construct = constructEntity->getComponent<np::ConstructComponent>();
+	
 	ac::es::EntityPtr e = scene->createEntity();
 
 	int mult = (int)isInput * -2 + 1;
@@ -401,7 +399,7 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTOR_MASK);
 
-	Ogre::MovableObject* entities[] = { entity};
+	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent( -8.0 * mult, 13.0, ( -4.0 + slot * 4.0) * mult);
 	np::BufferComponent* buffer = new np::BufferComponent( *requirement, 100.0);
@@ -413,15 +411,19 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	if ( isInput)
 	{
 		np::ResourceInputComponent* input = new np::ResourceInputComponent();
+		input->hub = construct->hub;
 		e->addComponent( input);
 	}
 	else
 	{
 		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
+		output->hub = construct->hub;
 		e->addComponent( output);
 	}
 
 	parent->addChild( e);
+
+	construct->hub->getComponent<np::HubComponent>()->addBud( e);
 
 	e->activate();
 
@@ -441,7 +443,7 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTOR_MASK);
 
-	Ogre::MovableObject* entities[] = { entity};
+	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent();
 	transform->position = _transform1->position + position * ( _transform2->position - _transform1->position);
@@ -461,11 +463,13 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	if ( isInput)
 	{
 		np::ResourceInputComponent* input = new np::ResourceInputComponent();
+		input->hub = nodeEntity;
 		e->addComponent( input);
 	}
 	else
 	{
 		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
+		output->hub = nodeEntity;
 		e->addComponent( output);
 	}
 
@@ -537,6 +541,8 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 		{
 			createConstructEntity( nodeEntity, Ogre::Degree( i * 60.0), 30.0);
 		}
+
+		_hub->hideStructures();
 	}
 }
 
@@ -561,16 +567,12 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::e
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTION_MASK);
 
-	Ogre::MovableObject* entities[] = { entity};
+	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent();
 	np::ConstructConnectionComponent* connection = new np::ConstructConnectionComponent( e1, e2);
-
-	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (Ogre::Real)mz));
-
+	
 	double d = distance / 100.0;
-
-	//double rads = std::atan2( dx, dz);
 
 	transform->position = *position1;
 	transform->rotation = Ogre::Vector3::UNIT_Z.getRotationTo( *position2 - *position1);
@@ -579,6 +581,48 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::e
 	e->addComponent( graphic);
 	e->addComponent( transform);
 	e->addComponent( connection);
+
+	np::ResourceInputComponent* input;
+	np::HubComponent* hub;
+	if ( e1->containsComponent<np::ResourceInputComponent>())
+	{
+		input = e1->getComponent<np::ResourceInputComponent>();
+		hub = input->hub->getComponent<np::HubComponent>();
+		hub->addConnection( e);
+	}
+	else if ( e2->containsComponent<np::ResourceInputComponent>())
+	{
+		input = e2->getComponent<np::ResourceInputComponent>();
+		hub = input->hub->getComponent<np::HubComponent>();
+		hub->addConnection( e);
+	}
+
+	e->activate();
+
+	return e;
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createRawConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2)
+{
+	double distance = position1.distance( position2);
+	ac::es::EntityPtr e = scene->createEntity();
+
+	Ogre::Entity* entity = sceneManager->createEntity( "ConstructConnectionMesh");
+	entity->setCastShadows( false);
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+
+	Ogre::Entity* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent();
+
+	double d = distance / 100.0;
+
+	transform->position = position1;
+	transform->rotation = Ogre::Vector3::UNIT_Z.getRotationTo( position2 - position1);
+	transform->scale = Ogre::Vector3( 1.0, 1.0, d);
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
 
 	e->activate();
 

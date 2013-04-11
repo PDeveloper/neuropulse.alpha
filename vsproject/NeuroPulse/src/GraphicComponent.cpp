@@ -2,7 +2,7 @@
 
 #include <AdvancedOgreFramework.hpp>
 
-np::GraphicComponent::GraphicComponent( Ogre::MovableObject* entities[], int numEntities) :
+np::GraphicComponent::GraphicComponent( Ogre::Entity* entities[], int numEntities) :
 	entities( entities, entities + numEntities ),
 	children(),
 	node(NULL)
@@ -20,7 +20,7 @@ np::GraphicComponent::~GraphicComponent(void)
 	{
 		Ogre::SceneManager* sceneManager = node->getCreator();
 
-		for (std::list<Ogre::MovableObject*>::iterator it = entities.begin(); it != entities.end(); it++)
+		for (std::list<Ogre::Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 		{
 			node->detachObject( (*it)->getName());
 			sceneManager->destroyEntity( (*it)->getName());
@@ -38,7 +38,7 @@ void np::GraphicComponent::addEntity( Ogre::Entity* entity)
 
 void np::GraphicComponent::removeEntity( Ogre::Entity* entity)
 {
-	for (std::list<Ogre::MovableObject*>::iterator it = entities.begin(); it != entities.end(); it++)
+	for (std::list<Ogre::Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		if ( entity == (*it) && entity->getParentSceneNode() != NULL)
 		{
@@ -60,4 +60,32 @@ void np::GraphicComponent::removeChild( ac::es::EntityPtr e)
 	children.remove( e);
 	np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
 	graphic->parent = NULL;
+}
+
+void np::GraphicComponent::show()
+{
+	for (std::list<Ogre::Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+		(*it)->setVisible( true);
+
+	for (std::list<ac::es::EntityPtr>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		ac::es::EntityPtr e = (*it);
+		np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+
+		graphic->show();
+	}
+}
+
+void np::GraphicComponent::hide()
+{
+	for (std::list<Ogre::Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+		(*it)->setVisible( false);
+
+	for (std::list<ac::es::EntityPtr>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		ac::es::EntityPtr e = (*it);
+		np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+
+		graphic->hide();
+	}
 }

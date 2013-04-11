@@ -53,10 +53,12 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
 	pulseTransferSystem = new np::PulseTransferSystem();
 	heatSystem = new HeatSystem(gameObjectFactory);
+	constructConnectionSystem = new np::ConstructConnectionSystem();
 
 	addEntitySystem( reactionSystem);
 	addEntitySystem( outputSystem);
 
+	addEntitySystem( constructConnectionSystem);
 	addEntitySystem( animationSystem);
 	addEntitySystem( graphicSystem);
 	addEntitySystem( connectionDisplaySystem);
@@ -222,7 +224,7 @@ Ogre::Entity* np::NeuroWorld::getConstructConnectorUnderPoint( float x, float y)
 	return NULL;
 }
 
-std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr nodeEntity)
+std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr nodeEntity, double maxDistance)
 {
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("try conn: ");
 
@@ -235,7 +237,7 @@ std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, fl
 
 	const Ogre::Vector3& p3 = transform->position;
 
-	double minDistance = 5.0;
+	double minDistance = maxDistance;
 	double minU = 0.0;
 	int connection = -1;
 
@@ -291,7 +293,7 @@ std::pair<int,double> np::NeuroWorld::getNearestConnectionFromPoint( float x, fl
 	return std::pair<int, double>( connection, minU);
 }
 
-Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, float y )
+Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, float y, double maxDistance)
 {
 	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
 	entityRayQuery->setRay( mouseRay);
@@ -304,7 +306,7 @@ Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, f
 	Ogre::RaySceneQueryResult &result = entityRayQuery->execute();
 	Ogre::RaySceneQueryResult::iterator itr;
 
-	double minDistance = 4.0;
+	double minDistance = maxDistance;
 	double minU = 0.0;
 	Ogre::Entity* connection = NULL;
 
@@ -370,6 +372,22 @@ Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, f
 	return connection;
 }
 
+Ogre::Vector3 np::NeuroWorld::getRayPlane( float x, float y )
+{
+	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
+	Ogre::Plane plane( Ogre::Vector3::UNIT_Y, 13);
+
+	return mouseRay.getPoint( mouseRay.intersects( plane).second);
+}
+
+bool np::NeuroWorld::isValid( ac::es::EntityPtr e1, ac::es::EntityPtr e2 )
+{
+	if ( isValidInputOutput( e1, e2)) return true;
+	else if ( isValidInputOutput( e2, e1)) return true;
+
+	return false;
+}
+
 bool np::NeuroWorld::isValidInputOutput( ac::es::EntityPtr inputEntity, ac::es::EntityPtr outputEntity)
 {
 	np::ResourceInputComponent* input1 = inputEntity->getComponent<np::ResourceInputComponent>();
@@ -399,6 +417,18 @@ bool np::NeuroWorld::connectInputOutput( ac::es::EntityPtr inputEntity, ac::es::
 	{
 		np::ResourceInputComponent* input1 = inputEntity->getComponent<np::ResourceInputComponent>();
 		np::ResourceOutputComponent* output2 = outputEntity->getComponent<np::ResourceOutputComponent>();
+
+		np::ConstructConnectionComponent* conn;
+		if ( input1->target != NULL)
+		{
+			conn = input1->connection->getComponent<np::ConstructConnectionComponent>();
+			disconnect( conn->entity1, conn->entity2);
+		}
+		if ( output2->target != NULL)
+		{
+			conn = output2->connection->getComponent<np::ConstructConnectionComponent>();
+			disconnect( conn->entity1, conn->entity2);
+		}
 
 		input1->connect( outputEntity);
 		output2->connect( inputEntity);

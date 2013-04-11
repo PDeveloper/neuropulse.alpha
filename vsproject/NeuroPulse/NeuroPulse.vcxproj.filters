@@ -351,6 +351,12 @@
     <ClCompile Include="src\SelectionManager.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConnectionPreview.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConstructConnectionSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -607,6 +613,12 @@
     </ClInclude>
     <ClInclude Include="src\SelectionManager.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionPreview.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructConnectionSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

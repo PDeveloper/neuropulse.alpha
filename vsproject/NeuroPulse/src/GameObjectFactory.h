@@ -64,6 +64,7 @@ namespace np
 		void releasePulseEntity( ac::es::EntityPtr e);
 		void setConstruct( ac::es::EntityPtr constructEntity, np::Construct* construct);
 
+		ac::es::EntityPtr createRawConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 	private:
 
 		np::NeuroWorld* world;

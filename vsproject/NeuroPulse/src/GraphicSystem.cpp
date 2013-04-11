@@ -28,7 +28,7 @@ void np::GraphicSystem::process( ac::es::EntityPtr e)
 
 	if ( graphic->isDirty)
 	{
-		for (std::list<Ogre::MovableObject*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
+		for (std::list<Ogre::Entity*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
 			if ( (*it)->getParentSceneNode() == NULL)
 			{
 				graphic->node->attachObject( (*it));
@@ -74,7 +74,7 @@ void np::GraphicSystem::addChildren( Ogre::SceneNode* parent, ac::es::EntityPtr 
 
 	graphic->node = newNode;
 
-	for (std::list<Ogre::MovableObject*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
+	for (std::list<Ogre::Entity*>::iterator it = graphic->entities.begin(); it != graphic->entities.end(); it++)
 		newNode->attachObject( (*it));
 
 	for (std::list<ac::es::EntityPtr>::iterator it = graphic->children.begin(); it != graphic->children.end(); it++)

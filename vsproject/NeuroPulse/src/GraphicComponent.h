@@ -20,13 +20,13 @@ namespace np
 		np::GraphicComponent* parent;
 		std::list<ac::es::EntityPtr> children;
 
-		std::list<Ogre::MovableObject*> entities;
+		std::list<Ogre::Entity*> entities;
 
 		Ogre::SceneNode* node;
 
 		bool isDirty;
 
-		GraphicComponent( Ogre::MovableObject* entities[], int numEntities);
+		GraphicComponent( Ogre::Entity* entities[], int numEntities);
 		~GraphicComponent(void);
 
 		void addEntity( Ogre::Entity* entity);
@@ -34,6 +34,9 @@ namespace np
 
 		void addChild( ac::es::EntityPtr e);
 		void removeChild( ac::es::EntityPtr e);
+
+		void show();
+		void hide();
 	};
 }
 

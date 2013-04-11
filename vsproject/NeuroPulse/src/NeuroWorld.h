@@ -13,6 +13,7 @@
 #include <PulseSystem.h>
 #include <PulseTransferSystem.h>
 #include <HeatSystem.h>
+#include "ConstructConnectionSystem.h"
 
 #include <EventManager.h>
 
@@ -55,6 +56,7 @@ namespace np
 		np::PulseSystem* pulseSystem;
 		np::PulseTransferSystem* pulseTransferSystem;
 		np::HeatSystem* heatSystem;
+		np::ConstructConnectionSystem* constructConnectionSystem;
 
 		// Event system
 		np::EventManager* eventManager;
@@ -68,9 +70,12 @@ namespace np
 		Ogre::Entity* getNodeUnderPoint( float x, float y);
 		Ogre::Entity* getConstructUnderPoint( float x, float y);
 		Ogre::Entity* getConstructConnectorUnderPoint( float x, float y);
-		Ogre::Entity* getNearestConstructConnectionFromPoint( float x, float y);
-		std::pair<int,double> getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr node);
+		Ogre::Entity* getNearestConstructConnectionFromPoint( float x, float y, double maxDistance = 4.0);
+		std::pair<int,double> getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr node, double maxDistance = 4.0);
 
+		Ogre::Vector3 getRayPlane( float x, float y);
+
+		bool isValid( ac::es::EntityPtr e1, ac::es::EntityPtr e2);
 		bool isValidInputOutput( ac::es::EntityPtr input, ac::es::EntityPtr output);
 
 		bool connect( ac::es::EntityPtr e1, ac::es::EntityPtr e2);

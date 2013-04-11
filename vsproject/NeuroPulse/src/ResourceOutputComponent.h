@@ -11,6 +11,8 @@ namespace np
 		ac::es::EntityPtr target;
 		ac::es::EntityPtr connection;
 
+		ac::es::EntityPtr hub;
+
 		bool connect( ac::es::EntityPtr target);
 		void disconnect();
 

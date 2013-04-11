@@ -5,7 +5,8 @@
 
 np::ResourceInputComponent::ResourceInputComponent(void) :
 	target(NULL),
-	connection(NULL)
+	connection(NULL),
+	hub(NULL)
 {
 }
 

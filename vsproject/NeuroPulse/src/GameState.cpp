@@ -7,6 +7,7 @@
 #include <AdvancedOgreFramework.hpp>
 #include "OutputComponent.h"
 #include "ConstructConnectionComponent.h"
+#include "GraphicComponent.h"
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -46,6 +47,7 @@ GameState::GameState()
 	lastSelected = NULL;
 
 	selectionManager = new np::SelectionManager();
+	connectionPreview = NULL;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -55,6 +57,8 @@ void GameState::enter()
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 
 	neuroWorld = new np::NeuroWorld( worldSettings);
+	connectionPreview = new np::ConnectionPreview( neuroWorld->gameObjectFactory->createRawConstructConnectionEntity( Ogre::Vector3(), Ogre::Vector3::UNIT_Z));
+	connectionPreview->hide();
 
 	m_pSceneMgr = neuroWorld->sceneManager;
 	m_pCamera = neuroWorld->camera;
@@ -96,6 +100,7 @@ void GameState::exit()
 {
     OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
 
+	if ( connectionPreview != NULL) delete connectionPreview;
 	delete neuroWorld;
 }
 
@@ -131,7 +136,73 @@ bool GameState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 
 bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 {
-    if(m_bRMouseDown)
+	if ( m_bLMouseDown)
+	{
+		connectionPreview;
+
+		Ogre::Entity* last = selectionManager->getLast();
+		if ( last != NULL)
+		{
+			float mx = (float)evt.state.X.abs / (float)evt.state.width;
+			float my = (float)evt.state.Y.abs / (float)evt.state.height;
+
+			ac::es::EntityPtr lastEntity = getEntityPtr(last);
+
+			if ( lastEntity->containsComponent<np::ResourceInputComponent>() || lastEntity->containsComponent<np::ResourceOutputComponent>())
+			{
+				Ogre::Entity* selectedBud = neuroWorld->getConstructConnectorUnderPoint( mx, my);
+				std::pair<int, double> nearestConnection = neuroWorld->getNearestConnectionFromPoint( mx, my, selectionManager->getLastNode());
+
+				if ( lastEntity->containsComponent<np::PulseGateComponent>() && nearestConnection.first != -1)
+				{
+					nearestConnection = neuroWorld->getNearestConnectionFromPoint( mx, my, selectionManager->getLastNode(), 10.0);
+
+					ac::es::EntityPtr lastNode = selectionManager->getLastNode();
+					np::TransformComponent* transform = lastNode->getComponent<np::TransformComponent>();
+					np::OutputComponent* output = lastNode->getComponent<np::OutputComponent>();
+
+					np::PulseGateComponent* pulseGate = lastEntity->getComponent<np::PulseGateComponent>();
+					np::TransformComponent* gateTransform = lastEntity->getComponent<np::TransformComponent>();
+
+					ac::es::EntityPtr targetNode = output->connections[ nearestConnection.first]->target->parent;
+					np::TransformComponent* transform2 = targetNode->getComponent<np::TransformComponent>();
+
+					pulseGate->position = nearestConnection.second;
+					gateTransform->position = transform->position + nearestConnection.second * ( transform2->position - transform->position);
+				}
+				else if ( selectedBud != NULL)
+				{
+					ac::es::EntityPtr connector2 = getEntityPtr( selectedBud);
+
+					if ( connector2 != NULL && !connector2->containsComponent<np::PulseGateComponent>())
+					{
+						np::GraphicComponent* graphic = connector2->getComponent<np::GraphicComponent>();
+						connectionPreview->updateTarget( graphic->node->_getDerivedPosition());
+						if ( neuroWorld->isValid( connector2, lastEntity)) connectionPreview->setColor( Ogre::ColourValue( 0.0, 1.0, 0.0));
+						else connectionPreview->setColor( Ogre::ColourValue( 1.0, 0.0, 0.0));
+					}
+				}
+				else if ( nearestConnection.first != -1)
+				{
+					ac::es::EntityPtr lastNode = selectionManager->getLastNode();
+					np::TransformComponent* transform = lastNode->getComponent<np::TransformComponent>();
+					np::OutputComponent* output = lastNode->getComponent<np::OutputComponent>();
+
+					ac::es::EntityPtr targetNode = output->connections[ nearestConnection.first]->target->parent;
+					np::TransformComponent* transform2 = targetNode->getComponent<np::TransformComponent>();
+
+					connectionPreview->updateTarget( transform->position + nearestConnection.second * ( transform2->position - transform->position));
+					connectionPreview->setColor( Ogre::ColourValue( 0.0, 1.0, 0.0));
+				}
+				else
+				{
+					connectionPreview->updateTarget( neuroWorld->getRayPlane( mx, my));
+					connectionPreview->setColor( Ogre::ColourValue( 1.0, 0.0, 0.0));
+				}
+			}
+		}
+	}
+    else if(m_bRMouseDown)
     {
         m_pCamera->yaw( Degree( evt.state.X.rel * -0.1f));
         m_pCamera->pitch( Degree( evt.state.Y.rel * -0.1f));
@@ -174,6 +245,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
     if(id == OIS::MB_Left)
     {
 		m_bLMouseDown = false;
+		connectionPreview->hide();
 
 		Ogre::Entity* last = selectionManager->getLast();
 		if ( last != NULL)
@@ -196,7 +268,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 				neuroWorld->disconnect( e1, e2);
 			}
-			else if ( lastEntity->containsComponent<np::ResourceInputComponent>() || lastEntity->containsComponent<np::ResourceOutputComponent>())
+			else if ( ( lastEntity->containsComponent<np::ResourceInputComponent>() || lastEntity->containsComponent<np::ResourceOutputComponent>()) && !lastEntity->containsComponent<np::PulseGateComponent>())
 			{
 				Ogre::Entity* selectedBud = neuroWorld->getConstructConnectorUnderPoint( mx, my);
 				std::pair<int, double> nearestConnection = neuroWorld->getNearestConnectionFromPoint( mx, my, selectionManager->getLastNode());
@@ -205,7 +277,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 				{
 					ac::es::EntityPtr connector2 = getEntityPtr( selectedBud);
 
-					if ( connector2 != NULL)
+					if ( connector2 != NULL && !connector2->containsComponent<np::PulseGateComponent>())
 					{
 						neuroWorld->connect( lastEntity, connector2);
 					}
@@ -244,16 +316,6 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	{
 		Ogre::Entity* selectedObject;
 
-		selectedObject = neuroWorld->getNearestConstructConnectionFromPoint( mx, my);
-
-		if ( selectedObject != NULL)
-		{
-			selectionManager->popUntilNode();
-			selectionManager->pushConstructConnection( selectedObject);
-
-			return;
-		}
-
 		selectedObject = neuroWorld->getConstructConnectorUnderPoint( mx, my);
 
 		if ( selectedObject != NULL)
@@ -265,12 +327,28 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 			selectionManager->popUntilNode();
 			selectionManager->pushResourceBud( selectedObject);
 
+			np::GraphicComponent* graphic = getEntityPtr(selectedObject)->getComponent<np::GraphicComponent>();
+			bool hasPulseGate = getEntityPtr(selectedObject)->containsComponent<np::PulseGateComponent>();
+
+			connectionPreview->updateSource( graphic->node->_getDerivedPosition());
+			if ( !hasPulseGate) connectionPreview->show();
+
 			return;
 		}
 		else if ( currentConnector != NULL)
 		{
 			currentConnector->getParentSceneNode()->showBoundingBox(false);
 			currentConnector = NULL;
+		}
+
+		selectedObject = neuroWorld->getNearestConstructConnectionFromPoint( mx, my);
+
+		if ( selectedObject != NULL)
+		{
+			selectionManager->popUntilNode();
+			selectionManager->pushConstructConnection( selectedObject);
+
+			return;
 		}
 
 		selectedObject = neuroWorld->getConstructUnderPoint( mx, my);
@@ -295,7 +373,6 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 	Ogre::Entity* newNode = neuroWorld->getNodeUnderPoint( mx, my);
 
-	selectionManager->popNode();
 	if ( newNode != NULL && currentNode != newNode)
 	{
 		onNodeSelected( newNode);
@@ -304,12 +381,8 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 		currentNode = newNode;
 		currentNode->getParentSceneNode()->showBoundingBox(true);
 
+		selectionManager->popNode();
 		selectionManager->pushNode( newNode);
-	}
-	else if ( newNode == NULL && currentNode != NULL)
-	{
-		currentNode->getParentSceneNode()->showBoundingBox(false);
-		currentNode = NULL;
 	}
 }
 
@@ -412,6 +485,12 @@ ac::es::EntityPtr GameState::getEntityPtr( Ogre::Entity* entity)
 void GameState::onNodeSelected( Ogre::Entity* node)
 {
 	// at this point currentNode is still the old node.
+
+	ac::es::EntityPtr previousNode	= selectionManager->getLastNode();
+	ac::es::EntityPtr newNode		= getEntityPtr( node);
+
+	if ( previousNode != NULL &&  previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
+	if ( newNode->containsComponent<np::HubComponent>()) newNode->getComponent<np::HubComponent>()->showStructures();
 }
 
 void GameState::onConstructSelected( Ogre::Entity* construct)

@@ -30,8 +30,10 @@
     <ClCompile Include="src\BufferComponent.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
+    <ClCompile Include="src\ConnectionPreview.cpp" />
     <ClCompile Include="src\ConstructComponent.cpp" />
     <ClCompile Include="src\ConstructConnectionComponent.cpp" />
+    <ClCompile Include="src\ConstructConnectionSystem.cpp" />
     <ClCompile Include="src\ConstructInfoPanel.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
@@ -108,9 +110,11 @@
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
+    <ClInclude Include="src\ConnectionPreview.h" />
     <ClInclude Include="src\Construct.h" />
     <ClInclude Include="src\ConstructComponent.h" />
     <ClInclude Include="src\ConstructConnectionComponent.h" />
+    <ClInclude Include="src\ConstructConnectionSystem.h" />
     <ClInclude Include="src\ConstructInfoPanel.h" />
     <ClInclude Include="src\HeatSystem.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />

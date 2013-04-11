@@ -41,15 +41,18 @@ ac::es::EntityPtr np::SelectionManager::popNode()
 
 void np::SelectionManager::popUntilNode()
 {
-	ac::es::EntityPtr e = getEntityPtr( selectionList.back());
-	bool isNode = e->containsComponent<np::NodeComponent>();
-
-	while ( !isNode)
+	if ( !selectionList.empty())
 	{
-		selectionList.pop_back();
+		ac::es::EntityPtr e = getEntityPtr( selectionList.back());
+		bool isNode = e->containsComponent<np::NodeComponent>();
 
-		e = getEntityPtr( selectionList.back());
-		isNode = e->containsComponent<np::NodeComponent>();
+		while ( !isNode)
+		{
+			selectionList.pop_back();
+
+			e = getEntityPtr( selectionList.back());
+			isNode = e->containsComponent<np::NodeComponent>();
+		}
 	}
 }
 
