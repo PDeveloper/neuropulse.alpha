@@ -80,6 +80,8 @@ namespace np
 
 		Ogre::Vector3 getRayPlane( float x, float y);
 
+		void movePulseGate( ac::es::EntityPtr pulseGate, int connection);
+
 		bool isValid( ac::es::EntityPtr e1, ac::es::EntityPtr e2);
 		bool isValidInputOutput( ac::es::EntityPtr input, ac::es::EntityPtr output);
 

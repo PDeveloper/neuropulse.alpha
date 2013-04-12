@@ -29,11 +29,7 @@ bool np::ResourceOutputComponent::connect( ac::es::EntityPtr target )
 
 void np::ResourceOutputComponent::disconnect()
 {
-	if ( this->target != NULL)
-	{
-		this->target->getComponent<np::ResourceInputComponent>()->target = NULL;
-		this->target = NULL;
-	}
+	this->target = NULL;
 }
 
 

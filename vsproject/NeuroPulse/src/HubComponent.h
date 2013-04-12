@@ -23,6 +23,7 @@ namespace np
 		np::NeuroPlayer* owner;
 		std::list<ac::es::EntityPtr> constructs;
 		std::list<ac::es::EntityPtr> buds;
+		std::list<ac::es::EntityPtr> gates;
 		std::list<ac::es::EntityPtr> connections;
 
 		Ogre::Entity* display;
@@ -35,8 +36,13 @@ namespace np
 
 		void addConstruct( ac::es::EntityPtr construct);
 		void removeConstruct( ac::es::EntityPtr construct);
+
 		void addBud( ac::es::EntityPtr bud);
 		void removeBud( ac::es::EntityPtr bud);
+
+		void addGate( ac::es::EntityPtr gate);
+		void removeGate( ac::es::EntityPtr gate);
+
 		void addConnection( ac::es::EntityPtr connection);
 		void removeConnection( ac::es::EntityPtr connection);
 

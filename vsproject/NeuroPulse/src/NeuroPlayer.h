@@ -13,7 +13,9 @@ namespace np
 
 		Ogre::ColourValue colour;
 
-		NeuroPlayer( std::string name, Ogre::ColourValue colour);
+		unsigned long int signature;
+
+		NeuroPlayer( std::string name, Ogre::ColourValue colour, unsigned long int signature);
 		~NeuroPlayer(void);
 
 	};

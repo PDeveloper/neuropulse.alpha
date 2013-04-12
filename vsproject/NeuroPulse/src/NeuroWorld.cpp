@@ -479,8 +479,8 @@ bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::e
 			np::PulseGateComponent* pulseGateComponent = inputEntity->getComponent<np::PulseGateComponent>();
 			
 			np::OutputComponent* output = pulseGateComponent->nodeEntity->getComponent<np::OutputComponent>();
-			output->connections[ pulseGateComponent->connection]->removeFeed( inputEntity);
-
+			
+			output->connections[ pulseGateComponent->connectionIndex]->removeFeed( inputEntity);
 			gameObjectFactory->killPulseGate( inputEntity);
 		}
 		else if ( outputEntity->containsComponent<np::PulseGateComponent>())
@@ -488,8 +488,8 @@ bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::e
 			np::PulseGateComponent* pulseGateComponent = outputEntity->getComponent<np::PulseGateComponent>();
 
 			np::OutputComponent* output = pulseGateComponent->nodeEntity->getComponent<np::OutputComponent>();
-			output->connections[ pulseGateComponent->connection]->removeFeed( outputEntity);
-
+			
+			output->connections[ pulseGateComponent->connectionIndex]->removeFeed( outputEntity);
 			gameObjectFactory->killPulseGate( outputEntity);
 		}
 
@@ -497,4 +497,9 @@ bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::e
 	}
 
 	return false;
+}
+
+void np::NeuroWorld::movePulseGate( ac::es::EntityPtr pulseGate, int connection )
+{
+
 }

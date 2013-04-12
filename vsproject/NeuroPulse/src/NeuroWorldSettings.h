@@ -40,7 +40,7 @@ namespace np
 		
 		void addPlayer( std::string name, Ogre::ColourValue colour)
 		{
-			players.push_back( new np::NeuroPlayer( name, colour));
+			players.push_back( new np::NeuroPlayer( name, colour, 1 << players.size()));
 		}
 	};
 }

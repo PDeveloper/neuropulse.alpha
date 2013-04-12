@@ -9,10 +9,10 @@ namespace np
 		AC_ES_COMPONENT(PulseGateComponent)
 	public:
 		double position;
-		int connection;
+		int connectionIndex;
 		ac::es::EntityPtr nodeEntity;
 
-		PulseGateComponent( int connection, double position, ac::es::EntityPtr nodeEntity);
+		PulseGateComponent( int connectionIndex, double position, ac::es::EntityPtr nodeEntity);
 		~PulseGateComponent(void);
 	};
 

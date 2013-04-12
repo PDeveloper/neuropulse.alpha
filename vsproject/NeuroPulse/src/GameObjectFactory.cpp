@@ -613,6 +613,9 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 
 	e->activate();
 
+	np::HubComponent* hubComponent = nodeEntity->getComponent<np::HubComponent>();
+	hubComponent->addGate( e);
+
 	return e;
 }
 
@@ -626,13 +629,25 @@ void np::GameObjectFactory::killPulseGate( ac::es::EntityPtr e )
 	np::ResourceInputComponent* input	= e->getComponent<np::ResourceInputComponent>();
 	np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
 
+	np::OutputComponent* outputComponent = pulseGate->nodeEntity->getComponent<np::OutputComponent>();
+	outputComponent->connections[ pulseGate->connectionIndex]->removeFeed( e);
+
 	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
 	e->destroyComponent( buffer);
 	e->destroyComponent( pulseGate);
 
-	if ( input != NULL) e->destroyComponent( input);
-	if ( output != NULL) e->destroyComponent( output);
+	if ( input != NULL)
+	{
+		input->hub->getComponent<np::HubComponent>()->removeGate( e);
+		e->destroyComponent( input);
+	}
+
+	if ( output != NULL)
+	{
+		output->hub->getComponent<np::HubComponent>()->removeGate( e);
+		e->destroyComponent( output);
+	}
 
 	e->kill();
 }
@@ -782,8 +797,6 @@ void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
 
 	std::list<ac::es::EntityPtr>::iterator iterator;
 
-	std::list<ac::es::EntityPtr> constructs = hub->constructs;
-
 	std::list<ac::es::EntityPtr> buds = hub->buds;
 	iterator = buds.begin();
 	while ( iterator != buds.end())
@@ -791,6 +804,14 @@ void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
 		killResourceBud( *(iterator++));
 	}
 
+	std::list<ac::es::EntityPtr> gates = hub->gates;
+	iterator = gates.begin();
+	while ( iterator != gates.end())
+	{
+		killPulseGate( *(iterator++));
+	}
+
+	std::list<ac::es::EntityPtr> constructs = hub->constructs;
 	iterator = constructs.begin();
 	while ( iterator != constructs.end())
 	{

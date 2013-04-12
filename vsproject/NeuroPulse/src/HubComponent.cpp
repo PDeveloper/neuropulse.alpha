@@ -47,6 +47,13 @@ void np::HubComponent::showStructures()
 
 			graphic->show();
 		}
+		for ( iterator = gates.begin(); iterator != gates.end(); ++iterator)
+		{
+			e = (*iterator);
+			np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+
+			graphic->show();
+		}
 		for ( iterator = connections.begin(); iterator != connections.end(); ++iterator)
 		{
 			e = (*iterator);
@@ -74,6 +81,13 @@ void np::HubComponent::hideStructures()
 			graphic->hide();
 		}
 		for ( iterator = buds.begin(); iterator != buds.end(); ++iterator)
+		{
+			e = (*iterator);
+			np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+
+			graphic->hide();
+		}
+		for ( iterator = gates.begin(); iterator != gates.end(); ++iterator)
 		{
 			e = (*iterator);
 			np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
@@ -112,6 +126,18 @@ void np::HubComponent::addBud( ac::es::EntityPtr e )
 void np::HubComponent::removeBud( ac::es::EntityPtr e )
 {
 	buds.remove( e);
+}
+
+void np::HubComponent::addGate( ac::es::EntityPtr e )
+{
+	gates.push_back( e);
+
+	initVisual( e);
+}
+
+void np::HubComponent::removeGate( ac::es::EntityPtr e )
+{
+	gates.remove( e);
 }
 
 void np::HubComponent::addConnection( ac::es::EntityPtr e )

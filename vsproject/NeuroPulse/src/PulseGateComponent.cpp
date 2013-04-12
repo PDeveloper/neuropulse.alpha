@@ -3,7 +3,7 @@
 
 np::PulseGateComponent::PulseGateComponent( int connection, double position, ac::es::EntityPtr nodeEntity)
 {
-	this->connection = connection;
+	this->connectionIndex = connection;
 	this->position = position;
 	this->nodeEntity = nodeEntity;
 }

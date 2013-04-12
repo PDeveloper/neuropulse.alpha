@@ -192,6 +192,17 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 
 					pulseGate->position = nearestConnection.second;
 					gateTransform->position = transform->position + nearestConnection.second * ( transform2->position - transform->position);
+
+					if ( nearestConnection.first != pulseGate->connectionIndex)
+					{
+						ac::es::EntityPtr hub = pulseGate->nodeEntity;
+						np::OutputComponent* output = hub->getComponent<np::OutputComponent>();
+
+						output->connections[ pulseGate->connectionIndex]->removeFeed( lastEntity);
+						output->connections[ nearestConnection.first]->addFeed( lastEntity);
+
+						pulseGate->connectionIndex = nearestConnection.first;
+					}
 				}
 				else if ( selectedBud != NULL)
 				{
@@ -422,6 +433,8 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 		selectionManager->popNode();
 		selectionManager->pushNode( newNode);
 	}
+
+	selectionManager->popUntilNode();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -509,6 +522,10 @@ void GameState::update(double timeSinceLastFrame)
 	if ( selectionManager->getLast() != NULL)
 	{
 		guiManager->setEntity( getEntityPtr( selectionManager->getLast()));
+	}
+	else
+	{
+		guiManager->setEntity( NULL);
 	}
 
 	getInput();

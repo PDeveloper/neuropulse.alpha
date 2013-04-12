@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 #include "Instruction.h"
+#include <limits>
 
 #pragma once
 namespace np
@@ -11,11 +12,15 @@ namespace np
 		double amount;
 		Instruction* instruction;
 
-		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction = NULL)
+		unsigned long int signature;
+
+		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction = NULL, unsigned long int signature = std::numeric_limits<unsigned long>::max())
 		{
 			this->resourceType = resourceType;
 			this->amount = amount;
 			this->instruction = instruction;
+
+			this->signature = signature;
 		}
 
 		double size()

@@ -79,7 +79,7 @@ np::TransferSuccess np::BufferComponent::appendPacket( np::ResourcePacket* packe
 		std::list<np::ResourcePacket*>::iterator i = buffer.begin();
 		while ( i != buffer.end())
 		{
-			if ( packet->resourceType == (*i)->resourceType)
+			if ( packet->resourceType == (*i)->resourceType && packet->signature == (*i)->signature)
 			{
 				double amount = std::min( packet->amount, spaceLeft);
 

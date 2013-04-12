@@ -15,6 +15,7 @@
 #include <math.h>
 
 #pragma once
+#include "AdvancedOgreFramework.hpp"
 namespace np
 {
 	class ConnectionBase
@@ -118,6 +119,8 @@ namespace np
 				slot = *it;
 				if ( slot->pulseGate == pulseGate)
 				{
+					OgreFramework::getSingletonPtr()->m_pLog->logMessage( "PulseGate removed");
+
 					pulseGates.erase( it++);
 					delete slot;
 				}
