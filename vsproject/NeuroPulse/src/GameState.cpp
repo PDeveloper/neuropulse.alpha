@@ -43,7 +43,7 @@ GameState::GameState()
 	debug_txt->setAlpha( 0.5);
 	debug_txt->setMousePassThroughEnabled(true);
 
-	sheet->addChildWindow( debug_txt);
+	//sheet->addChildWindow( debug_txt);
 
 	//Gui manager
 	guiManager = new np::GuiManager(wmgr);
@@ -506,7 +506,10 @@ void GameState::update(double timeSinceLastFrame)
 
 
 	//Gui
-	guiManager->setEntity(currentNode);
+	if ( selectionManager->getLast() != NULL)
+	{
+		guiManager->setEntity( getEntityPtr( selectionManager->getLast()));
+	}
 
 	getInput();
 	moveCamera();
@@ -550,7 +553,6 @@ void GameState::onConstructSelected( Ogre::Entity* construct)
 void GameState::onConnectorSelected( Ogre::Entity* connector)
 {
 
-}
 }
 
 //CEGUI Input

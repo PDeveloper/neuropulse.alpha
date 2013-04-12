@@ -126,6 +126,10 @@ np::TransferSuccess np::BufferComponent::addPackets( std::list<np::ResourcePacke
 
 			fResult = FULL;
 		}
+		else
+		{
+			return TYPE_CONFLICT;
+		}
 	}
 
 	return fResult;

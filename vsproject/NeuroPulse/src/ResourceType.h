@@ -9,6 +9,8 @@ namespace np
 	{
 	public:
 
+		Ogre::ColourValue colour;
+
 		std::string name()
 		{
 			return _name;
@@ -52,8 +54,6 @@ namespace np
 	private:
 		int _id;
 		unsigned long int flag;
-
-		Ogre::ColourValue colour;
 		std::string _name;
 		std::string _description;
 

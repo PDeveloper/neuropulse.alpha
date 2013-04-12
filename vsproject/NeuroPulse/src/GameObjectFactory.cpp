@@ -332,6 +332,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 
 		np::ConstructComponent* construct = new np::ConstructComponent();
+		construct->hub = hubEntity;
 		construct->parent = hubEntity;
 		
 		e->addComponent( transform);
@@ -450,14 +451,23 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTOR_MASK);
 
-	/*
+	std::vector<np::ResourceType*> types = np::ResourceManager::getSingletonPtr()->getTypes( requirement);
+
+	Ogre::ColourValue budColour = types[0]->colour;
+	for ( int i = 1; i < types.size(); i++)
+	{
+		budColour += types[i]->colour;
+	}
+
+	budColour /= types.size();
+
 	Ogre::MaterialPtr material = entity->getSubEntity(0)->getMaterial()->clone( entity->getName());
 	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
 		Ogre::LBX_SOURCE1,
 		Ogre::LBS_MANUAL,
 		Ogre::LBS_CURRENT,
-		Ogre::ColourValue( 0.0, 0.0, 0.0));
-		*/
+		budColour);
+	entity->setMaterial( material);
 
 	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
@@ -551,6 +561,24 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( CONSTRUCT_CONNECTOR_MASK);
 
+	std::vector<np::ResourceType*> types = np::ResourceManager::getSingletonPtr()->getTypes( requirement);
+
+	Ogre::ColourValue budColour = types[0]->colour;
+	for ( int i = 1; i < types.size(); i++)
+	{
+		budColour += types[i]->colour;
+	}
+
+	budColour /= types.size();
+
+	Ogre::MaterialPtr material = entity->getSubEntity(0)->getMaterial()->clone( entity->getName());
+	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+		Ogre::LBX_SOURCE1,
+		Ogre::LBS_MANUAL,
+		Ogre::LBS_CURRENT,
+		budColour);
+	entity->setMaterial( material);
+
 	Ogre::Entity* entities[] = { entity};
 	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 	np::TransformComponent* transform = new np::TransformComponent();
@@ -571,12 +599,14 @@ ac::es::EntityPtr np::GameObjectFactory::createPulseGate( int connection, double
 	if ( isInput)
 	{
 		np::ResourceInputComponent* input = new np::ResourceInputComponent();
+		input->parent = nodeEntity;
 		input->hub = nodeEntity;
 		e->addComponent( input);
 	}
 	else
 	{
 		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
+		output->parent = nodeEntity;
 		output->hub = nodeEntity;
 		e->addComponent( output);
 	}

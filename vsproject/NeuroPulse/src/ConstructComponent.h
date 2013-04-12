@@ -19,6 +19,7 @@ namespace np
 	public:
 
 		ac::es::EntityPtr parent;
+		ac::es::EntityPtr hub;
 
 		np::Construct* construct;
 

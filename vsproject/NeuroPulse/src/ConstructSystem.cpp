@@ -17,6 +17,7 @@ void np::ConstructSystem::process( ac::es::EntityPtr e )
 {
 	ConstructComponent* constructComponent = e->getComponent<ConstructComponent>();
 
+	if ( constructComponent == NULL) return;
 	if ( constructComponent->construct != NULL) constructComponent->construct->process();
 }
 

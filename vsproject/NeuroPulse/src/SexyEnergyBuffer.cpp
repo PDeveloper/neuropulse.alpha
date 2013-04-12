@@ -27,11 +27,6 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 	selectedItem = 0;
 
 	componentInterface->addProperty(new ListProperty("Tasty options", &selectedItem, testMap));
-
-	
-
-	
-
 }
 
 void np::SexyEnergyBuffer::process()

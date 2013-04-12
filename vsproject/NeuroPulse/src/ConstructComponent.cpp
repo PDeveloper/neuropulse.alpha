@@ -10,7 +10,7 @@ np::ConstructComponent::~ConstructComponent(void)
 {
 }
 
-void np::ConstructComponent::setConstruct( np::Construct* construct )
+void np::ConstructComponent::setConstruct( np::Construct* construct)
 {
 	this->construct = construct;
 }

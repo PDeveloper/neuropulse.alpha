@@ -56,13 +56,13 @@ void np::GuiManager::setEntity( ac::es::EntityPtr entity )
 		//bud
 		else if(currentEntity->containsComponent<np::ResourceInputComponent>())
 		{
-			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceInputComponent>()->parent->getComponent<np::ConstructComponent>()->parent);
+			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceInputComponent>()->hub);
 			constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceInputComponent>()->parent);
 			budInfoPanel->setBud(currentEntity);
 		}
 		else if(currentEntity->containsComponent<np::ResourceOutputComponent>())
 		{
-			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceOutputComponent>()->parent->getComponent<np::ConstructComponent>()->parent);
+			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceOutputComponent>()->hub);
 			constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceOutputComponent>()->parent);
 			budInfoPanel->setBud(currentEntity);
 		}
