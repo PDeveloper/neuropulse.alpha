@@ -44,8 +44,6 @@ void np::HeatSystem::process( ac::es::EntityPtr e)
 	//Calculate temperature
 	node->temperature = buffer->getAmountOf(heat) / node->heatCapacity;
 
-		
-
 	//Deal with hub
 	if(hub != NULL)
 	{

@@ -151,8 +151,8 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 
 	factory->createHub( nodes[0], settings->players[0]);
 	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
-	factory->setConstruct( hub->constructs[0], new np::RefineryConstruct());
-	factory->setConstruct( hub->constructs[1], new np::SexyEnergyBuffer());
+	factory->setConstruct( hub->getConstruct(0), new np::RefineryConstruct());
+	factory->setConstruct( hub->getConstruct(1), new np::SexyEnergyBuffer());
 
 	int *faces = NULL;
 	int numFaces = delaunay2d( (float*)vertices, numNodes, &faces);

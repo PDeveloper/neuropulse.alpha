@@ -57,9 +57,9 @@ void np::GraphicComponent::addChild( ac::es::EntityPtr e)
 
 void np::GraphicComponent::removeChild( ac::es::EntityPtr e)
 {
-	children.remove( e);
 	np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
 	graphic->parent = NULL;
+	children.remove( e);
 }
 
 void np::GraphicComponent::show()

@@ -1,0 +1,25 @@
+material TerrainMaterial
+ {
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				colour_op_ex modulate src_current src_manual 0.03 0.03 0.05
+			}
+			texture_unit
+			{
+				texture terrainTexture2_1.png
+				scale 0.6 0.6
+            			colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture terrainTexture2_2.png
+				scale 0.3 0.3
+            			colour_op alpha_blend
+			}
+		}
+	}
+}

@@ -1,5 +1,6 @@
 #include <ac\es.h>
 #include <vector>
+#include <list>
 
 #include <NeuroPlayer.h>
 #include <OgreEntity.h>
@@ -20,9 +21,9 @@ namespace np
 	public:
 
 		np::NeuroPlayer* owner;
-		std::vector<ac::es::EntityPtr> constructs;
-		std::vector<ac::es::EntityPtr> buds;
-		std::vector<ac::es::EntityPtr> connections;
+		std::list<ac::es::EntityPtr> constructs;
+		std::list<ac::es::EntityPtr> buds;
+		std::list<ac::es::EntityPtr> connections;
 
 		Ogre::Entity* display;
 
@@ -38,6 +39,8 @@ namespace np
 		void removeBud( ac::es::EntityPtr bud);
 		void addConnection( ac::es::EntityPtr connection);
 		void removeConnection( ac::es::EntityPtr connection);
+
+		ac::es::EntityPtr getConstruct( int slot);
 		
 		void showStructures();
 		void hideStructures();

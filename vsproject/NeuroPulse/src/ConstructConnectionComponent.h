@@ -20,6 +20,8 @@ namespace np
 		ac::es::EntityPtr entity1;
 		ac::es::EntityPtr entity2;
 
+		ac::es::EntityPtr hub;
+
 		np::TransformComponent* target1;
 		np::TransformComponent* target2;
 

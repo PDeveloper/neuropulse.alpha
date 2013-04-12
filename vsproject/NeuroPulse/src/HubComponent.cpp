@@ -2,8 +2,7 @@
 #include <ConstructComponent.h>
 #include "GraphicComponent.h"
 
-np::HubComponent::HubComponent( np::NeuroPlayer* owner) :
-	constructs()
+np::HubComponent::HubComponent( np::NeuroPlayer* owner)
 {
 	this->owner = owner;
 
@@ -31,7 +30,7 @@ void np::HubComponent::showStructures()
 	{
 		_isShown = true;
 
-		std::vector<ac::es::EntityPtr>::iterator iterator;
+		std::list<ac::es::EntityPtr>::iterator iterator;
 		ac::es::EntityPtr e;
 
 		for ( iterator = constructs.begin(); iterator != constructs.end(); ++iterator)
@@ -64,7 +63,7 @@ void np::HubComponent::hideStructures()
 	{
 		_isShown = false;
 
-		std::vector<ac::es::EntityPtr>::iterator iterator;
+		std::list<ac::es::EntityPtr>::iterator iterator;
 		ac::es::EntityPtr e;
 
 		for ( iterator = constructs.begin(); iterator != constructs.end(); ++iterator)
@@ -100,10 +99,7 @@ void np::HubComponent::addConstruct( ac::es::EntityPtr e )
 
 void np::HubComponent::removeConstruct( ac::es::EntityPtr e )
 {
-	for ( std::vector<ac::es::EntityPtr>::iterator iterator = constructs.begin(); iterator != constructs.end(); ++iterator)
-	{
-		if ( (*iterator) == e) constructs.erase( iterator);
-	}
+	constructs.remove( e);
 }
 
 void np::HubComponent::addBud( ac::es::EntityPtr e )
@@ -115,10 +111,7 @@ void np::HubComponent::addBud( ac::es::EntityPtr e )
 
 void np::HubComponent::removeBud( ac::es::EntityPtr e )
 {
-	for ( std::vector<ac::es::EntityPtr>::iterator iterator = buds.begin(); iterator != buds.end(); ++iterator)
-	{
-		if ( (*iterator) == e) buds.erase( iterator);
-	}
+	buds.remove( e);
 }
 
 void np::HubComponent::addConnection( ac::es::EntityPtr e )
@@ -130,10 +123,7 @@ void np::HubComponent::addConnection( ac::es::EntityPtr e )
 
 void np::HubComponent::removeConnection( ac::es::EntityPtr e )
 {
-	for ( std::vector<ac::es::EntityPtr>::iterator iterator = connections.begin(); iterator != connections.end(); ++iterator)
-	{
-		if ( (*iterator) == e) connections.erase( iterator);
-	}
+	connections.remove( e);
 }
 
 void np::HubComponent::initVisual( ac::es::EntityPtr e )
@@ -142,4 +132,11 @@ void np::HubComponent::initVisual( ac::es::EntityPtr e )
 
 	if ( _isShown) graphic->show();
 	else graphic->hide();
+}
+
+ac::es::EntityPtr np::HubComponent::getConstruct( int slot )
+{
+	std::list<ac::es::EntityPtr>::iterator iterator = constructs.begin();
+	for ( int i = 0; i < slot; i++) iterator++;
+	return *iterator;
 }

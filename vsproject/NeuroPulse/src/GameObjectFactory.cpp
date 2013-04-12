@@ -76,7 +76,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Ogre::MeshPtr groundMesh = Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 		plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 
-	groundMesh->getSubMesh(0)->setMaterialName( "GroundMaterial");
+	groundMesh->getSubMesh(0)->setMaterialName( "TerrainMaterial");
 
 	///////// HUB MESH
 
@@ -357,7 +357,7 @@ void np::GameObjectFactory::killConstructEntity( ac::es::EntityPtr e)
 	np::TransformComponent* transform	= e->getComponent<np::TransformComponent>();
 	np::ConstructComponent* construct    = e->getComponent<np::ConstructComponent>();
 
-	graphic->hide();
+	graphic->parent->removeChild( e);
 
 	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
@@ -524,6 +524,8 @@ void np::GameObjectFactory::killResourceBud( ac::es::EntityPtr e )
 	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
 	np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
 
+	graphic->parent->removeChild( e);
+
 	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
 	e->destroyComponent( buffer);
@@ -531,19 +533,17 @@ void np::GameObjectFactory::killResourceBud( ac::es::EntityPtr e )
 	if ( e->containsComponent<np::ResourceInputComponent>())
 	{
 		np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
-		e->destroyComponent( input);
 
 		input->hub->getComponent<np::HubComponent>()->removeBud( e);
+		e->destroyComponent( input);
 	}
 	else if ( e->containsComponent<np::ResourceOutputComponent>())
 	{
 		np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
-		e->destroyComponent( output);
 
 		output->hub->getComponent<np::HubComponent>()->removeBud( e);
+		e->destroyComponent( output);
 	}
-
-	graphic->parent->removeChild( e);
 
 	e->kill();
 }
@@ -717,12 +717,14 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::e
 		input = e1->getComponent<np::ResourceInputComponent>();
 		hub = input->hub->getComponent<np::HubComponent>();
 		hub->addConnection( e);
+		connection->hub = input->hub;
 	}
 	else if ( e2->containsComponent<np::ResourceInputComponent>())
 	{
 		input = e2->getComponent<np::ResourceInputComponent>();
 		hub = input->hub->getComponent<np::HubComponent>();
 		hub->addConnection( e);
+		connection->hub = input->hub;
 	}
 
 	e->activate();
@@ -763,6 +765,8 @@ void np::GameObjectFactory::killConstructConnectionEntity( ac::es::EntityPtr e)
 	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
 	np::ConstructConnectionComponent* connection = e->getComponent<np::ConstructConnectionComponent>();
 
+	connection->hub->getComponent<np::HubComponent>()->removeConnection( e);
+
 	e->destroyComponent( graphic);
 	e->destroyComponent( transform);
 	e->destroyComponent( connection);
@@ -775,12 +779,29 @@ void np::GameObjectFactory::killConstructConnectionEntity( ac::es::EntityPtr e)
 void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
 {
 	np::HubComponent* hub = nodeEntity->getComponent<np::HubComponent>();
-	
-	std::vector<ac::es::EntityPtr> constructs;
 
-	for(int i=0; i < constructs.size(); i++)
+	std::list<ac::es::EntityPtr>::iterator iterator;
+
+	std::list<ac::es::EntityPtr> constructs = hub->constructs;
+
+	std::list<ac::es::EntityPtr> buds = hub->buds;
+	iterator = buds.begin();
+	while ( iterator != buds.end())
 	{
-		killConstructEntity(constructs.at(i));
+		killResourceBud( *(iterator++));
+	}
+
+	iterator = constructs.begin();
+	while ( iterator != constructs.end())
+	{
+		killConstructEntity( *(iterator++));
+	}
+
+	std::list<ac::es::EntityPtr> connections = hub->connections;
+	iterator = connections.begin();
+	while ( iterator != connections.end())
+	{
+		killConstructConnectionEntity( *(iterator++));
 	}
 
 	nodeEntity->destroyComponent(hub);
