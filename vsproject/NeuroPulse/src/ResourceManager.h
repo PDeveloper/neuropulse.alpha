@@ -18,6 +18,8 @@ namespace np
 		np::ResourceType* getType( std::string name);
 		np::ResourceRequirement* getReq( std::string names[], size_t numNames);
 
+		std::vector<np::ResourceType*> getTypes(np::ResourceRequirement* req);
+
 		ResourceManager(void);
 		~ResourceManager(void);
 	private:

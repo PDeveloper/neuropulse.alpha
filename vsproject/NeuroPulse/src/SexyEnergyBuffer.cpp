@@ -1,10 +1,15 @@
 #include "SexyEnergyBuffer.h"
 
 #include <algorithm>
+#include <BoolProperty.h>
+#include <ListProperty.h>
+#include <hash_map>
 
 np::SexyEnergyBuffer::SexyEnergyBuffer() :
 	Construct( Ogre::ColourValue( 0.2, 0.6, 1.0))
 {
+	isOn = true;
+
 	isReleasing = true;
 	storage = 0.0;
 
@@ -12,6 +17,21 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
+
+	componentInterface = new np::ComponentInterface();
+	componentInterface->addProperty(new BoolProperty("Release", &isReleasing));
+
+	std::hash_map<std::string, int>* testMap = new std::hash_map<std::string, int>();
+	(*testMap)["banana"] = 0;
+	(*testMap)["manana"] = 1;
+	selectedItem = 0;
+
+	componentInterface->addProperty(new ListProperty("Tasty options", &selectedItem, testMap));
+
+	
+
+	
+
 }
 
 void np::SexyEnergyBuffer::process()

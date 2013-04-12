@@ -160,6 +160,9 @@
     <Filter Include="Source Files\entity\components\pulse">
       <UniqueIdentifier>{853d1fd8-f343-4a66-9db6-8d04bff262f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\componentInterface">
+      <UniqueIdentifier>{367343fb-7b6d-4ffa-9493-fe6a6533adc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -356,6 +359,18 @@
     </ClCompile>
     <ClCompile Include="src\ConstructConnectionSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BudInfoPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BufferInfoPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiManager.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PropertyPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,6 +637,33 @@
     </ClInclude>
     <ClInclude Include="src\PulseGateSlot.h">
       <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComponentProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoolProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComponentInterface.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DoubleProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BufferInfoPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BudInfoPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiManager.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PropertyPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ListProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

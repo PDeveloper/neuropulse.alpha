@@ -28,6 +28,7 @@
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
     <ClCompile Include="src\BufferComponent.cpp" />
+    <ClCompile Include="src\BufferInfoPanel.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\ConnectionPreview.cpp" />
@@ -35,7 +36,10 @@
     <ClCompile Include="src\ConstructConnectionComponent.cpp" />
     <ClCompile Include="src\ConstructConnectionSystem.cpp" />
     <ClCompile Include="src\ConstructInfoPanel.cpp" />
+    <ClCompile Include="src\GuiManager.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
+    <ClCompile Include="src\BudInfoPanel.cpp" />
+    <ClCompile Include="src\PropertyPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\ResourceRequirement.cpp" />
     <ClCompile Include="src\ResourceTransferSystem.cpp" />
@@ -105,8 +109,13 @@
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\BoolProperty.h" />
+    <ClInclude Include="src\BufferInfoPanel.h" />
+    <ClInclude Include="src\BudInfoPanel.h" />
     <ClInclude Include="src\BufferComponent.h" />
     <ClInclude Include="src\CEGUIState.h" />
+    <ClInclude Include="src\ComponentInterface.h" />
+    <ClInclude Include="src\ComponentProperty.h" />
     <ClInclude Include="src\ConnectionBase.h" />
     <ClInclude Include="src\ConnectionComponent.h" />
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
@@ -116,8 +125,12 @@
     <ClInclude Include="src\ConstructConnectionComponent.h" />
     <ClInclude Include="src\ConstructConnectionSystem.h" />
     <ClInclude Include="src\ConstructInfoPanel.h" />
+    <ClInclude Include="src\DoubleProperty.h" />
+    <ClInclude Include="src\GuiManager.h" />
     <ClInclude Include="src\HeatSystem.h" />
     <ClInclude Include="src\PulseGateSlot.h" />
+    <ClInclude Include="src\ListProperty.h" />
+    <ClInclude Include="src\PropertyPanel.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />
     <ClInclude Include="src\ResourceRequirement.h" />
     <ClInclude Include="src\ResourceTransferSystem.h" />

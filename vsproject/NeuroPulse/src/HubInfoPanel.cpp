@@ -1,14 +1,25 @@
 #include "HubInfoPanel.h"
+#include <HubComponent.h>
+#include <AdvancedOgreFramework.hpp>
 
 
-np::HubInfoPanel::HubInfoPanel(void)
+np::HubInfoPanel::HubInfoPanel(CEGUI::WindowManager* wmgr)
 {
+	this->wmgr = wmgr;
+
+
 	currentHub = NULL;
 
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-	sheet = wmgr.createWindow("DefaultWindow", "MainMenu/Sheet");
+	sheet = wmgr->createWindow("DefaultWindow", "HubInfo/Sheet");
+	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0.0, 100)));
+	sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.0, 100)));
+	//sheet->setText("Hub");
 
-	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0.0, 500), CEGUI::UDim( 0.0, 200)));
+	healthText = wmgr->createWindow("TaharezLook/StaticText", "HubInfoPanel/HealthText");
+	healthText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
+	healthText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 50)));
+	//healthText->setAlpha( 0.5);
+	sheet->addChildWindow(healthText);
 }
 
 
@@ -19,16 +30,22 @@ np::HubInfoPanel::~HubInfoPanel(void)
 void np::HubInfoPanel::setHub( ac::es::EntityPtr hub )
 {
 	this->currentHub = hub;
+
+	update();
 }
 
 void np::HubInfoPanel::update()
 {
-	if ( currentHub != NULL)
-	{
+	np::HubComponent* hub = currentHub->getComponent<np::HubComponent>();
 
+	if ( hub != NULL)
+	{
+		sheet->setVisible(true);
+
+		healthText->setText("Hub Health: "+Ogre::StringConverter::toString( Ogre::Real(hub->health)));
 	}
 	else
 	{
-
+		sheet->setVisible(false);
 	}
 }

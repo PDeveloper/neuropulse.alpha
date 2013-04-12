@@ -3,17 +3,22 @@
 #include "AdvancedOgreFramework.hpp"
 
 #include <algorithm>
+#include <DoubleProperty.h>
 
 np::RefineryConstruct::RefineryConstruct() :
 	Construct( Ogre::ColourValue( 0.0, 0.0, 1.0))
 {
 	conversionRate = 0.7;
+	isOn = false;
 
 	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
 	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
 
 	inputRequirements.push_back( np::ResourceRequirement( rawEnergy));
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
+
+	componentInterface = new np::ComponentInterface();
+	componentInterface->addProperty(new DoubleProperty("Conversion Rate", &conversionRate, 0.1, 0.9, 0.01));
 }
 
 void np::RefineryConstruct::process()

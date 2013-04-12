@@ -18,13 +18,13 @@ namespace np
 		AC_ES_COMPONENT(ConstructComponent)
 	public:
 
-		ac::es::EntityPtr hub;
+		ac::es::EntityPtr parent;
 
 		np::Construct* construct;
 
 		void setConstruct( np::Construct* construct);
 
-		ConstructComponent(np::Construct* construct = NULL);
+		ConstructComponent(np::Construct* construct = NULL, ac::es::EntityPtr parent = NULL);
 		~ConstructComponent(void);
 
 

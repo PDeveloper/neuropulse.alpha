@@ -10,6 +10,7 @@ namespace np
 	public:
 		ac::es::EntityPtr target;
 		ac::es::EntityPtr connection;
+		ac::es::EntityPtr parent;
 
 		ac::es::EntityPtr hub;
 

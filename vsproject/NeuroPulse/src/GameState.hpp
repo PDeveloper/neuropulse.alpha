@@ -18,6 +18,8 @@
 #include <NeuroWorld.h>
 #include "SelectionManager.h"
 #include "ConnectionPreview.h"
+#include <GuiManager.h>
+
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -36,7 +38,7 @@ public:
 
 	void moveCamera();
 	void getInput();
-    void buildGUI();
+	void buildGUI();
 
 	bool onKeyPress(const OIS::KeyEvent &keyEventRef);
 	bool onKeyRelease(const OIS::KeyEvent &keyEventRef);
@@ -52,6 +54,9 @@ public:
 	void onNodeSelected( Ogre::Entity* node);
 	void onConstructSelected( Ogre::Entity* construct);
 	void onConnectorSelected( Ogre::Entity* connector);
+	void InjectOISKey(bool bButtonDown, OIS::KeyEvent inKey);
+	bool InjectOISMouseButton(bool bButtonDown, OIS::MouseButtonID inButton);
+
 private:
 	bool						m_bQuit;
 
@@ -79,8 +84,11 @@ private:
 
 	np::NeuroWorldSettings* worldSettings;
 
-	CEGUI::Window *sheet;
+	CEGUI::Window* sheet;
+
 	CEGUI::Window* debug_txt;
+
+	np::GuiManager* guiManager;
 
 	np::NeuroWorld* neuroWorld;
 

@@ -332,7 +332,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 		np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
 
 		np::ConstructComponent* construct = new np::ConstructComponent();
-		construct->hub = hubEntity;
+		construct->parent = hubEntity;
 		
 		e->addComponent( transform);
 		e->addComponent( graphic);
@@ -471,6 +471,7 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	if ( isInput)
 	{
 		np::ResourceInputComponent* input = new np::ResourceInputComponent();
+		input->parent = constructEntity;
 		input->hub = construct->hub;
 
 		input->disconnect();
@@ -485,6 +486,7 @@ ac::es::EntityPtr np::GameObjectFactory::createResourceBud( ac::es::EntityPtr co
 	else
 	{
 		np::ResourceOutputComponent* output = new np::ResourceOutputComponent();
+		output->parent = constructEntity;
 		output->hub = construct->hub;
 
 		output->disconnect();

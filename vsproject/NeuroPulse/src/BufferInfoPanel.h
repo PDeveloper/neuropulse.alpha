@@ -4,19 +4,18 @@
 #pragma once
 namespace np
 {
-	class HubInfoPanel
+	class BufferInfoPanel
 	{
 	public:
 
 		CEGUI::Window* sheet;
 		CEGUI::WindowManager* wmgr;
 
-		CEGUI::Window* healthText;
+		CEGUI::Window* resourceText;
 
-		ac::es::EntityPtr currentHub;
+		ac::es::EntityPtr currentBuffer;
 
-		void setHub( ac::es::EntityPtr hub);
-
+		void setBuffer( ac::es::EntityPtr buffer);
 		void update();
 
 		void setPosition(CEGUI::UVector2 positionVector)
@@ -24,8 +23,10 @@ namespace np
 			sheet->setPosition(positionVector);
 		}
 
-		HubInfoPanel(CEGUI::WindowManager* wmgr);
-		~HubInfoPanel(void);
+		BufferInfoPanel(CEGUI::WindowManager* wmgr);
+		~BufferInfoPanel(void);
+
+	private:
+
 	};
 }
-

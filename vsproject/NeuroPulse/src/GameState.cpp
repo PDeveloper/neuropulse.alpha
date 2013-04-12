@@ -4,7 +4,10 @@
 
 #include <NodeComponent.h>
 #include <HubComponent.h>
+#include <ConstructComponent.h>
 #include <AdvancedOgreFramework.hpp>
+#include <ResourceInputComponent.h>
+#include <ResourceOutputComponent.h>
 #include "OutputComponent.h"
 #include "ConstructConnectionComponent.h"
 #include "GraphicComponent.h"
@@ -17,23 +20,38 @@ using namespace Ogre;
 
 GameState::GameState()
 {
-    m_MoveSpeed			= 0.1f;
+	m_MoveSpeed			= 0.1f;
 	m_MouseScrollSpeed	= 0.8f;
 
-    m_bLMouseDown       = false;
-    m_bRMouseDown       = false;
-    m_bQuit             = false;
+	m_bLMouseDown       = false;
+	m_bRMouseDown       = false;
+	m_bQuit             = false;
 	
 	// Create CEGUI interface!
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-	sheet = wmgr.createWindow( "DefaultWindow", "InGame/Sheet");
+	CEGUI::WindowManager* wmgr = &CEGUI::WindowManager::getSingleton();
+	sheet = wmgr->createWindow( "DefaultWindow", "RootSheet");
+	//sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 800), CEGUI::UDim( 0, 600)));
+	sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
+	sheet->setMousePassThroughEnabled(true);
+	
+	
 
-	debug_txt = wmgr.createWindow("TaharezLook/StaticText", "InGame/DebugTextfield");
+	//Debug shit
+	debug_txt = wmgr->createWindow("TaharezLook/StaticText", "InGame/DebugTextfield");
 	debug_txt->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.0, 0)));
 	debug_txt->setSize(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.2, 0)));
 	debug_txt->setAlpha( 0.5);
+	debug_txt->setMousePassThroughEnabled(true);
 
 	sheet->addChildWindow( debug_txt);
+
+	//Gui manager
+	guiManager = new np::GuiManager(wmgr);
+
+	sheet->addChildWindow(guiManager->sheet);
+	guiManager->sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 800), CEGUI::UDim( 0, 600)));
+	guiManager->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
+
 
 	worldSettings = new np::NeuroWorldSettings();
 	worldSettings->addPlayer( "PSvils", Ogre::ColourValue( 1.0, 0.0, 0.0));
@@ -65,20 +83,20 @@ void GameState::enter()
 
 	/* ...oooOOOOOOOooo... */
 
-    m_pCurrentObject = 0;
+	m_pCurrentObject = 0;
 
-    buildGUI();
+	buildGUI();
 
-    createScene();
+	createScene();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::pause()
 {
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pausing GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Pausing GameState...");
 
-    return true;
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -87,18 +105,18 @@ void GameState::resume()
 {
 	m_bQuit = false;
 
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
 
-    buildGUI();
+	buildGUI();
 
-    OgreFramework::getSingletonPtr()->m_pViewport->setCamera( m_pCamera);
+	OgreFramework::getSingletonPtr()->m_pViewport->setCamera( m_pCamera);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void GameState::exit()
 {
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Leaving GameState...");
 
 	if ( connectionPreview != NULL) delete connectionPreview;
 	delete neuroWorld;
@@ -116,20 +134,25 @@ void GameState::createScene()
 
 bool GameState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
-    {
-        pushAppState(findByName("PauseState"));
-        return true;
-    }
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
+	{
+		pushAppState(findByName("PauseState"));
+		return true;
+	}
 
-    return true;
+	InjectOISKey(true, keyEventRef);
+
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 {
-    return true;
+
+	InjectOISKey(false, keyEventRef);
+
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -221,24 +244,31 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 
 	m_pCamera->move( scrollVector);
 
-    return true;
+	CEGUI::System::getSingleton().injectMousePosition(evt.state.X.rel, evt.state.Y.rel);
+
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 bool GameState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(id == OIS::MB_Left)
-    {
-        onLeftPressed(evt);
-        m_bLMouseDown = true;
-    }
-    else if(id == OIS::MB_Right)
-    {
-        m_bRMouseDown = true;
-    }
+	if(!InjectOISMouseButton(true, id))
+	{
+		if(id == OIS::MB_Left)
+		{
+			onLeftPressed(evt);
+			m_bLMouseDown = true;
+		}
+		else if(id == OIS::MB_Right)
+		{
+			m_bRMouseDown = true;
+		}
+	}
 
-    return true;
+	
+
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -300,13 +330,15 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 				}
 			}
 		}
-    }
-    else if(id == OIS::MB_Right)
-    {
-        m_bRMouseDown = false;
-    }
+	}
+	else if(id == OIS::MB_Right)
+	{
+		m_bRMouseDown = false;
+	}
 
-    return true;
+	InjectOISMouseButton(false, id);
+
+	return true;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -396,9 +428,9 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 void GameState::moveCamera()
 {
-    if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
-        m_pCamera->moveRelative(m_TranslateRelativeVector);
-    m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
+	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
+		m_pCamera->moveRelative(m_TranslateRelativeVector);
+	m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
 
 	m_pCamera->move( m_TranslateVector);
 }
@@ -430,15 +462,17 @@ void GameState::getInput()
 
 void GameState::update(double timeSinceLastFrame)
 {
-    m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
+	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
 
-    if(m_bQuit == true)
-    {
-        popAppState();
-        return;
-    }
+	CEGUI::System::getSingleton().injectTimePulse(timeSinceLastFrame / 1000.0);
 
-    m_TranslateVector = Vector3::ZERO;
+	if(m_bQuit == true)
+	{
+		popAppState();
+		return;
+	}
+
+	m_TranslateVector = Vector3::ZERO;
 	m_TranslateRelativeVector = Vector3::ZERO;
 
 	m_MoveScale = m_MoveSpeed * timeSinceLastFrame;
@@ -470,8 +504,12 @@ void GameState::update(double timeSinceLastFrame)
 	}
 	debug_txt->setText( debugText);
 
-    getInput();
-    moveCamera();
+
+	//Gui
+	guiManager->setEntity(currentNode);
+
+	getInput();
+	moveCamera();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -511,5 +549,76 @@ void GameState::onConstructSelected( Ogre::Entity* construct)
 
 void GameState::onConnectorSelected( Ogre::Entity* connector)
 {
+
+}
+}
+
+//CEGUI Input
+
+void GameState::InjectOISKey(bool bButtonDown, OIS::KeyEvent inKey)
+{
+	if (bButtonDown)
+	{
+		CEGUI::System::getSingleton().injectKeyDown(inKey.key);
+		CEGUI::System::getSingleton().injectChar(inKey.text);
+	}
+	else
+	{
+		CEGUI::System::getSingleton().injectKeyUp(inKey.key);
+	}
+}
+
+bool GameState::InjectOISMouseButton(bool bButtonDown, OIS::MouseButtonID inButton)
+{
+	if (bButtonDown == true)
+	{
+		switch (inButton)
+		{
+		case OIS::MB_Left:
+			return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+			break;
+		case OIS::MB_Middle:
+			return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+			break;
+		case OIS::MB_Right:
+			return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+			break;
+		case OIS::MB_Button3:
+			return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::X1Button);
+			break;
+		case OIS::MB_Button4:
+			return CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::X2Button);
+			break;
+		default:	
+			return false;
+			break;
+
+		}
+	}
+	else // bButtonDown = false
+	{
+		switch (inButton)
+		{
+		case OIS::MB_Left:
+			return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
+			break;
+		case OIS::MB_Middle:
+			return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
+			break;
+		case OIS::MB_Right:
+			return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+			break;
+		case OIS::MB_Button3:
+			return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::X1Button);
+			break;
+		case OIS::MB_Button4:
+			return CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::X2Button);
+			break;
+		default:	
+			return false;
+			break;
+		}
+	}
+	return false;
 
 }
