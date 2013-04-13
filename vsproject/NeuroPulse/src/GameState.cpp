@@ -52,7 +52,6 @@ GameState::GameState()
 	guiManager->sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 800), CEGUI::UDim( 0, 600)));
 	guiManager->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
 
-
 	worldSettings = new np::NeuroWorldSettings();
 	worldSettings->addPlayer( "PSvils", Ogre::ColourValue( 1.0, 0.0, 0.0));
 	worldSettings->addPlayer( "Edib0y", Ogre::ColourValue( 0.0, 0.0, 1.0));

@@ -4,6 +4,7 @@
 #include <ResourceType.h>
 
 #pragma once
+#include "BitFlag.h"
 namespace np
 {
 
@@ -12,6 +13,8 @@ namespace np
 	public:
 
 		static const np::ResourceRequirement ANY;
+
+		np::BitFlag bits;
 
 		unsigned long int getFlag() const;
 
@@ -26,13 +29,82 @@ namespace np
 		bool contains( np::ResourceType* type) const;
 		bool contains( np::ResourceRequirement* requirement) const;
 
-		bool operator==(ResourceRequirement& other) const
+		ResourceRequirement( np::ResourceType* type);
+		ResourceRequirement( const np::BitFlag& bits);
+		ResourceRequirement( unsigned long int flag = 0);
+
+		bool operator==( const ResourceRequirement& other) const
 		{
-			return flag == other.getFlag();
+			return bits == other.bits;
 		}
 
-		ResourceRequirement( np::ResourceType* type);
-		ResourceRequirement( unsigned long int flag = 0);
+		bool operator==( const ResourceType& other) const
+		{
+			return bits == other.bits;
+		}
+
+		bool operator < ( const ResourceRequirement& other) const
+		{
+			return bits < other.bits;
+		}
+
+		bool operator > ( const ResourceRequirement& other) const
+		{
+			return bits > other.bits;
+		}
+
+		bool operator > ( const ResourceType& other) const
+		{
+			return bits > other.bits;
+		}
+
+		ResourceRequirement& operator += (ResourceRequirement& other)
+		{
+			bits += other.bits;
+
+			return *this;
+		}
+
+		ResourceRequirement operator + (ResourceRequirement& other)
+		{
+			return ResourceRequirement( other.bits + bits);
+		}
+
+		ResourceRequirement& operator += (ResourceType& other)
+		{
+			bits += other.bits;
+
+			return *this;
+		}
+
+		ResourceRequirement operator + (ResourceType& other)
+		{
+			return ResourceRequirement( other.bits + bits);
+		}
+
+		ResourceRequirement& operator -= (ResourceRequirement& other)
+		{
+			bits -= other.bits;
+
+			return *this;
+		}
+
+		ResourceRequirement operator - (ResourceType& other)
+		{
+			return ResourceRequirement( other.bits - bits);
+		}
+
+		ResourceRequirement& operator -= (ResourceType& other)
+		{
+			bits -= other.bits;
+
+			return *this;
+		}
+
+		ResourceRequirement operator - (ResourceRequirement& other)
+		{
+			return ResourceRequirement( other.bits - bits);
+		}
 
 	private:
 		unsigned long int flag;

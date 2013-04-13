@@ -1,6 +1,7 @@
 #include "BufferComponent.h"
 #include <algorithm>
 #include "AdvancedOgreFramework.hpp"
+#include "BitFlag.h"
 
 np::BufferComponent::BufferComponent( np::ResourceRequirement types, double size) :
 	buffer(),
@@ -59,7 +60,7 @@ np::TransferSuccess np::BufferComponent::addPacket( np::ResourcePacket* packet )
 		else
 		{
 			packet->amount -= spaceLeft;
-			buffer.push_back( new np::ResourcePacket( packet->resourceType, spaceLeft));
+			buffer.push_back( new np::ResourcePacket( packet->resourceType, spaceLeft, NULL, packet->signature.getBits()));
 			
 			return PARTIAL;
 		}
@@ -135,14 +136,14 @@ np::TransferSuccess np::BufferComponent::addPackets( std::list<np::ResourcePacke
 	return fResult;
 }
 
-double np::BufferComponent::getAmountOf( np::ResourceType* type)
+double np::BufferComponent::getAmountOf( np::ResourceType* type, const np::BitFlag& signature)
 {
 	double total = 0.0;
 	std::list<np::ResourcePacket*>::iterator i;
 	for ( i = buffer.begin(); i != buffer.end(); ++i)
 	{
 		np::ResourcePacket* packet = *i;
-		if ( type == packet->resourceType)
+		if ( type == packet->resourceType && signature > packet->signature)
 		{
 			total += packet->amount;
 		}
@@ -167,29 +168,31 @@ np::ResourcePacket* np::BufferComponent::getNextPacketOf( const np::ResourceRequ
 	return NULL;
 }
 
-np::ResourcePacket* np::BufferComponent::getPacket( np::ResourceType* type, double amount)
+np::ResourcePacket* np::BufferComponent::getPacket( np::ResourceType* type, double amount, const np::BitFlag& signature)
 {
-	double value = 0.0;
+	np::ResourcePacket* result = new np::ResourcePacket( type, 0.0, NULL, 0);
 
 	std::list<np::ResourcePacket*>::iterator i;
 	i = buffer.begin();
 	while (  i != buffer.end())
 	{
 		np::ResourcePacket* packet = *i;
-		if ( packet->resourceType == type)
+		if ( packet->resourceType == type && signature > packet->signature)
 		{
+			result->signature += packet->signature;
+
 			if ( packet->amount <= amount)
 			{
-				value += packet->amount;
+				result->amount += packet->amount;
 				amount -= packet->amount;
 
 				buffer.erase( i++);
-				delete packet;
+				//delete packet;
 			}
 			else
 			{
 				packet->amount -= amount;
-				value += amount;
+				result->amount += amount;
 
 				amount = 0.0;
 
@@ -202,7 +205,7 @@ np::ResourcePacket* np::BufferComponent::getPacket( np::ResourceType* type, doub
 		}
 	}
 
-	return new np::ResourcePacket( type, value);
+	return result;
 }
 
 np::ResourcePacket* np::BufferComponent::getPacket( np::ResourceType* type)
@@ -234,7 +237,7 @@ std::list<np::ResourcePacket*> np::BufferComponent::getPackets( double amount)
 	return getPackets( amount, &(np::ResourceRequirement::ANY));
 }
 
-std::list<np::ResourcePacket*> np::BufferComponent::getPackets( const np::ResourceRequirement* requirements)
+std::list<np::ResourcePacket*> np::BufferComponent::getPackets( const np::ResourceRequirement& requirements)
 {
 	std::list<np::ResourcePacket*> list;
 
@@ -244,22 +247,23 @@ std::list<np::ResourcePacket*> np::BufferComponent::getPackets( const np::Resour
 	np::ResourcePacket* packet;
 	np::ResourcePacket* outputPacket;
 
-	for ( i = buffer.begin(); i != buffer.end(); ++i)
+	i = buffer.begin();
+	while ( i != buffer.end())
 	{
 		packet = (*i);
-		if ( requirements->contains( packet->resourceType))
+		if ( requirements > packet->resourceType)
 		{
 			bool foundExisting = false;
 			for ( j = list.begin(); j != list.end(); ++j)
 			{
 				outputPacket = (*j);
-				if ( outputPacket->resourceType == packet->resourceType)
+				if ( outputPacket->resourceType == packet->resourceType && outputPacket->signature == packet->signature)
 				{
 					foundExisting = true;
 
 					outputPacket->amount += packet->amount;
 
-					buffer.erase( i);
+					buffer.erase( i++);
 					//delete packet;
 
 					break;
@@ -270,6 +274,10 @@ std::list<np::ResourcePacket*> np::BufferComponent::getPackets( const np::Resour
 			{
 				list.push_back( packet);
 			}
+		}
+		else
+		{
+			i++;
 		}
 	}
 

@@ -27,6 +27,7 @@
     <ClCompile Include="src\AnimationSystem.cpp" />
     <ClCompile Include="src\ApplicationBase.cpp" />
     <ClCompile Include="src\AppStateManager.cpp" />
+    <ClCompile Include="src\BitFlag.cpp" />
     <ClCompile Include="src\BufferComponent.cpp" />
     <ClCompile Include="src\BufferInfoPanel.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="src\ApplicationBase.h" />
     <ClInclude Include="src\AppState.hpp" />
     <ClInclude Include="src\AppStateManager.hpp" />
+    <ClInclude Include="src\BitFlag.h" />
     <ClInclude Include="src\BoolProperty.h" />
     <ClInclude Include="src\BufferInfoPanel.h" />
     <ClInclude Include="src\BudInfoPanel.h" />
