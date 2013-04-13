@@ -2,6 +2,7 @@
 #include <OgreColourValue.h>
 
 #pragma once
+#include "BitFlag.h"
 namespace np
 {
 
@@ -10,6 +11,7 @@ namespace np
 	public:
 
 		Ogre::ColourValue colour;
+		np::BitFlag bits;
 
 		std::string name()
 		{
@@ -39,7 +41,8 @@ namespace np
 		ResourceType( std::string name, std::string description, Ogre::ColourValue colour, int id) :
 			_name( name),
 			_description( description),
-			colour( colour)
+			colour( colour),
+			bits( 1 << ( id + 1))
 		{
 			_weight = 1.0;
 
@@ -47,7 +50,7 @@ namespace np
 			flag = 1 << ( id + 1);
 		}
 
-		bool operator==(ResourceType& other)
+		bool operator == (ResourceType& other)
 		{
 			return _name == other.name();
 		}

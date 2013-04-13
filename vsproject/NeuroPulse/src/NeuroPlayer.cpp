@@ -1,9 +1,9 @@
 #include "NeuroPlayer.h"
 
-
-np::NeuroPlayer::NeuroPlayer( std::string name, Ogre::ColourValue colour) :
+np::NeuroPlayer::NeuroPlayer( std::string name, Ogre::ColourValue colour, unsigned long int signature) :
 	name( name),
-	colour( colour)
+	colour( colour),
+	signature( signature)
 {
 }
 

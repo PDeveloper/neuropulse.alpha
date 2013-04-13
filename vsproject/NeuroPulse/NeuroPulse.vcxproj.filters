@@ -61,9 +61,6 @@
     <Filter Include="Source Files\ac\es">
       <UniqueIdentifier>{10dfeefb-d471-4665-aee5-b43bb9586917}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\utils">
-      <UniqueIdentifier>{a5dcb57b-b129-4d08-8239-a94076a937cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\core\data">
       <UniqueIdentifier>{65f6eb08-1502-4033-a103-155617aac34e}</UniqueIdentifier>
     </Filter>
@@ -162,6 +159,12 @@
     </Filter>
     <Filter Include="Header Files\gui\componentInterface">
       <UniqueIdentifier>{367343fb-7b6d-4ffa-9493-fe6a6533adc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{a5dcb57b-b129-4d08-8239-a94076a937cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{228ea39f-1176-4c1a-ac3b-4ac0f13c402e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +375,9 @@
     <ClCompile Include="src\PropertyPanel.cpp">
       <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\BitFlag.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -471,7 +477,7 @@
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\IListener.h">
-      <Filter>Header Files\core\utils</Filter>
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\ReactionSystem.h">
       <Filter>Header Files\entity\systems</Filter>
@@ -664,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="src\ListProperty.h">
       <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BitFlag.h">
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

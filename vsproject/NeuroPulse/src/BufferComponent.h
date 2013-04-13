@@ -31,18 +31,16 @@ namespace np
 		np::TransferSuccess addPacket( np::ResourcePacket* packet);
 		np::TransferSuccess addPackets( std::list<np::ResourcePacket*>* packets);
 
-		np::ResourcePacket* getPacket( np::ResourceType* type, double amount);
+		np::ResourcePacket* getPacket( np::ResourceType* type, double amount, const np::BitFlag& signature = np::BitFlag::ALL);
 		np::ResourcePacket* getPacket( np::ResourceType* type);
 		np::ResourcePacket* getPacket();
-
 		np::ResourcePacket* getNextPacketOf( const np::ResourceRequirement* requirements);
 
 		std::list<np::ResourcePacket*> getPackets( double amount, const np::ResourceRequirement* requirements);
 		std::list<np::ResourcePacket*> getPackets( double amount);
 		std::list<np::ResourcePacket*> getPackets();
-		std::list<np::ResourcePacket*> getPackets( const np::ResourceRequirement* requirements);
-
-		double getAmountOf( np::ResourceType* type);
+		std::list<np::ResourcePacket*> getPackets( const np::ResourceRequirement& requirements);
+		double getAmountOf( np::ResourceType* type, const np::BitFlag& signature = np::BitFlag::ALL);
 
 		BufferComponent( np::ResourceRequirement types, double size = std::numeric_limits<double>::infinity());
 		~BufferComponent(void);

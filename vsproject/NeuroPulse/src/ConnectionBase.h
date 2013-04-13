@@ -67,7 +67,7 @@ namespace np
 
 				if ( output != NULL)
 				{
-					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets();
+					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
 					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
 				}
 			}
@@ -93,7 +93,7 @@ namespace np
 
 				if ( output != NULL)
 				{
-					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets();
+					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
 					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
 				}
 			}

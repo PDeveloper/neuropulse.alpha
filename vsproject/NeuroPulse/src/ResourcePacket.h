@@ -3,6 +3,7 @@
 #include <limits>
 
 #pragma once
+#include "BitFlag.h"
 namespace np
 {
 	class ResourcePacket
@@ -12,15 +13,14 @@ namespace np
 		double amount;
 		Instruction* instruction;
 
-		unsigned long int signature;
+		np::BitFlag signature;
 
-		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction = NULL, unsigned long int signature = std::numeric_limits<unsigned long>::max())
+		ResourcePacket( ResourceType* resourceType, double amount, Instruction* instruction = NULL, unsigned long int signature = std::numeric_limits<unsigned long>::max()) :
+			signature( signature)
 		{
 			this->resourceType = resourceType;
 			this->amount = amount;
 			this->instruction = instruction;
-
-			this->signature = signature;
 		}
 
 		double size()
