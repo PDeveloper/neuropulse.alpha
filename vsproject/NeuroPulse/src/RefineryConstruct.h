@@ -19,6 +19,8 @@ namespace np
 		void process();
 		void processInstructions(np::ResourcePacket* packet);
 
+		np::Construct* getUpgrade();
+
 		std::string getName();
 		std::string getDescription();
 

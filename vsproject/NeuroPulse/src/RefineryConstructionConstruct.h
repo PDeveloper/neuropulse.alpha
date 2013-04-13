@@ -12,32 +12,28 @@ namespace np
 	class ConstructInput;
 	class ConstructOutput;
 
-	class SexyEnergyBuffer : public Construct
+	class RefineryConstructionConstruct : public Construct
 	{
 	public:
 
-		bool isReleasing;
-
-		void process(); 
+		void process();
 		void processInstructions(np::ResourcePacket* packet);
 
-		np::Construct* getUpgrade()
-		{
-			return NULL;
-		}
+		np::Construct* getUpgrade();
 
 		std::string getName();
 		std::string getDescription();
 
 		double takeEnergy;
 		double conversionRate;
-		double storage;
 
-		int selectedItem;
-
-		SexyEnergyBuffer();
+		RefineryConstructionConstruct();
 	private:
 		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;
+
+		bool constructionCompleted;
+		double constructionProgress;
+
 	};
 }

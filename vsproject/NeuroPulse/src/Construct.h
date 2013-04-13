@@ -45,6 +45,8 @@ namespace np
 		virtual std::string getName() = 0;
 		virtual std::string getDescription() = 0;
 
+		virtual np::Construct* getUpgrade() = 0;
+
 		Construct(Ogre::ColourValue colour) :
 			colour( colour)
 		{

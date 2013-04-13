@@ -36,11 +36,13 @@
     <ClCompile Include="src\ConstructConnectionComponent.cpp" />
     <ClCompile Include="src\ConstructConnectionSystem.cpp" />
     <ClCompile Include="src\ConstructInfoPanel.cpp" />
+    <ClCompile Include="src\ConstructUpgradeSystem.cpp" />
     <ClCompile Include="src\GuiManager.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\BudInfoPanel.cpp" />
     <ClCompile Include="src\PropertyPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
+    <ClCompile Include="src\RefineryConstructionConstruct.cpp" />
     <ClCompile Include="src\ResourceRequirement.cpp" />
     <ClCompile Include="src\ResourceTransferSystem.cpp" />
     <ClCompile Include="src\ConstructInput.cpp" />
@@ -78,6 +80,7 @@
     <ClCompile Include="src\SelectionManager.cpp" />
     <ClCompile Include="src\SetupState.cpp" />
     <ClCompile Include="src\SexyEnergyBuffer.cpp" />
+    <ClCompile Include="src\SexyEnergyBufferConstruct.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WorldGenerator.cpp" />
   </ItemGroup>
@@ -125,6 +128,7 @@
     <ClInclude Include="src\ConstructConnectionComponent.h" />
     <ClInclude Include="src\ConstructConnectionSystem.h" />
     <ClInclude Include="src\ConstructInfoPanel.h" />
+    <ClInclude Include="src\ConstructUpgradeSystem.h" />
     <ClInclude Include="src\DoubleProperty.h" />
     <ClInclude Include="src\GuiManager.h" />
     <ClInclude Include="src\HeatSystem.h" />
@@ -132,6 +136,7 @@
     <ClInclude Include="src\ListProperty.h" />
     <ClInclude Include="src\PropertyPanel.h" />
     <ClInclude Include="src\PulseTransferSystem.h" />
+    <ClInclude Include="src\RefineryConstructionConstruct.h" />
     <ClInclude Include="src\ResourceRequirement.h" />
     <ClInclude Include="src\ResourceTransferSystem.h" />
     <ClInclude Include="src\ConstructInput.h" />
@@ -176,6 +181,7 @@
     <ClInclude Include="src\SelectionManager.h" />
     <ClInclude Include="src\SetupState.h" />
     <ClInclude Include="src\SexyEnergyBuffer.h" />
+    <ClInclude Include="src\SexyEnergyBufferConstruction.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TweenState.h" />
     <ClInclude Include="src\WorldGenerator.h" />

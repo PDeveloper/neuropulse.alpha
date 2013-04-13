@@ -14,6 +14,7 @@
 #include <PulseTransferSystem.h>
 #include <HeatSystem.h>
 #include "ConstructConnectionSystem.h"
+#include <ConstructUpgradeSystem.h>
 
 #include <EventManager.h>
 
@@ -62,6 +63,7 @@ namespace np
 
 		np::ConstructSystem* constructSystem;
 		np::ResourceTransferSystem* resourceTransferSystem;
+		np::ConstructUpgradeSystem* constructUpgradeSystem;
 
 		// Event system
 		np::EventManager* eventManager;

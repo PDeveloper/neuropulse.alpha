@@ -56,6 +56,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	constructConnectionSystem = new np::ConstructConnectionSystem();
 
 	constructSystem = new np::ConstructSystem();
+	constructUpgradeSystem = new np::ConstructUpgradeSystem(gameObjectFactory);
 	resourceTransferSystem = new np::ResourceTransferSystem();
 
 	addEntitySystem( reactionSystem);
@@ -74,6 +75,8 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	addEntitySystem( constructSystem);
 
 	addEntitySystem( heatSystem);
+
+	addEntitySystem(constructUpgradeSystem);
 }
 
 np::NeuroWorld::~NeuroWorld(void)

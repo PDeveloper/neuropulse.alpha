@@ -20,6 +20,7 @@
 #include <AdvancedOgreFramework.hpp>
 #include "HubComponent.h"
 #include "RefineryConstruct.h"
+#include <RefineryConstructionConstruct.h>
 #include <SexyEnergyBuffer.h>
 
 np::WorldGenerator::WorldGenerator(void)
@@ -153,6 +154,7 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
 	factory->setConstruct( hub->getConstruct(0), new np::RefineryConstruct());
 	factory->setConstruct( hub->getConstruct(1), new np::SexyEnergyBuffer());
+	factory->setConstruct( hub->getConstruct(2), new np::RefineryConstructionConstruct());
 
 	int *faces = NULL;
 	int numFaces = delaunay2d( (float*)vertices, numNodes, &faces);

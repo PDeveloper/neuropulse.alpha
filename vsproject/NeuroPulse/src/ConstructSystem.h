@@ -13,7 +13,6 @@ namespace np
 		ConstructSystem();
 		~ConstructSystem(void);
 
-		
 	protected:
 		void process( ac::es::EntityPtr e);
 	

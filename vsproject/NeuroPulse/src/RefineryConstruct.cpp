@@ -50,3 +50,8 @@ void np::RefineryConstruct::processInstructions( np::ResourcePacket* packet)
 {
 	//pimpididmpim
 }
+
+np::Construct* np::RefineryConstruct::getUpgrade()
+{
+	return NULL;
+}
