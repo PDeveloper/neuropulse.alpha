@@ -410,14 +410,47 @@ void np::GameObjectFactory::removeConstruct( ac::es::EntityPtr constructEntity, 
 		np::ConstructComponent* constructComponent = constructEntity->getComponent<np::ConstructComponent>();
 		np::GraphicComponent* graphicComponent = constructEntity->getComponent<np::GraphicComponent>();
 
+		np::ResourceInputComponent* input;
+		np::ResourceOutputComponent* output;
+
 		int i;
 		for ( i = 0; i < construct->inputs.size(); i++)
 		{
+			input = construct->inputs[i]->getComponent<np::ResourceInputComponent>();
+			if ( input->target != NULL)
+			{
+				if ( input->target->containsComponent<np::PulseGateComponent>())
+				{
+					killPulseGate( input->target);
+				}
+				else
+				{
+					input->target->getComponent<np::ResourceOutputComponent>()->disconnect();
+				}
+
+				killConstructConnectionEntity( input->connection);
+			}
+
 			killResourceBud( construct->inputs[i]);
 		}
 
 		for ( i = 0; i < construct->outputs.size(); i++)
 		{
+			output = construct->outputs[i]->getComponent<np::ResourceOutputComponent>();
+			if ( output->target != NULL)
+			{
+				if ( output->target->containsComponent<np::PulseGateComponent>())
+				{
+					killPulseGate( output->target);
+				}
+				else
+				{
+					output->target->getComponent<np::ResourceInputComponent>()->disconnect();
+				}
+
+				killConstructConnectionEntity( output->connection);
+			}
+
 			killResourceBud( construct->outputs[i]);
 		}
 
