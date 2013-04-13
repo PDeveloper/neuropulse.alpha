@@ -106,6 +106,8 @@ void np::ConstructInfoPanel::update()
 				nameText->setText(constructComp->construct->getName());
 
 				//constructComp->construct->setOn(onOffCheckBox->isSelected());
+
+				propertyPanel->setInterface(constructComp->construct->componentInterface);
 				
 				sheet->setVisible(true);
 			}

@@ -61,5 +61,10 @@ namespace np
 		{
 			return 20;
 		}
+
+		void update()
+		{
+			
+		}
 	};
 }

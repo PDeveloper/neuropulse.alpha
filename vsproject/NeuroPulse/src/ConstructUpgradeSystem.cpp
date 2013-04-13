@@ -1,6 +1,7 @@
 #include "ConstructUpgradeSystem.h"
 #include "ConstructComponent.h"
 #include "Construct.h"
+#include <AdvancedOgreFramework.hpp>
 
 np::ConstructUpgradeSystem::ConstructUpgradeSystem(GameObjectFactory* gameObjectFactory) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<ConstructComponent>())
@@ -25,7 +26,11 @@ void np::ConstructUpgradeSystem::process( ac::es::EntityPtr e )
 		//It's upgrade time, come on, grab your friends
 		if(upgrade != NULL)
 		{
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Removing");
+
 			objectFactory->removeConstruct(e, constructComponent->construct);
+
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Adding");
 			objectFactory->setConstruct(e, upgrade);
 		}
 	}

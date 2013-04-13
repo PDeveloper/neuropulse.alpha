@@ -24,6 +24,8 @@ namespace np
 
 		virtual float getHeight() = 0;
 
+		virtual void update() = 0;
+
 		std::string name;
 	};
 }

@@ -77,5 +77,10 @@ namespace np
 		{
 			return 70;
 		}
+
+		void update()
+		{
+			spinner->setCurrentValue(*value);
+		}
 	};
 }

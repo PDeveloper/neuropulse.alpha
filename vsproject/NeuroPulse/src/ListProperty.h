@@ -113,5 +113,10 @@ namespace np
 		{
 			return 70 + valueMap->size()*30;
 		}
+
+		void update()
+		{
+
+		}
 	};
 }

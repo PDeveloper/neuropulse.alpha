@@ -13,7 +13,7 @@ np::PulseTransferSystem::PulseTransferSystem(void) :
 	requirement = new np::ResourceRequirement( rawEnergy);
 
 
-	heatConversionRate = 30;
+	heatConversionRate = 3;
 }
 
 np::PulseTransferSystem::~PulseTransferSystem(void)

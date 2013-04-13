@@ -20,8 +20,7 @@ np::RefineryConstructionConstruct::RefineryConstructionConstruct() :
 	inputRequirements.push_back( np::ResourceRequirement( rawEnergy));
 	
 	conversionRate = 0.01;
-	takeEnergy = 50;
-
+	
 	componentInterface = new np::ComponentInterface();
 	componentInterface->addProperty(new DoubleProperty("Build Progress", &constructionProgress, 0, 1, 0.01));
 }
@@ -29,10 +28,12 @@ np::RefineryConstructionConstruct::RefineryConstructionConstruct() :
 void np::RefineryConstructionConstruct::process()
 {
 	
-	np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, takeEnergy);
+	double processingAmount = 0.25;
+
+	np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, processingAmount);
 	
 
-	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery BUILDING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
 
 	constructionProgress += rawPacket->amount * conversionRate;
 

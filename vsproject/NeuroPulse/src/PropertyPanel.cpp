@@ -58,7 +58,18 @@ void np::PropertyPanel::setInterface( np::ComponentInterface* newInterface )
 		}
 
 	}
+	else
+	{
+		if(this->currentInterface != NULL)
+		{
+			std::vector<np::ComponentProperty*>* properties = this->currentInterface->properties;
+			for(int i=0; i<properties->size(); i++)
+			{
 
+				properties->at(i)->update();
+			}
+		}
+	}
 	
 
 	
