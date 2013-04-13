@@ -387,6 +387,18 @@
     <ClCompile Include="src\SexyEnergyBufferConstruct.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\HubConstructionComponent.cpp">
+      <Filter>Source Files\entity\components\construct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HubConstructionSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SchematicConstruct.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SchematicConstruction.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -690,6 +702,21 @@
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\SexyEnergyBufferConstruction.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HubConstructionComponent.h">
+      <Filter>Header Files\entity\components\construct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HubConstructionSlot.h">
+      <Filter>Header Files\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HubConstructionSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SchematicConstruction.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SchematicConstruct.h">
       <Filter>Header Files\core\construct\constructs</Filter>
     </ClInclude>
   </ItemGroup>

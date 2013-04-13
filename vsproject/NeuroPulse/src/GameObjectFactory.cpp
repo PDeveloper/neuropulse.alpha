@@ -22,6 +22,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "HubConstructionComponent.h"
 
 np::GameObjectFactory::GameObjectFactory( np::NeuroWorld* world) :
 	pulsePool()
@@ -160,12 +161,15 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	np::OutputComponent* output = new np::OutputComponent();
 	np::BufferComponent* buffer = new np::BufferComponent( np::ResourceRequirement::ANY);
 
+	np::HubConstructionComponent* hubConstruction = new np::HubConstructionComponent();
+
 	e->addComponent( graphic);
 	e->addComponent( transform);
 	e->addComponent( reactor);
 	e->addComponent( node);
 	e->addComponent( output);
 	e->addComponent( buffer);
+	e->addComponent( hubConstruction);
 
 	e->activate();
 
@@ -181,6 +185,7 @@ void np::GameObjectFactory::killNodeEntity( ac::es::EntityPtr e)
 	np::OutputComponent* output			= e->getComponent<np::OutputComponent>();
 	np::HubComponent* hub				= e->getComponent<np::HubComponent>();
 	np::BufferComponent* buffer			= e->getComponent<np::BufferComponent>();
+	np::HubConstructionComponent* hubConstruction = e->getComponent<np::HubConstructionComponent>();
 
 	e->destroyComponent( graphics);
 	e->destroyComponent( transform);
@@ -188,6 +193,7 @@ void np::GameObjectFactory::killNodeEntity( ac::es::EntityPtr e)
 	e->destroyComponent( reactor);
 	e->destroyComponent( output);
 	e->destroyComponent( buffer);
+	e->destroyComponent( hubConstruction);
 	if ( hub != NULL) e->destroyComponent( hub);
 
 	e->kill();
@@ -685,6 +691,51 @@ void np::GameObjectFactory::killPulseGate( ac::es::EntityPtr e )
 	e->kill();
 }
 
+ac::es::EntityPtr np::GameObjectFactory::createProxyHubEntity( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	np::GraphicComponent* parentGraphic = nodeEntity->getComponent<np::GraphicComponent>();
+
+	Ogre::Entity* entity = sceneManager->createEntity( "HubMesh");
+
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+
+	Ogre::MaterialPtr material = entity->getSubEntity(0)->getMaterial()->clone( entity->getName());
+	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+		Ogre::LBX_SOURCE1,
+		Ogre::LBS_MANUAL,
+		Ogre::LBS_CURRENT,
+		player->colour);
+	entity->setMaterial( material);
+
+	Ogre::Entity* entities[] = { entity};
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent();
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+
+	e->activate();
+
+	parentGraphic->addChild( e);
+
+	return e;
+}
+
+void np::GameObjectFactory::killProxyHubEntity( ac::es::EntityPtr e)
+{
+	np::GraphicComponent* graphic = e->getComponent<np::GraphicComponent>();
+	np::TransformComponent* transform = e->getComponent<np::TransformComponent>();
+
+	graphic->parent->removeChild( e);
+
+	e->destroyComponent( graphic);
+	e->destroyComponent( transform);
+
+	e->kill();
+}
+
 void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player)
 {
 	np::HubComponent* _hub = nodeEntity->getComponent<np::HubComponent>();
@@ -704,11 +755,13 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 
 		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( nodeEntity));
 
-		entity->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+		Ogre::MaterialPtr material = entity->getSubEntity(0)->getMaterial()->clone( entity->getName());
+		material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
 			Ogre::LBX_SOURCE1,
 			Ogre::LBS_MANUAL,
 			Ogre::LBS_CURRENT,
 			player->colour);
+		entity->setMaterial( material);
 
 		graphics->addEntity( entity);
 		nodeEntity->addComponent( _hub);
@@ -720,6 +773,46 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 
 		_hub->hideStructures();
 	}
+}
+
+void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
+{
+	np::HubComponent* hub = nodeEntity->getComponent<np::HubComponent>();
+
+	std::list<ac::es::EntityPtr>::iterator iterator;
+
+	std::list<ac::es::EntityPtr> buds = hub->buds;
+	iterator = buds.begin();
+	while ( iterator != buds.end())
+	{
+		killResourceBud( *(iterator++));
+	}
+
+	std::list<ac::es::EntityPtr> gates = hub->gates;
+	iterator = gates.begin();
+	while ( iterator != gates.end())
+	{
+		killPulseGate( *(iterator++));
+	}
+
+	std::list<ac::es::EntityPtr> constructs = hub->constructs;
+	iterator = constructs.begin();
+	while ( iterator != constructs.end())
+	{
+		killConstructEntity( *(iterator++));
+	}
+
+	std::list<ac::es::EntityPtr> connections = hub->connections;
+	iterator = connections.begin();
+	while ( iterator != connections.end())
+	{
+		killConstructConnectionEntity( *(iterator++));
+	}
+
+	np::GraphicComponent* graphic = nodeEntity->getComponent<np::GraphicComponent>();
+	graphic->removeEntity( hub->display);
+
+	nodeEntity->destroyComponent(hub);
 }
 
 ac::es::EntityPtr np::GameObjectFactory::createConstructConnectionEntity(  ac::es::EntityPtr e1, ac::es::EntityPtr e2)
@@ -822,41 +915,4 @@ void np::GameObjectFactory::killConstructConnectionEntity( ac::es::EntityPtr e)
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Construct Connection KILLED!");
 
 	e->kill();
-}
-
-void np::GameObjectFactory::killHub( ac::es::EntityPtr nodeEntity)
-{
-	np::HubComponent* hub = nodeEntity->getComponent<np::HubComponent>();
-
-	std::list<ac::es::EntityPtr>::iterator iterator;
-
-	std::list<ac::es::EntityPtr> buds = hub->buds;
-	iterator = buds.begin();
-	while ( iterator != buds.end())
-	{
-		killResourceBud( *(iterator++));
-	}
-
-	std::list<ac::es::EntityPtr> gates = hub->gates;
-	iterator = gates.begin();
-	while ( iterator != gates.end())
-	{
-		killPulseGate( *(iterator++));
-	}
-
-	std::list<ac::es::EntityPtr> constructs = hub->constructs;
-	iterator = constructs.begin();
-	while ( iterator != constructs.end())
-	{
-		killConstructEntity( *(iterator++));
-	}
-
-	std::list<ac::es::EntityPtr> connections = hub->connections;
-	iterator = connections.begin();
-	while ( iterator != connections.end())
-	{
-		killConstructConnectionEntity( *(iterator++));
-	}
-
-	nodeEntity->destroyComponent(hub);
 }

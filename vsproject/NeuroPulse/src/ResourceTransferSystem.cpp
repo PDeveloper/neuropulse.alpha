@@ -22,12 +22,6 @@ void np::ResourceTransferSystem::process( ac::es::EntityPtr e )
 
 	if ( outputComponent->target != NULL)
 	{
-		if ( e->containsComponent<np::BufferComponent>()) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "I Has BufferComponent");
-		if ( e->containsComponent<np::PulseGateComponent>()) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "I Has PulseGateComponent");
-		if ( e->containsComponent<np::PulseComponent>()) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "I Has PulseComponent");
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( e->getId()));
-		if ( outputComponent->target->containsComponent<np::PulseGateComponent>()) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Has PulseGateComponent");
-		if ( outputComponent->target->containsComponent<np::BufferComponent>()) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Has BufferComponent");
 		np::BufferComponent* targetBufferComponent		= outputComponent->target->getComponent<np::BufferComponent>();
 
 		double spaceLeft = targetBufferComponent->getNormalSpaceLeft();

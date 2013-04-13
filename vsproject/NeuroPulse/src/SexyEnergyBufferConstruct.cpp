@@ -7,7 +7,7 @@
 #include <DoubleProperty.h>
 
 np::SexyEnergyBufferConstruction::SexyEnergyBufferConstruction() :
-	Construct( Ogre::ColourValue( 0.0, 0.0, 1.0))
+	Construct( Ogre::ColourValue( 0.2, 0.6, 1.0))
 {
 	isOn = true;
 

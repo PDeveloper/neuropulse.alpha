@@ -38,14 +38,8 @@ void np::GraphicComponent::addEntity( Ogre::Entity* entity)
 
 void np::GraphicComponent::removeEntity( Ogre::Entity* entity)
 {
-	for (std::list<Ogre::Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
-	{
-		if ( entity == (*it) && entity->getParentSceneNode() != NULL)
-		{
-			entity->getParentSceneNode()->detachObject( (*it)->getName());
-			entities.remove( (*it));
-		}
-	}
+	entity->getParentSceneNode()->detachObject( entity->getName());
+	entities.remove( entity);
 }
 
 void np::GraphicComponent::addChild( ac::es::EntityPtr e)
