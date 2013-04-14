@@ -10,6 +10,7 @@
 #include <ConstructBuildMenu.h>
 #include <SexyEnergyBufferConstruction.h>
 #include <RefineryConstructionConstruct.h>
+#include <SchematicConstruction.h>
 
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
@@ -51,11 +52,11 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	
 	np::ConstructBuildMenu::objectFactory = gameObjectFactory;
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzng");
+	
 	np::ConstructBuildMenu::buildableConstructs->push_back(new np::RefineryConstructionConstruct());
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzzng");
 	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SexyEnergyBufferConstruction());
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzzzng");
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SchematicConstruction());
+	
 
 	eventManager = new np::EventManager();
 

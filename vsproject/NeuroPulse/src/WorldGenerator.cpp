@@ -154,11 +154,13 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 
 	factory->createHub( nodes[0], settings->players[0]);
 	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
+	/* No need anymore
 	factory->setConstruct( hub->getConstruct(0), new np::RefineryConstruct());
 	factory->setConstruct( hub->getConstruct(1), new np::SexyEnergyBuffer());
 	factory->setConstruct( hub->getConstruct(2), new np::RefineryConstructionConstruct());
 	factory->setConstruct( hub->getConstruct(3), new np::SexyEnergyBufferConstruction());
 	factory->setConstruct( hub->getConstruct(4), new np::SchematicConstruction());
+	*/
 
 	int *faces = NULL;
 	int numFaces = delaunay2d( (float*)vertices, numNodes, &faces);

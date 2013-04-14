@@ -20,6 +20,11 @@ namespace np
 
 		SchematicConstruction(void);
 		~SchematicConstruction(void);
+
+		np::Construct* getNewInstance()
+		{
+			return new np::SchematicConstruction();
+		}
 	private:
 		np::ResourceType* sexyEnergy;
 
