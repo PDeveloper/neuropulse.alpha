@@ -8,10 +8,6 @@
 namespace np
 {
 
-	class PulseFeed;
-	class ConstructInput;
-	class ConstructOutput;
-
 	class SexyEnergyBufferConstruction : public Construct
 	{
 	public:

@@ -26,6 +26,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	rm->registerType( "SexyEnergy", "Processed energy that most Constructs require to run.", Ogre::ColourValue( 0.2, 0.2, 1.0));
 	rm->registerType( "Instruction", "Instructions can do things...", Ogre::ColourValue( 0.2, 0.8, 2.0));
 	rm->registerType( "Heat", "Hot stuff.", Ogre::ColourValue( 1.0, 0.0, 0.0));
+	rm->registerType( "HubSchematic", "Hubba Bubba build guild.", Ogre::ColourValue( 0.55, 0.44, 0.28));
 
 	
 
@@ -72,6 +73,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	constructSystem = new np::ConstructSystem();
 	constructUpgradeSystem = new np::ConstructUpgradeSystem(gameObjectFactory);
 	resourceTransferSystem = new np::ResourceTransferSystem();
+	hubConstructionSystem = new np::HubConstructionSystem( this);
 
 	addEntitySystem( reactionSystem);
 	addEntitySystem( outputSystem);
@@ -90,7 +92,8 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	addEntitySystem( heatSystem);
 
-	addEntitySystem(constructUpgradeSystem);
+	addEntitySystem( hubConstructionSystem);
+	addEntitySystem( constructUpgradeSystem);
 }
 
 np::NeuroWorld::~NeuroWorld(void)

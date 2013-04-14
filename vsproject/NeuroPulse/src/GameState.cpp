@@ -391,7 +391,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 		}
 		else if ( currentConnector != NULL)
 		{
-			currentConnector->getParentSceneNode()->showBoundingBox(false);
+			if ( currentConnector->getParentSceneNode() != NULL) currentConnector->getParentSceneNode()->showBoundingBox(false);
 			currentConnector = NULL;
 		}
 

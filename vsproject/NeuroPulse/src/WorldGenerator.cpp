@@ -23,6 +23,7 @@
 #include <RefineryConstructionConstruct.h>
 #include <SexyEnergyBuffer.h>
 #include <SexyEnergyBufferConstruction.h>
+#include "SchematicConstruction.h"
 
 np::WorldGenerator::WorldGenerator(void)
 {
@@ -157,6 +158,7 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 	factory->setConstruct( hub->getConstruct(1), new np::SexyEnergyBuffer());
 	factory->setConstruct( hub->getConstruct(2), new np::RefineryConstructionConstruct());
 	factory->setConstruct( hub->getConstruct(3), new np::SexyEnergyBufferConstruction());
+	factory->setConstruct( hub->getConstruct(4), new np::SchematicConstruction());
 
 	int *faces = NULL;
 	int numFaces = delaunay2d( (float*)vertices, numNodes, &faces);

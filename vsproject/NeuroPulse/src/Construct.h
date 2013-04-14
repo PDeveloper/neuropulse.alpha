@@ -12,12 +12,19 @@
 #include <ComponentInterface.h>
 
 #pragma once
+#include "ConstructComponent.h"
 namespace np
 {
+
+	class PulseFeed;
+	class ConstructInput;
+	class ConstructOutput;
 
 	class Construct
 	{
 	public:
+
+		np::ConstructComponent* container;
 
 		std::vector<ac::es::EntityPtr> inputs;
 		std::vector<ac::es::EntityPtr> outputs;
@@ -46,6 +53,11 @@ namespace np
 		virtual std::string getDescription() = 0;
 
 		virtual np::Construct* getUpgrade() = 0;
+
+		void setContainer( np::ConstructComponent* container)
+		{
+			this->container = container;
+		}
 
 		Construct(Ogre::ColourValue colour) :
 			colour( colour)
@@ -112,8 +124,6 @@ namespace np
 			return buffer->appendPacket( packet);
 		}
 
-		
-	protected:
 		bool isOn;
 	};
 }

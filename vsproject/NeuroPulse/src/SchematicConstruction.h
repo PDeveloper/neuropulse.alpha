@@ -1,14 +1,9 @@
-#include <vector>
-#include <string>
-#include "Construct.h"
-#include "Pulse.h"
-#include "ResourcePacket.h"
-
 #pragma once
+#include <Construct.h>
+
 namespace np
 {
-
-	class RefineryConstruct : public Construct
+	class SchematicConstruction : public Construct
 	{
 	public:
 
@@ -23,15 +18,12 @@ namespace np
 		double takeEnergy;
 		double conversionRate;
 
-		RefineryConstruct();
-
-		np::Construct* getNewInstance()
-		{
-			return new np::RefineryConstruct();
-		}
-
+		SchematicConstruction(void);
+		~SchematicConstruction(void);
 	private:
-		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;
+
+		bool constructionCompleted;
+		double constructionProgress;
 	};
 }

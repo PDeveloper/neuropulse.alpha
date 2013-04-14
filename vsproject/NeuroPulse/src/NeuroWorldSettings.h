@@ -42,6 +42,16 @@ namespace np
 		{
 			players.push_back( new np::NeuroPlayer( name, colour, 1 << players.size()));
 		}
+
+		np::NeuroPlayer* getPlayerFromSignature( unsigned long int signature)
+		{
+			for ( int i = 0; i < 32; i++)
+			{
+				if ( ( 1 << i) == signature) return players[i];
+			}
+
+			return NULL;
+		}
 	};
 }
 

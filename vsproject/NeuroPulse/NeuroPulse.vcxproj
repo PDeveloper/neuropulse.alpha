@@ -43,6 +43,8 @@
     <ClCompile Include="src\GuiManager.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\BudInfoPanel.cpp" />
+    <ClCompile Include="src\HubConstructionComponent.cpp" />
+    <ClCompile Include="src\HubConstructionSystem.cpp" />
     <ClCompile Include="src\PropertyPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\RefineryConstructionConstruct.cpp" />
@@ -80,6 +82,8 @@
     <ClCompile Include="src\ResourceInputComponent.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\ResourceOutputComponent.cpp" />
+    <ClCompile Include="src\SchematicConstruct.cpp" />
+    <ClCompile Include="src\SchematicConstruction.cpp" />
     <ClCompile Include="src\SelectionManager.cpp" />
     <ClCompile Include="src\SetupState.cpp" />
     <ClCompile Include="src\SexyEnergyBuffer.cpp" />
@@ -138,6 +142,9 @@
     <ClInclude Include="src\DoubleProperty.h" />
     <ClInclude Include="src\GuiManager.h" />
     <ClInclude Include="src\HeatSystem.h" />
+    <ClInclude Include="src\HubConstructionComponent.h" />
+    <ClInclude Include="src\HubConstructionSlot.h" />
+    <ClInclude Include="src\HubConstructionSystem.h" />
     <ClInclude Include="src\PulseGateSlot.h" />
     <ClInclude Include="src\ListProperty.h" />
     <ClInclude Include="src\PropertyPanel.h" />
@@ -184,6 +191,8 @@
     <ClInclude Include="src\ResourceOutputComponent.h" />
     <ClInclude Include="src\ResourcePacket.h" />
     <ClInclude Include="src\ResourceType.h" />
+    <ClInclude Include="src\SchematicConstruct.h" />
+    <ClInclude Include="src\SchematicConstruction.h" />
     <ClInclude Include="src\SelectionManager.h" />
     <ClInclude Include="src\SetupState.h" />
     <ClInclude Include="src\SexyEnergyBuffer.h" />

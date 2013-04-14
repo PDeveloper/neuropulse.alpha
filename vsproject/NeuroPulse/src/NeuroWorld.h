@@ -23,6 +23,7 @@
 #pragma once
 #include "ResourceTransferSystem.h"
 #include "ConstructSystem.h"
+#include "HubConstructionSystem.h"
 namespace np
 {
 
@@ -64,6 +65,7 @@ namespace np
 		np::ConstructSystem* constructSystem;
 		np::ResourceTransferSystem* resourceTransferSystem;
 		np::ConstructUpgradeSystem* constructUpgradeSystem;
+		np::HubConstructionSystem* hubConstructionSystem;
 
 		// Event system
 		np::EventManager* eventManager;
