@@ -21,6 +21,6 @@ void np::CameraControlSystem::process( ac::es::EntityPtr e )
 
 	double p = world->timeSinceLastUpdate / 400.0;
 
-	camera->camera->move( 0.9999 * p * ( transform->position - camera->camera->getPosition()));
 	camera->camera->setOrientation( Ogre::Quaternion::Slerp( 0.9999 * p, camera->camera->getOrientation(), transform->rotation, true));
+	camera->camera->move( 0.9999 * p * ( transform->position - camera->camera->getPosition()));
 }

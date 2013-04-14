@@ -47,7 +47,6 @@ np::GameObjectFactory::~GameObjectFactory(void)
 void np::GameObjectFactory::generateMeshes(void)
 {
 	///////// NODE MESH
-	Procedural::TriangleBuffer tb;
 	
 	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 14.0, 0.0).addPoint( 9.0, 4.0).addPoint( 7.0, 6.0);
 	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 7.0, 6.0).addPoint( 4.0, 2.0).addPoint( 2.0, 0.0);
@@ -72,7 +71,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	pulseMesh->getSubMesh(0)->setMaterialName( "PulseMaterial");
 
 	///////// RESOURCE BUD MESH
-	Ogre::MeshPtr resMesh = Procedural::SphereGenerator().setRadius( 2.0).setNumSegments( 6).setNumRings(6).realizeMesh("ResourceBudMesh");
+	Ogre::MeshPtr resMesh = Procedural::SphereGenerator().setRadius( 2.0).setNumSegments( 12).setNumRings( 12).realizeMesh("ResourceBudMesh");
 	resMesh->getSubMesh(0)->setMaterialName( "ResourceBudMaterial");
 
 	///////// GROUND MESH
@@ -87,7 +86,7 @@ void np::GameObjectFactory::generateMeshes(void)
 	Procedural::Shape hubShape = Procedural::RectangleShape().setHeight( 0.5).setWidth( 5.0).realizeShape();
 	hubShape.translate( 10.0, 12.0);
 
-	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).setNumSeg( 24).realizeMesh( "HubMesh");
+	Ogre::MeshPtr hubMesh = Procedural::Lathe().setShapeToExtrude( &hubShape).setNumSeg( 32).realizeMesh( "HubMesh");
 	hubMesh->getSubMesh(0)->setMaterialName( "HubMaterial");
 
 	/*
@@ -112,10 +111,25 @@ void np::GameObjectFactory::generateMeshes(void)
 	Procedural::Path connectorPath = Procedural::LinePath().betweenPoints(	Ogre::Vector3( 0.0, 0.0, 0.0),
 		Ogre::Vector3( 0.0, 0.0, 100.0)).realizePath();
 
-	Procedural::Shape connectorCircle = Procedural::CircleShape().setRadius( 0.8).setNumSeg( 10).realizeShape();
-	Procedural::Track connectorTrack = Procedural::Track(Procedural::Track::AM_RELATIVE_LINEIC).addKeyFrame( 0.0, 1.0).addKeyFrame( 0.5, 0.75).addKeyFrame( 1.0, 1.0);
+	Procedural::Shape connectorCircle = Procedural::CircleShape().setRadius( 0.6).setNumSeg( 10).realizeShape();
+	Procedural::Track connectorTrack = Procedural::Track(Procedural::Track::AM_RELATIVE_LINEIC).addKeyFrame( 0.0, 1.0).addKeyFrame( 0.5, 0.9).addKeyFrame( 1.0, 1.0);
 	Ogre::MeshPtr constructConnectionMesh = Procedural::Extruder().setExtrusionPath( &connectorPath).setScaleTrack( &connectorTrack).setShapeToExtrude( &connectorCircle).realizeMesh( "ConstructConnectionMesh");
 	constructConnectionMesh->getSubMesh(0)->setMaterialName( "ConstructConnectionMaterial");
+
+	///////// NODE SELECTOR MESH
+
+	Procedural::TriangleBuffer tb;
+
+	Procedural::Shape selectorShape = Procedural::RectangleShape().setHeight( 1.0).setWidth( 4.0).realizeShape();
+	selectorShape.translate( 50.0, 2.0);
+
+	for ( double angle = 0.0; angle < 360; angle += 40.0)
+	{
+		Procedural::Lathe().setShapeToExtrude( &selectorShape).setNumSeg( 6).setAngleBegin( Ogre::Degree(angle)).setAngleEnd( Ogre::Degree(angle + 20.0)).addToTriangleBuffer( tb);
+	}
+
+	Ogre::MeshPtr selectorMesh = tb.transformToMesh( "NodeSelectorMesh");
+	selectorMesh->getSubMesh(0)->setMaterialName( "NodeSelectorMaterial");
 }
 
 Ogre::Light* np::GameObjectFactory::createLight( std::string name,
@@ -146,11 +160,36 @@ Ogre::Entity* np::GameObjectFactory::createGround()
 	return entGround;
 }
 
+ac::es::EntityPtr np::GameObjectFactory::createNodeSelector()
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	//Need to fill in correct params:
+	Ogre::Entity* entity = sceneManager->createEntity( "NodeSelectorMesh");
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+
+	Ogre::Entity* entities[] = { entity};
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent( 0.0, 0.0, 0.0);
+
+	graphic->hide();
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+
+	e->activate();
+
+	return e;
+}
+
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)
 {
 	ac::es::EntityPtr e = scene->createEntity();
 
-	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "PulseEmitted" + Ogre::StringConverter::toString( e->getId()), "NeuroPulse_PulseEmitted_mono.wav");
+	OgreOggSound::OgreOggSoundManager* soundManager = OgreOggSound::OgreOggSoundManager::getSingletonPtr();
+	OgreOggSound::OgreOggISound* sound = soundManager->createSound( "PulseEmitted" + Ogre::StringConverter::toString( e->getId()), "NeuroPulse_PulseEmitted_mono.wav");
+	sound->setReferenceDistance( 120.0);
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");

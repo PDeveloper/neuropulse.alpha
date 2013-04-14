@@ -94,16 +94,23 @@ void GameState::enter()
 	m_pCurrentObject = 0;
 
 	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->init();
-	OgreOggSound::OgreOggISound* mainLoop = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "GameLoop", "VirusProtocol.ogg", true, true);
+	OgreOggSound::OgreOggISound* mainLoop = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "GameLoop", "Neuronic.ogg", true, true);
 	mainLoop->disable3D( true);
+	mainLoop->setVolume( 0.6);
 	mainLoop->play();
 
 	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "SelectObject", "NeuroPulse_SelectObject.ogg")->disable3D( true);
 	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "GoodBud", "NeuroPulse_GoodBud.ogg")->disable3D( true);
 	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "BadBud", "NeuroPulse_BadBud.ogg")->disable3D( true);
 
-	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "ConstructBuilt", "NeuroPulse_ConstructBuilt_mono.wav");
-	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "HubBuilt", "NeuroPulse_HubBuilt_mono.wav");
+	OgreOggSound::OgreOggSoundManager* soundManager = OgreOggSound::OgreOggSoundManager::getSingletonPtr();
+	OgreOggSound::OgreOggISound* sound;
+	sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "ConstructBuilt", "NeuroPulse_ConstructBuilt_mono.wav");
+	sound->setReferenceDistance( 140.0);
+	sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "HubBuilt", "NeuroPulse_HubBuilt_mono.wav");
+	sound->setReferenceDistance( 200.0);
+
+	nodeSelector = neuroWorld->gameObjectFactory->createNodeSelector();
 
 	buildGUI();
 
@@ -332,9 +339,9 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 				ac::es::EntityPtr e2 = constructConnection->entity2;
 
 				selectionManager->popUntilNode();
-				OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "GoodBud")->play();
 
 				neuroWorld->disconnect( e1, e2);
+				playSound( "GoodBud");
 			}
 			else if ( ( lastEntity->containsComponent<np::ResourceInputComponent>() || lastEntity->containsComponent<np::ResourceOutputComponent>()) && !lastEntity->containsComponent<np::PulseGateComponent>())
 			{
@@ -347,10 +354,8 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 					if ( connector2 != NULL && !connector2->containsComponent<np::PulseGateComponent>())
 					{
-						if ( neuroWorld->connect( lastEntity, connector2))
-							OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "GoodBud")->play();
-						else
-							OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "BadBud")->play();
+						if ( neuroWorld->connect( lastEntity, connector2)) playSound( "GoodBud");
+						else playSound( "BadBud");
 					}
 				}
 				else if ( nearestConnection.first != -1)
@@ -364,10 +369,12 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 					np::OutputComponent* output = selectionManager->getLastNode()->getComponent<np::OutputComponent>();
 					output->connections[ nearestConnection.first]->addFeed( pulseGate);
 
-					if ( neuroWorld->connect( lastEntity, pulseGate))
-						OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "GoodBud")->play();
-					else
-						OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "BadBud")->play();
+					if ( neuroWorld->connect( lastEntity, pulseGate)) playSound( "GoodBud");
+					else playSound( "BadBud");
+				}
+				else
+				{
+					playSound( "BadBud");
 				}
 			}
 		}
@@ -406,7 +413,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 			selectionManager->popUntilNode();
 			selectionManager->pushResourceBud( selectedObject);
-			OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "SelectObject")->play();
+			playSound( "SelectObject");
 
 			np::GraphicComponent* graphic = getEntityPtr(selectedObject)->getComponent<np::GraphicComponent>();
 			bool hasPulseGate = getEntityPtr(selectedObject)->containsComponent<np::PulseGateComponent>();
@@ -442,7 +449,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 			selectionManager->popUntilNode();
 			selectionManager->pushConstruct( selectedObject);
-			OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "SelectObject")->play();
+			playSound( "SelectObject");
 
 			return;
 		}
@@ -458,14 +465,11 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	if ( newNode != NULL && currentNode != newNode)
 	{
 		onNodeSelected( newNode);
-
-		if ( currentNode != NULL) currentNode->getParentSceneNode()->showBoundingBox(false);
 		currentNode = newNode;
-		currentNode->getParentSceneNode()->showBoundingBox(true);
 
 		selectionManager->popNode();
 		selectionManager->pushNode( newNode);
-		OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "SelectObject")->play();
+		playSound( "SelectObject");
 	}
 
 	selectionManager->popUntilNode();
@@ -508,6 +512,9 @@ void GameState::getInput()
 void GameState::update(double timeSinceLastFrame)
 {
 	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
+
+	np::TransformComponent* st = nodeSelector->getComponent<np::TransformComponent>();
+	st->rotation = st->rotation * Ogre::Quaternion( Ogre::Degree( -0.2), Ogre::Vector3::UNIT_Y);
 
 	CEGUI::System::getSingleton().injectTimePulse(timeSinceLastFrame / 1000.0);
 
@@ -594,6 +601,8 @@ void GameState::onNodeSelected( Ogre::Entity* node)
 
 	np::TransformComponent* transform = newNode->getComponent<np::TransformComponent>();
 	neuroWorld->getCameraTransform()->position = transform->position + neuroWorld->cameraOffset;
+
+	setNodeSelector( newNode);
 
 	if ( newNode->containsComponent<np::HubComponent>()) newNode->getComponent<np::HubComponent>()->showStructures();
 }
@@ -686,4 +695,21 @@ bool GameState::haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e )
 	else if ( e->containsComponent<np::ConstructComponent>()) return node == e->getComponent<np::ConstructComponent>()->hub;
 
 	return false;
+}
+
+void GameState::playSound( Ogre::String soundId )
+{
+	OgreOggSound::OgreOggISound* sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( soundId);
+	sound->setPlayPosition(0.0);
+	sound->play();
+}
+
+void GameState::setNodeSelector( ac::es::EntityPtr node )
+{
+	np::TransformComponent* st = nodeSelector->getComponent<np::TransformComponent>();
+	np::GraphicComponent* graphic = nodeSelector->getComponent<np::GraphicComponent>();
+	np::TransformComponent* nt = node->getComponent<np::TransformComponent>();
+
+	st->position = nt->position;
+	graphic->show();
 }

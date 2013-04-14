@@ -22,6 +22,7 @@ MenuState::MenuState()
 	neuroPulseLogo->setProperty( "Image", "set:NeuroPulseLogo image:full_image");
 	neuroPulseLogo->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.5, -275.0), CEGUI::UDim( 0.1, 0)));
 	neuroPulseLogo->setSize(CEGUI::UVector2(CEGUI::UDim(0.0, 550.0), CEGUI::UDim(0.0, 200.0)));
+	neuroPulseLogo->setProperty( "FrameEnabled", "False");
 
 	CEGUI::Window *play = wmgr.createWindow("TaharezLook/Button", "MainMenu/PlayButton");
 	play->setText("Play");

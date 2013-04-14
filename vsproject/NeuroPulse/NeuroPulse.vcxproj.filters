@@ -411,6 +411,9 @@
     <ClCompile Include="src\CameraComponent.cpp">
       <Filter>Source Files\entity\components\info</Filter>
     </ClCompile>
+    <ClCompile Include="src\IntroScreenState.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -742,6 +745,9 @@
     </ClInclude>
     <ClInclude Include="src\CameraComponent.h">
       <Filter>Header Files\entity\components\info</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IntroScreenState.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

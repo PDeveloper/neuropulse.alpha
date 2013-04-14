@@ -3,6 +3,7 @@
 #include "MenuState.hpp"
 #include "GameState.hpp"
 #include "PauseState.hpp"
+#include "IntroScreenState.h"
 
 ApplicationBase::ApplicationBase(void)
 {
@@ -18,16 +19,17 @@ ApplicationBase::~ApplicationBase(void)
 bool ApplicationBase::run(void)
 {
 	new OgreFramework();
-	if( !OgreFramework::getSingletonPtr()->initOgre("Neuro Pulse", 0, 0))
+	if( !OgreFramework::getSingletonPtr()->initOgre("NeuroPulse: Alpha", 0, 0))
 		return false;
 
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Initialized!");
 
 	m_pAppStateManager = new AppStateManager();
 
-	MenuState::create(m_pAppStateManager, "MenuState");
-	GameState::create(m_pAppStateManager, "GameState");
-	PauseState::create(m_pAppStateManager, "PauseState");
+	IntroScreenState::create( m_pAppStateManager, "IntroState");
+	MenuState::create( m_pAppStateManager, "MenuState");
+	GameState::create( m_pAppStateManager, "GameState");
+	PauseState::create( m_pAppStateManager, "PauseState");
 
 	m_pAppStateManager->start(m_pAppStateManager->findByName("GameState"));
 

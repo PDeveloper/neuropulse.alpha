@@ -47,6 +47,7 @@
     <ClCompile Include="src\BudInfoPanel.cpp" />
     <ClCompile Include="src\HubConstructionComponent.cpp" />
     <ClCompile Include="src\HubConstructionSystem.cpp" />
+    <ClCompile Include="src\IntroScreenState.cpp" />
     <ClCompile Include="src\PropertyPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\RefineryConstructionConstruct.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="src\HubConstructionComponent.h" />
     <ClInclude Include="src\HubConstructionSlot.h" />
     <ClInclude Include="src\HubConstructionSystem.h" />
+    <ClInclude Include="src\IntroScreenState.h" />
     <ClInclude Include="src\PulseGateSlot.h" />
     <ClInclude Include="src\ListProperty.h" />
     <ClInclude Include="src\PropertyPanel.h" />

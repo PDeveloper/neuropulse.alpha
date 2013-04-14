@@ -66,7 +66,7 @@ ac::es::EntityPtr np::SelectionManager::getLastNode()
 		for( itr = selectionList.rbegin(); itr != selectionList.rend(); itr++)
 		{
 			e = getEntityPtr( (*itr));
-			if ( e->containsComponent<np::NodeComponent>()) return e;
+			if ( e != NULL && e->containsComponent<np::NodeComponent>()) return e;
 		}
 	}
 
@@ -88,7 +88,7 @@ ac::es::EntityPtr np::SelectionManager::popConstruct()
 		selectionList.pop_back();
 
 		e = getEntityPtr( selectionList.back());
-		isConstruct = e->containsComponent<np::ConstructComponent>();
+		if ( e != NULL) isConstruct = e->containsComponent<np::ConstructComponent>();
 	}
 
 	selectionList.pop_back();
@@ -111,7 +111,7 @@ ac::es::EntityPtr np::SelectionManager::popResourceBud()
 		selectionList.pop_back();
 
 		e = getEntityPtr( selectionList.back());
-		isBud = e->containsComponent<np::ResourceInputComponent>() || e->containsComponent<np::ResourceOutputComponent>();
+		if ( e != NULL) isBud = e->containsComponent<np::ResourceInputComponent>() || e->containsComponent<np::ResourceOutputComponent>();
 	}
 
 	selectionList.pop_back();
@@ -134,7 +134,7 @@ ac::es::EntityPtr np::SelectionManager::popConstructConnection()
 		selectionList.pop_back();
 
 		e = getEntityPtr( selectionList.back());
-		isBud = e->containsComponent<np::ResourceInputComponent>() || e->containsComponent<np::ResourceOutputComponent>();
+		if ( e != NULL) isBud = e->containsComponent<np::ResourceInputComponent>() || e->containsComponent<np::ResourceOutputComponent>();
 	}
 
 	selectionList.pop_back();

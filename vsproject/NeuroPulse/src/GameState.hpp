@@ -93,8 +93,12 @@ private:
 	np::NeuroWorld* neuroWorld;
 
 	Ogre::MovableObject* selectedObject;
+	ac::es::EntityPtr nodeSelector;
 
 	bool haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e);
+	void playSound( Ogre::String soundId);
+
+	void setNodeSelector( ac::es::EntityPtr node);
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
