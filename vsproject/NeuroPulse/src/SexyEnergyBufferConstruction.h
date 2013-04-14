@@ -24,6 +24,11 @@ namespace np
 		double conversionRate;
 
 		SexyEnergyBufferConstruction();
+
+		np::Construct* getNewInstance()
+		{
+			return new np::SexyEnergyBufferConstruction();
+		}
 	private:
 		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;

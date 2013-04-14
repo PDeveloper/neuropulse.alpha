@@ -11,6 +11,8 @@
 #include "OutputComponent.h"
 #include "ConstructConnectionComponent.h"
 #include "GraphicComponent.h"
+#include <RefineryConstructionConstruct.h>
+#include <SexyEnergyBufferConstruction.h>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -46,6 +48,8 @@ GameState::GameState()
 	//sheet->addChildWindow( debug_txt);
 
 	//Gui manager
+	
+
 	guiManager = new np::GuiManager(wmgr);
 
 	sheet->addChildWindow(guiManager->sheet);
@@ -76,6 +80,8 @@ void GameState::enter()
 	neuroWorld = new np::NeuroWorld( worldSettings);
 	connectionPreview = new np::ConnectionPreview( neuroWorld->gameObjectFactory->createRawConstructConnectionEntity( Ogre::Vector3(), Ogre::Vector3::UNIT_Z));
 	connectionPreview->hide();
+
+	guiManager->constructInfoPanel->buildMenu->update();
 
 	m_pSceneMgr = neuroWorld->sceneManager;
 	m_pCamera = neuroWorld->camera;
@@ -286,8 +292,8 @@ bool GameState::onMousePress(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 
 bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
-    if(id == OIS::MB_Left)
-    {
+	if(id == OIS::MB_Left)
+	{
 		m_bLMouseDown = false;
 		connectionPreview->hide();
 

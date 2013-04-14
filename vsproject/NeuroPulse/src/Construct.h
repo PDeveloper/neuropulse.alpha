@@ -64,6 +64,9 @@ namespace np
 		{
 		}
 
+		virtual np::Construct* getNewInstance() = 0;
+
+
 	protected:
 
 		bool isEmpty( int input)

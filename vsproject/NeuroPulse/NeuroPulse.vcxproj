@@ -32,9 +32,11 @@
     <ClCompile Include="src\BufferInfoPanel.cpp" />
     <ClCompile Include="src\CameraComponent.cpp" />
     <ClCompile Include="src\CameraControlSystem.cpp" />
+    <ClCompile Include="src\BuildableConstructPanel.cpp" />
     <ClCompile Include="src\ConnectionComponent.cpp" />
     <ClCompile Include="src\ConnectionDisplaySystem.cpp" />
     <ClCompile Include="src\ConnectionPreview.cpp" />
+    <ClCompile Include="src\ConstructBuildMenu.cpp" />
     <ClCompile Include="src\ConstructComponent.cpp" />
     <ClCompile Include="src\ConstructConnectionComponent.cpp" />
     <ClCompile Include="src\ConstructConnectionSystem.cpp" />
@@ -124,6 +126,7 @@
     <ClInclude Include="src\BufferInfoPanel.h" />
     <ClInclude Include="src\BudInfoPanel.h" />
     <ClInclude Include="src\BufferComponent.h" />
+    <ClInclude Include="src\BuildableConstructPanel.h" />
     <ClInclude Include="src\CameraComponent.h" />
     <ClInclude Include="src\CameraControlSystem.h" />
     <ClInclude Include="src\CEGUIState.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="src\ConnectionDisplaySystem.h" />
     <ClInclude Include="src\ConnectionPreview.h" />
     <ClInclude Include="src\Construct.h" />
+    <ClInclude Include="src\ConstructBuildMenu.h" />
     <ClInclude Include="src\ConstructComponent.h" />
     <ClInclude Include="src\ConstructConnectionComponent.h" />
     <ClInclude Include="src\ConstructConnectionSystem.h" />

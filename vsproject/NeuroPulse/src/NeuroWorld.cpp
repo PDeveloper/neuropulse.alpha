@@ -7,6 +7,10 @@
 #include <OutputComponent.h>
 #include "ConstructConnectionComponent.h"
 #include "GraphicComponent.h"
+#include <ConstructBuildMenu.h>
+#include <SexyEnergyBufferConstruction.h>
+#include <RefineryConstructionConstruct.h>
+#include <SchematicConstruction.h>
 
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
@@ -27,6 +31,9 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	rm->registerType( "Heat", "Hot stuff.", Ogre::ColourValue( 1.0, 0.0, 0.0));
 	rm->registerType( "HubSchematic", "Hubba Bubba build guild.", Ogre::ColourValue( 0.55, 0.44, 0.28));
 
+	
+
+
 	sceneManager->setAmbientLight( Ogre::ColourValue(0.4f, 0.4f, 0.4f));
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
@@ -41,6 +48,14 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	esScene = new ac::es::Scene();
 	gameObjectFactory = new np::GameObjectFactory( this);
+
+	
+	np::ConstructBuildMenu::objectFactory = gameObjectFactory;
+	
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::RefineryConstructionConstruct());
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SexyEnergyBufferConstruction());
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SchematicConstruction());
+	
 
 	eventManager = new np::EventManager();
 

@@ -399,6 +399,12 @@
     <ClCompile Include="src\SchematicConstruction.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConstructBuildMenu.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BuildableConstructPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
     <ClCompile Include="src\CameraControlSystem.cpp">
       <Filter>Source Files\entity\systems</Filter>
     </ClCompile>
@@ -724,6 +730,12 @@
     </ClInclude>
     <ClInclude Include="src\SchematicConstruct.h">
       <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructBuildMenu.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BuildableConstructPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraControlSystem.h">
       <Filter>Header Files\entity\systems</Filter>
