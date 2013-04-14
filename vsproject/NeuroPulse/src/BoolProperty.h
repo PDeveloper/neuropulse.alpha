@@ -34,7 +34,7 @@ namespace np
 			checkbox->setText(name);
 			checkbox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&BoolProperty::onCheckedStateChanged, this));
 			checkbox->setSelected(*value);
-
+			checkbox->setFont("Text");
 			
 
 			return sheet;

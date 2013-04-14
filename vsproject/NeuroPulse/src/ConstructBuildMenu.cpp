@@ -19,7 +19,9 @@ np::ConstructBuildMenu::ConstructBuildMenu( CEGUI::WindowManager* wmgr )
 	sheet = wmgr->createWindow("TaharezLook/FrameWindow", "BuildMenu/Main");
 	
 	sheet->setText("Build Menu");
+	//sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, np::ConstructBuildMenu::buildableConstructs->size()*100 + 30)));
 	sheet->setAlpha( 0.5);
+
 
 	update();
 }
@@ -37,6 +39,9 @@ void np::ConstructBuildMenu::setEntity( ac::es::EntityPtr entity )
 void np::ConstructBuildMenu::update()
 {
 	//Remove old
+
+	sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, 10000)));
+
 
 	for(int i=0; i<panels->size(); i++)
 	{
@@ -70,5 +75,5 @@ void np::ConstructBuildMenu::update()
 		
 	}
 
-	sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, height+500)));
+	sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, height+50)));
 }

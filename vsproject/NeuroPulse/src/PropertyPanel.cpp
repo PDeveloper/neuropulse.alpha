@@ -2,15 +2,17 @@
 #include <ComponentProperty.h>
 #include <AdvancedOgreFramework.hpp>
 
-np::PropertyPanel::PropertyPanel( CEGUI::WindowManager* wmgr)
+np::PropertyPanel::PropertyPanel( CEGUI::WindowManager* wmgr, std::string name)
 {
 	currentInterface = NULL;
+
+	this->name = name;
 
 	this->wmgr = wmgr;
 
 	this->currentInterface = currentInterface;
 
-	sheet = wmgr->createWindow("DefaultWindow", "PropertyPanel/Main");
+	sheet = wmgr->createWindow("DefaultWindow", name+"PropertyPanel/Main");
 	
 }
 
@@ -36,6 +38,8 @@ void np::PropertyPanel::setInterface( np::ComponentInterface* newInterface )
 		//Add new
 		if(this->currentInterface != NULL)
 		{
+			sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 1000), CEGUI::UDim( 0, 1000)));
+
 			std::vector<np::ComponentProperty*>* properties = this->currentInterface->properties;
 
 			float height = 0;
@@ -55,24 +59,31 @@ void np::PropertyPanel::setInterface( np::ComponentInterface* newInterface )
 
 				height+=prop->getHeight();
 			}
+
+			sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 220), CEGUI::UDim( 0, height)));
 		}
 
 	}
 	else
 	{
-		if(this->currentInterface != NULL)
-		{
-			std::vector<np::ComponentProperty*>* properties = this->currentInterface->properties;
-			for(int i=0; i<properties->size(); i++)
-			{
-
-				properties->at(i)->update();
-			}
-		}
+		update();
 	}
 	
 
 	
 
 
+}
+
+void np::PropertyPanel::update()
+{
+	if(this->currentInterface != NULL)
+	{
+		std::vector<np::ComponentProperty*>* properties = this->currentInterface->properties;
+		for(int i=0; i<properties->size(); i++)
+		{
+
+			properties->at(i)->update();
+		}
+	}
 }

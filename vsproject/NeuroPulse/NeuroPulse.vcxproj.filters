@@ -414,6 +414,9 @@
     <ClCompile Include="src\IntroScreenState.cpp">
       <Filter>Source Files\states</Filter>
     </ClCompile>
+    <ClCompile Include="src\NotificationBar.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -748,6 +751,18 @@
     </ClInclude>
     <ClInclude Include="src\IntroScreenState.h">
       <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputStringProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputDoubleProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputPercentageProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NotificationBar.h">
+      <Filter>Header Files\gui\menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 #include <ac/es.h>
 
 #include <HubInfoPanel.h>
+#include <ComponentInterface.h>
+#include <PropertyPanel.h>
 
 #pragma once
 namespace np
@@ -17,6 +19,12 @@ namespace np
 
 		np::HubInfoPanel* hubInfo;
 		CEGUI::WindowManager* wmgr;
+
+		np::ComponentInterface* componentInterface;
+		double energy;
+		double temperature;
+
+		np::PropertyPanel* propertyPanel;
 
 		ac::es::EntityPtr currentNode;
 

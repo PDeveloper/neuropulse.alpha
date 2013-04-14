@@ -34,7 +34,7 @@ GameState::GameState()
 	// Create CEGUI interface!
 	CEGUI::WindowManager* wmgr = &CEGUI::WindowManager::getSingleton();
 	sheet = wmgr->createWindow( "DefaultWindow", "RootSheet");
-	//sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 800), CEGUI::UDim( 0, 600)));
+	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 10000), CEGUI::UDim( 0, 10000)));
 	sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
 	sheet->setMousePassThroughEnabled(true);
 	
@@ -52,10 +52,10 @@ GameState::GameState()
 	//Gui manager
 	
 
-	guiManager = new np::GuiManager(wmgr);
+	guiManager = new np::GuiManager(wmgr, OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth(), OgreFramework::getSingletonPtr()->m_pViewport->getActualHeight());
 
 	sheet->addChildWindow(guiManager->sheet);
-	guiManager->sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 800), CEGUI::UDim( 0, 600)));
+	guiManager->sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 10000), CEGUI::UDim( 0, 10000)));
 	guiManager->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
 
 	worldSettings = new np::NeuroWorldSettings();
@@ -268,8 +268,8 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 			}
 		}
 	}
-    else if(m_bRMouseDown)
-    {
+	else if(m_bRMouseDown)
+	{
 		neuroWorld->getCameraTransform()->rotation = Ogre::Quaternion( Degree( evt.state.X.rel * -0.1f), Vector3::UNIT_Y)
 			* neuroWorld->getCameraTransform()->rotation
 			* Ogre::Quaternion( Degree( evt.state.Y.rel * -0.1f), Vector3::UNIT_X);
@@ -331,6 +331,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 
 			ac::es::EntityPtr lastEntity = getEntityPtr(last);
 
+			
 			if ( lastEntity->containsComponent<np::ConstructConnectionComponent>() && selectedConstructConnection == last)
 			{
 				np::ConstructConnectionComponent* constructConnection = lastEntity->getComponent<np::ConstructConnectionComponent>();
@@ -377,6 +378,8 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 					playSound( "BadBud");
 				}
 			}
+
+			
 		}
 	}
 	else if(id == OIS::MB_Right)

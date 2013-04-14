@@ -58,17 +58,24 @@ namespace np
 				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
 				np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
 				np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+				np::PulseGateComponent* pulseGate = e->getComponent<np::PulseGateComponent>();
 
-				if ( input != NULL)
+				if(pulseGate != NULL)
 				{
-					std::list<np::ResourcePacket*> packets = buffer->getPackets();
-					if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
-				}
+					if(pulseGate->mode == PulseGateComponent::MODE_ALL || pulseGate->mode == PulseGateComponent::MODE_OUTGOING )
+					{
+						if ( input != NULL)
+						{
+							std::list<np::ResourcePacket*> packets = buffer->getPackets();
+							if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
+						}
 
-				if ( output != NULL)
-				{
-					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
-					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
+						if ( output != NULL)
+						{
+							std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
+							if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
+						}
+					}
 				}
 			}
 		}
@@ -84,17 +91,25 @@ namespace np
 				np::BufferComponent* buffer = e->getComponent<np::BufferComponent>();
 				np::ResourceInputComponent* input = e->getComponent<np::ResourceInputComponent>();
 				np::ResourceOutputComponent* output = e->getComponent<np::ResourceOutputComponent>();
+				np::PulseGateComponent* pulseGate = e->getComponent<np::PulseGateComponent>();
 
-				if ( input != NULL)
+				if(pulseGate != NULL)
 				{
-					std::list<np::ResourcePacket*> packets = buffer->getPackets();
-					if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
-				}
+					if(pulseGate->mode == PulseGateComponent::MODE_ALL || pulseGate->mode == PulseGateComponent::MODE_INCOMING)
+					{
 
-				if ( output != NULL)
-				{
-					std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
-					if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
+						if ( input != NULL)
+						{
+							std::list<np::ResourcePacket*> packets = buffer->getPackets();
+							if ( pulseBuffer->addPackets( &packets) == PARTIAL) buffer->addPackets( &packets);
+						}
+
+						if ( output != NULL)
+						{
+							std::list<np::ResourcePacket*> packets = pulseBuffer->getPackets( buffer->getTypes());
+							if ( buffer->addPackets( &packets) == PARTIAL) pulseBuffer->addPackets( &packets);
+						}
+					}
 				}
 			}
 		}

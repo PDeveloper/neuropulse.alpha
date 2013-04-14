@@ -1,7 +1,7 @@
 #include <CEGUI.h>
 #include <ac/es.h>
 #include <BufferInfoPanel.h>
-
+#include "PropertyPanel.h"
 #pragma once
 namespace np
 {
@@ -15,6 +15,7 @@ namespace np
 		BufferInfoPanel* bufferInfo;
 
 		CEGUI::Window* typeText;
+		PropertyPanel* propertyPanel;
 
 		ac::es::EntityPtr currentBud;
 

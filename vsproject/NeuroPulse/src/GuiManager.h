@@ -3,6 +3,7 @@
 #include <NodeInfoPanel.h>
 #include <ConstructInfoPanel.h>
 #include <BudInfoPanel.h>
+#include <NotificationBar.h>
 
 #pragma once
 namespace np
@@ -18,6 +19,8 @@ namespace np
 		np::ConstructInfoPanel* constructInfoPanel;
 		np::BudInfoPanel* budInfoPanel;
 
+		np::NotificationBar* notificationBar;
+
 		ac::es::EntityPtr currentEntity;
 
 		void setEntity( ac::es::EntityPtr entity);
@@ -29,8 +32,10 @@ namespace np
 			sheet->setPosition(positionVector);
 		}
 
-		GuiManager(CEGUI::WindowManager* wmgr);
+		GuiManager(CEGUI::WindowManager* wmgr, float screenWidth, float screenHeight);
 		~GuiManager(void);
+
+		float screenWidth, screenHeight;
 	};
 }
 

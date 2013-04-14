@@ -37,7 +37,7 @@ namespace np
 
 		float getHeight()
 		{
-			return 110;
+			return 130;
 		}
 
 	private:

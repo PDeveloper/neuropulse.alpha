@@ -1,5 +1,8 @@
 #include <CEGUI.h>
 #include <ac/es.h>
+#include <hash_map>
+#include <ComponentInterface.h>
+#include <PropertyPanel.h>
 
 #pragma once
 namespace np
@@ -13,6 +16,11 @@ namespace np
 
 		CEGUI::Window* resourceText;
 
+		np::ComponentInterface* componentInterface;
+		std::hash_map<std::string, double>* amounts;
+
+		np::PropertyPanel* propertyPanel;
+
 		ac::es::EntityPtr currentBuffer;
 
 		void setBuffer( ac::es::EntityPtr buffer);
@@ -25,6 +33,11 @@ namespace np
 
 		BufferInfoPanel(CEGUI::WindowManager* wmgr);
 		~BufferInfoPanel(void);
+
+		float getHeight()
+		{
+			return sheet->getHeight().d_offset;
+		}
 
 	private:
 

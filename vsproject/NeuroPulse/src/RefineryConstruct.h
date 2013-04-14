@@ -23,6 +23,8 @@ namespace np
 		double takeEnergy;
 		double conversionRate;
 
+		bool isOn;
+
 		RefineryConstruct();
 
 		np::Construct* getNewInstance()

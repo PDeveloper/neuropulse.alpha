@@ -5,12 +5,12 @@
 
 #include <algorithm>
 #include <DoubleProperty.h>
+#include <OutputPercentageProperty.h>
 
 np::SexyEnergyBufferConstruction::SexyEnergyBufferConstruction() :
 	Construct( Ogre::ColourValue( 0.2, 0.6, 1.0))
 {
-	isOn = true;
-
+	
 	constructionCompleted = false;
 	constructionProgress = 0;
 
@@ -23,7 +23,7 @@ np::SexyEnergyBufferConstruction::SexyEnergyBufferConstruction() :
 	takeEnergy = 50;
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new DoubleProperty("Build Progress", &constructionProgress, 0, 1, 0.01));
+	componentInterface->addProperty(new OutputPercentageProperty("Build Progress", &constructionProgress));
 }
 
 void np::SexyEnergyBufferConstruction::process()
@@ -47,7 +47,7 @@ std::string np::SexyEnergyBufferConstruction::getName()
 
 std::string np::SexyEnergyBufferConstruction::getDescription()
 {
-	return "Stores sexy energy so you can have some for later.";
+	return "Stores sexy energy so you\ncan have some for later.";
 }
 
 void np::SexyEnergyBufferConstruction::processInstructions( np::ResourcePacket* packet)

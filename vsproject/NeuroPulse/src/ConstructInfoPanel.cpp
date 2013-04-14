@@ -26,21 +26,13 @@ np::ConstructInfoPanel::ConstructInfoPanel(CEGUI::WindowManager* wmgr)
 
 	nameText = wmgr->createWindow("TaharezLook/StaticText", "ConstructInfoPanel/NameText");
 	nameText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
-	nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 50)));
+	nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 60)));
+	nameText->setFont("Title");
 	//nameText->setAlpha( 0.5);
 	constructInfoSheet->addChildWindow(nameText);
 
-	onOffCheckBox = static_cast<CEGUI::Checkbox*>(wmgr->createWindow("TaharezLook/Checkbox", "ConstructInfoPanel/OnOffCheckbox"));
-	onOffCheckBox->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 50)));;
-	onOffCheckBox->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 50)));;
-	onOffCheckBox->setText("On/Off");
-	onOffCheckBox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&ConstructInfoPanel::onCheckStateChanged, this));
-	//onOffCheckBox->setSelected(true);
-	constructInfoSheet->addChildWindow(onOffCheckBox);
-	//onOffCheckBox->setSelected(true);
 
-
-	propertyPanel = new PropertyPanel(wmgr);
+	propertyPanel = new PropertyPanel(wmgr, "ConstructInfo");
 	constructInfoSheet->addChildWindow(propertyPanel->sheet);
 	propertyPanel->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 100)));
 	propertyPanel->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, 300)));
@@ -85,8 +77,6 @@ void np::ConstructInfoPanel::setConstruct( ac::es::EntityPtr construct )
 
 					//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bing "+Ogre::StringConverter::toString(constructComp->construct->getOn()));
 
-					onOffCheckBox->setSelected(constructComp->construct->getOn());
-
 					propertyPanel->setInterface((constructComp->construct->componentInterface));
 
 				}
@@ -128,6 +118,10 @@ void np::ConstructInfoPanel::update()
 				buildMenu->sheet->setVisible(true);
 			}
 		}
+		else
+		{
+			sheet->setVisible(false);
+		}
 	}
 	else
 	{
@@ -137,33 +131,4 @@ void np::ConstructInfoPanel::update()
 
 }
 
-bool np::ConstructInfoPanel::onCheckStateChanged( const CEGUI::EventArgs &e )
-{
-	//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bing "+Ogre::StringConverter::toString(onOffCheckBox->isSelected()));
 
-
-	if ( currentConstruct != NULL)
-	{
-		np::ConstructComponent* constructComp = currentConstruct->getComponent<np::ConstructComponent>();
-
-		if(constructComp != NULL)
-		{
-
-
-			if(constructComp->construct != NULL)
-			{
-				//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bang "+Ogre::StringConverter::toString(constructComp->construct->getOn()));
-
-
-				constructComp->construct->setOn(onOffCheckBox->isSelected());
-
-				//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bong "+Ogre::StringConverter::toString(constructComp->construct->getOn()));
-
-
-				
-			}
-		}
-	}
-
-	return true;
-}
