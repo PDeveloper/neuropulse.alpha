@@ -10,6 +10,8 @@
 #include <NeuroWorld.h>
 #include <AdvancedOgreFramework.hpp>
 
+#include <OgreOggSound.h>
+
 np::HubConstructionSystem::HubConstructionSystem(np::NeuroWorld* world) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<NodeComponent>().requires<HubConstructionComponent>()),
 	hubSchematicRequirement(np::ResourceManager::getSingletonPtr()->getType( "HubSchematic"))
@@ -58,6 +60,10 @@ void np::HubConstructionSystem::process( ac::es::EntityPtr e )
 					}
 
 					world->gameObjectFactory->createHub( e, player);
+					OgreOggSound::OgreOggISound* sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "HubBuilt");
+					sound->setPlayPosition( 0.0);
+					sound->setPosition( e->getComponent<np::TransformComponent>()->position);
+					sound->play();
 
 					construction->clear();
 					return;

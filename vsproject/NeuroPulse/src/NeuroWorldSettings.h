@@ -24,8 +24,8 @@ namespace np
 			globalPulseTime = 800;
 			numberOfNodes = 20;
 
-			mapWidth = 1200.0;
-			mapHeight = 1200.0;
+			mapWidth = 1000.0;
+			mapHeight = 1000.0;
 		}
 	
 		~NeuroWorldSettings(void)

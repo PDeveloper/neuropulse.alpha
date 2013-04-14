@@ -9,8 +9,10 @@
 #include <vector>
 #include <boost\random\uniform_real_distribution.hpp>
 #include <boost\random\mersenne_twister.hpp>
+
 #define _USE_MATH_DEFINES
 #include <math.h>
+
 #include <algorithm>
 #include <delaunay.h>
 #include <boost/polygon/point_data.hpp>
@@ -18,12 +20,6 @@
 #include <LloydRelaxation.h>
 
 #include <AdvancedOgreFramework.hpp>
-#include "HubComponent.h"
-#include "RefineryConstruct.h"
-#include <RefineryConstructionConstruct.h>
-#include <SexyEnergyBuffer.h>
-#include <SexyEnergyBufferConstruction.h>
-#include "SchematicConstruction.h"
 
 np::WorldGenerator::WorldGenerator(void)
 {
@@ -84,58 +80,9 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 		points.push_back( boost::polygon::point_data<double>( nx, ny));
 	}
 
-	for ( int i = 0; i < 15; i++)
+	for ( int i = 0; i < 800; i++)
 	{
-		relax.relax( points, -mw2, -mh2, mw2, mh2);
-		/*
-		for ( int j = 0; j < numNodes; j++)
-		{
-			double vx = 0.0;
-			double vy = 0.0;
-			double dx = 0.0;
-			double dy = 0.0;
-
-			dx = ( vertices[j].x - mwp2);
-			dy = ( vertices[j].y - mhp2);
-			vx += boundWeight / dx;
-			vy += boundWeight / dy;
-
-			dx = ( vertices[j].x + mwp2);
-			dy = ( vertices[j].y - mhp2);
-			vx += boundWeight / dx;
-			vy += boundWeight / dy;
-
-			dx = ( vertices[j].x + mwp2);
-			dy = ( vertices[j].y + mhp2);
-			vx += boundWeight / dx;
-			vy += boundWeight / dy;
-
-			dx = ( vertices[j].x - mwp2);
-			dy = ( vertices[j].y + mhp2);
-			vx += boundWeight / dx;
-			vy += boundWeight / dy;
-
-			for ( int k = 0; k < numNodes; k++)
-			{
-				if ( j == k) continue;
-
-				dx = ( vertices[j].x - vertices[k].x);
-				dy = ( vertices[j].y - vertices[k].y);
-
-				//if ( dx * dx + dy * dy > 10000) continue;
-
-				vx += 1 / dx;
-				vy += 1 / dy;
-			}
-			
-			temp[j].x = std::min( std::max( vertices[j].x + vx * 100, -mw2), mw2);
-			temp[j].y = std::min( std::max( vertices[j].y + vy * 100, -mh2), mh2);
-		}
-
-		for ( int j = 0; j < numNodes; j++)
-		{
-			vertices[j] = temp[j];
-		}*/
+		relax.relax( points, -mwp2, -mhp2, mwp2, mhp2);
 	}
 
 	for ( int i = 0; i < numNodes; i++)
@@ -153,8 +100,8 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 	}
 
 	factory->createHub( nodes[0], settings->players[0]);
-	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
 	/* No need anymore
+	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
 	factory->setConstruct( hub->getConstruct(0), new np::RefineryConstruct());
 	factory->setConstruct( hub->getConstruct(1), new np::SexyEnergyBuffer());
 	factory->setConstruct( hub->getConstruct(2), new np::RefineryConstructionConstruct());

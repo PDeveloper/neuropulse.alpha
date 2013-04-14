@@ -3,6 +3,9 @@
 #include "Construct.h"
 #include <AdvancedOgreFramework.hpp>
 
+#include <OgreOggSound.h>
+#include "GraphicComponent.h"
+
 np::ConstructUpgradeSystem::ConstructUpgradeSystem(GameObjectFactory* gameObjectFactory) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<ConstructComponent>())
 {
@@ -32,6 +35,11 @@ void np::ConstructUpgradeSystem::process( ac::es::EntityPtr e )
 
 			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Adding");
 			objectFactory->setConstruct(e, upgrade);
+
+			OgreOggSound::OgreOggISound* sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "ConstructBuilt");
+			sound->setPlayPosition( 0.0);
+			sound->setPosition( e->getComponent<np::GraphicComponent>()->node->_getDerivedPosition());
+			sound->play();
 		}
 	}
 }

@@ -17,6 +17,8 @@
 
 #include <PulseEvent.h>
 
+#include <OgreOggSound.h>
+
 np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::NeuroWorldSettings* settings) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<NodeComponent>().requires<OutputComponent>())
 {
@@ -64,6 +66,11 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 		//// CHECK IF NODE HAS ENOUGH ENERGY!!!
 		node->currentEnergy = buffer->getAmountOf( rawEnergy);
 		if ( node->currentEnergy < node->energyThreshold) return;
+
+		OgreOggSound::OgreOggISound* sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "PulseEmitted" + Ogre::StringConverter::toString( e->getId()));
+		sound->setPlayPosition(0.0);
+		sound->setPosition( transform->position);
+		sound->play();
 
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage("energy threshold reached");
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (size_t)e->getId()));

@@ -25,6 +25,8 @@
 #include "HubConstructionComponent.h"
 #include "CameraComponent.h"
 
+#include <OgreOggSound.h>
+
 np::GameObjectFactory::GameObjectFactory( np::NeuroWorld* world) :
 	pulsePool()
 {
@@ -147,6 +149,8 @@ Ogre::Entity* np::GameObjectFactory::createGround()
 ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, double reactorOutput, double threshold)
 {
 	ac::es::EntityPtr e = scene->createEntity();
+
+	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "PulseEmitted" + Ogre::StringConverter::toString( e->getId()), "NeuroPulse_PulseEmitted_mono.wav");
 	
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
