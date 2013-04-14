@@ -23,6 +23,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "HubConstructionComponent.h"
+#include "CameraComponent.h"
 
 np::GameObjectFactory::GameObjectFactory( np::NeuroWorld* world) :
 	pulsePool()
@@ -915,4 +916,19 @@ void np::GameObjectFactory::killConstructConnectionEntity( ac::es::EntityPtr e)
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Construct Connection KILLED!");
 
 	e->kill();
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createCamera( Ogre::Camera* camera )
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	np::TransformComponent* transform = new np::TransformComponent();
+	np::CameraComponent* cameraComponent = new np::CameraComponent( camera);
+
+	e->addComponent( transform);
+	e->addComponent( cameraComponent);
+
+	e->activate();
+
+	return e;
 }

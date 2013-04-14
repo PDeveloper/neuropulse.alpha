@@ -68,6 +68,8 @@ namespace np
 		ac::es::EntityPtr createProxyHubEntity( ac::es::EntityPtr nodeEntity, np::NeuroPlayer* player);
 		void killProxyHubEntity( ac::es::EntityPtr e);
 
+		ac::es::EntityPtr createCamera( Ogre::Camera* camera);
+
 		ac::es::EntityPtr createRawConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 	private:
 

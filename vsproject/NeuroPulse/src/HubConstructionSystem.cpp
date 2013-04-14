@@ -30,7 +30,6 @@ void np::HubConstructionSystem::process( ac::es::EntityPtr e )
 	if ( !e->containsComponent<np::HubComponent>())
 	{
 		std::list<np::ResourcePacket*> packets = buffer->getPackets( hubSchematicRequirement);
-		if ( packets.size() > 0) OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Hub Schematic Packets: " + Ogre::StringConverter::toString( packets.size()));
 
 		std::list<np::ResourcePacket*>::iterator iterator;
 		iterator = packets.begin();
@@ -45,19 +44,17 @@ void np::HubConstructionSystem::process( ac::es::EntityPtr e )
 				{
 					ac::es::EntityPtr proxyHub = world->gameObjectFactory->createProxyHubEntity( e, player);
 					construction->addPlayer( player, proxyHub);
-
-					OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Proxy Hub CREATEEEDDDD!!!!!!!!");
 				}
 
 				if ( construction->addToConstruction( player, packet->amount))
 				{
-					std::list<np::HubConstructionSlot>::iterator iterator;
-					iterator = construction->slots.begin();
-					while ( iterator != construction->slots.end())
+					std::list<np::HubConstructionSlot>::iterator iterator2;
+					iterator2 = construction->slots.begin();
+					while ( iterator2 != construction->slots.end())
 					{
-						world->gameObjectFactory->killProxyHubEntity( (*iterator).proxyHub);
+						world->gameObjectFactory->killProxyHubEntity( (*iterator2).proxyHub);
 
-						iterator++;
+						iterator2++;
 					}
 
 					world->gameObjectFactory->createHub( e, player);

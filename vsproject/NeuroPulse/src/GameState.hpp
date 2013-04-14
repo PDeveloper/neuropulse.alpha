@@ -93,6 +93,8 @@ private:
 	np::NeuroWorld* neuroWorld;
 
 	Ogre::MovableObject* selectedObject;
+
+	bool haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e);
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

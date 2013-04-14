@@ -16,6 +16,8 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	constructConnections(),
 	systems()
 {
+	timeSinceLastUpdate = 0.0;
+
 	new np::ResourceManager();
 	np::ResourceManager* rm = np::ResourceManager::getSingletonPtr();
 
@@ -29,9 +31,6 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	camera = sceneManager->createCamera("NeuroWorldCamera");
-
-	camera->setPosition( Ogre::Vector3( 0.0, 220.0, 0.0));
-	camera->lookAt( Ogre::Vector3( 0.0, 0.0, -60.0));
 
 	camera->setNearClipDistance( 5);
 	camera->setAspectRatio( Ogre::Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
@@ -60,6 +59,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	constructUpgradeSystem = new np::ConstructUpgradeSystem(gameObjectFactory);
 	resourceTransferSystem = new np::ResourceTransferSystem();
 	hubConstructionSystem = new np::HubConstructionSystem( this);
+	cameraControlSystem = new np::CameraControlSystem( this);
 
 	addEntitySystem( reactionSystem);
 	addEntitySystem( outputSystem);
@@ -80,6 +80,18 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	addEntitySystem( hubConstructionSystem);
 	addEntitySystem( constructUpgradeSystem);
+
+	addEntitySystem( cameraControlSystem);
+
+	cameraController = gameObjectFactory->createCamera( camera);
+
+	cameraOffset = Ogre::Vector3( 0.0, 220.0, 60.0);
+
+	camera->setPosition( cameraOffset);
+	camera->lookAt( Ogre::Vector3( 0.0, 0.0, 0.0));
+
+	getCameraTransform()->position = cameraOffset;
+	getCameraTransform()->rotation = camera->getOrientation();
 }
 
 np::NeuroWorld::~NeuroWorld(void)
@@ -104,6 +116,8 @@ void np::NeuroWorld::cleanup( void )
 
 void np::NeuroWorld::update( double timeSinceLastFrame )
 {
+	timeSinceLastUpdate = timeSinceLastFrame;
+
 	reactionSystem->setDeltaTime( timeSinceLastFrame);
 	heatSystem->setDeltaTime(timeSinceLastFrame);
 	outputSystem->globalTick( timeSinceLastFrame);
@@ -508,4 +522,14 @@ bool np::NeuroWorld::disconnectInputOutput( ac::es::EntityPtr inputEntity, ac::e
 void np::NeuroWorld::movePulseGate( ac::es::EntityPtr pulseGate, int connection )
 {
 
+}
+
+np::CameraComponent* np::NeuroWorld::getCameraController()
+{
+	return cameraController->getComponent<CameraComponent>();
+}
+
+np::TransformComponent* np::NeuroWorld::getCameraTransform()
+{
+	return cameraController->getComponent<TransformComponent>();
 }

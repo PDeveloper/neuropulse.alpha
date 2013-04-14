@@ -399,6 +399,12 @@
     <ClCompile Include="src\SchematicConstruction.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\CameraControlSystem.cpp">
+      <Filter>Source Files\entity\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraComponent.cpp">
+      <Filter>Source Files\entity\components\info</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -718,6 +724,12 @@
     </ClInclude>
     <ClInclude Include="src\SchematicConstruct.h">
       <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraControlSystem.h">
+      <Filter>Header Files\entity\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraComponent.h">
+      <Filter>Header Files\entity\components\info</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

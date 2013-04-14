@@ -240,8 +240,9 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 	}
     else if(m_bRMouseDown)
     {
-        m_pCamera->yaw( Degree( evt.state.X.rel * -0.1f));
-        m_pCamera->pitch( Degree( evt.state.Y.rel * -0.1f));
+		neuroWorld->getCameraTransform()->rotation = Ogre::Quaternion( Degree( evt.state.X.rel * -0.1f), Vector3::UNIT_Y)
+			* neuroWorld->getCameraTransform()->rotation
+			* Ogre::Quaternion( Degree( evt.state.Y.rel * -0.1f), Vector3::UNIT_X);
 	}
 
 	Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
@@ -252,7 +253,7 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
 	}
 
-	m_pCamera->move( scrollVector);
+	neuroWorld->getCameraTransform()->position += scrollVector;
 
 	CEGUI::System::getSingleton().injectMousePosition(evt.state.X.rel, evt.state.Y.rel);
 
@@ -291,7 +292,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 		connectionPreview->hide();
 
 		Ogre::Entity* last = selectionManager->getLast();
-		if ( last != NULL)
+		if ( last != NULL && selectionManager->getLastNode() != NULL)
 		{
 			float mx = (float)evt.state.X.abs / (float)evt.state.width;
 			float my = (float)evt.state.Y.abs / (float)evt.state.height;
@@ -360,13 +361,14 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	float mx = (float)evt.state.X.abs / (float)evt.state.width;
 	float my = (float)evt.state.Y.abs / (float)evt.state.height;
 
-	if ( currentNode != NULL)
+	if ( selectionManager->getLastNode() != NULL)
 	{
+		ac::es::EntityPtr node = selectionManager->getLastNode();
 		Ogre::Entity* selectedObject;
 
 		selectedObject = neuroWorld->getConstructConnectorUnderPoint( mx, my);
 
-		if ( selectedObject != NULL)
+		if ( selectedObject != NULL && haveSameNode( node, getEntityPtr( selectedObject)))
 		{
 			if ( currentConnector != NULL) currentConnector->getParentSceneNode()->showBoundingBox(false);
 			currentConnector = selectedObject;
@@ -391,7 +393,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 		selectedObject = neuroWorld->getNearestConstructConnectionFromPoint( mx, my);
 
-		if ( selectedObject != NULL)
+		if ( selectedObject != NULL && haveSameNode( node, getEntityPtr( selectedObject)))
 		{
 			selectionManager->popUntilNode();
 			selectionManager->pushConstructConnection( selectedObject);
@@ -401,7 +403,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 		selectedObject = neuroWorld->getConstructUnderPoint( mx, my);
 
-		if ( selectedObject != NULL)
+		if ( selectedObject != NULL && haveSameNode( node, getEntityPtr( selectedObject)))
 		{
 			if ( currentConstruct != NULL) currentConstruct->getParentSceneNode()->showBoundingBox(false);
 			currentConstruct = selectedObject;
@@ -440,11 +442,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 void GameState::moveCamera()
 {
-	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_LSHIFT))
-		m_pCamera->moveRelative(m_TranslateRelativeVector);
-	m_pCamera->moveRelative(m_TranslateRelativeVector / 10);
-
-	m_pCamera->move( m_TranslateVector);
+	neuroWorld->getCameraTransform()->position += m_TranslateVector;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -464,10 +462,12 @@ void GameState::getInput()
 		m_TranslateVector.z = m_MoveScale;
 
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_R))
-		m_TranslateRelativeVector.z = -m_MoveScale;
+		m_TranslateRelativeVector.z = m_MoveScale;
 
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_F))
-		m_TranslateRelativeVector.z = m_MoveScale;
+		m_TranslateRelativeVector.z = -m_MoveScale;
+
+	m_TranslateVector -= neuroWorld->getCameraTransform()->rotation * m_TranslateRelativeVector;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -552,12 +552,14 @@ ac::es::EntityPtr GameState::getEntityPtr( Ogre::Entity* entity)
 
 void GameState::onNodeSelected( Ogre::Entity* node)
 {
-	// at this point currentNode is still the old node.
-
 	ac::es::EntityPtr previousNode	= selectionManager->getLastNode();
 	ac::es::EntityPtr newNode		= getEntityPtr( node);
 
 	if ( previousNode != NULL &&  previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
+
+	np::TransformComponent* transform = newNode->getComponent<np::TransformComponent>();
+	neuroWorld->getCameraTransform()->position = transform->position + neuroWorld->cameraOffset;
+
 	if ( newNode->containsComponent<np::HubComponent>()) newNode->getComponent<np::HubComponent>()->showStructures();
 }
 
@@ -639,4 +641,14 @@ bool GameState::InjectOISMouseButton(bool bButtonDown, OIS::MouseButtonID inButt
 	}
 	return false;
 
+}
+
+bool GameState::haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e )
+{
+	if ( e->containsComponent<np::ResourceInputComponent>()) return node == e->getComponent<np::ResourceInputComponent>()->hub;
+	else if ( e->containsComponent<np::ResourceOutputComponent>()) return node == e->getComponent<np::ResourceOutputComponent>()->hub;
+	else if ( e->containsComponent<np::ConstructConnectionComponent>()) return node == e->getComponent<np::ConstructConnectionComponent>()->hub;
+	else if ( e->containsComponent<np::ConstructComponent>()) return node == e->getComponent<np::ConstructComponent>()->hub;
+
+	return false;
 }

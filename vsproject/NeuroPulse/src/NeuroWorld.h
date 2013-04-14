@@ -24,12 +24,16 @@
 #include "ResourceTransferSystem.h"
 #include "ConstructSystem.h"
 #include "HubConstructionSystem.h"
+#include "CameraComponent.h"
+#include "CameraControlSystem.h"
 namespace np
 {
 
 	class NeuroWorld
 	{
 	public:
+
+		double timeSinceLastUpdate;
 
 		// Settings
 		np::NeuroWorldSettings* settings;
@@ -46,6 +50,8 @@ namespace np
 		std::vector<ac::es::EntityPtr> constructs;
 		std::vector<ac::es::EntityPtr> constructConnections;
 		std::vector<ac::es::EntitySystem*> systems;
+
+		ac::es::EntityPtr cameraController;
 
 		np::GameObjectFactory* gameObjectFactory;
 
@@ -66,6 +72,9 @@ namespace np
 		np::ResourceTransferSystem* resourceTransferSystem;
 		np::ConstructUpgradeSystem* constructUpgradeSystem;
 		np::HubConstructionSystem* hubConstructionSystem;
+
+		np::CameraControlSystem* cameraControlSystem;
+		Ogre::Vector3 cameraOffset;
 
 		// Event system
 		np::EventManager* eventManager;
@@ -94,6 +103,8 @@ namespace np
 		bool disconnect( ac::es::EntityPtr e1, ac::es::EntityPtr e2);
 		bool disconnectInputOutput( ac::es::EntityPtr input, ac::es::EntityPtr output);
 
+		np::CameraComponent* getCameraController();
+		np::TransformComponent* getCameraTransform();
 	private:
 		void cleanup(void);
 		void addEntitySystem( ac::es::EntitySystem* system);
