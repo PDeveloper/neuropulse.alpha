@@ -28,6 +28,12 @@ namespace np
 		double conversionRate;
 
 		RefineryConstruct();
+
+		np::Construct* getNewInstance()
+		{
+			return new np::RefineryConstruct();
+		}
+
 	private:
 		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;

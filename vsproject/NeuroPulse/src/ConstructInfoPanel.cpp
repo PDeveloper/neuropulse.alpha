@@ -11,19 +11,24 @@ np::ConstructInfoPanel::ConstructInfoPanel(CEGUI::WindowManager* wmgr)
 
 	this->wmgr = wmgr;
 
-	sheet = wmgr->createWindow("TaharezLook/FrameWindow", "ConstructInfoPanel/Main");
+	sheet = wmgr->createWindow("DefaultWindow", "ConstructInfoPanel/Main");
+	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 1000)));
+	sheet->setMousePassThroughEnabled(true);
 
+	constructInfoSheet = wmgr->createWindow("TaharezLook/FrameWindow", "ConstructInfoPanel/Info");
 
-	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 300)));
+	constructInfoSheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 300)));
 	//sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 1/3, 0), CEGUI::UDim( 0.0, 0)));
-	sheet->setText("Construct");
-	sheet->setAlpha( 0.5);
+	constructInfoSheet->setText("Construct");
+	constructInfoSheet->setAlpha( 0.5);
+
+	sheet->addChildWindow(constructInfoSheet);
 
 	nameText = wmgr->createWindow("TaharezLook/StaticText", "ConstructInfoPanel/NameText");
 	nameText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 	nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 50)));
 	//nameText->setAlpha( 0.5);
-	sheet->addChildWindow(nameText);
+	constructInfoSheet->addChildWindow(nameText);
 
 	onOffCheckBox = static_cast<CEGUI::Checkbox*>(wmgr->createWindow("TaharezLook/Checkbox", "ConstructInfoPanel/OnOffCheckbox"));
 	onOffCheckBox->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 50)));;
@@ -31,17 +36,18 @@ np::ConstructInfoPanel::ConstructInfoPanel(CEGUI::WindowManager* wmgr)
 	onOffCheckBox->setText("On/Off");
 	onOffCheckBox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&ConstructInfoPanel::onCheckStateChanged, this));
 	//onOffCheckBox->setSelected(true);
-	sheet->addChildWindow(onOffCheckBox);
+	constructInfoSheet->addChildWindow(onOffCheckBox);
 	//onOffCheckBox->setSelected(true);
 
 
 	propertyPanel = new PropertyPanel(wmgr);
-	sheet->addChildWindow(propertyPanel->sheet);
+	constructInfoSheet->addChildWindow(propertyPanel->sheet);
 	propertyPanel->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 100)));
 	propertyPanel->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, 300)));
 
-
-
+	buildMenu = new ConstructBuildMenu(wmgr);
+	sheet->addChildWindow(buildMenu->sheet);
+	buildMenu->sheet->setVisible(false);
 	/*
 	descriptionText = wmgr->createWindow("TaharezLook/StaticText", "ConstructInfoPanel/DescriptionText");
 	descriptionText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.6, 0)));
@@ -93,13 +99,15 @@ void np::ConstructInfoPanel::setConstruct( ac::es::EntityPtr construct )
 
 void np::ConstructInfoPanel::update()
 {
-	
+	buildMenu->setEntity(currentConstruct);
 
 	if ( currentConstruct != NULL)
 	{
 		np::ConstructComponent* constructComp = currentConstruct->getComponent<np::ConstructComponent>();
 
 		if(constructComp != NULL)
+		{
+			sheet->setVisible(true);
 
 			if(constructComp->construct != NULL)
 			{
@@ -109,12 +117,17 @@ void np::ConstructInfoPanel::update()
 
 				propertyPanel->setInterface(constructComp->construct->componentInterface);
 				
-				sheet->setVisible(true);
+				constructInfoSheet->setVisible(true);
+				buildMenu->sheet->setVisible(false);
 			}
 			else
 			{
-				sheet->setVisible(false);
+				buildMenu->setEntity(currentConstruct);
+
+				constructInfoSheet->setVisible(false);
+				buildMenu->sheet->setVisible(true);
 			}
+		}
 	}
 	else
 	{

@@ -52,6 +52,9 @@ namespace np
 		{
 		}
 
+		virtual np::Construct* getNewInstance() = 0;
+
+
 	protected:
 
 		bool isEmpty( int input)
@@ -109,6 +112,7 @@ namespace np
 			return buffer->appendPacket( packet);
 		}
 
+		
 	protected:
 		bool isOn;
 	};

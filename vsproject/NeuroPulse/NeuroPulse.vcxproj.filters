@@ -387,6 +387,12 @@
     <ClCompile Include="src\SexyEnergyBufferConstruct.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConstructBuildMenu.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BuildableConstructPanel.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -691,6 +697,12 @@
     </ClInclude>
     <ClInclude Include="src\SexyEnergyBufferConstruction.h">
       <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstructBuildMenu.h">
+      <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BuildableConstructPanel.h">
+      <Filter>Header Files\gui\menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

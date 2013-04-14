@@ -1,6 +1,7 @@
 #include <CEGUI.h>
 #include <ac/es.h>
 #include <PropertyPanel.h>
+#include <ConstructBuildMenu.h>
 
 #pragma once
 namespace np
@@ -8,8 +9,10 @@ namespace np
 	class ConstructInfoPanel
 	{
 	public:
-		
+
 		CEGUI::Window* sheet;
+		
+		CEGUI::Window* constructInfoSheet;
 		CEGUI::WindowManager* wmgr;
 
 		CEGUI::Window* nameText;
@@ -19,6 +22,7 @@ namespace np
 		bool onCheckStateChanged(const CEGUI::EventArgs &e);
 
 		PropertyPanel* propertyPanel;
+		ConstructBuildMenu* buildMenu;
 
 		ac::es::EntityPtr currentConstruct;
 

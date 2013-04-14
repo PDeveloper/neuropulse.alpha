@@ -36,6 +36,11 @@ namespace np
 		int selectedItem;
 
 		SexyEnergyBuffer();
+
+		np::Construct* getNewInstance()
+		{
+			return new np::SexyEnergyBuffer();
+		}
 	private:
 		np::ResourceType* rawEnergy;
 		np::ResourceType* sexyEnergy;

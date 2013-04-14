@@ -7,6 +7,9 @@
 #include <OutputComponent.h>
 #include "ConstructConnectionComponent.h"
 #include "GraphicComponent.h"
+#include <ConstructBuildMenu.h>
+#include <SexyEnergyBufferConstruction.h>
+#include <RefineryConstructionConstruct.h>
 
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
@@ -23,6 +26,9 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	rm->registerType( "SexyEnergy", "Processed energy that most Constructs require to run.", Ogre::ColourValue( 0.2, 0.2, 1.0));
 	rm->registerType( "Instruction", "Instructions can do things...", Ogre::ColourValue( 0.2, 0.8, 2.0));
 	rm->registerType( "Heat", "Hot stuff.", Ogre::ColourValue( 1.0, 0.0, 0.0));
+
+	
+
 
 	sceneManager->setAmbientLight( Ogre::ColourValue(0.4f, 0.4f, 0.4f));
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
@@ -41,6 +47,14 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	esScene = new ac::es::Scene();
 	gameObjectFactory = new np::GameObjectFactory( this);
+
+	
+	np::ConstructBuildMenu::objectFactory = gameObjectFactory;
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzng");
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::RefineryConstructionConstruct());
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzzng");
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SexyEnergyBufferConstruction());
+	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bzzzzng");
 
 	eventManager = new np::EventManager();
 
