@@ -13,6 +13,8 @@ namespace np
 		CEGUI::Window* sheet;
 		
 		CEGUI::WindowManager* wmgr;
+			
+		std::string name;
 
 		np::ComponentInterface* currentInterface;
 
@@ -25,7 +27,7 @@ namespace np
 			sheet->setPosition(positionVector);
 		}
 
-		PropertyPanel(CEGUI::WindowManager* wmgr);
+		PropertyPanel(CEGUI::WindowManager* wmgr, std::string name);
 		~PropertyPanel(void);
 
 	private:

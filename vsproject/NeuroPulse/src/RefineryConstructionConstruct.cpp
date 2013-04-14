@@ -5,12 +5,11 @@
 
 #include <algorithm>
 #include <DoubleProperty.h>
+#include <OutputPercentageProperty.h>
 
 np::RefineryConstructionConstruct::RefineryConstructionConstruct() :
 	Construct( Ogre::ColourValue( 0.0, 0.0, 1.0))
 {
-	isOn = true;
-
 	constructionCompleted = false;
 	constructionProgress = 0;
 
@@ -22,7 +21,7 @@ np::RefineryConstructionConstruct::RefineryConstructionConstruct() :
 	conversionRate = 0.01;
 	
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new DoubleProperty("Build Progress", &constructionProgress, 0, 1, 0.01));
+	componentInterface->addProperty(new OutputPercentageProperty("Build Progress", &constructionProgress));
 }
 
 void np::RefineryConstructionConstruct::process()
@@ -48,7 +47,7 @@ std::string np::RefineryConstructionConstruct::getName()
 
 std::string np::RefineryConstructionConstruct::getDescription()
 {
-	return "Takes a percentage of raw energy from pulse and converts it to refined energy, to be used in your dick";
+	return "Takes a percentage of raw energy\nfrom pulse and converts it to refined energy,\nto be used in your dick";
 }
 
 void np::RefineryConstructionConstruct::processInstructions( np::ResourcePacket* packet)

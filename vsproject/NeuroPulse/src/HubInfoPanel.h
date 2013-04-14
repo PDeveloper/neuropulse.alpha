@@ -1,5 +1,7 @@
 #include <CEGUI.h>
 #include <ac/es.h>
+#include <ComponentInterface.h>
+#include <PropertyPanel.h>
 
 #pragma once
 namespace np
@@ -12,6 +14,11 @@ namespace np
 		CEGUI::WindowManager* wmgr;
 
 		CEGUI::Window* healthText;
+
+		np::ComponentInterface* componentInterface;
+		double health;
+
+		np::PropertyPanel* propertyPanel;
 
 		ac::es::EntityPtr currentHub;
 

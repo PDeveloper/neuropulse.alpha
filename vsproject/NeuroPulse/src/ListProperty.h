@@ -34,12 +34,20 @@ namespace np
 			title->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 			title->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 30)));
 			title->setText(name);
+			title->setFont("Text");
 
 			sheet->addChildWindow(title);
+
+
 
 			combobox = static_cast<CEGUI::Combobox*>(wmgr->createWindow("TaharezLook/Combobox", name+"/Combobox"));
 			combobox->subscribeEvent(CEGUI::Combobox::EventListSelectionChanged, CEGUI::Event::Subscriber(&ListProperty::onListSelectionChanged, this));
 			combobox->setReadOnly(true);
+			combobox->setFont("Text");
+
+			combobox->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 30)));
+			combobox->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, 30 + valueMap->size()*30)));
+
 
 			int i=0;
 			for (std::hash_map<std::string, int>::iterator iter = valueMap->begin(); 
@@ -66,10 +74,12 @@ namespace np
 			if(pItem!=NULL)
 				combobox->getEditbox()->setText(pItem->getText());
 
-			combobox->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 30)));
-			combobox->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, 30 + valueMap->size()*30)));
-
+			
 			//combobox->getDropList()->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, valueMap->size()*30)));
+
+			CEGUI::PushButton* listButton = combobox->getPushButton();
+			listButton->subscribeEvent(CEGUI::PushButton::EventMouseButtonDown, CEGUI::Event::Subscriber(&ListProperty::buttonClicked, this));
+
 			
 
 			sheet->addChildWindow(combobox);
@@ -105,6 +115,28 @@ namespace np
 
 			if(listItem != NULL)
 				*value = listItem->getID();
+
+			return true;
+		}
+
+		bool buttonClicked(const CEGUI::EventArgs &e)
+		{
+			OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bing ");
+
+			/*
+			if(combobox->isDropDownListVisible())
+			{
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bang ");
+				combobox->hideDropList();
+			}
+			else
+			{
+				OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bong ");
+				combobox->showDropList();
+			}
+			*/
+
+			combobox->showDropList();
 
 			return true;
 		}

@@ -6,13 +6,35 @@
 #include <NodeComponent.h>
 
 
-np::GuiManager::GuiManager( CEGUI::WindowManager* wmgr)
+np::GuiManager::GuiManager( CEGUI::WindowManager* wmgr, float screenWidth, float screenHeight)
 {
 	this->wmgr = wmgr;
+	this->screenWidth = screenWidth;
+	this->screenHeight = screenHeight;
+	
+
+	if(! CEGUI::FontManager::getSingleton().isDefined( "DejaVuSans-10" ) )
+			CEGUI::FontManager::getSingleton().createFreeTypeFont( "DejaVuSans-10", 10, true, "DejaVuSans.ttf", "Fonts" );
+	CEGUI::System::getSingleton().setDefaultFont( "DejaVuSans-10" );
+
+	if(! CEGUI::FontManager::getSingleton().isDefined( "Title" ) )
+		CEGUI::FontManager::getSingleton().createFreeTypeFont( "Title", 14, true, "DejaVuSans.ttf", "Fonts");
+
+
+	if(! CEGUI::FontManager::getSingleton().isDefined( "SmallText" ) )
+		CEGUI::FontManager::getSingleton().createFreeTypeFont( "SmallText", 8, true, "DejaVuSans.ttf", "Fonts" );
+
+	if(! CEGUI::FontManager::getSingleton().isDefined( "Text" ) )
+		CEGUI::FontManager::getSingleton().createFreeTypeFont( "Text", 10, true, "DejaVuSans.ttf", "Fonts");
+	
+	CEGUI::System::getSingleton().setDefaultFont( "Title" );
+	
+
+	
 
 	sheet = wmgr->createWindow( "DefaultWindow", "MainGuiSheet");
-	//sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 3/4, 0), CEGUI::UDim( 1/3, 0)));
-	sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
+	//sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 10000), CEGUI::UDim( 0, 10000)));
+	//sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, 0)));
 	sheet->setMousePassThroughEnabled(true);
 
 	nodeInfoPanel = new np::NodeInfoPanel(wmgr);
@@ -28,6 +50,13 @@ np::GuiManager::GuiManager( CEGUI::WindowManager* wmgr)
 	budInfoPanel = new np::BudInfoPanel(wmgr);
 	sheet->addChildWindow(budInfoPanel->sheet);
 	budInfoPanel->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 440), CEGUI::UDim( 0, 0)));
+
+	notificationBar = new np::NotificationBar(wmgr);
+	notificationBar->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, screenHeight - 50)));
+	notificationBar->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0, screenWidth), CEGUI::UDim( 0, 50)));
+	notificationBar->setText("Do you feel notified?");
+	sheet->addChildWindow(notificationBar->sheet);
+	notificationBar->show();
 
 }
 

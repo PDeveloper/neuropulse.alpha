@@ -33,6 +33,7 @@ namespace np
 			title->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 			title->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 30)));
 			title->setText(name);
+			title->setFont("Text");
 
 			sheet->addChildWindow(title);
 

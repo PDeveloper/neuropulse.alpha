@@ -14,7 +14,7 @@ np::BuildableConstructPanel::BuildableConstructPanel( CEGUI::WindowManager* wmgr
 	if(construct != NULL)
 	{
 		sheet = wmgr->createWindow("DefaultWindow", construct->getName() + "BuildMenu/Main");
-		sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 100)));
+		sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 130)));
 
 		
 
@@ -22,19 +22,22 @@ np::BuildableConstructPanel::BuildableConstructPanel( CEGUI::WindowManager* wmgr
 		nameText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 		nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 40)));
 		nameText->setText(construct->getName());
+		nameText->setFont("Title");
 		sheet->addChildWindow(nameText);
 
 	
 		descriptionText = wmgr->createWindow("TaharezLook/StaticText", construct->getName() + "BuildMenu/DescriptionText");
 		descriptionText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 40)));
-		descriptionText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 40)));
+		descriptionText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 60)));
 		descriptionText->setText(construct->getDescription());
+		descriptionText->setFont("SmallText");
 		sheet->addChildWindow(descriptionText);
 
 		buildButton = static_cast<CEGUI::PushButton*>( wmgr->createWindow("TaharezLook/Button", construct->getName() + "BuildMenu/BuildButton"));
-		buildButton->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 80)));
-		buildButton->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 20)));
+		buildButton->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 100)));
+		buildButton->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 25)));
 		buildButton->setText("Build");
+		buildButton->setFont("Text");
 		buildButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&BuildableConstructPanel::onBuildButtonPressed, this));
 
 		sheet->addChildWindow(buildButton);
@@ -48,14 +51,14 @@ void np::BuildableConstructPanel::setEntity( ac::es::EntityPtr entity )
 
 bool np::BuildableConstructPanel::onBuildButtonPressed( const CEGUI::EventArgs &e )
 {
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bing");
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bing");
 	if(entity != NULL)
 	{
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bang");
+		//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bang");
 		np::ConstructComponent* constructComp = entity->getComponent<np::ConstructComponent>();
 		if(constructComp != NULL)
 		{
-			OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bong");
+			//OgreFramework::getSingletonPtr()->m_pLog->logMessage("Bong");
 			ConstructBuildMenu::objectFactory->setConstruct(entity, construct->getNewInstance());
 		}
 	}

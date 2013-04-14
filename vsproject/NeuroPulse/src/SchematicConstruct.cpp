@@ -3,6 +3,7 @@
 #include <HubComponent.h>
 #include <NeuroPlayer.h>
 #include <DoubleProperty.h>
+#include <OutputPercentageProperty.h>
 
 
 np::SchematicConstruct::SchematicConstruct(void) :
@@ -17,7 +18,7 @@ np::SchematicConstruct::SchematicConstruct(void) :
 	currentHubSchematicProgress = 0.0;
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty( new DoubleProperty("Hub Schematic Building:", &currentHubSchematicProgress, 0, 100.0, 0.00));
+	componentInterface->addProperty( new OutputPercentageProperty("Schematic Progress", &currentHubSchematicProgress));
 }
 
 
@@ -54,5 +55,5 @@ std::string np::SchematicConstruct::getName()
 
 std::string np::SchematicConstruct::getDescription()
 {
-	return "Creates hub schematics so you can capture moar nodes!";
+	return "Creates hub schematics\n so you can capture moar nodes!";
 }

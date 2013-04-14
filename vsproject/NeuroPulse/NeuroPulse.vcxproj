@@ -47,6 +47,7 @@
     <ClCompile Include="src\BudInfoPanel.cpp" />
     <ClCompile Include="src\HubConstructionComponent.cpp" />
     <ClCompile Include="src\HubConstructionSystem.cpp" />
+    <ClCompile Include="src\NotificationBar.cpp" />
     <ClCompile Include="src\PropertyPanel.cpp" />
     <ClCompile Include="src\PulseTransferSystem.cpp" />
     <ClCompile Include="src\RefineryConstructionConstruct.cpp" />
@@ -149,6 +150,9 @@
     <ClInclude Include="src\HubConstructionComponent.h" />
     <ClInclude Include="src\HubConstructionSlot.h" />
     <ClInclude Include="src\HubConstructionSystem.h" />
+    <ClInclude Include="src\NotificationBar.h" />
+    <ClInclude Include="src\OutputDoubleProperty.h" />
+    <ClInclude Include="src\OutputPercentageProperty.h" />
     <ClInclude Include="src\PulseGateSlot.h" />
     <ClInclude Include="src\ListProperty.h" />
     <ClInclude Include="src\PropertyPanel.h" />
@@ -201,6 +205,7 @@
     <ClInclude Include="src\SetupState.h" />
     <ClInclude Include="src\SexyEnergyBuffer.h" />
     <ClInclude Include="src\SexyEnergyBufferConstruction.h" />
+    <ClInclude Include="src\OutputStringProperty.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TweenState.h" />
     <ClInclude Include="src\WorldGenerator.h" />

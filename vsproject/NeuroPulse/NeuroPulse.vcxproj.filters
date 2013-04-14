@@ -411,6 +411,9 @@
     <ClCompile Include="src\CameraComponent.cpp">
       <Filter>Source Files\entity\components\info</Filter>
     </ClCompile>
+    <ClCompile Include="src\NotificationBar.cpp">
+      <Filter>Source Files\gui\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -742,6 +745,18 @@
     </ClInclude>
     <ClInclude Include="src\CameraComponent.h">
       <Filter>Header Files\entity\components\info</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputStringProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputDoubleProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputPercentageProperty.h">
+      <Filter>Header Files\gui\componentInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NotificationBar.h">
+      <Filter>Header Files\gui\menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

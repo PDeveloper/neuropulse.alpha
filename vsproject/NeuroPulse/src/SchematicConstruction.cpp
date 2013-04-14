@@ -1,6 +1,6 @@
 #include "SchematicConstruction.h"
 #include <ResourceManager.h>
-#include <DoubleProperty.h>
+#include <OutputPercentageProperty.h>
 #include <SchematicConstruct.h>
 
 np::SchematicConstruction::SchematicConstruction(void) :
@@ -17,7 +17,7 @@ np::SchematicConstruction::SchematicConstruction(void) :
 	takeEnergy = 50;
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new DoubleProperty("Build Progress", &constructionProgress, 0, 1, 0.01));
+	componentInterface->addProperty(new OutputPercentageProperty("Build Progress", &constructionProgress));
 }
 
 
@@ -62,5 +62,5 @@ std::string np::SchematicConstruction::getName()
 
 std::string np::SchematicConstruction::getDescription()
 {
-	return "Creates hub schematics so you can capture moar nodes!";
+	return "Creates hub schematics\nso you can capture moar nodes!";
 }

@@ -36,15 +36,6 @@ namespace np
 
 		np::ComponentInterface* componentInterface;
 
-		bool getOn()
-		{
-			return isOn;
-		}
-
-		void setOn(bool val)
-		{
-			isOn = val;
-		}
 
 		virtual void process() = 0;
 		virtual void processInstructions(np::ResourcePacket* packet) = 0;
@@ -124,6 +115,5 @@ namespace np
 			return buffer->appendPacket( packet);
 		}
 
-		bool isOn;
 	};
 }

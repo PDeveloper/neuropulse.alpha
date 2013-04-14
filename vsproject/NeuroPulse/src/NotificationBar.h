@@ -6,34 +6,31 @@
 #pragma once
 namespace np
 {
-	class ConstructInfoPanel
+	class NotificationBar
 	{
 	public:
 
 		CEGUI::Window* sheet;
-		
+
 		CEGUI::Window* constructInfoSheet;
 		CEGUI::WindowManager* wmgr;
 
-		CEGUI::Window* nameText;
-		CEGUI::Window* descriptionText;
+		CEGUI::Window* textWindow;
+		std::string text;
 		
-		
-		PropertyPanel* propertyPanel;
-		ConstructBuildMenu* buildMenu;
-
-		ac::es::EntityPtr currentConstruct;
-
-		void setConstruct( ac::es::EntityPtr construct);
+		void setText(std::string newText);
 		void update();
+
+		void show();
+		void hide();
 
 		void setPosition(CEGUI::UVector2 positionVector)
 		{
 			sheet->setPosition(positionVector);
 		}
-		
-		ConstructInfoPanel(CEGUI::WindowManager* wmgr);
-		~ConstructInfoPanel(void);
+
+		NotificationBar(CEGUI::WindowManager* wmgr);
+		~NotificationBar(void);
 
 	private:
 

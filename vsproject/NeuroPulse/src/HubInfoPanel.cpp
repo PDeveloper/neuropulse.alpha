@@ -1,7 +1,7 @@
 #include "HubInfoPanel.h"
 #include <HubComponent.h>
 #include <AdvancedOgreFramework.hpp>
-
+#include <OutputDoubleProperty.h>
 
 np::HubInfoPanel::HubInfoPanel(CEGUI::WindowManager* wmgr)
 {
@@ -15,11 +15,23 @@ np::HubInfoPanel::HubInfoPanel(CEGUI::WindowManager* wmgr)
 	sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.0, 100)));
 	//sheet->setText("Hub");
 
+	/*
 	healthText = wmgr->createWindow("TaharezLook/StaticText", "HubInfoPanel/HealthText");
 	healthText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 	healthText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 50)));
+	healthText->setFont("Text");
 	//healthText->setAlpha( 0.5);
 	sheet->addChildWindow(healthText);
+	*/
+
+	componentInterface = new np::ComponentInterface();
+	componentInterface->addProperty(new OutputDoubleProperty("Health", &health));
+	
+
+	propertyPanel = new np::PropertyPanel(wmgr, "Hub");
+	propertyPanel->setPosition(CEGUI::UVector2( CEGUI::UDim(0, 0), CEGUI::UDim( 0.0, 0)));
+	sheet->addChildWindow(propertyPanel->sheet);
+	propertyPanel->setInterface(componentInterface);
 }
 
 
@@ -42,7 +54,10 @@ void np::HubInfoPanel::update()
 	{
 		sheet->setVisible(true);
 
-		healthText->setText("Hub Health: "+Ogre::StringConverter::toString( Ogre::Real(hub->health)));
+		//healthText->setText("Hub Health: "+Ogre::StringConverter::toString( Ogre::Real(hub->health)));
+		health = hub->health;
+
+		propertyPanel->update();
 	}
 	else
 	{
