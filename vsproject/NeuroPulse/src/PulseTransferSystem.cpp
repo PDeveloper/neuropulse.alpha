@@ -8,7 +8,7 @@
 np::PulseTransferSystem::PulseTransferSystem(void) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<OutputComponent>().requires<NodeComponent>().requires<BufferComponent>())
 {
-	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "Energy");
 	heat = np::ResourceManager::getSingletonPtr()->getType( "Heat");
 	requirement = new np::ResourceRequirement( rawEnergy);
 

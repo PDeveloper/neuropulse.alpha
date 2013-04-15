@@ -11,7 +11,7 @@ np::ReactionSystem::ReactionSystem() :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<ReactionComponent>())
 {
 	deltaTime = 0.0;
-	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "Energy");
 }
 
 

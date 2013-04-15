@@ -12,7 +12,7 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 	isReleasing = true;
 	storage = 0.0;
 
-	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "Power");
 
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));

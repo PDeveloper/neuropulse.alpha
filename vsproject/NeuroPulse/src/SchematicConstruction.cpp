@@ -9,7 +9,7 @@ np::SchematicConstruction::SchematicConstruction(void) :
 	constructionCompleted = false;
 	constructionProgress = 0;
 
-	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "Power");
 
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 

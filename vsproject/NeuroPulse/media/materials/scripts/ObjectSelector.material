@@ -1,0 +1,17 @@
+material ObjectSelectorMaterial
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0.18 0.839 0.05
+				alpha_op_ex source1 src_manual src_current 0.2
+			}
+		}
+	}
+}

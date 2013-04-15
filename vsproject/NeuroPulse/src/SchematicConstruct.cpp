@@ -9,7 +9,7 @@
 np::SchematicConstruct::SchematicConstruct(void) :
 	Construct( Ogre::ColourValue( 0.28, 0.25, 0.15))
 {
-	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "Power");
 	hubSchematics = np::ResourceManager::getSingletonPtr()->getType( "HubSchematic");
 
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));

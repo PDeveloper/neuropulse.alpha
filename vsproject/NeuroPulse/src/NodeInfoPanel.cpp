@@ -69,8 +69,8 @@ void np::NodeInfoPanel::update()
 
 		sheet->setVisible(true);
 
-		//energyText->setText("Energy: "+Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy")))));
-		energy = currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"));
+		//energyText->setText("Energy: "+Ogre::StringConverter::toString( Ogre::Real( currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Energy")))));
+		energy = currentNode->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Energy"));
 		
 		//temperatureText->setText("T: "+Ogre::StringConverter::toString( Ogre::Real(node->temperature)));
 

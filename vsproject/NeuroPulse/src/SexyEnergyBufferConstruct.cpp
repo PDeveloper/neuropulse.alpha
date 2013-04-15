@@ -14,8 +14,8 @@ np::SexyEnergyBufferConstruction::SexyEnergyBufferConstruction() :
 	constructionCompleted = false;
 	constructionProgress = 0;
 
-	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
-	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "Energy");
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "Power");
 
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 

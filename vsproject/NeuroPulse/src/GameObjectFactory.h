@@ -70,6 +70,8 @@ namespace np
 
 		ac::es::EntityPtr createCamera( Ogre::Camera* camera);
 		ac::es::EntityPtr createNodeSelector();
+		ac::es::EntityPtr createObjectSelector();
+		ac::es::EntityPtr createBudSelector();
 		ac::es::EntityPtr createRawConstructConnectionEntity( const Ogre::Vector3& position1, const Ogre::Vector3& position2);
 	private:
 

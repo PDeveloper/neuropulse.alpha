@@ -111,6 +111,8 @@ void GameState::enter()
 	sound->setReferenceDistance( 200.0);
 
 	nodeSelector = neuroWorld->gameObjectFactory->createNodeSelector();
+	objectSelector = neuroWorld->gameObjectFactory->createObjectSelector();
+	budSelector = neuroWorld->gameObjectFactory->createBudSelector();
 
 	buildGUI();
 
@@ -410,12 +412,12 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 		if ( selectedObject != NULL && haveSameNode( node, getEntityPtr( selectedObject)))
 		{
-			if ( currentConnector != NULL) currentConnector->getParentSceneNode()->showBoundingBox(false);
 			currentConnector = selectedObject;
-			currentConnector->getParentSceneNode()->showBoundingBox(true);
 
 			selectionManager->popUntilNode();
 			selectionManager->pushResourceBud( selectedObject);
+			setBudSelector( getEntityPtr( selectedObject));
+
 			playSound( "SelectObject");
 
 			np::GraphicComponent* graphic = getEntityPtr(selectedObject)->getComponent<np::GraphicComponent>();
@@ -428,7 +430,6 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 		}
 		else if ( currentConnector != NULL)
 		{
-			if ( currentConnector->getParentSceneNode() != NULL) currentConnector->getParentSceneNode()->showBoundingBox(false);
 			currentConnector = NULL;
 		}
 
@@ -446,22 +447,23 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 		if ( selectedObject != NULL && haveSameNode( node, getEntityPtr( selectedObject)))
 		{
-			if ( currentConstruct != NULL) currentConstruct->getParentSceneNode()->showBoundingBox(false);
 			currentConstruct = selectedObject;
-			currentConstruct->getParentSceneNode()->showBoundingBox(true);
 
 			selectionManager->popUntilNode();
 			selectionManager->pushConstruct( selectedObject);
+			setObjectSelector( getEntityPtr( selectedObject));
+
 			playSound( "SelectObject");
 
 			return;
 		}
 		else if ( currentConstruct != NULL)
 		{
-			currentConstruct->getParentSceneNode()->showBoundingBox(false);
 			currentConstruct = NULL;
 		}
 	}
+
+	hideObjectSelector();
 
 	Ogre::Entity* newNode = neuroWorld->getNodeUnderPoint( mx, my);
 
@@ -516,8 +518,13 @@ void GameState::update(double timeSinceLastFrame)
 {
 	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
 
-	np::TransformComponent* st = nodeSelector->getComponent<np::TransformComponent>();
+	np::TransformComponent* st;
+	st = nodeSelector->getComponent<np::TransformComponent>();
 	st->rotation = st->rotation * Ogre::Quaternion( Ogre::Degree( -0.2), Ogre::Vector3::UNIT_Y);
+	st = objectSelector->getComponent<np::TransformComponent>();
+	st->rotation = st->rotation * Ogre::Quaternion( Ogre::Degree( 0.2), Ogre::Vector3::UNIT_Y);
+	st = budSelector->getComponent<np::TransformComponent>();
+	st->rotation = st->rotation * Ogre::Quaternion( Ogre::Degree( 0.2), Ogre::Vector3::UNIT_Y);
 
 	CEGUI::System::getSingleton().injectTimePulse(timeSinceLastFrame / 1000.0);
 
@@ -545,8 +552,8 @@ void GameState::update(double timeSinceLastFrame)
 		{
 			if ( entity->containsComponent<np::BufferComponent>() )
 			{
-				debugText += CEGUI::String( "raw energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("RawEnergy"))))) + "\n";
-				debugText += CEGUI::String( "sexy energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("SexyEnergy"))))) + "\n";
+				debugText += CEGUI::String( "raw energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Energy"))))) + "\n";
+				debugText += CEGUI::String( "sexy energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Power"))))) + "\n";
 			}
 			if( entity->containsComponent<np::NodeComponent>())
 			{
@@ -715,4 +722,42 @@ void GameState::setNodeSelector( ac::es::EntityPtr node )
 
 	st->position = nt->position;
 	graphic->show();
+}
+
+void GameState::setObjectSelector( ac::es::EntityPtr node )
+{
+	hideBudSelector();
+	np::TransformComponent* st = objectSelector->getComponent<np::TransformComponent>();
+	np::GraphicComponent* graphic = objectSelector->getComponent<np::GraphicComponent>();
+	np::GraphicComponent* g2 = node->getComponent<np::GraphicComponent>();
+
+	st->position = g2->node->_getDerivedPosition();
+	graphic->show();
+}
+
+void GameState::hideObjectSelector()
+{
+	np::GraphicComponent* graphic = objectSelector->getComponent<np::GraphicComponent>();
+
+	graphic->hide();
+}
+
+void GameState::setBudSelector( ac::es::EntityPtr object )
+{
+	hideObjectSelector();
+	np::TransformComponent* st = budSelector->getComponent<np::TransformComponent>();
+	np::GraphicComponent* graphic = budSelector->getComponent<np::GraphicComponent>();
+	np::GraphicComponent* g2 = object->getComponent<np::GraphicComponent>();
+
+	st->position = g2->node->_getDerivedPosition();
+	st->position.y -= 13;
+
+	graphic->show();
+}
+
+void GameState::hideBudSelector()
+{
+	np::GraphicComponent* graphic = budSelector->getComponent<np::GraphicComponent>();
+
+	graphic->hide();
 }

@@ -130,6 +130,34 @@ void np::GameObjectFactory::generateMeshes(void)
 
 	Ogre::MeshPtr selectorMesh = tb.transformToMesh( "NodeSelectorMesh");
 	selectorMesh->getSubMesh(0)->setMaterialName( "NodeSelectorMaterial");
+
+	///////// CONSTRUCT SELECTOR MESH
+	Procedural::TriangleBuffer tb2;
+
+	Procedural::Shape selectorShape2 = Procedural::RectangleShape().setHeight( 1.0).setWidth( 2.0).realizeShape();
+	selectorShape2.translate( 13.0, 13.0);
+
+	for ( double angle = 0.0; angle < 360; angle += 60.0)
+	{
+		Procedural::Lathe().setShapeToExtrude( &selectorShape2).setNumSeg( 6).setAngleBegin( Ogre::Degree(angle)).setAngleEnd( Ogre::Degree(angle + 30.0)).addToTriangleBuffer( tb2);
+	}
+
+	Ogre::MeshPtr selectorMesh2 = tb2.transformToMesh( "ObjectSelectorMesh");
+	selectorMesh2->getSubMesh(0)->setMaterialName( "ObjectSelectorMaterial");
+
+	///////// BUD SELECTOR MESH
+	Procedural::TriangleBuffer tb3;
+
+	Procedural::Shape selectorShape3 = Procedural::RectangleShape().setHeight( 1.0).setWidth( 2.0).realizeShape();
+	selectorShape3.translate( 4.0, 13.0);
+
+	for ( double angle = 0.0; angle < 360; angle += 120.0)
+	{
+		Procedural::Lathe().setShapeToExtrude( &selectorShape3).setNumSeg( 6).setAngleBegin( Ogre::Degree(angle)).setAngleEnd( Ogre::Degree(angle + 60.0)).addToTriangleBuffer( tb3);
+	}
+
+	Ogre::MeshPtr selectorMesh3 = tb3.transformToMesh( "BudSelectorMesh");
+	selectorMesh3->getSubMesh(0)->setMaterialName( "ObjectSelectorMaterial");
 }
 
 Ogre::Light* np::GameObjectFactory::createLight( std::string name,
@@ -166,6 +194,52 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeSelector()
 
 	//Need to fill in correct params:
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeSelectorMesh");
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+
+	Ogre::Entity* entities[] = { entity};
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent( 0.0, 0.0, 0.0);
+
+	graphic->hide();
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+
+	e->activate();
+
+	return e;
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createObjectSelector()
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	//Need to fill in correct params:
+	Ogre::Entity* entity = sceneManager->createEntity( "ObjectSelectorMesh");
+	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
+
+	Ogre::Entity* entities[] = { entity};
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	np::TransformComponent* transform = new np::TransformComponent( 0.0, 0.0, 0.0);
+
+	graphic->hide();
+
+	e->addComponent( graphic);
+	e->addComponent( transform);
+
+	e->activate();
+
+	return e;
+}
+
+ac::es::EntityPtr np::GameObjectFactory::createBudSelector()
+{
+	ac::es::EntityPtr e = scene->createEntity();
+
+	//Need to fill in correct params:
+	Ogre::Entity* entity = sceneManager->createEntity( "BudSelectorMesh");
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 
 	Ogre::Entity* entities[] = { entity};

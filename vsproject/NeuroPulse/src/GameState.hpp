@@ -94,11 +94,17 @@ private:
 
 	Ogre::MovableObject* selectedObject;
 	ac::es::EntityPtr nodeSelector;
+	ac::es::EntityPtr objectSelector;
+	ac::es::EntityPtr budSelector;
 
 	bool haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e);
 	void playSound( Ogre::String soundId);
 
 	void setNodeSelector( ac::es::EntityPtr node);
+	void setObjectSelector( ac::es::EntityPtr object);
+	void hideObjectSelector();
+	void setBudSelector( ac::es::EntityPtr object);
+	void hideBudSelector();
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

@@ -30,7 +30,7 @@ np::OutputSystem::OutputSystem( np::EventManager* eventManager, np::NeuroWorldSe
 	timeSinceLastPulse = 0.0;
 	isPulsing = false;
 
-	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "Energy");
 	requirement = new np::ResourceRequirement( rawEnergy);
 }
 

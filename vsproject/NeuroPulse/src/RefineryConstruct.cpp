@@ -13,8 +13,8 @@ np::RefineryConstruct::RefineryConstruct() :
 
 	isOn = true;
 	
-	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "RawEnergy");
-	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "SexyEnergy");
+	rawEnergy = np::ResourceManager::getSingletonPtr()->getType( "Energy");
+	sexyEnergy = np::ResourceManager::getSingletonPtr()->getType( "Power");
 
 	inputRequirements.push_back( np::ResourceRequirement( rawEnergy));
 	outputRequirements.push_back( np::ResourceRequirement( sexyEnergy));

@@ -100,6 +100,8 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 	}
 
 	factory->createHub( nodes[0], settings->players[0]);
+	np::TransformComponent* tn = nodes[0]->getComponent<np::TransformComponent>();
+	neuroWorld->getCameraTransform()->position = tn->position + neuroWorld->cameraOffset;
 	/* No need anymore
 	np::HubComponent* hub = nodes[0]->getComponent<np::HubComponent>();
 	factory->setConstruct( hub->getConstruct(0), new np::RefineryConstruct());
