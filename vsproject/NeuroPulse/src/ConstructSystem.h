@@ -8,13 +8,16 @@ namespace np
 		AC_ES_ENTITY_SYSTEM(ConstructSystem)
 	public:
 
-		
+		void setDeltaTime( double time);
 
 		ConstructSystem();
 		~ConstructSystem(void);
 
 	protected:
 		void process( ac::es::EntityPtr e);
+
+	private:
+		double deltaTime;
 	
 	};
 }

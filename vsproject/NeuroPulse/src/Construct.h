@@ -37,7 +37,7 @@ namespace np
 		np::ComponentInterface* componentInterface;
 
 
-		virtual void process() = 0;
+		virtual void process(float timeSinceLastUpdate) = 0;
 		virtual void processInstructions(np::ResourcePacket* packet) = 0;
 
 		virtual std::string getName() = 0;

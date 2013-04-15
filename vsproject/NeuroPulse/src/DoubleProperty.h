@@ -7,10 +7,11 @@ namespace np
 	class DoubleProperty : public ComponentProperty
 	{
 	public:
-		DoubleProperty(std::string name, double* value, double min, double max, double step)
+		DoubleProperty(std::string uniqueId, std::string name, double* value, double min, double max, double step)
 		{
 			sheet = NULL;
 
+			this->uniqueId = uniqueId;
 			this->name = name;
 			this->value = value;
 			this->min = min;
@@ -26,10 +27,10 @@ namespace np
 		CEGUI::Window* getInitializedSheet(CEGUI::WindowManager* wmgr)
 		{
 			this->wmgr = wmgr;
-			sheet = wmgr->createWindow("DefaultWindow", name+"/Main");
+			sheet = wmgr->createWindow("DefaultWindow", uniqueId+name+"/Main");
 
 
-			title = wmgr->createWindow("TaharezLook/StaticText", name+"/Title");
+			title = wmgr->createWindow("TaharezLook/StaticText", uniqueId+name+"/Title");
 			title->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 			title->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 30)));
 			title->setText(name);
@@ -37,7 +38,7 @@ namespace np
 
 			sheet->addChildWindow(title);
 
-			spinner = static_cast<CEGUI::Spinner*>(wmgr->createWindow("TaharezLook/Spinner", name+"/Spinner"));
+			spinner = static_cast<CEGUI::Spinner*>(wmgr->createWindow("TaharezLook/Spinner", uniqueId+name+"/Spinner"));
 			spinner->setAutoRepeatDelay(5);
 			spinner->setAutoRepeatRate(0.5);
 			spinner->setMouseAutoRepeatEnabled(false);

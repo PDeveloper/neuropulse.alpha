@@ -12,6 +12,8 @@ namespace np
 	{
 	public:
 
+		static const float UPDATE_INTERVAL;
+
 		CEGUI::Window* sheet;
 		CEGUI::WindowManager* wmgr;
 
@@ -19,13 +21,16 @@ namespace np
 		np::ConstructInfoPanel* constructInfoPanel;
 		np::BudInfoPanel* budInfoPanel;
 
+		ConstructBuildMenu* buildMenu;
+
+
 		np::NotificationBar* notificationBar;
 
 		ac::es::EntityPtr currentEntity;
 
 		void setEntity( ac::es::EntityPtr entity);
 
-		void update();
+		void update(float timePassed);
 
 		void setPosition(CEGUI::UVector2 positionVector)
 		{
@@ -36,6 +41,9 @@ namespace np
 		~GuiManager(void);
 
 		float screenWidth, screenHeight;
+
+	private:
+		float timeSinceLastUpdate;
 	};
 }
 

@@ -84,7 +84,7 @@ void GameState::enter()
 	connectionPreview = new np::ConnectionPreview( neuroWorld->gameObjectFactory->createRawConstructConnectionEntity( Ogre::Vector3(), Ogre::Vector3::UNIT_Z));
 	connectionPreview->hide();
 
-	guiManager->constructInfoPanel->buildMenu->update();
+	guiManager->buildMenu->update();
 
 	m_pSceneMgr = neuroWorld->sceneManager;
 	m_pCamera = neuroWorld->camera;
@@ -574,6 +574,8 @@ void GameState::update(double timeSinceLastFrame)
 
 	getInput();
 	moveCamera();
+
+	guiManager->update(timeSinceLastFrame);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

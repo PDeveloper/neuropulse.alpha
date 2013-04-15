@@ -11,35 +11,28 @@ np::ConstructInfoPanel::ConstructInfoPanel(CEGUI::WindowManager* wmgr)
 
 	this->wmgr = wmgr;
 
-	sheet = wmgr->createWindow("DefaultWindow", "ConstructInfoPanel/Main");
-	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 1000)));
-	sheet->setMousePassThroughEnabled(true);
+	sheet = wmgr->createWindow("TaharezLook/FrameWindow", "ConstructInfoPanel/Info");
 
-	constructInfoSheet = wmgr->createWindow("TaharezLook/FrameWindow", "ConstructInfoPanel/Info");
-
-	constructInfoSheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 300)));
+	sheet->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, 300)));
 	//sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 1/3, 0), CEGUI::UDim( 0.0, 0)));
-	constructInfoSheet->setText("Construct");
-	constructInfoSheet->setAlpha( 0.5);
+	sheet->setText("Construct");
+	sheet->setAlpha( 0.5);
 
-	sheet->addChildWindow(constructInfoSheet);
-
+	
 	nameText = wmgr->createWindow("TaharezLook/StaticText", "ConstructInfoPanel/NameText");
 	nameText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 	nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 60)));
 	nameText->setFont("Title");
 	//nameText->setAlpha( 0.5);
-	constructInfoSheet->addChildWindow(nameText);
+	sheet->addChildWindow(nameText);
 
 
 	propertyPanel = new PropertyPanel(wmgr, "ConstructInfo");
-	constructInfoSheet->addChildWindow(propertyPanel->sheet);
+	sheet->addChildWindow(propertyPanel->sheet);
 	propertyPanel->sheet->setPosition(CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 100)));
 	propertyPanel->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0.0, 200), CEGUI::UDim( 0, 300)));
 
-	buildMenu = new ConstructBuildMenu(wmgr);
-	sheet->addChildWindow(buildMenu->sheet);
-	buildMenu->sheet->setVisible(false);
+	
 	/*
 	descriptionText = wmgr->createWindow("TaharezLook/StaticText", "ConstructInfoPanel/DescriptionText");
 	descriptionText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0.6, 0)));
@@ -89,8 +82,6 @@ void np::ConstructInfoPanel::setConstruct( ac::es::EntityPtr construct )
 
 void np::ConstructInfoPanel::update()
 {
-	buildMenu->setEntity(currentConstruct);
-
 	if ( currentConstruct != NULL)
 	{
 		np::ConstructComponent* constructComp = currentConstruct->getComponent<np::ConstructComponent>();
@@ -107,15 +98,12 @@ void np::ConstructInfoPanel::update()
 
 				propertyPanel->setInterface(constructComp->construct->componentInterface);
 				
-				constructInfoSheet->setVisible(true);
-				buildMenu->sheet->setVisible(false);
+				sheet->setVisible(true);
+				
 			}
 			else
 			{
-				buildMenu->setEntity(currentConstruct);
-
-				constructInfoSheet->setVisible(false);
-				buildMenu->sheet->setVisible(true);
+				sheet->setVisible(false);
 			}
 		}
 		else

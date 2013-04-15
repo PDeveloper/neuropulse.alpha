@@ -19,7 +19,7 @@ np::PulseGateComponent::PulseGateComponent( int connection, double position, ac:
 	(*modeMap)["None"] = MODE_NONE;
 	mode = MODE_ALL;
 
-	componentInterface->addProperty(new ListProperty("Mode", &mode,  modeMap));
+	componentInterface->addProperty(new ListProperty("PulseGate", "Mode", &mode,  modeMap));
 	
 }
 

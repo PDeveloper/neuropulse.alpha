@@ -34,13 +34,38 @@ void np::ConstructBuildMenu::setEntity( ac::es::EntityPtr entity )
 	{
 		panels->at(i)->setEntity(entity);
 	}
+
+	if(entity == NULL)
+	{
+		sheet->setVisible(false);
+	}
+	else
+	{
+		np::ConstructComponent* construct = entity->getComponent<np::ConstructComponent>();
+		if(construct != NULL)
+		{
+			if(construct->construct != NULL)
+			{
+				sheet->setVisible(false);
+			}
+			else
+			{
+				sheet->setVisible(true);
+			}
+		}
+		else
+		{
+			sheet->setVisible(false);
+		}
+		
+	}
 }
 
 void np::ConstructBuildMenu::update()
 {
 	//Remove old
 
-	sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, 10000)));
+	//sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, 10000)));
 
 
 	for(int i=0; i<panels->size(); i++)
@@ -75,5 +100,5 @@ void np::ConstructBuildMenu::update()
 		
 	}
 
-	sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, height+50)));
+	//sheet->setSize(CEGUI::UVector2(CEGUI::UDim(0, 220), CEGUI::UDim(0, height+50)));
 }

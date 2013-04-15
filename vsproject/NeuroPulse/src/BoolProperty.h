@@ -8,10 +8,11 @@ namespace np
 	class BoolProperty : public ComponentProperty
 	{
 	public:
-		BoolProperty(std::string name, bool* value)
+		BoolProperty(std::string uniqueId, std::string name, bool* value)
 		{
 			sheet = NULL;
 
+			this->uniqueId = uniqueId;
 			this->name = name;
 			this->value = value;			
 		}
@@ -27,7 +28,7 @@ namespace np
 
 
 
-			CEGUI::Checkbox* checkbox = static_cast<CEGUI::Checkbox*>(wmgr->createWindow("TaharezLook/Checkbox", name));
+			CEGUI::Checkbox* checkbox = static_cast<CEGUI::Checkbox*>(wmgr->createWindow("TaharezLook/Checkbox", uniqueId+name+"BoolProperty/Main"));
 
 			sheet = checkbox;
 

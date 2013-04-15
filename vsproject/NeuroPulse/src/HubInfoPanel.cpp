@@ -25,7 +25,7 @@ np::HubInfoPanel::HubInfoPanel(CEGUI::WindowManager* wmgr)
 	*/
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new OutputDoubleProperty("Health", &health));
+	componentInterface->addProperty(new OutputDoubleProperty("HubInfo", "Health", &health));
 	
 
 	propertyPanel = new np::PropertyPanel(wmgr, "Hub");

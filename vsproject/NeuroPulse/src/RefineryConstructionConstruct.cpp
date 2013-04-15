@@ -21,13 +21,13 @@ np::RefineryConstructionConstruct::RefineryConstructionConstruct() :
 	conversionRate = 0.01;
 	
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new OutputPercentageProperty("Build Progress", &constructionProgress));
+	componentInterface->addProperty(new OutputPercentageProperty("RefineryConstruction", "Build Progress", &constructionProgress));
 }
 
-void np::RefineryConstructionConstruct::process()
+void np::RefineryConstructionConstruct::process(float timeSinceLastUpdate)
 {
 	
-	double processingAmount = 0.25;
+	double processingAmount = 10.0 / 1000 * timeSinceLastUpdate;
 
 	np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, processingAmount);
 	

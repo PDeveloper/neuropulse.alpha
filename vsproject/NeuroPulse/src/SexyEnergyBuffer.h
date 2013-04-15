@@ -14,7 +14,7 @@ namespace np
 
 		bool isReleasing;
 
-		void process(); 
+		void process(float timeSinceLastUpdate); 
 		void processInstructions(np::ResourcePacket* packet);
 
 		np::Construct* getUpgrade()

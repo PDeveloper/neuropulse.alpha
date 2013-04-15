@@ -10,10 +10,11 @@ namespace np
 	class OutputPercentageProperty : public ComponentProperty
 	{
 	public:
-		OutputPercentageProperty(std::string name, double* value)
+		OutputPercentageProperty(std::string uniqueId, std::string name, double* value)
 		{
 			sheet = NULL;
 
+			this->uniqueId = uniqueId;
 			this->name = name;
 			this->value = value;			
 		}
@@ -29,10 +30,10 @@ namespace np
 
 
 			this->wmgr = wmgr;
-			sheet = wmgr->createWindow("DefaultWindow", name+"/Main");
+			sheet = wmgr->createWindow("DefaultWindow", uniqueId+name+"/Main");
 
 
-			nameText = wmgr->createWindow("TaharezLook/StaticText", name+"/Title");
+			nameText = wmgr->createWindow("TaharezLook/StaticText", uniqueId+name+"/Title");
 			nameText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 			nameText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 130), CEGUI::UDim(0, 30)));
 			nameText->setText(name);
@@ -40,7 +41,7 @@ namespace np
 
 			sheet->addChildWindow(nameText);
 
-			valueText = wmgr->createWindow("TaharezLook/StaticText", name+"/Value");
+			valueText = wmgr->createWindow("TaharezLook/StaticText", uniqueId+name+"/Value");
 			valueText->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 130), CEGUI::UDim( 0, 0)));
 			valueText->setSize(CEGUI::UVector2(CEGUI::UDim(0, 70), CEGUI::UDim(0, 30)));
 			valueText->setFont("Text");

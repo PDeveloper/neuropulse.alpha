@@ -36,8 +36,8 @@ np::NodeInfoPanel::NodeInfoPanel(CEGUI::WindowManager* wmgr)
 	*/
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new OutputDoubleProperty("Energy", &energy));
-	componentInterface->addProperty(new OutputDoubleProperty("Temperature", &temperature));
+	componentInterface->addProperty(new OutputDoubleProperty("NodeInfo", "Energy", &energy));
+	componentInterface->addProperty(new OutputDoubleProperty("NodeInfo", "Temperature", &temperature));
 
 	propertyPanel = new np::PropertyPanel(wmgr, "Node");
 	propertyPanel->setPosition(CEGUI::UVector2( CEGUI::UDim(0, 0), CEGUI::UDim( 0.0, 0)));

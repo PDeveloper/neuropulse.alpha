@@ -5,12 +5,17 @@
 np::ConstructSystem::ConstructSystem() :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<ConstructComponent>())
 {
-
+	deltaTime = 0;
 }
 
 np::ConstructSystem::~ConstructSystem()
 {
 
+}
+
+void np::ConstructSystem::setDeltaTime( double time)
+{
+	deltaTime = time;
 }
 
 void np::ConstructSystem::process( ac::es::EntityPtr e )
@@ -20,7 +25,7 @@ void np::ConstructSystem::process( ac::es::EntityPtr e )
 	if ( constructComponent == NULL) return;
 	if ( constructComponent->construct != NULL)
 	{
-		constructComponent->construct->process();
+		constructComponent->construct->process(deltaTime);
 
 	}
 }
