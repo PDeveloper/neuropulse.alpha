@@ -42,12 +42,12 @@ void np::SexyEnergyBufferConstruction::process(float timeSinceLastUpdate)
 
 std::string np::SexyEnergyBufferConstruction::getName()
 {
-	return "Energy Storage";
+	return "Power Storage";
 }
 
 std::string np::SexyEnergyBufferConstruction::getDescription()
 {
-	return "Stores sexy energy so you\ncan have some for later.";
+	return "Stores power so you\ncan have some for later.";
 }
 
 void np::SexyEnergyBufferConstruction::processInstructions( np::ResourcePacket* packet)

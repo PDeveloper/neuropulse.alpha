@@ -3,6 +3,8 @@
 #include <TransformComponent.h>
 #include <NeuroWorld.h>
 
+#include <algorithm>
+
 np::CameraControlSystem::CameraControlSystem( np::NeuroWorld* world) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<CameraComponent>().requires<TransformComponent>())
 {
@@ -21,6 +23,8 @@ void np::CameraControlSystem::process( ac::es::EntityPtr e )
 
 	double p = world->timeSinceLastUpdate / 400.0;
 
-	camera->camera->setOrientation( Ogre::Quaternion::Slerp( 0.9999 * p, camera->camera->getOrientation(), transform->rotation, true));
-	camera->camera->move( 0.9999 * p * ( transform->position - camera->camera->getPosition()));
+	double t = std::min( 0.9999 * p, 1.0);
+
+	camera->camera->setOrientation( Ogre::Quaternion::Slerp( t, camera->camera->getOrientation(), transform->rotation, true));
+	camera->camera->setPosition( camera->camera->getPosition() + t * ( transform->position - camera->camera->getPosition()));
 }

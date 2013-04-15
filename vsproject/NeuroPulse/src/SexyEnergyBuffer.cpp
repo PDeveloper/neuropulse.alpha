@@ -19,7 +19,7 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 
 	componentInterface = new np::ComponentInterface();
 
-	componentInterface->addProperty(new OutputDoubleProperty("Buffer", "Energy", &storage));
+	componentInterface->addProperty(new OutputDoubleProperty("Buffer", "Power", &storage));
 
 	componentInterface->addProperty(new BoolProperty("Buffer", "Release", &isReleasing));
 
@@ -56,12 +56,12 @@ void np::SexyEnergyBuffer::process(float timeSinceLastUpdate)
 
 std::string np::SexyEnergyBuffer::getName()
 {
-	return "Energy Storage";
+	return "Power Storage";
 }
 
 std::string np::SexyEnergyBuffer::getDescription()
 {
-	return "Stores sexy energy so you\ncan have some for later.";
+	return "Stores power so you\ncan have some for later.";
 }
 
 void np::SexyEnergyBuffer::processInstructions( np::ResourcePacket* packet)

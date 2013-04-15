@@ -34,7 +34,7 @@ void np::RefineryConstruct::process(float timeSinceLastUpdate)
 
 		np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, processingAmount);
 
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
+		//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
 
 		ResourcePacket* product = new ResourcePacket( sexyEnergy, rawPacket->amount * conversionRate);
 

@@ -71,6 +71,9 @@ GameState::GameState()
 
 	selectionManager = new np::SelectionManager();
 	connectionPreview = NULL;
+
+	shouldUpdateNotifier = false;
+	timeSinceLastNotifierUpdate = 0.0;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -190,21 +193,81 @@ bool GameState::onKeyRelease(const OIS::KeyEvent &keyEventRef)
 
 bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 {
+	float mx = (float)evt.state.X.abs / (float)evt.state.width;
+	float my = (float)evt.state.Y.abs / (float)evt.state.height;
+
+	Ogre::Entity* selectedBud;
+	if ( shouldUpdateNotifier || m_bLMouseDown) selectedBud = neuroWorld->getConstructConnectorUnderPoint( mx, my);
+	
+	if ( shouldUpdateNotifier)
+	{
+		Ogre::Entity* selectedConstruct = neuroWorld->getConstructUnderPoint( mx, my);
+
+		ac::es::EntityPtr ep;
+
+		if ( selectedBud != NULL && ( ep = getEntityPtr( selectedBud)) != NULL)
+		{
+			np::BufferComponent* buffer = ep->getComponent<np::BufferComponent>();
+
+			Ogre::String notif_str = "";
+
+			if ( ep->containsComponent<np::PulseGateComponent>())
+			{
+				notif_str = "Pulse Gate";
+			}
+			else
+			{
+				notif_str = "Resource Bud";
+			}
+
+			if ( buffer->getTypes() == np::ResourceRequirement::ANY)
+			{
+				notif_str += " (All Resources)";
+			}
+			else
+			{
+				notif_str += " (";
+
+				std::vector<np::ResourceType*>& types = np::ResourceManager::getSingletonPtr()->getTypes( &buffer->getTypes());
+				
+				for ( int i = 0; i < types.size(); i++)
+				{
+					if ( i > 0) notif_str += ", ";
+					notif_str += types[i]->name();
+				}
+
+				notif_str += ")";
+			}
+
+			guiManager->notificationBar->setText( notif_str);
+		}
+		else if ( selectedConstruct != NULL && ( ep = getEntityPtr( selectedConstruct)) != NULL)
+		{
+			np::ConstructComponent* construct = ep->getComponent<np::ConstructComponent>();
+
+			if ( construct != NULL)
+			{
+				if ( construct->construct != NULL) guiManager->notificationBar->setText( construct->construct->getName());
+				else guiManager->notificationBar->setText( "Empty Construct Space");
+			}
+		}
+		else
+		{
+			guiManager->notificationBar->setText( "");
+		}
+
+		shouldUpdateNotifier = false;
+	}
+
 	if ( m_bLMouseDown)
 	{
-		connectionPreview;
-
 		Ogre::Entity* last = selectionManager->getLast();
 		if ( last != NULL)
 		{
-			float mx = (float)evt.state.X.abs / (float)evt.state.width;
-			float my = (float)evt.state.Y.abs / (float)evt.state.height;
-
 			ac::es::EntityPtr lastEntity = getEntityPtr(last);
 
 			if ( lastEntity->containsComponent<np::ResourceInputComponent>() || lastEntity->containsComponent<np::ResourceOutputComponent>())
 			{
-				Ogre::Entity* selectedBud = neuroWorld->getConstructConnectorUnderPoint( mx, my);
 				std::pair<int, double> nearestConnection = neuroWorld->getNearestConnectionFromPoint( mx, my, selectionManager->getLastNode());
 
 				if ( lastEntity->containsComponent<np::PulseGateComponent>() && nearestConnection.first != -1)
@@ -277,15 +340,27 @@ bool GameState::onMouseMove(const OIS::MouseEvent &evt)
 			* Ogre::Quaternion( Degree( evt.state.Y.rel * -0.1f), Vector3::UNIT_X);
 	}
 
-	Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
-
-	if ( evt.state.X.abs <= 0 || evt.state.X.abs >= evt.state.width || evt.state.Y.abs <= 0 || evt.state.Y.abs >= evt.state.height)
+	if( !m_bRMouseDown)
 	{
-		scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
-		scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
+		Ogre::Vector3 scrollVector( 0.0, 0.0, 0.0);
+
+		if ( evt.state.X.abs <= 0 || evt.state.X.abs >= evt.state.width || evt.state.Y.abs <= 0 || evt.state.Y.abs >= evt.state.height)
+		{
+			scrollVector.x = m_MouseScrollSpeed * evt.state.X.rel;
+			scrollVector.z = m_MouseScrollSpeed * evt.state.Y.rel;
+		}
+
+		scrollVector = Ogre::Quaternion( neuroWorld->getCameraTransform()->rotation.getYaw(), Ogre::Vector3::UNIT_Y) * scrollVector;
+
+		neuroWorld->getCameraTransform()->position += scrollVector;
 	}
 
-	neuroWorld->getCameraTransform()->position += scrollVector;
+	if ( evt.state.Z.rel)
+	{
+		Ogre::Vector3 translateVector( 0.0, 0.0, evt.state.Z.rel / 120.0 * -12.0);
+
+		neuroWorld->getCameraTransform()->position += neuroWorld->getCameraTransform()->rotation * translateVector;
+	}
 
 	CEGUI::System::getSingleton().injectMousePosition(evt.state.X.rel, evt.state.Y.rel);
 
@@ -358,7 +433,7 @@ bool GameState::onMouseRelease(const OIS::MouseEvent &evt, OIS::MouseButtonID id
 					if ( connector2 != NULL && !connector2->containsComponent<np::PulseGateComponent>())
 					{
 						if ( neuroWorld->connect( lastEntity, connector2)) playSound( "GoodBud");
-						else playSound( "BadBud");
+						else if ( selectedBud != last) playSound( "BadBud");
 					}
 				}
 				else if ( nearestConnection.first != -1)
@@ -464,6 +539,7 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 	}
 
 	hideObjectSelector();
+	hideBudSelector();
 
 	Ogre::Entity* newNode = neuroWorld->getNodeUnderPoint( mx, my);
 
@@ -516,6 +592,13 @@ void GameState::getInput()
 
 void GameState::update(double timeSinceLastFrame)
 {
+	timeSinceLastNotifierUpdate += timeSinceLastFrame;
+	if ( timeSinceLastNotifierUpdate > 200.0)
+	{
+		shouldUpdateNotifier = true;
+		timeSinceLastNotifierUpdate = 0.0;
+	}
+
 	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;
 
 	np::TransformComponent* st;
@@ -609,10 +692,11 @@ void GameState::onNodeSelected( Ogre::Entity* node)
 	ac::es::EntityPtr previousNode	= selectionManager->getLastNode();
 	ac::es::EntityPtr newNode		= getEntityPtr( node);
 
-	if ( previousNode != NULL &&  previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
+	if ( previousNode != NULL && !haveSameNode( previousNode, newNode) && previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
 
 	np::TransformComponent* transform = newNode->getComponent<np::TransformComponent>();
 	neuroWorld->getCameraTransform()->position = transform->position + neuroWorld->cameraOffset;
+	neuroWorld->getCameraTransform()->rotation = neuroWorld->defaultCameraView;
 
 	setNodeSelector( newNode);
 

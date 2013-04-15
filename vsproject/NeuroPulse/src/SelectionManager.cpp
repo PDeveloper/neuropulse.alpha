@@ -44,7 +44,7 @@ void np::SelectionManager::popUntilNode()
 	if ( !selectionList.empty())
 	{
 		ac::es::EntityPtr e = getEntityPtr( selectionList.back());
-		bool isNode = e->containsComponent<np::NodeComponent>();
+		bool isNode = ( e != NULL && e->containsComponent<np::NodeComponent>());
 
 		while ( !isNode)
 		{

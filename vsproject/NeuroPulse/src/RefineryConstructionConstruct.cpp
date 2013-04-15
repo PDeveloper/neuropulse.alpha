@@ -32,7 +32,7 @@ void np::RefineryConstructionConstruct::process(float timeSinceLastUpdate)
 	np::ResourcePacket* rawPacket = getPacketOf( rawEnergy, processingAmount);
 	
 
-	OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery BUILDING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
+	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery BUILDING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));
 
 	constructionProgress += rawPacket->amount * conversionRate;
 
@@ -47,7 +47,7 @@ std::string np::RefineryConstructionConstruct::getName()
 
 std::string np::RefineryConstructionConstruct::getDescription()
 {
-	return "Takes a percentage of raw energy\nfrom pulse and converts it to refined energy,\nto be used in your dick";
+	return "Takes a percentage of energy\nfrom pulse and converts it to power.";
 }
 
 void np::RefineryConstructionConstruct::processInstructions( np::ResourcePacket* packet)

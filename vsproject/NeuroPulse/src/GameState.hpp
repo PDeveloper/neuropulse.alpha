@@ -97,6 +97,9 @@ private:
 	ac::es::EntityPtr objectSelector;
 	ac::es::EntityPtr budSelector;
 
+	bool shouldUpdateNotifier;
+	double timeSinceLastNotifierUpdate;
+
 	bool haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e);
 	void playSound( Ogre::String soundId);
 

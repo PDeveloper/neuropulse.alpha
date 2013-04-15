@@ -75,6 +75,7 @@ namespace np
 
 		np::CameraControlSystem* cameraControlSystem;
 		Ogre::Vector3 cameraOffset;
+		Ogre::Quaternion defaultCameraView;
 
 		// Event system
 		np::EventManager* eventManager;

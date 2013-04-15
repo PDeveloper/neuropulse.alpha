@@ -37,7 +37,7 @@ void np::SchematicConstruct::process(float timeSinceLastUpdate)
 		currentHubSchematicProgress -= 1;
 
 		np::NeuroPlayer* player = container->hub->getComponent<np::HubComponent>()->owner;
-		np::ResourcePacket* outputPacket = new np::ResourcePacket( hubSchematics, 10.0, NULL, player->signature);
+		np::ResourcePacket* outputPacket = new np::ResourcePacket( hubSchematics, 4.0, NULL, player->signature);
 
 		putPacket( 0, outputPacket);
 	}

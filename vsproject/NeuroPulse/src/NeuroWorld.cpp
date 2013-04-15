@@ -107,6 +107,8 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 
 	getCameraTransform()->position = cameraOffset;
 	getCameraTransform()->rotation = camera->getOrientation();
+
+	defaultCameraView = camera->getOrientation();
 }
 
 np::NeuroWorld::~NeuroWorld(void)
