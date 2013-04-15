@@ -11,6 +11,10 @@ np::GuiManager::GuiManager( CEGUI::WindowManager* wmgr, float screenWidth, float
 	this->wmgr = wmgr;
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
+
+	timeSinceLastUpdate = 0;
+
+	currentEntity = NULL;
 	
 
 	if(! CEGUI::FontManager::getSingleton().isDefined( "DejaVuSans-10" ) )
@@ -51,6 +55,12 @@ np::GuiManager::GuiManager( CEGUI::WindowManager* wmgr, float screenWidth, float
 	sheet->addChildWindow(budInfoPanel->sheet);
 	budInfoPanel->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 440), CEGUI::UDim( 0, 0)));
 
+	buildMenu = new ConstructBuildMenu(wmgr);
+	buildMenu->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, screenWidth - 220), CEGUI::UDim( 0, 0)));
+	buildMenu->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0, 220), CEGUI::UDim( 0, screenHeight)));
+	sheet->addChildWindow(buildMenu->sheet);
+	buildMenu->sheet->setVisible(false);
+
 	notificationBar = new np::NotificationBar(wmgr);
 	notificationBar->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0, screenHeight - 50)));
 	notificationBar->sheet->setSize(CEGUI::UVector2( CEGUI::UDim( 0, screenWidth), CEGUI::UDim( 0, 50)));
@@ -65,41 +75,70 @@ void np::GuiManager::setEntity( ac::es::EntityPtr entity )
 {
 	currentEntity = entity;
 	
-
-	if(currentEntity != NULL)
+	if(currentEntity != entity)
 	{
-		//If node
-		if(currentEntity->containsComponent<np::NodeComponent>())
+		timeSinceLastUpdate = GuiManager::UPDATE_INTERVAL;
+		update(1);
+	}
+	
+}
+
+void np::GuiManager::update( float timePassed )
+{
+
+	timeSinceLastUpdate += timePassed;
+
+	if (timeSinceLastUpdate > GuiManager::UPDATE_INTERVAL)
+	{
+		timeSinceLastUpdate = 0;
+		if(currentEntity != NULL)
 		{
-			nodeInfoPanel->setNode(currentEntity);
+			//If node
+			if(currentEntity->containsComponent<np::NodeComponent>())
+			{
+				nodeInfoPanel->setNode(currentEntity);
+				constructInfoPanel->setConstruct(NULL);
+				budInfoPanel->setBud(NULL);
+
+				buildMenu->setEntity(NULL);
+			}
+			//Construct
+			else if(currentEntity->containsComponent<np::ConstructComponent>())
+			{
+				nodeInfoPanel->setNode(currentEntity->getComponent<np::ConstructComponent>()->parent);
+				constructInfoPanel->setConstruct(currentEntity);
+				budInfoPanel->setBud(NULL);
+
+				buildMenu->setEntity(currentEntity);
+			}
+			//bud
+			else if(currentEntity->containsComponent<np::ResourceInputComponent>())
+			{
+				nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceInputComponent>()->hub);
+				constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceInputComponent>()->parent);
+				budInfoPanel->setBud(currentEntity);
+
+				buildMenu->setEntity(NULL);
+
+			}
+			else if(currentEntity->containsComponent<np::ResourceOutputComponent>())
+			{
+				nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceOutputComponent>()->hub);
+				constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceOutputComponent>()->parent);
+				budInfoPanel->setBud(currentEntity);
+
+				buildMenu->setEntity(NULL);
+			}
+		}
+		else
+		{
+			nodeInfoPanel->setNode(NULL);
 			constructInfoPanel->setConstruct(NULL);
 			budInfoPanel->setBud(NULL);
+
+			buildMenu->setEntity(NULL);
 		}
-		//Construct
-		else if(currentEntity->containsComponent<np::ConstructComponent>())
-		{
-			nodeInfoPanel->setNode(currentEntity->getComponent<np::ConstructComponent>()->parent);
-			constructInfoPanel->setConstruct(currentEntity);
-			budInfoPanel->setBud(NULL);
-		}
-		//bud
-		else if(currentEntity->containsComponent<np::ResourceInputComponent>())
-		{
-			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceInputComponent>()->hub);
-			constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceInputComponent>()->parent);
-			budInfoPanel->setBud(currentEntity);
-		}
-		else if(currentEntity->containsComponent<np::ResourceOutputComponent>())
-		{
-			nodeInfoPanel->setNode(currentEntity->getComponent<np::ResourceOutputComponent>()->hub);
-			constructInfoPanel->setConstruct(currentEntity->getComponent<np::ResourceOutputComponent>()->parent);
-			budInfoPanel->setBud(currentEntity);
-		}
-	}
-	else
-	{
-		nodeInfoPanel->setNode(NULL);
-		constructInfoPanel->setConstruct(NULL);
-		budInfoPanel->setBud(NULL);
-	}
 }
+}
+
+const float np::GuiManager::UPDATE_INTERVAL = 100;

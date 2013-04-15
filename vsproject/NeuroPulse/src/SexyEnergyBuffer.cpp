@@ -19,9 +19,9 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 
 	componentInterface = new np::ComponentInterface();
 
-	componentInterface->addProperty(new OutputDoubleProperty("Energy", &storage));
+	componentInterface->addProperty(new OutputDoubleProperty("Buffer", "Energy", &storage));
 
-	componentInterface->addProperty(new BoolProperty("Release", &isReleasing));
+	componentInterface->addProperty(new BoolProperty("Buffer", "Release", &isReleasing));
 
 	/*
 	std::hash_map<std::string, int>* testMap = new std::hash_map<std::string, int>();
@@ -35,7 +35,7 @@ np::SexyEnergyBuffer::SexyEnergyBuffer() :
 
 }
 
-void np::SexyEnergyBuffer::process()
+void np::SexyEnergyBuffer::process(float timeSinceLastUpdate)
 {
 	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, 40.0 - storage);
 

@@ -7,7 +7,7 @@ namespace np
 	{
 	public:
 
-		void process();
+		void process(float timeSinceLastUpdate);
 		void processInstructions(np::ResourcePacket* packet);
 
 		np::Construct* getUpgrade()

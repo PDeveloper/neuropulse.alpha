@@ -14,10 +14,10 @@ np::SchematicConstruction::SchematicConstruction(void) :
 	inputRequirements.push_back( np::ResourceRequirement( sexyEnergy));
 
 	conversionRate = 0.008;
-	takeEnergy = 50;
+	takeEnergy = 50 / 1000.0;
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty(new OutputPercentageProperty("Build Progress", &constructionProgress));
+	componentInterface->addProperty(new OutputPercentageProperty("SchematicConstruction", "Build Progress", &constructionProgress));
 }
 
 
@@ -25,9 +25,9 @@ np::SchematicConstruction::~SchematicConstruction(void)
 {
 }
 
-void np::SchematicConstruction::process()
+void np::SchematicConstruction::process(float timeSinceLastUpdate)
 {
-	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, takeEnergy);
+	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, takeEnergy* timeSinceLastUpdate);
 
 
 	//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "Refinery PROCESSING: " + Ogre::StringConverter::toString( (float)rawPacket->amount));

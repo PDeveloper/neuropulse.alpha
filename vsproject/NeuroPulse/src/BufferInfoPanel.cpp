@@ -62,7 +62,7 @@ void np::BufferInfoPanel::setBuffer( ac::es::EntityPtr buffer )
 				{
 					(*amounts)[types.at(i)->name()] = bufferComp->getAmountOf(types.at(i));
 
-					componentInterface->addProperty(new OutputDoubleProperty(types.at(i)->name(), &((*amounts)[types.at(i)->name()])));
+					componentInterface->addProperty(new OutputDoubleProperty("BufferInfo", types.at(i)->name(), &((*amounts)[types.at(i)->name()])));
 
 					//resourceText->appendText(types.at(i)->name()+": "+Ogre::StringConverter::toString( Ogre::Real( buffer->getAmountOf(types.at(i))))+"\n");
 				}

@@ -8,10 +8,11 @@ namespace np
 	class OutputStringProperty : public ComponentProperty
 	{
 	public:
-		OutputStringProperty(std::string name, std::string* value)
+		OutputStringProperty(std::string uniqueId, std::string name, std::string* value)
 		{
 			sheet = NULL;
 
+			this->uniqueId = uniqueId;
 			this->name = name;
 			this->value = value;			
 		}
@@ -27,10 +28,10 @@ namespace np
 
 
 			this->wmgr = wmgr;
-			sheet = wmgr->createWindow("DefaultWindow", name+"/Main");
+			sheet = wmgr->createWindow("DefaultWindow", uniqueId+name+"/Main");
 
 
-			text = wmgr->createWindow("TaharezLook/StaticText", name+"/Title");
+			text = wmgr->createWindow("TaharezLook/StaticText", uniqueId+name+"/Title");
 			text->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.0, 0), CEGUI::UDim( 0, 0)));
 			text->setSize(CEGUI::UVector2(CEGUI::UDim(0, 200), CEGUI::UDim(0, 30)));
 			text->setText(name);

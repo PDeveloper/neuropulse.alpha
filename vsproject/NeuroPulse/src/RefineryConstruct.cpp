@@ -21,14 +21,14 @@ np::RefineryConstruct::RefineryConstruct() :
 
 	componentInterface = new np::ComponentInterface();
 	//componentInterface->addProperty(new DoubleProperty("Conversion Rate", &conversionRate, 0.1, 0.9, 0.01));
-	componentInterface->addProperty(new BoolProperty("On", &isOn));
+	componentInterface->addProperty(new BoolProperty("Refinery", "On", &isOn));
 }
 
-void np::RefineryConstruct::process()
+void np::RefineryConstruct::process(float timeSinceLastUpdate)
 {
 	if(isOn)
 	{
-		double processingAmount = std::min( 0.25, getOutputLeft(0) / conversionRate);
+		double processingAmount = std::min( 0.25, getOutputLeft(0) / (conversionRate ));
 
 		double totalEnergy = 0;
 

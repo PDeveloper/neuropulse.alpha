@@ -10,9 +10,8 @@ namespace np
 	{
 	public:
 
-		CEGUI::Window* sheet;
 		
-		CEGUI::Window* constructInfoSheet;
+		CEGUI::Window* sheet;
 		CEGUI::WindowManager* wmgr;
 
 		CEGUI::Window* nameText;
@@ -20,8 +19,7 @@ namespace np
 		
 		
 		PropertyPanel* propertyPanel;
-		ConstructBuildMenu* buildMenu;
-
+		
 		ac::es::EntityPtr currentConstruct;
 
 		void setConstruct( ac::es::EntityPtr construct);

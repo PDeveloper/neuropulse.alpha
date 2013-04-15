@@ -27,5 +27,6 @@ namespace np
 		virtual void update() = 0;
 
 		std::string name;
+		std::string uniqueId;
 	};
 }

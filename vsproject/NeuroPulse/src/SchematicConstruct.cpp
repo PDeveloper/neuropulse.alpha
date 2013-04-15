@@ -18,7 +18,7 @@ np::SchematicConstruct::SchematicConstruct(void) :
 	currentHubSchematicProgress = 0.0;
 
 	componentInterface = new np::ComponentInterface();
-	componentInterface->addProperty( new OutputPercentageProperty("Schematic Progress", &currentHubSchematicProgress));
+	componentInterface->addProperty( new OutputPercentageProperty("Schematic", "Schematic", &currentHubSchematicProgress));
 }
 
 
@@ -26,15 +26,15 @@ np::SchematicConstruct::~SchematicConstruct(void)
 {
 }
 
-void np::SchematicConstruct::process()
+void np::SchematicConstruct::process(float timeSinceLastUpdate)
 {
-	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, 10.0);
+	np::ResourcePacket* sexyPacket = getPacketOf( sexyEnergy, 50.0 / 1000 * timeSinceLastUpdate );
 
-	currentHubSchematicProgress += sexyPacket->amount * 2.0;
+	currentHubSchematicProgress += sexyPacket->amount * 0.02;
 
-	if ( currentHubSchematicProgress >= 100.0)
+	if ( currentHubSchematicProgress >= 1)
 	{
-		currentHubSchematicProgress -= 100.0;
+		currentHubSchematicProgress -= 1;
 
 		np::NeuroPlayer* player = container->hub->getComponent<np::HubComponent>()->owner;
 		np::ResourcePacket* outputPacket = new np::ResourcePacket( hubSchematics, 10.0, NULL, player->signature);

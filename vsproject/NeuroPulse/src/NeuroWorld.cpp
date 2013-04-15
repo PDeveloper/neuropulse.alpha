@@ -136,7 +136,7 @@ void np::NeuroWorld::update( double timeSinceLastFrame )
 	reactionSystem->setDeltaTime( timeSinceLastFrame);
 	heatSystem->setDeltaTime(timeSinceLastFrame);
 	outputSystem->globalTick( timeSinceLastFrame);
-	
+	constructSystem->setDeltaTime(timeSinceLastFrame);
 
 	esScene->update();
 
