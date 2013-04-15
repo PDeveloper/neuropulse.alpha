@@ -4,13 +4,6 @@ material ConstructMaterial
 	{
 		pass
 		{
-			lighting on
-			ambient 0.1 0.1 0.1 1.0
-			diffuse 1.0 1.0 1.0 1.0
-			specular 1.0 1.0 1.0 1.0 64.0
-			emissive 0.0 0.0 0.0 1.0
-			
-			
 			scene_blend alpha_blend
 			depth_write off
 			

@@ -80,6 +80,7 @@ GameState::GameState()
 
 void GameState::enter()
 {
+	isFirst = true;
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Entering GameState...");
 
 	neuroWorld = new np::NeuroWorld( worldSettings);
@@ -543,14 +544,30 @@ void GameState::onLeftPressed(const OIS::MouseEvent &evt)
 
 	Ogre::Entity* newNode = neuroWorld->getNodeUnderPoint( mx, my);
 
-	if ( newNode != NULL && currentNode != newNode)
+	if ( newNode != NULL)
 	{
 		onNodeSelected( newNode);
-		currentNode = newNode;
 
-		selectionManager->popNode();
-		selectionManager->pushNode( newNode);
-		playSound( "SelectObject");
+		if ( selectionManager->getLastNode() != getEntityPtr( newNode))
+		{
+			currentNode = newNode;
+
+			selectionManager->popNode();
+			selectionManager->pushNode( newNode);
+			playSound( "SelectObject");
+		}
+	}
+	else if ( selectionManager->getLastNode() != NULL)
+	{
+		Ogre::Vector3& v = neuroWorld->getRayPlane( mx, my, 0.0);
+		Ogre::Vector3& p = selectionManager->getLastNode()->getComponent<np::TransformComponent>()->position;
+
+		if ( v.distance( p) > 52.0)
+		{
+			if ( selectionManager->getLastNode()->containsComponent<np::HubComponent>()) selectionManager->getLastNode()->getComponent<np::HubComponent>()->hideStructures();
+			selectionManager->popNode();
+			hideNodeSelector();
+		}
 	}
 
 	selectionManager->popUntilNode();
@@ -592,6 +609,12 @@ void GameState::getInput()
 
 void GameState::update(double timeSinceLastFrame)
 {
+	if ( isFirst)
+	{
+		isFirst = false;
+		return;
+	}
+
 	timeSinceLastNotifierUpdate += timeSinceLastFrame;
 	if ( timeSinceLastNotifierUpdate > 200.0)
 	{
@@ -692,11 +715,17 @@ void GameState::onNodeSelected( Ogre::Entity* node)
 	ac::es::EntityPtr previousNode	= selectionManager->getLastNode();
 	ac::es::EntityPtr newNode		= getEntityPtr( node);
 
-	if ( previousNode != NULL && !haveSameNode( previousNode, newNode) && previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
+	if ( previousNode != NULL && !haveSameNode( previousNode, newNode))
+	{
+		previousNode->getComponent<np::NodeComponent>()->isSelected = false;
+		if ( previousNode->containsComponent<np::HubComponent>()) previousNode->getComponent<np::HubComponent>()->hideStructures();
+	}
 
 	np::TransformComponent* transform = newNode->getComponent<np::TransformComponent>();
 	neuroWorld->getCameraTransform()->position = transform->position + neuroWorld->cameraOffset;
 	neuroWorld->getCameraTransform()->rotation = neuroWorld->defaultCameraView;
+
+	newNode->getComponent<np::NodeComponent>()->isSelected = true;
 
 	setNodeSelector( newNode);
 
@@ -808,6 +837,13 @@ void GameState::setNodeSelector( ac::es::EntityPtr node )
 
 	st->position = nt->position;
 	graphic->show();
+}
+
+void GameState::hideNodeSelector()
+{
+	np::GraphicComponent* graphic = nodeSelector->getComponent<np::GraphicComponent>();
+
+	graphic->hide();
 }
 
 void GameState::setObjectSelector( ac::es::EntityPtr node )

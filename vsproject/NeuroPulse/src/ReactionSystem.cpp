@@ -6,6 +6,8 @@
 #include <TransformComponent.h>
 
 #include <ResourcePacket.h>
+#include "OgreMaterial.h"
+#include "OgreColourValue.h"
 
 np::ReactionSystem::ReactionSystem() :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<BufferComponent>().requires<ReactionComponent>())

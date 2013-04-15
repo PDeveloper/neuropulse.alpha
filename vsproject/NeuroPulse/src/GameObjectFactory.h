@@ -34,7 +34,7 @@ namespace np
 
 		Ogre::Light* createLight( std::string name,
 			Ogre::Light::LightTypes type = Ogre::Light::LT_DIRECTIONAL,
-			Ogre::ColourValue diffuseColour = Ogre::ColourValue( 0.25, 0.25, 0.25),
+			Ogre::ColourValue diffuseColour = Ogre::ColourValue( 1.0, 1.0, 1.0),
 			Ogre::ColourValue specularColour = Ogre::ColourValue( 0.25, 0.25, 0.25),
 			Ogre::Vector3 direction = Ogre::Vector3( 0.5, -1, -1 ) );
 

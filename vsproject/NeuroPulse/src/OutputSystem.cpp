@@ -61,12 +61,11 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 	OutputComponent* output = e->getComponent<OutputComponent>();
 	TransformComponent* transform = e->getComponent<TransformComponent>();
 
-	if ( isPulsing)
-	{
-		//// CHECK IF NODE HAS ENOUGH ENERGY!!!
-		node->currentEnergy = buffer->getAmountOf( rawEnergy);
-		if ( node->currentEnergy < node->energyThreshold) return;
+	node->currentEnergy = buffer->getAmountOf( rawEnergy);
 
+	//// CHECK IF NODE HAS ENOUGH ENERGY!!!
+	if ( isPulsing && node->currentEnergy >= node->energyThreshold)
+	{
 		OgreOggSound::OgreOggISound* sound = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->getSound( "PulseEmitted" + Ogre::StringConverter::toString( e->getId()));
 		sound->setPlayPosition(0.0);
 		sound->setPosition( transform->position);
@@ -99,6 +98,23 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 		
 		//OgreFramework::getSingletonPtr()->m_pLog->logMessage(Ogre::StringConverter::toString( (Ogre::Real)e->getComponent<np::ReactionComponent>()->output));
 	}
+
+	double ratio = buffer->getAmountOf( rawEnergy) / node->energyThreshold;
+	if ( e->getId() == 5)
+	{
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage( "ASDOIASJFIEJERGE");
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (float)ratio));
+		OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( Ogre::ColourValue( 0.1 * ratio, 0.1 * ratio, 1.0 * ratio)));
+	}
+	
+	Ogre::MaterialPtr material = node->reactor->getSubEntity(0)->getMaterial();
+	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(
+		Ogre::LBX_SOURCE1,
+		Ogre::LBS_MANUAL,
+		Ogre::LBS_CURRENT,
+		Ogre::ColourValue( 0.1 * ratio, 0.1 * ratio, 1.0 * ratio)
+		);
+	node->reactor->setMaterial( material);
 }
 
 void np::OutputSystem::onEndProcessing()

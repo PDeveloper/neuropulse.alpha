@@ -9,6 +9,7 @@
 **/
 
 #pragma once
+#include "OgreEntity.h"
 namespace np
 {
 	
@@ -24,6 +25,10 @@ namespace np
 
 		double heatDissipation;
 		double heatCapacity;
+
+		bool isSelected;
+
+		Ogre::Entity* reactor;
 
 		NodeComponent( double energyThreshold);
 		~NodeComponent(void);

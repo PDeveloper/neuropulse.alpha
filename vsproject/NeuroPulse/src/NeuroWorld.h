@@ -92,8 +92,7 @@ namespace np
 		Ogre::Entity* getNearestConstructConnectionFromPoint( float x, float y, double maxDistance = 4.0);
 		std::pair<int,double> getNearestConnectionFromPoint( float x, float y, ac::es::EntityPtr node, double maxDistance = 4.0);
 
-		Ogre::Vector3 getRayPlane( float x, float y);
-
+		Ogre::Vector3 getRayPlane( float x, float y, double altitude = 13.0);
 		void movePulseGate( ac::es::EntityPtr pulseGate, int connection);
 
 		bool isValid( ac::es::EntityPtr e1, ac::es::EntityPtr e2);

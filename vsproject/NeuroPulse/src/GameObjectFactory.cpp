@@ -26,6 +26,8 @@
 #include "CameraComponent.h"
 
 #include <OgreOggSound.h>
+#include "boost\random\mersenne_twister.hpp"
+#include "boost\random\uniform_real_distribution.hpp"
 
 np::GameObjectFactory::GameObjectFactory( np::NeuroWorld* world) :
 	pulsePool()
@@ -47,15 +49,18 @@ np::GameObjectFactory::~GameObjectFactory(void)
 void np::GameObjectFactory::generateMeshes(void)
 {
 	///////// NODE MESH
-	
-	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 14.0, 0.0).addPoint( 9.0, 4.0).addPoint( 7.0, 6.0);
-	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 7.0, 6.0).addPoint( 4.0, 2.0).addPoint( 2.0, 0.0);
+	Procedural::CubicHermiteSpline2 outSpline = Procedural::CubicHermiteSpline2().addPoint( 18.0, -4.0).addPoint( 9.0, 2.0).addPoint( 7.0, 6.0);
+	Procedural::CubicHermiteSpline2 inSpline = Procedural::CubicHermiteSpline2().addPoint( 7.0, 6.0).addPoint( 4.0, 2.0).addPoint( 2.0, -4.0);
 
 	Procedural::Shape outNodeSiding = outSpline.realizeShape();
 	Procedural::Shape inNodeSiding = inSpline.realizeShape().appendShape( outNodeSiding);
 
 	Ogre::MeshPtr nodeMesh = Procedural::Lathe().setShapeToExtrude( &inNodeSiding).realizeMesh( "NodeMesh");
 	nodeMesh->getSubMesh(0)->setMaterialName( "NodeMaterial");
+
+	///////// NODE REACTOR MESH
+	Ogre::MeshPtr reactorMesh = Procedural::SphereGenerator().setRadius( 6.0).realizeMesh("ReactorMesh");
+	reactorMesh->getSubMesh(0)->setMaterialName( "ReactorMaterial");
 
 	///////// CONNECTION MESH
 	Procedural::Path path = Procedural::LinePath().betweenPoints(	Ogre::Vector3( 0.0, 0.0, -50.0),
@@ -75,10 +80,43 @@ void np::GameObjectFactory::generateMeshes(void)
 	resMesh->getSubMesh(0)->setMaterialName( "ResourceBudMaterial");
 
 	///////// GROUND MESH
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
-	Ogre::MeshPtr groundMesh = Ogre::MeshManager::getSingleton().createPlane( "GroundMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-		plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+	Procedural::TriangleBuffer groundBuffer;
 
+	Procedural::PlaneGenerator().setNumSegX( 90).
+		setNumSegY( 90).
+		setSizeX( 1500.0).
+		setSizeY( 1500.0).
+		setNormal( Ogre::Vector3::UNIT_Y).
+		setEnableNormals( true).addToTriangleBuffer( groundBuffer);
+
+	boost::random::mt19937 mt;
+	boost::random::uniform_real_distribution<double> distribution;
+
+	std::vector<Procedural::TriangleBuffer::Vertex>& vertices = groundBuffer.getVertices();
+	for ( int i = 0; i < vertices.size(); i++)
+	{
+		vertices[i].mPosition.y = distribution(mt) * 3.0 - 2.0;
+	}
+
+	std::vector<int>& indices = groundBuffer.getIndices();
+	for ( int i = 0; i < indices.size(); i += 3)
+	{
+		Ogre::Vector3 d0 = vertices[ indices[i + 1]].mPosition - vertices[ indices[i]].mPosition;
+		Ogre::Vector3 d1 = vertices[ indices[i + 2]].mPosition - vertices[ indices[i]].mPosition;
+		Ogre::Vector3 normal = d0.crossProduct( d1);
+		normal.normalise();
+
+		vertices[ indices[i]].mNormal += normal;
+		vertices[ indices[i + 1]].mNormal += normal;
+		vertices[ indices[i + 2]].mNormal += normal;
+	}
+
+	for ( int i = 0; i < vertices.size(); i++)
+	{
+		vertices[i].mNormal.normalise();
+	}
+
+	Ogre::MeshPtr groundMesh = groundBuffer.transformToMesh( "GroundMesh");
 	groundMesh->getSubMesh(0)->setMaterialName( "TerrainMaterial");
 
 	///////// HUB MESH
@@ -269,13 +307,19 @@ ac::es::EntityPtr np::GameObjectFactory::createNodeEntity( double x, double y, d
 	Ogre::Entity* entity = sceneManager->createEntity( "NodeMesh");
 	entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
 	entity->setQueryFlags( NODE_MASK);
-	
-	Ogre::Entity* entities[] = { entity};
 
-	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 1);
+	Ogre::Entity* reactorEntity = sceneManager->createEntity( "ReactorMesh");
+	Ogre::MaterialPtr material = reactorEntity->getSubEntity(0)->getMaterial()->clone( Ogre::StringConverter::toString( e->getId()) + "ReactorMaterial");
+	reactorEntity->setMaterial( material);
+	
+	Ogre::Entity* entities[] = { entity, reactorEntity};
+
+	np::GraphicComponent* graphic = new np::GraphicComponent( entities, 2);
 	np::TransformComponent* transform = new np::TransformComponent( x, 0.0, y);
 	np::ReactionComponent* reactor = new np::ReactionComponent( reactorOutput);
 	np::NodeComponent* node = new np::NodeComponent( threshold);
+	node->reactor = reactorEntity;
+
 	np::OutputComponent* output = new np::OutputComponent();
 	np::BufferComponent* buffer = new np::BufferComponent( np::ResourceRequirement::ANY);
 
@@ -440,7 +484,7 @@ ac::es::EntityPtr np::GameObjectFactory::createConstructEntity( ac::es::EntityPt
 		//Need to fill in correct params:
 		Ogre::Entity* entity = sceneManager->createEntity( "ConstructMesh");
 		entity->getUserObjectBindings().setUserAny( "Entity", Ogre::Any( e));
-
+		entity->setCastShadows( false);
 		//Ogre::BillboardSet* constructDisplaySet = sceneManager->createBillboardSet( "constructDisplaySet");
 		//constructDisplaySet->setBillboardType( Ogre::BBT_PERPENDICULAR_COMMON);
 
@@ -889,7 +933,7 @@ void np::GameObjectFactory::createHub( ac::es::EntityPtr nodeEntity, np::NeuroPl
 			createConstructEntity( nodeEntity, Ogre::Degree( i * 60.0), 30.0);
 		}
 
-		_hub->hideStructures();
+		if ( !nodeEntity->getComponent<NodeComponent>()->isSelected) _hub->hideStructures();
 	}
 }
 

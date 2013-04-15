@@ -100,10 +100,13 @@ private:
 	bool shouldUpdateNotifier;
 	double timeSinceLastNotifierUpdate;
 
+	bool isFirst;
+
 	bool haveSameNode( ac::es::EntityPtr node, ac::es::EntityPtr e);
 	void playSound( Ogre::String soundId);
 
 	void setNodeSelector( ac::es::EntityPtr node);
+	void hideNodeSelector();
 	void setObjectSelector( ac::es::EntityPtr object);
 	void hideObjectSelector();
 	void setBudSelector( ac::es::EntityPtr object);

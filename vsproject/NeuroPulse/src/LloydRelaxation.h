@@ -56,12 +56,12 @@ namespace np
 
 			*/
 
-			OgreFramework::getSingletonPtr()->m_pLog->logMessage( "STARTING VORONOI RELAXTION YOOO!");
+			//OgreFramework::getSingletonPtr()->m_pLog->logMessage( "STARTING VORONOI RELAXTION YOOO!");
 
 			for ( boost::polygon::voronoi_diagram<PointType>::const_cell_iterator it = vd.cells().begin();
 				it != vd.cells().end(); ++it)
 			{
-				OgreFramework::getSingletonPtr()->m_pLog->logMessage("CELL");
+				//OgreFramework::getSingletonPtr()->m_pLog->logMessage("CELL");
 				const boost::polygon::voronoi_diagram<PointType>::cell_type &cell = *it;
 
 				if ( cell.contains_point())
@@ -263,14 +263,14 @@ namespace np
 					}
 					while ( edge != cell.incident_edge());
 
-					if ( (float)points[index].x() > 300 || (float)points[index].y() > 300)
+					/*if ( (float)points[index].x() > 300 || (float)points[index].y() > 300)
 					{
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage("previous centroid:");
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage(
 							Ogre::StringConverter::toString( (float)points[index].x()));
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage(
 							Ogre::StringConverter::toString( (float)points[index].y()));
-					}
+					}*/
 
 					if ( numPoints > 0)
 					{
@@ -278,14 +278,14 @@ namespace np
 						points[index].y( ay / (double)numPoints);
 					}
 
-					if ( (float)points[index].x() > 300 || (float)points[index].y() > 300)
+					/*if ( (float)points[index].x() > 300 || (float)points[index].y() > 300)
 					{
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage("centroid:");
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage(
 							Ogre::StringConverter::toString( (float)points[index].x()));
 						OgreFramework::getSingletonPtr()->m_pLog->logMessage(
 							Ogre::StringConverter::toString( (float)points[index].y()));
-					}
+					}*/
 				}
 			} // end of for loop
 		}

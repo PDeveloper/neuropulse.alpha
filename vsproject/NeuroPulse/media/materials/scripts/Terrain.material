@@ -4,6 +4,31 @@ material TerrainMaterial
 	{
 		pass
 		{
+			lighting on
+			
+			shading flat
+			
+			ambient 0.0 0.0 0.0 1.0
+			diffuse 0.188 0.173 0.153 1.0
+			specular 0.3 0.3 0.3 0.3 4.0
+			emissive 0.0 0.0 0.0 1.0
+			
+			texture_unit
+			{
+				texture largeTerrainTexture.png
+				scale 0.5 0.5
+			}
+		}
+	}
+}
+
+material TerrainMaterialOld
+ {
+	technique
+	{
+		pass
+		{
+			
 			texture_unit
 			{
 				colour_op_ex modulate src_current src_manual 0.03 0.03 0.05

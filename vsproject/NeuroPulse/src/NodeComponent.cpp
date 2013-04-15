@@ -9,6 +9,8 @@ np::NodeComponent::NodeComponent( double energyThreshold)
 	heatDissipation = 0.1;
 	heatCapacity = 1;
 	temperature = 0;
+
+	isSelected = false;
 }
 
 np::NodeComponent::~NodeComponent(void)

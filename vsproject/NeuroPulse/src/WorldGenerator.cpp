@@ -95,8 +95,6 @@ void np::WorldGenerator::generateWorld( np::NeuroWorld* neuroWorld)
 		if ( i == 0) rOutput = 60.0;
 
 		nodes[i] = factory->createNodeEntity( vertices[i].x, vertices[i].y, rOutput, distribution( mt) * 100 + 60);
-		
-		neuroWorld->nodes.push_back( nodes[i]);
 	}
 
 	factory->createHub( nodes[0], settings->players[0]);

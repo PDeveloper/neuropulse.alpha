@@ -34,7 +34,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	
 
 
-	sceneManager->setAmbientLight( Ogre::ColourValue(0.4f, 0.4f, 0.4f));
+	sceneManager->setAmbientLight( Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	sceneManager->setShadowTechnique( Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	camera = sceneManager->createCamera("NeuroWorldCamera");
@@ -416,10 +416,10 @@ Ogre::Entity* np::NeuroWorld::getNearestConstructConnectionFromPoint( float x, f
 	return connection;
 }
 
-Ogre::Vector3 np::NeuroWorld::getRayPlane( float x, float y )
+Ogre::Vector3 np::NeuroWorld::getRayPlane( float x, float y, double altitude)
 {
 	Ogre::Ray mouseRay = camera->getCameraToViewportRay( x, y);
-	Ogre::Plane plane( Ogre::Vector3::UNIT_Y, 13);
+	Ogre::Plane plane( Ogre::Vector3::UNIT_Y, altitude);
 
 	return mouseRay.getPoint( mouseRay.intersects( plane).second);
 }
