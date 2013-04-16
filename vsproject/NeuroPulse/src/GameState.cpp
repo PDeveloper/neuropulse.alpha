@@ -89,6 +89,7 @@ void GameState::enter()
 	connectionPreview->hide();
 
 	guiManager->buildMenu->update();
+	guiManager->setEntity( NULL);
 
 	m_pSceneMgr = neuroWorld->sceneManager;
 	m_pCamera = neuroWorld->camera;
@@ -97,7 +98,8 @@ void GameState::enter()
 
 	m_pCurrentObject = 0;
 
-	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->init();
+	OgreOggSound::OgreOggSoundManager::getSingletonPtr()->setSceneManager( neuroWorld->sceneManager);
+	//OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createListener();
 	OgreOggSound::OgreOggISound* mainLoop = OgreOggSound::OgreOggSoundManager::getSingletonPtr()->createSound( "GameLoop", "Neuronic.ogg", true, true);
 	mainLoop->disable3D( true);
 	mainLoop->setVolume( 0.6);
@@ -602,6 +604,7 @@ void GameState::getInput()
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_F))
 		m_TranslateRelativeVector.z = -m_MoveScale;
 
+	m_TranslateVector = Ogre::Quaternion( neuroWorld->getCameraTransform()->rotation.getYaw(), Ogre::Vector3::UNIT_Y) * m_TranslateVector;
 	m_TranslateVector -= neuroWorld->getCameraTransform()->rotation * m_TranslateRelativeVector;
 }
 
@@ -618,8 +621,20 @@ void GameState::update(double timeSinceLastFrame)
 	timeSinceLastNotifierUpdate += timeSinceLastFrame;
 	if ( timeSinceLastNotifierUpdate > 200.0)
 	{
-		shouldUpdateNotifier = true;
-		timeSinceLastNotifierUpdate = 0.0;
+		if ( !neuroWorld->hasWon)
+		{
+			shouldUpdateNotifier = true;
+			timeSinceLastNotifierUpdate = 0.0;
+		}
+		else
+		{
+			guiManager->notificationBar->setText( "YOU WON!");
+			
+			if ( timeSinceLastNotifierUpdate > 5000.0)
+			{
+				m_bQuit = true;
+			}
+		}
 	}
 
 	m_FrameEvent.timeSinceLastFrame = timeSinceLastFrame;

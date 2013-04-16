@@ -3,6 +3,9 @@
 #pragma once
 namespace np
 {
+
+	class NeuroWorld;
+
 	class AnimationSystem : public ac::es::EntityProcessingSystem
 	{
 		AC_ES_ENTITY_SYSTEM(AnimationSystem)
@@ -10,7 +13,9 @@ namespace np
 
 		double animationSpeed;
 
-		AnimationSystem(void);
+		np::NeuroWorld* world;
+
+		AnimationSystem(np::NeuroWorld* world);
 		~AnimationSystem(void);
 
 	protected:

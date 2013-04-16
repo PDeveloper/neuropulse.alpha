@@ -27,5 +27,6 @@ private:
 
 	CEGUI::Window *sheet;
 	CEGUI::Window* mangoMachineLogo;
+	CEGUI::Window* quotes;
 };
 

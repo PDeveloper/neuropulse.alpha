@@ -60,6 +60,4 @@ void np::PulseSystem::process( ac::es::EntityPtr e)
 	{
 		factory->releasePulseEntity( e);
 	}
-
-	
 }

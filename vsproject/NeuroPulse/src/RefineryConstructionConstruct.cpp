@@ -42,7 +42,7 @@ void np::RefineryConstructionConstruct::process(float timeSinceLastUpdate)
 
 std::string np::RefineryConstructionConstruct::getName()
 {
-	return "Energy Refinery";
+	return "Refinery";
 }
 
 std::string np::RefineryConstructionConstruct::getDescription()

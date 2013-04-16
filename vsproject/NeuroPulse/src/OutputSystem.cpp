@@ -100,12 +100,6 @@ void np::OutputSystem::process( ac::es::EntityPtr e)
 	}
 
 	double ratio = buffer->getAmountOf( rawEnergy) / node->energyThreshold;
-	if ( e->getId() == 5)
-	{
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage( "ASDOIASJFIEJERGE");
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( (float)ratio));
-		OgreFramework::getSingletonPtr()->m_pLog->logMessage( Ogre::StringConverter::toString( Ogre::ColourValue( 0.1 * ratio, 0.1 * ratio, 1.0 * ratio)));
-	}
 	
 	Ogre::MaterialPtr material = node->reactor->getSubEntity(0)->getMaterial();
 	material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setColourOperationEx(

@@ -3,11 +3,13 @@
 #include <AnimationComponent.h>
 #include <TransformComponent.h>
 
+#include <NeuroWorld.h>
 
-np::AnimationSystem::AnimationSystem(void) :
+np::AnimationSystem::AnimationSystem(np::NeuroWorld* world) :
 	ac::es::EntityProcessingSystem( ac::es::ComponentFilter::Requires<AnimationComponent>().requires<TransformComponent>()),
 	animationSpeed( 0.02)
 {
+	this->world = world;
 }
 
 
@@ -19,6 +21,8 @@ void np::AnimationSystem::process( ac::es::EntityPtr e)
 {
 	TransformComponent* transform = e->getComponent<TransformComponent>();
 	AnimationComponent* animation = e->getComponent<AnimationComponent>();
+
+	double seconds = world->timeSinceLastUpdate / 1000.0;
 
 	if ( animation->isPlaying)
 	{
@@ -33,12 +37,12 @@ void np::AnimationSystem::process( ac::es::EntityPtr e)
 		transform->position.y = current.target.y + animation->t * dy;
 		transform->position.z = current.target.z + animation->t * dz;
 
-		animation->t += ( animationSpeed / next.duration);
+		animation->t += ( seconds / next.duration);
 
 		if ( animation->t > 1.0)
 		{
 			animation->segment++;
-			animation->t = 0.0;
+			animation->t = ( seconds / next.duration) - 1.0;
 
 			if ( animation->segment == animation->states.size() - 1)
 			{

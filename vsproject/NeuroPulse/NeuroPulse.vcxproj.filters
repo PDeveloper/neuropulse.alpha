@@ -417,6 +417,12 @@
     <ClCompile Include="src\NotificationBar.cpp">
       <Filter>Source Files\gui\menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\EnergyBuffer.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnergyBufferConstruction.cpp">
+      <Filter>Source Files\core\construct\constructs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -763,6 +769,12 @@
     </ClInclude>
     <ClInclude Include="src\NotificationBar.h">
       <Filter>Header Files\gui\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnergyBuffer.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnergyBufferConstruction.h">
+      <Filter>Header Files\core\construct\constructs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

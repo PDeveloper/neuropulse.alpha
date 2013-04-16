@@ -2,6 +2,7 @@
 namespace np
 {
 	class EventType;
+
 	class Event
 	{
 	public:

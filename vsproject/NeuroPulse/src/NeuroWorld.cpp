@@ -11,6 +11,7 @@
 #include <SexyEnergyBufferConstruction.h>
 #include <RefineryConstructionConstruct.h>
 #include <SchematicConstruction.h>
+#include "EnergyBufferConstruction.h"
 
 np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	sceneManager( OgreFramework::getSingletonPtr()->m_pRoot->createSceneManager( Ogre::ST_GENERIC, "NeuroWorldSceneMgr")),
@@ -20,6 +21,8 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	constructConnections(),
 	systems()
 {
+	hubs = 0;
+	hasWon = false;
 	timeSinceLastUpdate = 0.0;
 
 	new np::ResourceManager();
@@ -55,6 +58,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	np::ConstructBuildMenu::buildableConstructs->push_back(new np::RefineryConstructionConstruct());
 	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SexyEnergyBufferConstruction());
 	np::ConstructBuildMenu::buildableConstructs->push_back(new np::SchematicConstruction());
+	np::ConstructBuildMenu::buildableConstructs->push_back(new np::EnergyBufferConstruction());
 	
 
 	eventManager = new np::EventManager();
@@ -62,7 +66,7 @@ np::NeuroWorld::NeuroWorld( np::NeuroWorldSettings* settings) :
 	/* init systems and shit */
 	reactionSystem = new np::ReactionSystem();
 	outputSystem = new np::OutputSystem( eventManager, settings);
-	animationSystem = new np::AnimationSystem();
+	animationSystem = new np::AnimationSystem(this);
 	graphicSystem = new np::GraphicSystem( sceneManager);
 	connectionDisplaySystem = new np::ConnectionDisplaySystem( sceneManager);
 	pulseSystem = new np::PulseSystem( gameObjectFactory, eventManager);
@@ -549,4 +553,17 @@ np::CameraComponent* np::NeuroWorld::getCameraController()
 np::TransformComponent* np::NeuroWorld::getCameraTransform()
 {
 	return cameraController->getComponent<TransformComponent>();
+}
+
+void np::NeuroWorld::addHub()
+{
+	hubs++;
+}
+
+void np::NeuroWorld::checkWin()
+{
+	if ( hubs >= settings->numberOfNodes)
+	{
+		hasWon = true;
+	}
 }

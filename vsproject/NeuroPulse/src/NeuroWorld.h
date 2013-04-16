@@ -35,6 +35,10 @@ namespace np
 
 		double timeSinceLastUpdate;
 
+		bool hasWon;
+
+		int hubs;
+
 		// Settings
 		np::NeuroWorldSettings* settings;
 
@@ -105,6 +109,9 @@ namespace np
 
 		np::CameraComponent* getCameraController();
 		np::TransformComponent* getCameraTransform();
+
+		void addHub();
+		void checkWin();
 	private:
 		void cleanup(void);
 		void addEntitySystem( ac::es::EntitySystem* system);

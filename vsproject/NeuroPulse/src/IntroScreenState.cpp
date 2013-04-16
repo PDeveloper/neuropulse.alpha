@@ -15,13 +15,22 @@ IntroScreenState::IntroScreenState(void)
 	CEGUI::ImagesetManager::getSingleton().createFromImageFile("MangoMachineLogo", "mangoMachineLogo_1.png");
 	mangoMachineLogo = wmgr.createWindow("TaharezLook/StaticImage", "IntroScreen/MangoLogo");
 	mangoMachineLogo->setProperty( "Image", "set:MangoMachineLogo image:full_image");
-	mangoMachineLogo->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.5, -180.0), CEGUI::UDim( 0.5, -200.0)));
+	mangoMachineLogo->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.5, -180.0), CEGUI::UDim( 0.5, -350.0)));
 	mangoMachineLogo->setSize(CEGUI::UVector2(CEGUI::UDim(0.0, 380.0), CEGUI::UDim(0.0, 400.0)));
 	mangoMachineLogo->setProperty( "FrameEnabled", "False");
 
+	CEGUI::ImagesetManager::getSingleton().createFromImageFile("Quotes", "quotes.png");
+	quotes = wmgr.createWindow("TaharezLook/StaticImage", "IntroScreen/Quotes");
+	quotes->setProperty( "Image", "set:Quotes image:full_image");
+	quotes->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.5, -256.0), CEGUI::UDim( 0.5, 50.0)));
+	quotes->setSize(CEGUI::UVector2(CEGUI::UDim(0.0, 512.0), CEGUI::UDim(0.0, 256.0)));
+	quotes->setProperty( "FrameEnabled", "False");
+
+	quotes->setAlpha( 0.0);
 	mangoMachineLogo->setAlpha( 0.0);
 
-	sheet->addChildWindow(mangoMachineLogo);
+	sheet->addChildWindow( mangoMachineLogo);
+	sheet->addChildWindow( quotes);
 }
 
 void IntroScreenState::enter()
@@ -69,7 +78,7 @@ bool IntroScreenState::onKeyPress(const OIS::KeyEvent &keyEventRef)
 {
 	if(OgreFramework::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
 	{
-		m_bQuit = true;
+		changeAppState( findByName( "MenuState"));
 
 		return true;
 	}
@@ -113,20 +122,37 @@ void IntroScreenState::update(double timeSinceLastFrame)
 
 	mangoLogoAlpha += timeSinceLastFrame;
 
-	if ( mangoLogoAlpha < 5000.0)
+	if ( mangoLogoAlpha < 3000.0)
 	{
-		mangoMachineLogo->setAlpha( mangoLogoAlpha / 5000.0);
-	}
-	else if ( mangoLogoAlpha > 15000.0)
-	{
-		changeAppState( findByName( "MenuState"));
+		mangoMachineLogo->setAlpha( mangoLogoAlpha / 3000.0);
 	}
 	else if ( mangoLogoAlpha > 10000.0)
 	{
-		mangoMachineLogo->setAlpha( 1.0 - ( mangoLogoAlpha - 10000.0) / 5000.0);
+
+	}
+	else if ( mangoLogoAlpha > 7000.0)
+	{
+		mangoMachineLogo->setAlpha( 1.0 - ( mangoLogoAlpha - 7000.0) / 3000.0);
 	}
 	else
 	{
 		mangoMachineLogo->setAlpha( 1.0);
+	}
+
+	if ( mangoLogoAlpha > 500.0 && mangoLogoAlpha < 3500.0)
+	{
+		quotes->setAlpha( ( mangoLogoAlpha - 500.0) / 3000.0);
+	}
+	else if ( mangoLogoAlpha > 11000.0)
+	{
+		changeAppState( findByName( "MenuState"));
+	}
+	else if ( mangoLogoAlpha > 8000.0)
+	{
+		quotes->setAlpha( 1.0 - ( mangoLogoAlpha - 8000.0) / 3000.0);
+	}
+	else if ( mangoLogoAlpha > 500.0)
+	{
+		quotes->setAlpha( 1.0);
 	}
 }

@@ -42,6 +42,8 @@
     <ClCompile Include="src\ConstructConnectionSystem.cpp" />
     <ClCompile Include="src\ConstructInfoPanel.cpp" />
     <ClCompile Include="src\ConstructUpgradeSystem.cpp" />
+    <ClCompile Include="src\EnergyBuffer.cpp" />
+    <ClCompile Include="src\EnergyBufferConstruction.cpp" />
     <ClCompile Include="src\GuiManager.cpp" />
     <ClCompile Include="src\HeatSystem.cpp" />
     <ClCompile Include="src\BudInfoPanel.cpp" />
@@ -146,6 +148,8 @@
     <ClInclude Include="src\ConstructInfoPanel.h" />
     <ClInclude Include="src\ConstructUpgradeSystem.h" />
     <ClInclude Include="src\DoubleProperty.h" />
+    <ClInclude Include="src\EnergyBuffer.h" />
+    <ClInclude Include="src\EnergyBufferConstruction.h" />
     <ClInclude Include="src\GuiManager.h" />
     <ClInclude Include="src\HeatSystem.h" />
     <ClInclude Include="src\HubConstructionComponent.h" />
@@ -247,6 +251,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <SourcePath>$(SourcePath);$(SolutionDir)\src</SourcePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)\src</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -270,14 +276,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(OPENAL_SDL)\include;$(OGREOGGSOUND_HOME)\include;$(CEGUI_HOME)\cegui\include;$(OGRE_PROCEDURAL_HOME)\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPENAL_SDK)\include;$(OGREOGGSOUND_HOME)\include;$(CEGUI_HOME)\cegui\include;$(OGRE_PROCEDURAL_HOME)\include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(BOOST_HOME)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

@@ -37,6 +37,7 @@ private:
 	bool m_bQuit;
 
 	CEGUI::Window *sheet;
+	CEGUI::Window* loading;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||

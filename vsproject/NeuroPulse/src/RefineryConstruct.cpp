@@ -44,12 +44,12 @@ void np::RefineryConstruct::process(float timeSinceLastUpdate)
 
 std::string np::RefineryConstruct::getName()
 {
-	return "Energy Refinery";
+	return "Refinery";
 }
 
 std::string np::RefineryConstruct::getDescription()
 {
-	return "Takes a percentage of raw energy\nfrom pulse and converts it to refined energy,\nto be used in your dick";
+	return "Takes a percentage of energy\nfrom pulse and converts it to power.";
 }
 
 void np::RefineryConstruct::processInstructions( np::ResourcePacket* packet)

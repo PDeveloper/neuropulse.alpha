@@ -3,7 +3,6 @@
 #include <Event.h>
 #include <EventType.h>
 
-
 np::EventManager::EventManager(void) :
 	eventBuffers()
 {

@@ -4,18 +4,19 @@
 #include <vector>
 #include <list>
 
-#include <Event.h>
-#include <EventType.h>
 
 #pragma once
 namespace np
 {
+	class Event;
+	class EventType;
+
 	class EventManager
 	{
 	public:
 
 		std::map< std::string, np::EventType*> types;
-
+		
 		std::vector<std::list<np::Event*>*> eventBuffers;
 
 		EventManager(void);
