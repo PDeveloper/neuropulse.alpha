@@ -172,3 +172,29 @@ Ogre::Entity* np::SelectionManager::getLast()
 
 	return selectionList.back();
 }
+
+void np::SelectionManager::clean()
+{
+	std::list<Ogre::Entity*>::iterator itr = selectionList.begin();
+	ac::es::EntityPtr e;
+
+	while( itr != selectionList.end())
+	{
+		if ( *itr == NULL)
+		{
+			selectionList.erase( itr++);
+
+			continue;
+		}
+
+		e = getEntityPtr( (*itr));
+		if ( e == NULL)
+		{
+			selectionList.erase( itr++);
+
+			continue;
+		}
+
+		itr++;
+	}
+}

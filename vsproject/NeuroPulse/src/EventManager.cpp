@@ -1,6 +1,6 @@
 #include "EventManager.h"
 
-#include <Event.h>
+#include <Event2.h>
 #include <EventType.h>
 
 np::EventManager::EventManager(void) :

@@ -252,9 +252,6 @@
     <ClCompile Include="src\EventManager.cpp">
       <Filter>Source Files\event</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event.cpp">
-      <Filter>Source Files\event</Filter>
-    </ClCompile>
     <ClCompile Include="src\EventType.cpp">
       <Filter>Source Files\event</Filter>
     </ClCompile>
@@ -423,6 +420,9 @@
     <ClCompile Include="src\EnergyBufferConstruction.cpp">
       <Filter>Source Files\core\construct\constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\Event2.cpp">
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AdvancedOgreFramework.hpp">
@@ -549,9 +549,6 @@
       <Filter>Header Files\entity\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\EventManager.h">
-      <Filter>Header Files\event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Event.h">
       <Filter>Header Files\event</Filter>
     </ClInclude>
     <ClInclude Include="src\EventType.h">
@@ -775,6 +772,9 @@
     </ClInclude>
     <ClInclude Include="src\EnergyBufferConstruction.h">
       <Filter>Header Files\core\construct\constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event2.h">
+      <Filter>Header Files\event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,6 +30,7 @@ namespace np
 
 		SelectionManager(void);
 		~SelectionManager(void);
+		void clean();
 	private:
 		std::list<Ogre::Entity*> selectionList;
 	};

@@ -28,7 +28,7 @@ void np::RefineryConstruct::process(float timeSinceLastUpdate)
 {
 	if(isOn)
 	{
-		double processingAmount = std::min( 0.25, getOutputLeft(0) / (conversionRate ));
+		double processingAmount = std::min( 0.25, getOutputLeft(0) / (conversionRate));
 
 		double totalEnergy = 0;
 

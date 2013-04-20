@@ -5,6 +5,7 @@
 #include <AdvancedOgreFramework.hpp>
 
 #pragma once
+#include "OgreStringConverter.h"
 namespace np
 {
 	class OutputPercentageProperty : public ComponentProperty
@@ -68,10 +69,10 @@ namespace np
 
 		void update()
 		{
-			char buffer[256];  
-			_snprintf_s(buffer, sizeof(buffer), "%.0f%%", *value*100.0);
+			//char buffer[256];  
+			//_snprintf_s(buffer, sizeof(buffer), "%.0f%%", *value*100.0);
 
-			valueText->setText(buffer);
+			valueText->setText( Ogre::StringConverter::toString( (int)( *value * 100.0)) + "%");
 		}
 	};
 }

@@ -664,29 +664,7 @@ void GameState::update(double timeSinceLastFrame)
 
 	CEGUI::String debugText = "";
 
-	lastSelected = selectionManager->getLast();
-	if ( lastSelected != NULL)
-	{
-		ac::es::EntityPtr entity = getEntityPtr( lastSelected);
-
-		if ( entity != NULL)
-		{
-			if ( entity->containsComponent<np::BufferComponent>() )
-			{
-				debugText += CEGUI::String( "raw energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Energy"))))) + "\n";
-				debugText += CEGUI::String( "sexy energy:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Power"))))) + "\n";
-			}
-			if( entity->containsComponent<np::NodeComponent>())
-			{
-				debugText += CEGUI::String( "heat:        " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::BufferComponent>()->getAmountOf( np::ResourceManager::getSingletonPtr()->getType("Heat"))))) + "\n";
-				debugText += CEGUI::String( "temperature: " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::NodeComponent>()->temperature))) + "\n";
-			}
-			if( entity->containsComponent<np::HubComponent>())
-				debugText += CEGUI::String( "health:      " + Ogre::StringConverter::toString( Ogre::Real( entity->getComponent<np::HubComponent>()->health))) + "\n";
-		}
-	}
-	debug_txt->setText( debugText);
-
+	selectionManager->clean();
 
 	//Gui
 	if ( selectionManager->getLast() != NULL)
